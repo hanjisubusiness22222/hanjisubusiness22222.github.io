@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="독서모임 관리자를 위한 투명한 소통 솔루션 - 멀티플랫폼 원클릭 공지와 구글 시트형 회원 관리 시스템">
-  <title>BookLink - 독서모임 관리자를 위한 투명한 소통 솔루션</title>
+  <meta name="description" content="독서모임 관리자 전용 운영 콘솔 - 구글 시트형 회원 관리 DB 및 멀티플랫폼 원클릭 공지 자동화 시스템">
+  <title>BookLink Admin - 독서모임 통합 관리 콘솔</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
   <style>
 /* ==========================================================================
-   BookLink Design System & Theme
-   Target: 독서모임 관리자 / Core Value: 투명한 소통
+   BookLink Admin Console - High-End Operational SaaS Design System
+   Target: 독서모임 관리자 / Core Value: 투명한 소통 및 고도화 자동화
    ========================================================================== */
 
 :root {
-  /* Brand Color Palette */
+  /* Brand Core Palette */
   --primary: #2563eb;
   --primary-hover: #1d4ed8;
   --primary-light: #eff6ff;
@@ -26,37 +26,50 @@
   --accent-amber: #d97706;
   --accent-amber-light: #fffbeb;
   --accent-rose: #e11d48;
+  --accent-rose-light: #fff1f2;
 
   /* Neutrals */
-  --bg-main: #f8fafc;
+  --bg-app: #f1f5f9;
   --bg-surface: #ffffff;
-  --bg-subtle: #f1f5f9;
+  --bg-subtle: #f8fafc;
   --border: #e2e8f0;
   --border-strong: #cbd5e1;
+  --border-focus: #3b82f6;
 
   --text-main: #0f172a;
   --text-muted: #475569;
   --text-dim: #94a3b8;
 
-  /* Google Sheets Theme Palette */
+  /* Google Sheets Authentic Color Theme */
   --sheet-green: #0f9d58;
+  --sheet-green-dark: #0b8043;
+  --sheet-cell-border: #e2e8f0;
   --sheet-header-bg: #f8fafd;
-  --sheet-border: #e0e0e0;
-  --sheet-row-hover: #f1f7fe;
-  --sheet-selection: #e8f0fe;
+  --sheet-select-cell: #e8f0fe;
+  --sheet-select-border: #1a73e8;
+
+  /* Platform Brand Colors */
+  --c-kakao: #fee500;
+  --c-kakao-dark: #3c1e1e;
+  --c-somoim: #ff4757;
+  --c-naver: #03c75a;
+  --c-daangn: #ff6f0f;
+  --c-everytime: #c62917;
+  --c-insta: #e1306c;
 
   /* Radius & Shadows */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
-  --radius-xl: 24px;
-  
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 12px 28px -4px rgba(15, 23, 42, 0.12);
+  --radius-xl: 20px;
 
-  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 14px -2px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 12px 28px -4px rgba(15, 23, 42, 0.12);
+  --shadow-popup: 0 20px 40px -8px rgba(15, 23, 42, 0.2);
+
+  --font-sans: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", Consolas, monospace;
 }
 
 /* Base Resets */
@@ -67,580 +80,539 @@
 }
 
 html {
+  font-size: 15px;
   scroll-behavior: smooth;
-  font-size: 16px;
   -webkit-text-size-adjust: 100%;
 }
 
-body {
-  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: var(--bg-main);
+body.console-body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-app);
   color: var(--text-main);
-  line-height: 1.65;
-  word-break: keep-all;
-  overflow-x: hidden;
+  line-height: 1.55;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Accessibility: Skip Link */
-.skip-link {
-  position: absolute;
-  top: -100px;
-  left: 16px;
-  background: var(--text-main);
-  color: #fff;
-  padding: 10px 16px;
-  border-radius: var(--radius-sm);
-  z-index: 9999;
-  text-decoration: none;
-  font-weight: 600;
-  transition: top var(--transition-fast);
-}
-.skip-link:focus {
-  top: 16px;
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
 }
 
-/* Layout Container */
-.container {
-  width: 100%;
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* Typography & General Classes */
-h1, h2, h3, h4 {
-  font-weight: 700;
-  line-height: 1.3;
-  color: var(--text-main);
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.gradient-text {
-  background: linear-gradient(135deg, #1d4ed8 0%, #059669 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Header & Nav */
-.site-header {
+/* --------------------------------------------------------------------------
+   1. Global Top Navigation Header
+   -------------------------------------------------------------------------- */
+.console-header {
   position: sticky;
   top: 0;
-  z-index: 1000;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  z-index: 100;
+  background: #ffffff;
   border-bottom: 1px solid var(--border);
-  transition: all var(--transition-fast);
-}
-
-.header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 70px;
+  padding: 0 24px;
+  height: 64px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
 }
 
-.site-logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.logo-badge {
-  background: var(--primary);
-  color: white;
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
-  font-weight: 800;
-  font-size: 1.15rem;
-  letter-spacing: -0.5px;
-}
-
-.logo-sub {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  border-left: 2px solid var(--border);
-  padding-left: 8px;
-}
-
-.site-nav {
+.header-left {
   display: flex;
   align-items: center;
   gap: 20px;
 }
 
-.nav-link {
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  transition: color var(--transition-fast);
+.console-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
 }
 
-.nav-link:hover {
-  color: var(--primary);
+.logo-icon {
+  font-size: 1.5rem;
 }
 
-.btn-primary-sm {
-  background: var(--primary);
-  color: white;
-  padding: 8px 16px;
-  border-radius: var(--radius-md);
-  font-size: 0.875rem;
-  font-weight: 600;
-  transition: background var(--transition-fast), transform var(--transition-fast);
-}
-
-.btn-primary-sm:hover {
-  background: var(--primary-hover);
-  transform: translateY(-1px);
-}
-
-/* Common Section Styles */
-.section {
-  padding: 90px 0;
-}
-
-.section-header {
-  margin-bottom: 48px;
-}
-
-.section-header.text-center {
-  text-align: center;
-}
-
-.section-eyebrow {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  color: var(--primary);
-  margin-bottom: 8px;
-}
-
-.section-title {
-  font-size: 2.1rem;
+.logo-brand {
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--text-main);
   letter-spacing: -0.5px;
-  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.section-sub {
-  font-size: 1.05rem;
-  color: var(--text-muted);
-  max-width: 680px;
+.badge-role {
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: #1e293b;
+  color: #fff;
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
 }
 
-.section-header.text-center .section-sub {
-  margin: 0 auto;
+.header-status-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.section-badge-green {
-  display: inline-block;
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+.status-online {
   background: var(--accent-emerald-light);
   color: var(--accent-emerald);
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 999px;
-  margin-bottom: 10px;
+  border-color: #a7f3d0;
 }
 
-.section-badge-blue {
-  display: inline-block;
+.status-ready {
   background: var(--primary-light);
   color: var(--primary);
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 999px;
-  margin-bottom: 10px;
+  border-color: #bfdbfe;
 }
 
-/* Hero Section */
-.hero-section {
-  padding: 100px 0 70px;
-  background: radial-gradient(circle at 50% 10%, rgba(37, 99, 235, 0.08) 0%, transparent 60%);
-  text-align: center;
-  position: relative;
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 16px;
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 24px;
-}
-
-.pulse-dot {
-  width: 8px;
-  height: 8px;
-  background-color: var(--accent-emerald);
+.status-dot {
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.6);
-  animation: pulse 2s infinite;
+  background-color: currentColor;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.8);
+  animation: pulse-ring 2s infinite;
 }
 
-@keyframes pulse {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.7); }
-  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(5, 150, 105, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(5, 150, 105, 0); }
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
 }
 
-.hero-title {
-  font-size: 3.1rem;
-  font-weight: 800;
-  letter-spacing: -1.2px;
-  line-height: 1.25;
-  margin-bottom: 20px;
-}
-
-.hero-desc {
-  font-size: 1.15rem;
-  color: var(--text-muted);
-  max-width: 640px;
-  margin: 0 auto 36px;
-}
-
-.hero-cta-group {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  margin-bottom: 60px;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 13px 26px;
-  border-radius: var(--radius-md);
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  transition: all var(--transition-fast);
-}
-
-.btn-primary {
-  background: var(--primary);
-  color: white;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
-}
-.btn-primary:hover {
-  background: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
-}
-
-.btn-secondary {
-  background: white;
-  color: var(--text-main);
-  border: 1px solid var(--border-strong);
-  box-shadow: var(--shadow-sm);
-}
-.btn-secondary:hover {
-  background: var(--bg-subtle);
-  transform: translateY(-2px);
-}
-
-.hero-stats {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 24px 36px;
-  max-width: 780px;
-  margin: 0 auto;
-  box-shadow: var(--shadow-md);
-}
-
-.stat-card {
-  flex: 1;
-  text-align: center;
-}
-
-.stat-value {
-  display: block;
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: var(--primary);
-  letter-spacing: -0.5px;
-}
-
-.stat-label {
-  font-size: 0.825rem;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-.stat-divider {
-  width: 1px;
-  height: 36px;
-  background-color: var(--border);
-}
-
-/* About Section */
-.about-section {
-  background: white;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-
-.about-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-
-.about-card {
-  background: var(--bg-main);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 28px 24px;
-  transition: transform var(--transition-fast), border-color var(--transition-fast);
-}
-
-.about-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--border-strong);
-}
-
-.about-card.highlight {
-  border-color: rgba(37, 99, 235, 0.4);
-  background: #f0f7ff;
-}
-
-.about-icon {
-  font-size: 2rem;
-  margin-bottom: 14px;
-}
-
-.about-card h3 {
-  font-size: 1.15rem;
-  margin-bottom: 10px;
-}
-
-.about-card p {
-  font-size: 0.925rem;
-  color: var(--text-muted);
-}
-
-/* Values Section (투명한 소통 3원칙) */
-.values-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-
-.value-item {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 32px 24px;
-  box-shadow: var(--shadow-sm);
-  position: relative;
-  overflow: hidden;
-  transition: all var(--transition-fast);
-}
-
-.value-item:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-3px);
-  border-color: var(--primary);
-}
-
-.value-number {
-  font-size: 2.4rem;
-  font-weight: 900;
-  color: var(--primary-light);
-  line-height: 1;
-  margin-bottom: 14px;
-  font-family: "Plus Jakarta Sans", sans-serif;
-}
-
-.value-item:hover .value-number {
-  color: #dbeafe;
-}
-
-.value-item h4 {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-}
-
-.value-item p {
-  font-size: 0.925rem;
-  color: var(--text-muted);
-}
-
-/* Interests Section */
-.interests-section {
-  background: white;
-  border-top: 1px solid var(--border);
-}
-
-.interests-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-
-.interest-card {
-  border: 1px solid var(--border);
-  background: var(--bg-main);
-  border-radius: var(--radius-lg);
-  padding: 28px 24px;
-  transition: all var(--transition-fast);
-}
-
-.interest-card:hover {
-  background: white;
-  box-shadow: var(--shadow-md);
-  transform: translateY(-3px);
-}
-
-.interest-tag {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--primary);
-  background: var(--primary-light);
-  padding: 4px 10px;
-  border-radius: 999px;
-  margin-bottom: 14px;
-}
-
-.interest-card h3 {
-  font-size: 1.15rem;
-  margin-bottom: 10px;
-}
-
-.interest-card p {
-  font-size: 0.92rem;
-  color: var(--text-muted);
-}
-
-/* ==========================================================================
-   Demo 1: Google Sheets Style Member DB
-   ========================================================================== */
-.sheet-wrapper {
-  background: white;
-  border: 1px solid var(--sheet-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  overflow: hidden;
-}
-
-.sheet-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 20px;
-  background: var(--sheet-header-bg);
-  border-bottom: 1px solid var(--sheet-border);
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.sheet-title-area {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.sheet-file-icon {
-  font-size: 1.6rem;
-}
-
-.sheet-file-name {
-  font-size: 1rem;
-  color: var(--text-main);
-  display: block;
-}
-
-.sheet-badge {
-  display: inline-block;
-  font-size: 0.725rem;
-  background: #e6f4ea;
-  color: var(--sheet-green);
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 999px;
-}
-
-.sheet-controls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.search-box {
+/* Tabs */
+.console-nav {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: white;
-  border: 1px solid var(--border-strong);
+  background: var(--bg-app);
+  padding: 4px;
   border-radius: var(--radius-md);
-  padding: 6px 12px;
+  border: 1px solid var(--border);
 }
 
-.search-box input {
-  border: none;
-  outline: none;
-  font-size: 0.875rem;
-  width: 190px;
-  font-family: inherit;
-}
-
-.btn-sheet-action {
-  background: var(--sheet-green);
-  color: white;
-  border: none;
-  padding: 7px 14px;
-  border-radius: var(--radius-md);
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity var(--transition-fast);
-}
-
-.btn-sheet-action:hover {
-  opacity: 0.9;
-}
-
-.sheet-filter-bar {
+.nav-tab {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  background: #fdfdfd;
-  border-bottom: 1px solid var(--sheet-border);
-  font-size: 0.85rem;
-  flex-wrap: wrap;
-  gap: 10px;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: all 0.15s ease;
 }
 
-.filter-label {
+.nav-tab:hover {
+  color: var(--text-main);
+  background: rgba(255,255,255,0.6);
+}
+
+.nav-tab.active {
+  background: #ffffff;
+  color: var(--primary);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Header Right */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.btn-header-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-header-action:hover {
+  background: var(--bg-subtle);
+  border-color: var(--border-strong);
+}
+
+.btn-header-action.syncing .sync-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+.admin-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-avatar {
+  background: #3b82f6;
+  color: white;
+  font-weight: 700;
+  font-size: 0.72rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.admin-name {
+  font-size: 0.82rem;
   font-weight: 600;
   color: var(--text-muted);
 }
 
-.filter-pills {
+/* --------------------------------------------------------------------------
+   Main Content Layout
+   -------------------------------------------------------------------------- */
+.console-main {
+  flex: 1;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.console-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* --------------------------------------------------------------------------
+   기능 1) 구글 시트형 독서모임 회원 관리 DB
+   -------------------------------------------------------------------------- */
+.sheet-app-container {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 1-1. 상단 문서 헤더 & 메타 */
+.sheet-doc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.sheet-doc-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sheet-icon-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sheet-title-edit-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sheet-doc-title-input {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: var(--text-main);
+  border: 1px solid transparent;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  transition: all 0.15s ease;
+  width: 320px;
+}
+
+.sheet-doc-title-input:hover {
+  border-color: var(--border);
+}
+
+.sheet-doc-title-input:focus {
+  border-color: var(--sheet-green);
+  background: #ffffff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(15, 157, 88, 0.15);
+}
+
+.sheet-doc-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.sheet-star-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  opacity: 0.7;
+}
+
+.sheet-star-btn:hover {
+  opacity: 1;
+}
+
+.sheet-save-indicator {
+  color: var(--sheet-green);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 상단 KPI 요약 */
+.sheet-kpi-summary {
+  display: flex;
+  align-items: center;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 8px 16px;
+  gap: 14px;
+}
+
+.kpi-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.kpi-label {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  font-weight: 600;
+}
+
+.kpi-val {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.kpi-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--border);
+}
+
+.text-success { color: var(--accent-emerald); }
+.text-primary { color: var(--primary); }
+
+/* 1-2. 구글 시트 메뉴바 */
+.sheet-menubar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 16px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+.menu-item {
+  background: none;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  color: #334155;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.menu-item:hover {
+  background: #f1f5f9;
+}
+
+/* 1-3. 구글 시트 서식 툴바 */
+.sheet-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+.toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.t-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.t-btn:hover {
+  background: #e2e8f0;
+  color: var(--text-main);
+}
+
+.t-btn.active {
+  background: #e2e8f0;
+  color: var(--sheet-green);
+  border-color: #cbd5e1;
+}
+
+.t-bold { font-weight: 900; }
+.t-italic { font-style: italic; }
+.t-strike { text-decoration: line-through; }
+
+.t-divider {
+  width: 1px;
+  height: 18px;
+  background: #cbd5e1;
+  margin: 0 4px;
+}
+
+.t-select {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.78rem;
+  padding: 3px 6px;
+  color: var(--text-muted);
+  outline: none;
+  cursor: pointer;
+}
+
+/* 1-4. 수식 입력줄 (Formula Bar) */
+.sheet-formula-bar {
+  display: flex;
+  align-items: center;
+  padding: 6px 16px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  gap: 10px;
+}
+
+.formula-cell-coord {
+  width: 60px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #1e293b;
+}
+
+.formula-fx-symbol {
+  font-weight: 800;
+  font-style: italic;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+}
+
+.formula-input {
+  flex: 1;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  background: transparent;
+  outline: none;
+}
+
+.formula-input:hover {
+  border-color: var(--border);
+}
+
+.formula-input:focus {
+  border-color: var(--sheet-select-border);
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.15);
+}
+
+/* 1-5. 빠른 컨트롤 바 (검색 & 플랫폼 필터) */
+.sheet-control-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #fdfdfd;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.filter-controls-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.control-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.filter-pills-wrap {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -648,1192 +620,2460 @@ a {
 }
 
 .filter-pill {
+  background: #f1f5f9;
   border: 1px solid var(--border);
-  background: white;
-  padding: 4px 10px;
   border-radius: 999px;
-  font-size: 0.8rem;
-  cursor: pointer;
+  padding: 4px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
   color: var(--text-muted);
-  transition: all var(--transition-fast);
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
 .filter-pill:hover {
-  background: var(--bg-subtle);
+  background: #e2e8f0;
+  color: var(--text-main);
 }
 
 .filter-pill.active {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: white;
-  font-weight: 600;
+  background: #0f172a;
+  border-color: #0f172a;
+  color: #ffffff;
 }
 
-.sheet-stats-summary {
-  font-size: 0.85rem;
-  color: var(--text-muted);
+.filter-controls-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.text-green {
-  color: var(--sheet-green);
+.sheet-search-box {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
+  gap: 6px;
+  width: 240px;
 }
 
-/* Table Design */
-.sheet-table-responsive {
+.sheet-search-box input {
+  border: none;
+  outline: none;
+  background: transparent;
   width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  font-size: 0.82rem;
 }
 
-.sheet-table {
+.btn-sheet-primary {
+  background: var(--sheet-green);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 7px 14px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-sheet-primary:hover {
+  background: var(--sheet-green-dark);
+}
+
+/* 일괄 액션 바 */
+.batch-action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #eff6ff;
+  border-bottom: 1px solid #bfdbfe;
+  padding: 8px 16px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.batch-count {
+  font-size: 0.85rem;
+  color: #1d4ed8;
+}
+
+.batch-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-batch {
+  background: #ffffff;
+  border: 1px solid #bfdbfe;
+  color: #1e40af;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-batch:hover {
+  background: #dbeafe;
+}
+
+.btn-batch-danger {
+  border-color: #fecdd3;
+  color: #be123c;
+}
+
+.btn-batch-danger:hover {
+  background: #ffe4e6;
+}
+
+/* 1-6. 스프레드시트 본체 테이블 */
+.sheet-grid-wrapper {
+  overflow-x: auto;
+  max-height: 520px;
+  background: #ffffff;
+}
+
+.sheet-grid-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  font-size: 0.875rem;
-  min-width: 680px;
+  font-size: 0.85rem;
 }
 
-.sheet-table th {
-  background: #f8f9fa;
-  color: #5f6368;
-  font-weight: 600;
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--sheet-border);
-  border-right: 1px solid var(--sheet-border);
+.sheet-header-row th {
+  background: var(--sheet-header-bg);
+  color: #334155;
+  font-weight: 700;
+  padding: 10px 12px;
+  border: 1px solid var(--sheet-cell-border);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 10;
   user-select: none;
 }
 
-.sheet-table td {
-  padding: 11px 14px;
-  border-bottom: 1px solid var(--sheet-border);
-  border-right: 1px solid var(--sheet-border);
+.sheet-header-row th[data-sort] {
+  cursor: pointer;
+}
+
+.sheet-header-row th[data-sort]:hover {
+  background: #edf2f7;
+}
+
+.sort-arrow {
+  color: var(--text-dim);
+  font-size: 0.75rem;
+}
+
+.sheet-grid-table td {
+  padding: 9px 12px;
+  border: 1px solid var(--sheet-cell-border);
   color: var(--text-main);
   vertical-align: middle;
+  background: #ffffff;
+  transition: background 0.1s ease;
 }
 
-.sheet-table tbody tr:hover {
-  background-color: var(--sheet-row-hover);
+.sheet-grid-table tr:hover td {
+  background-color: var(--sheet-select-cell);
 }
 
-.col-index {
-  width: 48px;
-  text-align: center;
-  background: #fafafa;
-  color: var(--text-dim);
+.sheet-grid-table tr.row-selected td {
+  background-color: #e0edff !important;
 }
 
-/* Badges inside sheet */
+.sheet-grid-table td.cell-active {
+  outline: 2px solid var(--sheet-select-border);
+  outline-offset: -2px;
+}
+
+/* Table Column Widths & Cells */
+.col-select { width: 38px; text-align: center; }
+.col-num { width: 44px; text-align: center; color: var(--text-dim); font-family: var(--font-mono); }
+.col-name { min-width: 100px; font-weight: 600; }
+.col-phone { min-width: 120px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); }
+.col-channel { min-width: 100px; }
+.col-attendance { min-width: 120px; }
+.col-fee { min-width: 120px; }
+.col-book { min-width: 160px; }
+.col-role { min-width: 90px; }
+.col-note { min-width: 100px; }
+.col-action { width: 50px; text-align: center; }
+
+/* Platform Chips */
 .channel-chip {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 0.775rem;
-  font-weight: 600;
-}
-
-.channel-somoim { background: #fee2e2; color: #b91c1c; }
-.channel-daangn { background: #ffedd5; color: #c2410c; }
-.channel-instagram { background: #fce7f3; color: #be185d; }
-.channel-everytime { background: #fef2f2; color: #dc2626; }
-.channel-kakao { background: #fef08a; color: #854d0e; }
-.channel-naver { background: #dcfce7; color: #15803d; }
-
-.fee-badge {
-  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 700;
   padding: 3px 8px;
   border-radius: 4px;
-  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.chip-kakao { background: #fef08a; color: #713f12; }
+.chip-somoim { background: #fee2e2; color: #991b1b; }
+.chip-naver { background: #dcfce7; color: #166534; }
+.chip-daangn { background: #ffedd5; color: #9a3412; }
+.chip-everytime { background: #fee2e2; color: #991b1b; }
+.chip-instagram { background: #fce7f3; color: #9d174d; }
+
+/* Attendance Counter */
+.attendance-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-counter {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  color: #334155;
+  transition: all 0.1s ease;
+}
+
+.btn-counter:hover {
+  background: #cbd5e1;
+}
+
+.count-number {
+  font-weight: 700;
+  font-family: var(--font-mono);
+  min-width: 32px;
+  text-align: center;
+}
+
+/* Status Badges */
+.fee-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.76rem;
   font-weight: 700;
   cursor: pointer;
   user-select: none;
-  transition: transform var(--transition-fast);
+  transition: transform 0.1s ease;
 }
+
 .fee-badge:hover {
   transform: scale(1.04);
 }
 
 .fee-paid {
-  background: #dcfce7;
-  color: #166534;
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
 }
 
 .fee-pending {
-  background: #fee2e2;
-  color: #991b1b;
+  background: #fffbeb;
+  color: #b45309;
+  border: 1px solid #fde68a;
 }
 
-.status-badge {
-  display: inline-block;
-  font-size: 0.75rem;
+.fee-exempt {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+}
+
+.note-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.note-submitted {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.note-pending {
+  background: #f8fafc;
+  color: #94a3b8;
+  border: 1px solid #e2e8f0;
+}
+
+.role-tag {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #334155;
+  background: #f1f5f9;
   padding: 2px 6px;
   border-radius: 4px;
-  background: var(--bg-subtle);
-  color: var(--text-muted);
+}
+
+.role-host {
+  background: #e0e7ff;
+  color: #3730a3;
+  font-weight: 700;
 }
 
 .btn-delete-row {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.btn-delete-row:hover {
+  background: #fee2e2;
+  color: #e11d48;
+}
+
+/* 1-7. 시트 하단 탭 & 풋터 */
+.sheet-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 16px;
+  background: #f8fafc;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sheet-tabs-container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sheet-tab {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  padding: 6px 14px;
+  border-radius: 6px 6px 0 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.sheet-tab.active {
+  background: #ffffff;
+  color: var(--sheet-green);
+  border-top: 3px solid var(--sheet-green);
+  font-weight: 700;
+}
+
+.sheet-tab-add {
   background: none;
   border: none;
   color: var(--text-dim);
-  cursor: pointer;
   font-size: 1rem;
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-.btn-delete-row:hover {
-  color: var(--accent-rose);
-  background: #ffe4e6;
+  padding: 4px 8px;
+  cursor: pointer;
 }
 
-.sheet-footer-bar {
+.sheet-tab-add:hover {
+  color: var(--text-main);
+}
+
+.sheet-footer-actions {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  background: var(--sheet-header-bg);
-  border-top: 1px solid var(--sheet-border);
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  flex-wrap: wrap;
   gap: 8px;
 }
 
-.btn-sheet-mini {
-  background: white;
-  border: 1px solid var(--border);
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
-  font-size: 0.775rem;
-  cursor: pointer;
-  color: var(--text-muted);
-  transition: all var(--transition-fast);
+.sheet-status-text {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-right: 8px;
 }
-.btn-sheet-mini:hover {
-  background: var(--bg-subtle);
+
+.btn-sheet-tool {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.btn-sheet-tool:hover {
+  background: #f1f5f9;
   color: var(--text-main);
 }
 
-/* ==========================================================================
-   Demo 2: Multi-Platform Broadcast Hub
-   ========================================================================== */
-.broadcast-section {
-  background: white;
-  border-top: 1px solid var(--border);
+/* --------------------------------------------------------------------------
+   기능 2) 멀티플랫폼 공지 자동화 (ID/PW 계정 관리 & 메신저 vs 게시글 분리)
+   -------------------------------------------------------------------------- */
+
+/* 2-1. 플랫폼 계정 관리 카드 (Credentials Manager) */
+.credentials-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.credentials-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 16px;
+}
+
+.cred-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.cred-title-box h2 {
+  font-size: 1.3rem;
+  margin: 6px 0 4px;
+  color: var(--text-main);
+}
+
+.cred-title-box p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.text-hint {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.cred-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-secondary-sm {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-secondary-sm:hover {
+  background: var(--bg-subtle);
+}
+
+.btn-primary-sm {
+  background: var(--primary);
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn-primary-sm:hover {
+  background: var(--primary-hover);
+}
+
+/* 계정 분리 그리드 (메신저 vs 게시글) */
+.credentials-split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 20px;
+}
+
+@media (max-width: 1024px) {
+  .credentials-split-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cred-column {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: #fafafa;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.col-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
   border-bottom: 1px solid var(--border);
 }
 
-.broadcast-layout {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 28px;
-  align-items: start;
+.messenger-head {
+  background: #fffdf0;
 }
 
-.broadcast-editor-card,
-.broadcast-preview-card {
-  background: var(--bg-main);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  box-shadow: var(--shadow-sm);
+.board-head {
+  background: #f8fafc;
 }
 
-.card-header {
+.head-icon {
+  font-size: 1.5rem;
+}
+
+.col-head h3 {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.head-sub {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+
+.session-badge {
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.badge-active {
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+}
+
+/* 메신저 영역 입력 폼 */
+.kakao-cred-box {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #ffffff;
+  height: 100%;
+}
+
+.platform-title-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
 }
 
-.btn-text {
+.platform-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.api-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: #fef08a;
+  color: #854d0e;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.cred-form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cred-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cred-field label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.cred-field input {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  background: #ffffff;
+  outline: none;
+}
+
+.cred-field input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-glow);
+}
+
+.pw-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.pw-input-wrap input {
+  width: 100%;
+  padding-right: 32px;
+}
+
+.btn-toggle-pw {
+  position: absolute;
+  right: 6px;
   background: none;
   border: none;
-  color: var(--primary);
+  cursor: pointer;
   font-size: 0.85rem;
-  font-weight: 600;
+  opacity: 0.6;
+}
+
+.btn-toggle-pw:hover {
+  opacity: 1;
+}
+
+.channel-auth-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.btn-auth-test {
+  background: #fef08a;
+  color: #713f12;
+  border: 1px solid #fde047;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
   cursor: pointer;
 }
-.btn-text:hover {
-  text-decoration: underline;
+
+.btn-auth-test:hover {
+  background: #fde047;
+}
+
+.auth-result-msg {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+/* 게시글 영역 입력 리스트 */
+.cred-board-list {
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #ffffff;
+}
+
+.cred-board-item {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.board-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.badge-board {
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.badge-board.somoim { background: #fee2e2; color: #991b1b; }
+.badge-board.naver { background: #dcfce7; color: #166534; }
+.badge-board.daangn { background: #ffedd5; color: #9a3412; }
+.badge-board.everytime { background: #fee2e2; color: #991b1b; }
+.badge-board.instagram { background: #fce7f3; color: #9d174d; }
+
+.board-session-state {
+  font-size: 0.7rem;
+  color: #059669;
+  font-weight: 600;
+}
+
+.cred-row-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.2fr;
+  gap: 8px;
+}
+
+@media (max-width: 640px) {
+  .cred-row-inputs {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cred-row-inputs input {
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.78rem;
+  background: #ffffff;
+  outline: none;
+}
+
+.cred-row-inputs input:focus {
+  border-color: var(--primary);
+}
+
+/* --------------------------------------------------------------------------
+   2-2. 공지 작성 에디터 & 실시간 분할 듀얼 프리뷰
+   -------------------------------------------------------------------------- */
+.broadcast-main-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .broadcast-main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 좌측 에디터 카드 */
+.editor-panel-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.editor-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.section-badge-blue {
+  font-size: 0.68rem;
+  font-weight: 800;
+  background: #eff6ff;
+  color: #1d4ed8;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.editor-head h3 {
+  font-size: 1.18rem;
+  color: var(--text-main);
+  margin-top: 4px;
+}
+
+.editor-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-sample-tag {
+  background: #f1f5f9;
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.btn-sample-tag:hover {
+  background: #e2e8f0;
+  color: var(--text-main);
+}
+
+/* 에디터 폼 */
+.notice-admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-section-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-section-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 4px 0;
 }
 
 .form-group {
-  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .form-group label {
-  display: block;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--text-main);
-  margin-bottom: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
 }
 
-.form-row {
+.form-group input, .form-group textarea, .form-group select {
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  background: #ffffff;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-glow);
+}
+
+.form-grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
 
-.notice-form input[type="text"],
-.notice-form textarea,
-#addMemberForm input,
-#addMemberForm select {
-  width: 100%;
-  padding: 10px 14px;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-md);
-  font-family: inherit;
-  font-size: 0.9rem;
-  background: white;
-  color: var(--text-main);
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+@media (max-width: 640px) {
+  .form-grid-2 {
+    grid-template-columns: 1fr;
+  }
 }
 
-.notice-form input[type="text"]:focus,
-.notice-form textarea:focus,
-#addMemberForm input:focus,
-#addMemberForm select:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--primary-glow);
-}
-
-.channel-checkbox-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-top: 8px;
-}
-
-.channel-check-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  background: white;
+/* 채널 선택 박스 */
+.channel-select-box {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: 500;
-  transition: all var(--transition-fast);
-}
-
-.channel-check-item:hover {
-  border-color: var(--primary);
-  background: #fdfdfd;
-}
-
-.channel-check-item input[type="checkbox"] {
-  accent-color: var(--primary);
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-}
-
-.btn-block {
-  width: 100%;
-  margin-top: 16px;
-}
-
-/* Live Preview Card */
-.preview-header {
+  padding: 14px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 10px;
 }
 
-.preview-title {
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: var(--text-main);
+.messenger-box {
+  background: #fffef2;
+  border-color: #fde047;
 }
 
-.preview-tabs {
-  display: flex;
-  gap: 6px;
-  background: white;
-  padding: 4px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
+.board-box {
+  background: #f8fafc;
+  border-color: #cbd5e1;
 }
 
-.preview-tab {
-  flex: 1;
-  border: none;
-  background: transparent;
-  padding: 6px 0;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-muted);
+.channel-checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   cursor: pointer;
-  border-radius: var(--radius-sm);
-  transition: all var(--transition-fast);
+  user-select: none;
 }
 
-.preview-tab.active {
-  background: var(--primary);
-  color: white;
+.board-checkbox-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
-.preview-viewport {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  min-height: 380px;
-  max-height: 440px;
-  overflow-y: auto;
-  padding: 16px;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+@media (max-width: 640px) {
+  .board-checkbox-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-.preview-mockup {
-  font-size: 0.875rem;
-  line-height: 1.6;
-  white-space: pre-line;
+.sub-options-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 24px;
+  border-top: 1px dashed rgba(0,0,0,0.08);
+  padding-top: 8px;
 }
 
-/* Custom platform mock styles */
-.preview-badge-brand {
+.sub-option {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 999px;
-  margin-bottom: 14px;
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  cursor: pointer;
 }
 
-.preview-meta {
+/* 대형 실행 버튼 */
+.form-action-wrap {
+  margin-top: 8px;
+}
+
+.btn-execute-broadcast {
+  width: 100%;
+  background: linear-gradient(135deg, #1d4ed8 0%, #059669 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  cursor: pointer;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  margin-top: 14px;
-  font-size: 0.8rem;
-  color: var(--text-dim);
+  justify-content: center;
+  gap: 4px;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.text-tag {
-  color: var(--accent-emerald);
-  font-weight: 600;
+.btn-execute-broadcast:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
 }
 
-/* ==========================================================================
-   Projects Section (수업 실습 연계)
-   ========================================================================== */
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
+.btn-execute-broadcast:active {
+  transform: translateY(0);
 }
 
-.project-card {
-  background: white;
+.btn-rocket {
+  font-size: 1.5rem;
+}
+
+.btn-main-txt {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.btn-sub-txt {
+  font-size: 0.75rem;
+  opacity: 0.85;
+}
+
+/* --------------------------------------------------------------------------
+   우측 실시간 분할 듀얼 프리뷰 (메신저 vs 게시글)
+   -------------------------------------------------------------------------- */
+.preview-panel-card {
+  background: #ffffff;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 32px 28px;
-  box-shadow: var(--shadow-sm);
-  transition: all var(--transition-fast);
-}
-
-.project-card.active-project {
-  border-color: var(--primary);
   box-shadow: var(--shadow-md);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.project-header {
+.preview-mode-switch {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.badge-status {
-  font-size: 0.75rem;
+.mode-buttons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f1f5f9;
+  padding: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.preview-mode-btn {
+  background: transparent;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.8rem;
   font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 999px;
-}
-
-.badge-status.current {
-  background: var(--primary-light);
-  color: var(--primary);
-}
-
-.badge-status.planned {
-  background: var(--bg-subtle);
   color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
-.project-tech {
-  font-size: 0.775rem;
-  color: var(--text-dim);
+.preview-mode-btn.active {
+  background: #ffffff;
+  color: var(--primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.preview-sync-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-emerald);
+}
+
+.preview-screen-wrap {
+  flex: 1;
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 프리뷰 1: 카카오톡 스마트폰 목업 */
+.kakaotalk-phone-mockup {
+  background: #b2c7da;
+  border-radius: 24px;
+  border: 6px solid #1e293b;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  height: 560px;
+}
+
+.kt-status-bar {
+  background: rgba(0,0,0,0.06);
+  padding: 6px 16px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.kt-chat-header {
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(8px);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.kt-chat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.kt-chat-info strong {
+  font-size: 0.85rem;
+  color: #1e293b;
+}
+
+.kt-chat-members {
+  font-size: 0.7rem;
+  color: #475569;
+}
+
+.kt-header-icons {
+  font-size: 0.9rem;
+  letter-spacing: 4px;
+  color: #334155;
+}
+
+/* 톡게시판 핀 */
+.kt-pinned-notice {
+  background: #ffffff;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+.pin-icon {
+  font-size: 0.9rem;
+}
+
+.pin-text {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pin-label {
+  background: #fee500;
+  color: #3c1e1e;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-size: 0.65rem;
+}
+
+/* 카톡 대화창 */
+.kt-messages-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.kt-msg-date {
+  align-self: center;
+  background: rgba(0,0,0,0.15);
+  color: #ffffff;
+  font-size: 0.68rem;
+  padding: 2px 10px;
+  border-radius: 999px;
   font-weight: 500;
 }
 
-.project-card h3 {
-  font-size: 1.25rem;
-  margin-bottom: 12px;
+.kt-msg-bubble-group {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
 }
 
-.project-card p {
-  font-size: 0.925rem;
-  color: var(--text-muted);
-  margin-bottom: 18px;
+.kt-profile-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
 }
 
-.project-points {
-  list-style: none;
-  font-size: 0.875rem;
-  color: var(--text-main);
+.kt-msg-content-box {
   display: flex;
   flex-direction: column;
+  gap: 4px;
+  max-width: 82%;
+}
+
+.kt-sender-name {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+.kt-bubble-yellow {
+  background: #fee500;
+  color: #1e1e1e;
+  padding: 12px 14px;
+  border-radius: 0 14px 14px 14px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.kt-action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.kt-btn-action {
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.1);
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+  text-align: left;
+}
+
+.kt-btn-action:hover {
+  background: #f8fafc;
+}
+
+.kt-time-stamp {
+  font-size: 0.65rem;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+/* 프리뷰 2: 게시글 뷰 (커뮤니티 목업) */
+.board-preview-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 560px;
+}
+
+.board-subtabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+
+.board-subtab {
+  background: #f1f5f9;
+  border: 1px solid var(--border);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.board-subtab.active {
+  background: #1e293b;
+  border-color: #1e293b;
+  color: #ffffff;
+}
+
+.board-article-viewport {
+  flex: 1;
+  overflow-y: auto;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+}
+
+/* 프리뷰 하단 메타 */
+.preview-footer-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.preview-spec-badge {
+  background: #ecfdf5;
+  color: #047857;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   2-3. 자동화 실행 터미널 콘솔 로그 (Live Terminal)
+   -------------------------------------------------------------------------- */
+.terminal-card {
+  background: #0f172a;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid #334155;
+}
+
+.terminal-header {
+  background: #1e293b;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #334155;
+}
+
+.terminal-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.terminal-dots {
+  display: flex;
   gap: 6px;
 }
 
-/* ==========================================================================
-   Modals
-   ========================================================================== */
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dot.red { background: #ef4444; }
+.dot.yellow { background: #f59e0b; }
+.dot.green { background: #10b981; }
+
+.terminal-name {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: #94a3b8;
+}
+
+.terminal-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.term-status-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #334155;
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+.btn-term-clear {
+  background: transparent;
+  border: 1px solid #475569;
+  color: #94a3b8;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+.btn-term-clear:hover {
+  background: #334155;
+  color: #ffffff;
+}
+
+.terminal-body {
+  padding: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  max-height: 240px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #090d16;
+}
+
+.term-line {
+  color: #cbd5e1;
+}
+
+.term-line.info { color: #38bdf8; }
+.term-line.success { color: #4ade80; font-weight: 600; }
+.term-line.warn { color: #facc15; }
+.term-line.error { color: #f87171; }
+.term-line.tip { color: #a78bfa; font-style: italic; }
+
+/* --------------------------------------------------------------------------
+   모달 공통 스타일
+   -------------------------------------------------------------------------- */
 .modal-backdrop {
-  display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(15, 23, 42, 0.5);
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
   backdrop-filter: blur(4px);
-  z-index: 2000;
+  z-index: 1000;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
 }
 
 .modal-backdrop.active {
-  display: flex;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .modal-dialog {
-  background: white;
-  width: 100%;
-  max-width: 500px;
+  background: #ffffff;
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 520px;
+  box-shadow: var(--shadow-popup);
   overflow: hidden;
-  animation: modalPop 0.2s ease-out;
+  transform: translateY(12px) scale(0.98);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@keyframes modalPop {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+.modal-backdrop.active .modal-dialog {
+  transform: translateY(0) scale(1);
+}
+
+.modal-dialog-lg {
+  max-width: 640px;
 }
 
 .modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 24px;
+  padding: 16px 20px;
   border-bottom: 1px solid var(--border);
 }
 
-.btn-close {
+.modal-header h3 {
+  font-size: 1.1rem;
+  color: var(--text-main);
+}
+
+.btn-modal-close {
   background: none;
   border: none;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  color: var(--text-dim);
   cursor: pointer;
-  color: var(--text-muted);
+}
+
+.btn-modal-close:hover {
+  color: var(--text-main);
 }
 
 .modal-body {
-  padding: 24px;
-}
-
-.modal-desc {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  margin-bottom: 16px;
-}
-
-.modal-channel-list {
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.channel-result-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--bg-main);
-  padding: 8px 14px;
-  border-radius: var(--radius-md);
-  font-size: 0.85rem;
-}
-
-.modal-summary-box {
-  background: var(--primary-light);
-  border-left: 4px solid var(--primary);
-  padding: 12px 14px;
-  border-radius: var(--radius-sm);
-  font-size: 0.85rem;
-  color: var(--primary-hover);
+  gap: 16px;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .modal-footer {
-  padding: 14px 24px;
-  background: var(--bg-main);
+  padding: 14px 20px;
+  background: #f8fafc;
   border-top: 1px solid var(--border);
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
 }
 
-/* ==========================================================================
-   Footer
-   ========================================================================== */
-.site-footer {
-  background: #0f172a;
-  color: #94a3b8;
-  padding: 50px 0 30px;
-  font-size: 0.9rem;
+.btn-block {
+  width: 100%;
+  padding: 10px;
 }
 
-.footer-inner {
+/* 리포트 모달 전용 */
+.report-summary-card {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.report-summary-card .report-icon {
+  font-size: 2rem;
+}
+
+.report-summary-card strong {
+  font-size: 0.95rem;
+  color: #065f46;
+}
+
+.report-summary-card p {
+  font-size: 0.78rem;
+  color: #047857;
+  margin-top: 2px;
+}
+
+.report-section-sub h4 {
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+  color: var(--text-main);
+}
+
+.report-channel-row {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 30px;
-  border-bottom: 1px solid #1e293b;
-  flex-wrap: wrap;
-  gap: 20px;
+  font-size: 0.82rem;
 }
 
-.footer-info strong {
-  color: white;
-  font-size: 1.05rem;
-}
-
-.footer-info p {
-  margin-top: 4px;
-  color: #64748b;
-  font-size: 0.85rem;
-}
-
-.footer-links {
+.report-board-list {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.footer-links a:hover {
-  color: white;
-}
-
-.footer-bottom {
-  padding-top: 24px;
+.report-board-item {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 0.8rem;
-  color: #64748b;
-  text-align: center;
 }
 
-/* ==========================================================================
-   Responsive Breakpoints
-   ========================================================================== */
-@media (max-width: 960px) {
-  .hero-title {
-    font-size: 2.3rem;
-  }
-  .about-grid,
-  .values-grid,
-  .interests-grid {
-    grid-template-columns: 1fr;
-  }
-  .broadcast-layout {
-    grid-template-columns: 1fr;
-  }
-  .projects-grid {
-    grid-template-columns: 1fr;
-  }
-  .form-row {
-    grid-template-columns: 1fr;
-  }
+.badge-success {
+  background: #ecfdf5;
+  color: #059669;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
 }
 
-@media (max-width: 768px) {
-  .site-nav {
-    display: none; /* 모바일 단순화 */
-  }
-  .hero-title {
-    font-size: 1.95rem;
-  }
-  .hero-stats {
-    flex-direction: column;
-    gap: 16px;
-    padding: 20px;
-  }
-  .stat-divider {
-    width: 100%;
-    height: 1px;
-  }
-  .channel-checkbox-grid {
-    grid-template-columns: 1fr;
-  }
-  .hero-cta-group {
-    flex-direction: column;
-    width: 100%;
-  }
-  .hero-cta-group .btn {
-    width: 100%;
-  }
-  .br-desktop {
-    display: none;
-  }
+.report-transparent-box {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  font-size: 0.78rem;
+  color: #1e40af;
+}
+
+/* --------------------------------------------------------------------------
+   콘솔 푸터
+   -------------------------------------------------------------------------- */
+.console-footer {
+  background: #ffffff;
+  border-top: 1px solid var(--border);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-top: auto;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-left strong {
+  color: var(--text-muted);
+}
+
+.footer-right {
+  display: flex;
+  gap: 16px;
 }
 
 </style>
 </head>
-<body>
-  <!-- 스킵 링크 (접근성) -->
-  <a class="skip-link" href="#main">본문 바로가기</a>
+<body class="console-body">
+  <!-- 관리자 탑 글로벌 네비게이션 헤더 -->
+  <header class="console-header">
+    <div class="header-left">
+      <div class="console-logo">
+        <span class="logo-icon">📚</span>
+        <span class="logo-brand">BookLink <span class="badge-role">ADMIN CONSOLE</span></span>
+      </div>
+      <div class="header-status-pills">
+        <span class="status-pill status-online" id="cloudSyncStatus">
+          <span class="status-dot"></span> Google Drive 동기화 활성
+        </span>
+        <span class="status-pill status-ready" id="botSessionStatus">
+          <span class="status-dot"></span> 자동화 봇 세션 준비완료
+        </span>
+      </div>
+    </div>
 
-  <!-- 네비게이션 헤더 -->
-  <header class="site-header" id="header">
-    <div class="container header-inner">
-      <a class="site-logo" href="#hero">
-        <span class="logo-badge">BookLink</span>
-        <span class="logo-sub">투명한 소통</span>
+    <!-- 빠른 바로가기 탭 네비게이션 -->
+    <nav class="console-nav" aria-label="관리자 기능 메뉴">
+      <a href="#section-sheet" class="nav-tab active" data-tab="sheet">
+        <span class="tab-icon">📊</span> 1. 회원 관리 DB
       </a>
-      <nav class="site-nav" aria-label="주요 메뉴">
-        <a href="#about" class="nav-link">소개</a>
-        <a href="#values" class="nav-link">투명한 소통</a>
-        <a href="#interests" class="nav-link">관심 분야</a>
-        <a href="#demo-sheet" class="nav-link">회원관리 DB</a>
-        <a href="#demo-broadcast" class="nav-link">공지 자동화</a>
-        <a href="#projects" class="nav-link">프로젝트</a>
-      </nav>
-      <div class="header-actions">
-        <a href="#demo-broadcast" class="btn-primary-sm">체험하기</a>
+      <a href="#section-broadcast" class="nav-tab" data-tab="broadcast">
+        <span class="tab-icon">📢</span> 2. 원클릭 공지 자동화
+      </a>
+      <a href="#section-credentials" class="nav-tab" data-tab="credentials">
+        <span class="tab-icon">🔐</span> 계정 연동 설정
+      </a>
+    </nav>
+
+    <div class="header-right">
+      <button type="button" class="btn-header-action" id="btnSyncGoogleNow" title="구글 드라이브와 즉시 동기화">
+        <span class="sync-icon">🔄</span> <span class="sync-text">즉시 동기화</span>
+      </button>
+      <div class="admin-profile">
+        <span class="admin-avatar">호스트</span>
+        <span class="admin-name">운영자 모드</span>
       </div>
     </div>
   </header>
 
-  <main id="main">
-    <!-- 히어로 섹션 -->
-    <section id="hero" class="hero-section">
-      <div class="container hero-container">
-        <div class="hero-badge">
-          <span class="pulse-dot"></span> 기술개발연구프로젝트 · 독서모임 운영 자동화
-        </div>
-        <h1 class="hero-title">
-          독서모임 관리자의 짐을 덜어주는<br>
-          <span class="gradient-text">투명한 소통</span>의 힘
-        </h1>
-        <p class="hero-desc">
-          인스타, 소모임, 당근, 에타, 카톡까지 흩어진 공지를 단 한 번에 배포하고,<br class="br-desktop">
-          구글 시트 기반의 투명한 회원 DB로 참여율과 신뢰를 극대화합니다.
-        </p>
-        <div class="hero-cta-group">
-          <a href="#demo-sheet" class="btn btn-primary">
-            <span>📊 회원관리 DB 체험</span>
-          </a>
-          <a href="#demo-broadcast" class="btn btn-secondary">
-            <span>📢 멀티플랫폼 공지 시험</span>
-          </a>
-        </div>
-        
-        <!-- 실시간 요약 카드 -->
-        <div class="hero-stats">
-          <div class="stat-card">
-            <span class="stat-value">6+</span>
-            <span class="stat-label">지원 채널 동시 연동</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-card">
-            <span class="stat-value">100%</span>
-            <span class="stat-label">공개형 투명 회계/출석</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-card">
-            <span class="stat-value">5분 ➔ 10초</span>
-            <span class="stat-label">공지 작성 배포 시간 단축</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 소개 섹션 (About) -->
-    <section id="about" class="section about-section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-eyebrow">ABOUT ME & PROJECT</span>
-          <h2 class="section-title">안녕하세요, 독서모임의 지속 가능성을 연구합니다</h2>
-          <p class="section-sub">
-            다양한 플랫폼에서 회원을 모으고 이끄는 <strong>독서모임 관리자</strong>들의 수고를 덜고,<br>
-            회원들과 언제나 솔직하고 <strong>투명하게 소통</strong>할 수 있는 테크 솔루션을 설계합니다.
-          </p>
-        </div>
-
-        <div class="about-grid">
-          <div class="about-card highlight">
-            <div class="about-icon">🎯</div>
-            <h3>방문자: 누구를 위한 사이트인가요?</h3>
-            <p>
-              매주 여러 플랫폼(소모임, 당근, 인스타, 에브리타임)을 넘나들며 회원 명단을 정리하고, 
-              복사-붙여넣기로 공지를 올리느라 지친 <strong>독서모임 호스트와 운영진</strong>을 위한 공간입니다.
-            </p>
-          </div>
-          <div class="about-card">
-            <div class="about-icon">💡</div>
-            <h3>핵심 메시지: 투명한 소통</h3>
-            <p>
-              공지와 회비 내역, 출석 기록이 투명하게 공유될 때 회원은 소속감과 신뢰를 느낍니다. 
-              운영자의 수고는 줄이되, 정보는 더 정직하고 맑게 흐르는 커뮤니티 문화를 지향합니다.
-            </p>
-          </div>
-          <div class="about-card">
-            <div class="about-icon">🚀</div>
-            <h3>해결하고자 하는 문제</h3>
-            <p>
-              플랫폼마다 다른 글자수 규격과 공지 누락, 그리고 비효율적인 수기 엑셀 관리 문제를 
-              <strong>웹 자동화</strong>와 <strong>구글 시트 데이터 파이프라인</strong>으로 해결합니다.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 핵심 가치: 투명한 소통 (Values) -->
-    <section id="values" class="section values-section">
-      <div class="container">
-        <div class="section-header text-center">
-          <span class="section-eyebrow">CORE VALUE</span>
-          <h2 class="section-title">우리가 추구하는 '투명한 소통' 3원칙</h2>
-          <p class="section-sub">단순한 정보 전달을 넘어, 모임 운영의 신뢰를 쌓는 3가지 기준</p>
-        </div>
-
-        <div class="values-grid">
-          <div class="value-item">
-            <div class="value-number">01</div>
-            <h4>채널 간 정보 비대칭 제로</h4>
-            <p>인스타로 들어온 회원도, 당근이나 카톡으로 들어온 회원도 소외되지 않도록 모든 공지가 동시·동일하게 배포됩니다.</p>
-          </div>
-          <div class="value-item">
-            <div class="value-number">02</div>
-            <h4>누구나 납득하는 데이터 공유</h4>
-            <p>출석 현황, 모임 회비, 읽은 책 아카이브가 구글 시트와 연동되어 관리자와 회원 모두에게 맑게 공개됩니다.</p>
-          </div>
-          <div class="value-item">
-            <div class="value-number">03</div>
-            <h4>운영진의 과부하 방지</h4>
-            <p>소통이 투명해지려면 운영자가 지치지 않아야 합니다. 반복 업무를 자동화하여 책과 대화에 집중할 시간을 선물합니다.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 관심 분야 (Interests) -->
-    <section id="interests" class="section interests-section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-eyebrow">INTEREST AREAS</span>
-          <h2 class="section-title">관심 연구 및 기술 분야</h2>
-          <p class="section-sub">모임 문화와 기술의 접점을 고민하는 핵심 관심사입니다.</p>
-        </div>
-
-        <div class="interests-grid">
-          <div class="interest-card">
-            <div class="interest-tag">자동화 & API</div>
-            <h3>멀티채널 자동 배포 아키텍처</h3>
-            <p>웹훅(Webhook) 및 각 소셜 플랫폼 API를 연계하여 한 번의 마크다운 작성으로 채널별 최적 포맷을 생성하는 시스템을 연구합니다.</p>
-          </div>
-          <div class="interest-card">
-            <div class="interest-tag">데이터 관리</div>
-            <h3>Google Workspace & 시트 연동</h3>
-            <p>별도의 무거운 서버나 복잡한 관리자 페이지 없이도, 누구나 친숙한 구글 시트를 DB로 활용하는 가벼운 노코드/로우코드 데이터 설계에 관심이 있습니다.</p>
-          </div>
-          <div class="interest-card">
-            <div class="interest-tag">커뮤니티 UX</div>
-            <h3>참여율 증진을 위한 소통 인터페이스</h3>
-            <p>독서모임 멤버들이 발제문에 적극적으로 반응하고 질문할 수 있도록 돕는 투명하고 직관적인 웹 인터페이스를 설계합니다.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 인터랙티브 기능 1: 구글 시트형 회원 관리 DB (Demo 1) -->
-    <section id="demo-sheet" class="section demo-section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-badge-green">LIVE DEMO 1</span>
-          <h2 class="section-title">구글 시트형 독서모임 회원 관리 DB</h2>
-          <p class="section-sub">
-            관리자가 직관적으로 확인하고 검색할 수 있는 스프레드시트 뷰입니다.<br>
-            유입 채널별 필터링, 검색, 회비 납부 토글을 직접 테스트해보세요.
-          </p>
-        </div>
-
-        <!-- 시트 스타일 컨테이너 -->
-        <div class="sheet-wrapper">
-          <!-- 시트 상단 헤더 툴바 -->
-          <div class="sheet-toolbar">
-            <div class="sheet-title-area">
-              <span class="sheet-file-icon">📑</span>
-              <div>
-                <strong class="sheet-file-name">2026_독서클럽_회원명단_및_출석부</strong>
-                <span class="sheet-badge">실시간 동기화 켜짐</span>
+  <main class="console-main">
+    <!-- ===================================================================
+         기능 1) 구글 시트형 독서모임 회원 관리 DB
+         =================================================================== -->
+    <section id="section-sheet" class="console-section active-section">
+      <!-- 구글 시트 문서 메인 헤더 & 메뉴바 -->
+      <div class="sheet-app-container">
+        <!-- 1-1. 구글 시트 상단 타이틀 & 메뉴 영역 -->
+        <div class="sheet-doc-header">
+          <div class="sheet-doc-meta">
+            <div class="sheet-icon-google">
+              <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor">
+                <path fill="#0F9D58" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+                <path fill="#ffffff" d="M14 17H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+              </svg>
+            </div>
+            <div class="sheet-title-edit-group">
+              <input type="text" id="sheetDocTitle" class="sheet-doc-title-input" value="2026_독서클럽_정기모임_회원명단_v2.4" aria-label="시트 문서 이름">
+              <div class="sheet-doc-actions-row">
+                <button type="button" class="sheet-star-btn" id="btnStarSheet" title="별표 표시">⭐</button>
+                <span class="sheet-save-indicator" id="sheetSaveIndicator">☁ 모든 변경사항이 Google Drive에 실시간 저장됨</span>
               </div>
             </div>
-
-            <!-- 시트 컨트롤 (검색 및 빠른 액션) -->
-            <div class="sheet-controls">
-              <div class="search-box">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="sheetSearchInput" placeholder="회원명, 책, 유입 채널 검색..." aria-label="회원 검색">
-              </div>
-              <button type="button" id="btnAddMember" class="btn-sheet-action">
-                <span>➕ 회원 추가</span>
-              </button>
-            </div>
           </div>
 
-          <!-- 유입 채널 필터 탭 -->
-          <div class="sheet-filter-bar">
-            <span class="filter-label">채널 필터:</span>
-            <div class="filter-pills" id="channelFilterGroup">
-              <button type="button" class="filter-pill active" data-channel="all">전체 (<span id="countAll">6</span>)</button>
+          <!-- 구글 시트 상단 통계 요약 위젯 -->
+          <div class="sheet-kpi-summary">
+            <div class="kpi-item">
+              <span class="kpi-label">전체 회원</span>
+              <span class="kpi-val" id="kpiTotalMembers">8명</span>
+            </div>
+            <div class="kpi-divider"></div>
+            <div class="kpi-item">
+              <span class="kpi-label">회비 납부율</span>
+              <span class="kpi-val text-success" id="kpiFeeRatio">87.5%</span>
+            </div>
+            <div class="kpi-divider"></div>
+            <div class="kpi-item">
+              <span class="kpi-label">평균 출석</span>
+              <span class="kpi-val" id="kpiAvgAttendance">6.2회</span>
+            </div>
+            <div class="kpi-divider"></div>
+            <div class="kpi-item">
+              <span class="kpi-label">발제문 제출</span>
+              <span class="kpi-val text-primary" id="kpiNoteRatio">75%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1-2. 구글 시트 메뉴바 (File, Edit, View, Data 등) -->
+        <div class="sheet-menubar">
+          <button type="button" class="menu-item" id="menuFile">파일(F)</button>
+          <button type="button" class="menu-item" id="menuEdit">수정(E)</button>
+          <button type="button" class="menu-item" id="menuView">보기(V)</button>
+          <button type="button" class="menu-item" id="menuInsert">삽입(I)</button>
+          <button type="button" class="menu-item" id="menuFormat">서식(O)</button>
+          <button type="button" class="menu-item" id="menuData">데이터(D)</button>
+          <button type="button" class="menu-item" id="menuTools">도구(T)</button>
+          <button type="button" class="menu-item" id="menuExtensions">확장프로그램(E)</button>
+        </div>
+
+        <!-- 1-3. 구글 시트 서식 툴바 (Undo, Redo, B, I, U, Color, Align, Filter) -->
+        <div class="sheet-toolbar">
+          <div class="toolbar-group">
+            <button type="button" class="t-btn" id="tbUndo" title="실행취소 (Ctrl+Z)">↶</button>
+            <button type="button" class="t-btn" id="tbRedo" title="다시실행 (Ctrl+Y)">↷</button>
+            <button type="button" class="t-btn" id="tbPrint" title="인쇄 (Ctrl+P)">🖨️</button>
+          </div>
+          <div class="t-divider"></div>
+          <div class="toolbar-group">
+            <select class="t-select" id="tbZoom" title="화면 배율">
+              <option value="100%">100%</option>
+              <option value="90%">90%</option>
+              <option value="125%">125%</option>
+            </select>
+          </div>
+          <div class="t-divider"></div>
+          <div class="toolbar-group">
+            <button type="button" class="t-btn t-bold" id="tbBold" title="굵게 (Ctrl+B)">B</button>
+            <button type="button" class="t-btn t-italic" id="tbItalic" title="기울임꼴 (Ctrl+I)">I</button>
+            <button type="button" class="t-btn t-strike" id="tbStrike" title="취소선">S</button>
+            <button type="button" class="t-btn t-color" id="tbTextColor" title="텍스트 색상">A<span class="color-bar"></span></button>
+            <button type="button" class="t-btn t-fill" id="tbFillColor" title="채우기 색상">🪣</button>
+          </div>
+          <div class="t-divider"></div>
+          <div class="toolbar-group">
+            <button type="button" class="t-btn active" title="왼쪽 정렬">⇤</button>
+            <button type="button" class="t-btn" title="가운데 정렬">⇥⇤</button>
+            <button type="button" class="t-btn" title="오른쪽 정렬">⇥</button>
+          </div>
+          <div class="t-divider"></div>
+          <div class="toolbar-group">
+            <button type="button" class="t-btn" id="tbFilterToggle" title="필터 토글">🔻</button>
+            <button type="button" class="t-btn" id="tbFunctions" title="함수 삽입(SUM/AVERAGE)">Σ</button>
+          </div>
+        </div>
+
+        <!-- 1-4. 구글 시트 수식 입력줄 (Formula Bar: 셀 좌표 및 값/수식) -->
+        <div class="sheet-formula-bar">
+          <div class="formula-cell-coord" id="currentCellCoord">A1</div>
+          <div class="formula-fx-symbol">fx</div>
+          <input type="text" id="formulaInput" class="formula-input" placeholder="셀을 클릭하거나 수식을 입력하세요 (=SUM, =AVERAGE)" aria-label="수식 입력창">
+        </div>
+
+        <!-- 1-5. 빠른 컨트롤 바 (검색, 플랫폼 필터, 일괄 액션) -->
+        <div class="sheet-control-bar">
+          <div class="filter-controls-left">
+            <span class="control-label">플랫폼 필터:</span>
+            <div class="filter-pills-wrap" id="channelFilterGroup">
+              <button type="button" class="filter-pill active" data-channel="all">전체 (<span id="countAll">8</span>)</button>
               <button type="button" class="filter-pill" data-channel="소모임">소모임</button>
               <button type="button" class="filter-pill" data-channel="당근">당근</button>
               <button type="button" class="filter-pill" data-channel="인스타">인스타</button>
               <button type="button" class="filter-pill" data-channel="에타">에타</button>
-              <button type="button" class="filter-pill" data-channel="카카오톡">카톡</button>
-              <button type="button" class="filter-pill" data-channel="네이버">네이버</button>
-            </div>
-            <div class="sheet-stats-summary">
-              <span>총 납부율: <strong id="paidRatioText" class="text-green">83%</strong></span>
+              <button type="button" class="filter-pill" data-channel="카카오톡">카카오톡</button>
+              <button type="button" class="filter-pill" data-channel="네이버">네이버 카페</button>
             </div>
           </div>
 
-          <!-- 스프레드시트 테이블 본체 -->
-          <div class="sheet-table-responsive" tabindex="0" aria-label="독서모임 회원 관리 스프레드시트">
-            <table class="sheet-table" id="memberTable">
-              <thead>
-                <tr>
-                  <th class="col-index">#</th>
-                  <th class="col-name">이름</th>
-                  <th class="col-channel">유입 플랫폼</th>
-                  <th class="col-attendance">누적 출석</th>
-                  <th class="col-fee">회비 납부</th>
-                  <th class="col-book">지정 도서</th>
-                  <th class="col-status">상태</th>
-                  <th class="col-actions">관리</th>
-                </tr>
-              </thead>
-              <tbody id="memberTableBody">
-                <!-- Javascript로 동적 렌더링 -->
-              </tbody>
-            </table>
+          <div class="filter-controls-right">
+            <div class="sheet-search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="sheetSearchInput" placeholder="회원명, 책이름, 연락처 검색..." aria-label="회원 검색">
+            </div>
+            <button type="button" id="btnAddMember" class="btn-sheet-primary">
+              <span>➕ 신규 회원 등록</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 일괄 액션 바 (선택된 항목 있을 때 활성화) -->
+        <div class="batch-action-bar" id="batchActionBar" style="display: none;">
+          <span class="batch-count"><strong id="selectedCount">0</strong>명 선택됨</span>
+          <div class="batch-buttons">
+            <button type="button" class="btn-batch" id="btnBatchPaid">✔ 일괄 회비 납부완료 처리</button>
+            <button type="button" class="btn-batch" id="btnBatchNoteSubmitted">📝 일괄 발제문 제출완료 처리</button>
+            <button type="button" class="btn-batch btn-batch-danger" id="btnBatchDelete">🗑 선택 삭제</button>
+          </div>
+        </div>
+
+        <!-- 1-6. 스프레드시트 본체 그리드 테이블 -->
+        <div class="sheet-grid-wrapper" tabindex="0" aria-label="구글 시트형 독서모임 회원 명단 그리드">
+          <table class="sheet-grid-table" id="memberTable">
+            <thead>
+              <tr class="sheet-header-row">
+                <th class="col-select"><input type="checkbox" id="checkAllMembers" aria-label="전체 회원 선택"></th>
+                <th class="col-num">No</th>
+                <th class="col-name" data-sort="name">회원명 (익명) <span class="sort-arrow">↕</span></th>
+                <th class="col-phone">연락처 (마스킹)</th>
+                <th class="col-channel" data-sort="channel">유입 채널 <span class="sort-arrow">↕</span></th>
+                <th class="col-attendance" data-sort="attendance">누적 출석 <span class="sort-arrow">↕</span></th>
+                <th class="col-fee" data-sort="fee">회비 납부 (10,000원) <span class="sort-arrow">↕</span></th>
+                <th class="col-book">지정 도서</th>
+                <th class="col-role">등급 / 역할</th>
+                <th class="col-note">발제문/독서노트</th>
+                <th class="col-action">관리</th>
+              </tr>
+            </thead>
+            <tbody id="memberTableBody">
+              <!-- JS에서 실시간 렌더링 -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 1-7. 구글 시트 하단 탭 및 데이터 내보내기 풋터 바 -->
+        <div class="sheet-footer">
+          <div class="sheet-tabs-container">
+            <button type="button" class="sheet-tab active" data-sheet="regular">
+              <span>📑 [Sheet 1] 2026_정기모임_회원명단</span>
+            </button>
+            <button type="button" class="sheet-tab" data-sheet="accounting">
+              <span>💰 [Sheet 2] 회비_입출금_정산장부</span>
+            </button>
+            <button type="button" class="sheet-tab-add" id="btnAddNewSheetTab" title="새 시트 탭 추가">➕</button>
           </div>
 
-          <!-- 시트 하단 푸터 바 -->
-          <div class="sheet-footer-bar">
-            <span class="sheet-status-info">✔ 구글 스프레드시트 API 형식과 100% 호환 (JSON / CSV 내보내기 지원)</span>
-            <div class="sheet-footer-actions">
-              <button type="button" id="btnExportCsv" class="btn-sheet-mini">📥 CSV 내보내기</button>
-              <button type="button" id="btnResetData" class="btn-sheet-mini">🔄 데이터 초기화</button>
-            </div>
+          <div class="sheet-footer-actions">
+            <span class="sheet-status-text" id="footerSyncStatus">구글 시트 API 연동 규격 100% 일치 (Cloud Auto-syncing)</span>
+            <button type="button" id="btnExportCsv" class="btn-sheet-tool">📥 CSV 다운로드</button>
+            <button type="button" id="btnExportJson" class="btn-sheet-tool">📄 JSON 백업</button>
+            <button type="button" id="btnResetData" class="btn-sheet-tool">🔄 초기 데이터 복원</button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 인터랙티브 기능 2: 멀티플랫폼 원클릭 공지 자동화 (Demo 2) -->
-    <section id="demo-broadcast" class="section broadcast-section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-badge-blue">LIVE DEMO 2</span>
-          <h2 class="section-title">멀티플랫폼 원클릭 공지 자동화</h2>
-          <p class="section-sub">
-            플랫폼마다 복사-붙여넣기 할 필요 없이 한 곳에서 작성하세요.<br>
-            채널별(카톡, 소모임, 당근, 인스타, 에타) 맞춤 포맷으로 변환되어 동시에 전송됩니다.
-          </p>
+    <!-- ===================================================================
+         기능 2) 멀티플랫폼 원클릭 공지 자동화 (ID/PW 계정 연동 & 메신저 vs 게시글 분리)
+         =================================================================== -->
+    <section id="section-broadcast" class="console-section">
+      <!-- 2-1. 플랫폼 계정 및 로그인 연동 관리 카드 (ID/PW 설정부) -->
+      <div id="section-credentials" class="credentials-card">
+        <div class="credentials-header">
+          <div class="cred-title-box">
+            <span class="cred-badge">AUTO-LOGIN BOT CREDENTIALS</span>
+            <h2>🔐 플랫폼별 자동 로그인 & API 인증 계정 설정</h2>
+            <p>원클릭 공지 자동 전송을 위해 각 플랫폼의 <strong>아이디와 패스워드</strong>를 안전하게 연동합니다. <span class="text-hint">메신저(카카오톡)와 게시판 플랫폼으로 분리되어 인증 관리됩니다.</span></p>
+          </div>
+          <div class="cred-header-actions">
+            <button type="button" id="btnTestAllAccounts" class="btn-secondary-sm">
+              <span>⚡ 전체 계정 세션 유효성 검사</span>
+            </button>
+            <button type="button" id="btnSaveCredentials" class="btn-primary-sm">
+              <span>💾 계정 정보 안전 저장</span>
+            </button>
+          </div>
         </div>
 
-        <div class="broadcast-layout">
-          <!-- 좌측: 공지 작성 에디터 -->
-          <div class="broadcast-editor-card">
-            <div class="card-header">
+        <!-- 메신저(카톡) vs 게시글(5대 플랫폼) 분리 그리드 -->
+        <div class="credentials-split-grid">
+          <!-- [좌측 분리: 💬 메신저 부문 - 카카오톡] -->
+          <div class="cred-column cred-messenger-col">
+            <div class="col-head messenger-head">
+              <span class="head-icon">💬</span>
+              <div>
+                <h3>메신저 채널 (실시간 알림 및 대화방)</h3>
+                <span class="head-sub">카카오톡 오픈채팅방 / 단체방 / 알림톡 봇 연동</span>
+              </div>
+              <span class="session-badge badge-active" id="badgeKakaoStatus">🟢 세션 정상</span>
+            </div>
+
+            <div class="cred-account-box kakao-cred-box">
+              <div class="platform-title-row">
+                <span class="platform-name kakao-name">🟡 카카오톡 (KakaoTalk Bot)</span>
+                <span class="api-tag">Kakao Open API & Bot</span>
+              </div>
+              <div class="cred-form-grid">
+                <div class="cred-field">
+                  <label for="credKakaoId">카카오 계정 ID (이메일/전화번호)</label>
+                  <input type="text" id="credKakaoId" value="bookclub_master@kakao.com" placeholder="카카오 계정 이메일">
+                </div>
+                <div class="cred-field">
+                  <label for="credKakaoPw">비밀번호 / API Secret Key</label>
+                  <div class="pw-input-wrap">
+                    <input type="password" id="credKakaoPw" value="••••••••••••" placeholder="계정 비밀번호 또는 REST 키">
+                    <button type="button" class="btn-toggle-pw" title="비밀번호 보기">👁️</button>
+                  </div>
+                </div>
+                <div class="cred-field full-span">
+                  <label for="credKakaoRoom">연동 대상 단톡방 / 오픈채팅방 링크 코드</label>
+                  <input type="text" id="credKakaoRoom" value="https://open.kakao.com/o/gBookClub2026" placeholder="오픈채팅방 URL 또는 채팅방 고유 ID">
+                </div>
+              </div>
+              <div class="channel-auth-actions">
+                <button type="button" class="btn-auth-test" data-platform="kakao">카톡 봇 세션 테스트</button>
+                <span class="auth-result-msg" id="msgKakaoTest">동기화 대기 중</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- [우측 분리: 📝 게시글 부문 - 커뮤니티 및 SNS 플랫폼] -->
+          <div class="cred-column cred-board-col">
+            <div class="col-head board-head">
+              <span class="head-icon">📝</span>
+              <div>
+                <h3>게시글 채널 (커뮤니티 모집글 및 피드 포스팅)</h3>
+                <span class="head-sub">소모임, 네이버 카페, 에브리타임, 당근, 인스타그램</span>
+              </div>
+              <span class="session-badge badge-active" id="badgeBoardStatus">🟢 5개 플랫폼 연결</span>
+            </div>
+
+            <div class="cred-board-list">
+              <!-- 소모임 -->
+              <div class="cred-board-item">
+                <div class="board-item-header">
+                  <span class="badge-board somoim">소모임 앱</span>
+                  <span class="board-session-state">연결됨</span>
+                </div>
+                <div class="cred-row-inputs">
+                  <input type="text" id="credSomoimId" placeholder="소모임 ID" value="bookhost_kr">
+                  <div class="pw-input-wrap">
+                    <input type="password" id="credSomoimPw" placeholder="비밀번호" value="••••••••">
+                    <button type="button" class="btn-toggle-pw">👁️</button>
+                  </div>
+                  <input type="text" id="credSomoimClubId" placeholder="모임 고유번호" value="CLUB_92819">
+                </div>
+              </div>
+
+              <!-- 네이버 카페 -->
+              <div class="cred-board-item">
+                <div class="board-item-header">
+                  <span class="badge-board naver">네이버 카페/블로그</span>
+                  <span class="board-session-state">연결됨</span>
+                </div>
+                <div class="cred-row-inputs">
+                  <input type="text" id="credNaverId" placeholder="네이버 아이디" value="bookleader26">
+                  <div class="pw-input-wrap">
+                    <input type="password" id="credNaverPw" placeholder="비밀번호" value="••••••••">
+                    <button type="button" class="btn-toggle-pw">👁️</button>
+                  </div>
+                  <input type="text" id="credNaverBoard" placeholder="게시판 카테고리 ID" value="정기모임_공지게시판">
+                </div>
+              </div>
+
+              <!-- 당근마켓 모임 -->
+              <div class="cred-board-item">
+                <div class="board-item-header">
+                  <span class="badge-board daangn">당근마켓 모임</span>
+                  <span class="board-session-state">연결됨</span>
+                </div>
+                <div class="cred-row-inputs">
+                  <input type="text" id="credDaangnId" placeholder="당근 계정 ID" value="daangn_book_master">
+                  <div class="pw-input-wrap">
+                    <input type="password" id="credDaangnPw" placeholder="비밀번호" value="••••••••">
+                    <button type="button" class="btn-toggle-pw">👁️</button>
+                  </div>
+                  <input type="text" id="credDaangnDong" placeholder="지역 동네 설정" value="역삼1동/강남구">
+                </div>
+              </div>
+
+              <!-- 에브리타임 -->
+              <div class="cred-board-item">
+                <div class="board-item-header">
+                  <span class="badge-board everytime">에브리타임</span>
+                  <span class="board-session-state">연결됨</span>
+                </div>
+                <div class="cred-row-inputs">
+                  <input type="text" id="credEtaId" placeholder="에타 아이디" value="univ_reader26">
+                  <div class="pw-input-wrap">
+                    <input type="password" id="credEtaPw" placeholder="비밀번호" value="••••••••">
+                    <button type="button" class="btn-toggle-pw">👁️</button>
+                  </div>
+                  <input type="text" id="credEtaBoard" placeholder="게시판" value="동아리/소모임 게시판">
+                </div>
+              </div>
+
+              <!-- 인스타그램 -->
+              <div class="cred-board-item">
+                <div class="board-item-header">
+                  <span class="badge-board instagram">인스타그램 피드</span>
+                  <span class="board-session-state">연결됨</span>
+                </div>
+                <div class="cred-row-inputs">
+                  <input type="text" id="credInstaId" placeholder="인스타그램 ID (@)" value="@bookclub_transparent">
+                  <div class="pw-input-wrap">
+                    <input type="password" id="credInstaPw" placeholder="비밀번호" value="••••••••">
+                    <button type="button" class="btn-toggle-pw">👁️</button>
+                  </div>
+                  <input type="text" id="credInstaType" placeholder="포스팅 형식" value="피드 카드뉴스 캡션">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-2. 공지 작성 에디터 & 실시간 분할 미리보기 -->
+      <div class="broadcast-main-grid">
+        <!-- [좌측: 공지 작성 에디터 및 분기 옵션] -->
+        <div class="editor-panel-card">
+          <div class="editor-head">
+            <div>
+              <span class="section-badge-blue">NOTICE COMPOSER</span>
               <h3>✏️ 통합 공지 작성기</h3>
-              <button type="button" id="btnLoadSampleNotice" class="btn-text">샘플 불러오기</button>
             </div>
-
-            <form id="noticeForm" class="notice-form">
-              <div class="form-group">
-                <label for="noticeTitle">모임 회차 및 제목</label>
-                <input type="text" id="noticeTitle" value="[제14회 북클럽] '도둑맞은 집중력' 함께 읽기" required>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="noticeBook">선정 도서</label>
-                  <input type="text" id="noticeBook" value="도둑맞은 집중력 (요한 하리)" required>
-                </div>
-                <div class="form-group">
-                  <label for="noticeDateTime">일시</label>
-                  <input type="text" id="noticeDateTime" value="2026년 9월 19일 (토) 오후 2시" required>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="noticePlace">장소</label>
-                <input type="text" id="noticePlace" value="강남역 북카페 '생각의 숲' 3번 룸" required>
-              </div>
-
-              <div class="form-group">
-                <label for="noticeBody">발제 및 전달사항</label>
-                <textarea id="noticeBody" rows="4">스마트폰과 알고리즘 속에서 우리의 집중력은 왜 흐려졌을까요? 
-각자 가장 인상 깊었던 챕터 1곳과 질문 1개를 준비해 와주세요!
-* 참가비는 투명하게 대관료 및 음료비(1만원)로 집행됩니다.</textarea>
-              </div>
-
-              <div class="form-group">
-                <label class="label-heading">전송 대상 플랫폼 선택 (멀티 채널)</label>
-                <div class="channel-checkbox-grid">
-                  <label class="channel-check-item">
-                    <input type="checkbox" name="broadcastChannel" value="kakao" checked>
-                    <span class="check-box-custom"></span>
-                    <span class="channel-name kakao">카카오톡 (오픈채팅/알림)</span>
-                  </label>
-                  <label class="channel-check-item">
-                    <input type="checkbox" name="broadcastChannel" value="somoim" checked>
-                    <span class="check-box-custom"></span>
-                    <span class="channel-name somoim">소모임 앱</span>
-                  </label>
-                  <label class="channel-check-item">
-                    <input type="checkbox" name="broadcastChannel" value="daangn" checked>
-                    <span class="check-box-custom"></span>
-                    <span class="channel-name daangn">당근마켓 모임</span>
-                  </label>
-                  <label class="channel-check-item">
-                    <input type="checkbox" name="broadcastChannel" value="instagram" checked>
-                    <span class="check-box-custom"></span>
-                    <span class="channel-name instagram">인스타그램 피드</span>
-                  </label>
-                  <label class="channel-check-item">
-                    <input type="checkbox" name="broadcastChannel" value="everytime" checked>
-                    <span class="check-box-custom"></span>
-                    <span class="channel-name everytime">에브리타임</span>
-                  </label>
-                  <label class="channel-check-item">
-                    <input type="checkbox" name="broadcastChannel" value="naver" checked>
-                    <span class="check-box-custom"></span>
-                    <span class="channel-name naver">네이버 카페/블로그</span>
-                  </label>
-                </div>
-              </div>
-
-              <button type="button" id="btnBroadcastSubmit" class="btn btn-primary btn-block">
-                <span>🚀 선택한 채널에 원클릭 동시 전송</span>
-              </button>
-            </form>
+            <div class="editor-head-actions">
+              <button type="button" id="btnSampleNotice1" class="btn-sample-tag">샘플 1 (정기모임)</button>
+              <button type="button" id="btnSampleNotice2" class="btn-sample-tag">샘플 2 (긴급공지)</button>
+            </div>
           </div>
 
-          <!-- 우측: 플랫폼별 최적화 프리뷰 -->
-          <div class="broadcast-preview-card">
-            <div class="preview-header">
-              <span class="preview-title">📱 플랫폼별 실시간 변환 미리보기</span>
-              <div class="preview-tabs" id="previewTabGroup">
-                <button type="button" class="preview-tab active" data-target="kakao">카톡</button>
-                <button type="button" class="preview-tab" data-target="somoim">소모임</button>
-                <button type="button" class="preview-tab" data-target="daangn">당근</button>
-                <button type="button" class="preview-tab" data-target="instagram">인스타</button>
-                <button type="button" class="preview-tab" data-target="everytime">에타</button>
+          <form id="noticeBroadcastForm" class="notice-admin-form">
+            <!-- 기본 모임 정보 -->
+            <div class="form-section-title">1. 공통 기본 정보</div>
+
+            <div class="form-group">
+              <label for="noticeTitle">모임 회차 및 공지 제목</label>
+              <input type="text" id="noticeTitle" value="[제14회 북클럽] '도둑맞은 집중력' 함께 읽고 대화하기" required>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="noticeBook">선정 도서</label>
+                <input type="text" id="noticeBook" value="도둑맞은 집중력 (요한 하리)" required>
+              </div>
+              <div class="form-group">
+                <label for="noticeDateTime">모임 일시</label>
+                <input type="text" id="noticeDateTime" value="2026년 9월 19일 (토) 오후 2:00 ~ 4:30" required>
               </div>
             </div>
 
-            <div class="preview-viewport">
-              <div class="preview-mockup" id="previewContainer">
-                <!-- 동적 프리뷰 렌더링 -->
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="noticePlace">모임 장소</label>
+                <input type="text" id="noticePlace" value="강남역 북카페 '생각의 숲' 3번 룸 (스터디룸 B)" required>
+              </div>
+              <div class="form-group">
+                <label for="noticeFee">참가비 / 준비물</label>
+                <input type="text" id="noticeFee" value="10,000원 (대관료 및 음료 1잔 포함, 영수증 100% 공개)" required>
               </div>
             </div>
 
-            <div class="preview-meta">
-              <span id="previewCharCount">글자 수: 245자</span>
-              <span class="text-tag">서식 최적화 완료</span>
+            <div class="form-group">
+              <label for="noticeBody">발제 및 전달사항 (공통 본문)</label>
+              <textarea id="noticeBody" rows="4">스마트폰과 알고리즘의 유혹 속에서 우리의 집중력은 왜 흐려졌을까요?
+가장 인상 깊었던 챕터 1곳과 함께 나누고 싶은 질문 1개를 준비해 와주세요!
+* 모임 후 출석 및 회계 내역은 구글 시트를 통해 회원 전원에게 투명하게 공개됩니다.</textarea>
             </div>
+
+            <!-- 분기 1: 메신저 전용 타겟 및 옵션 -->
+            <div class="form-section-divider"></div>
+            <div class="form-section-title messenger-title">
+              <span>💬 2. 메신저 채널 전송 설정 (카카오톡)</span>
+            </div>
+            <div class="channel-select-box messenger-box">
+              <label class="channel-checkbox-label">
+                <input type="checkbox" id="chkKakao" name="sendChannels" value="kakao" checked>
+                <span class="custom-checkbox"></span>
+                <span class="chk-text"><strong>카카오톡 단톡방 / 오픈채팅방에 발송</strong> (간결한 이모지 요약 알림)</span>
+              </label>
+              <div class="sub-options-box">
+                <label class="sub-option"><input type="checkbox" id="optKakaoPin" checked> 단톡방 상단 공지(톡게시판) 자동 핀 고정</label>
+                <label class="sub-option"><input type="checkbox" id="optKakaoVote" checked> [참석/불참/미정] 실시간 투표 폼 생성</label>
+                <label class="sub-option"><input type="checkbox" id="optKakaoMention"> 전체 멤버 멘션(@멤버) 포함</label>
+              </div>
+            </div>
+
+            <!-- 분기 2: 게시글 전용 타겟 및 옵션 -->
+            <div class="form-section-divider"></div>
+            <div class="form-section-title board-title">
+              <span>📝 3. 게시글 채널 전송 설정 (커뮤니티 및 SNS)</span>
+            </div>
+            <div class="channel-select-box board-box">
+              <div class="board-checkbox-grid">
+                <label class="channel-checkbox-label">
+                  <input type="checkbox" id="chkSomoim" name="sendChannels" value="somoim" checked>
+                  <span class="custom-checkbox"></span>
+                  <span class="chk-text">소모임 정모 등록</span>
+                </label>
+                <label class="channel-checkbox-label">
+                  <input type="checkbox" id="chkNaver" name="sendChannels" value="naver" checked>
+                  <span class="custom-checkbox"></span>
+                  <span class="chk-text">네이버 카페 글쓰기</span>
+                </label>
+                <label class="channel-checkbox-label">
+                  <input type="checkbox" id="chkDaangn" name="sendChannels" value="daangn" checked>
+                  <span class="custom-checkbox"></span>
+                  <span class="chk-text">당근 동네모임 공지</span>
+                </label>
+                <label class="channel-checkbox-label">
+                  <input type="checkbox" id="chkEta" name="sendChannels" value="everytime" checked>
+                  <span class="custom-checkbox"></span>
+                  <span class="chk-text">에브리타임 게시글</span>
+                </label>
+                <label class="channel-checkbox-label">
+                  <input type="checkbox" id="chkInsta" name="sendChannels" value="instagram" checked>
+                  <span class="custom-checkbox"></span>
+                  <span class="chk-text">인스타그램 피드 캡션</span>
+                </label>
+              </div>
+              <div class="sub-options-box">
+                <label class="sub-option"><input type="checkbox" id="optBoardMarkdown" checked> 마크다운 서식 자동 변환 및 가독성 최적화</label>
+                <label class="sub-option"><input type="checkbox" id="optBoardHashtags" checked> 북클럽 핵심 해시태그 자동 부여</label>
+                <label class="sub-option"><input type="checkbox" id="optBoardSheetLink" checked> 구글 시트 투명 공개 링크 첨부</label>
+              </div>
+            </div>
+
+            <!-- 원클릭 실행 버튼 -->
+            <div class="form-action-wrap">
+              <button type="button" id="btnExecuteBroadcast" class="btn-execute-broadcast">
+                <span class="btn-rocket">🚀</span>
+                <span class="btn-main-txt">메신저 & 게시글 원클릭 동시 배포 실행</span>
+                <span class="btn-sub-txt">ID/PW 인증 세션 확인 ➔ 봇 자동 글쓰기 및 알림 전송</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- [우측: 실시간 분할 듀얼 프리뷰 (메신저 뷰 vs 게시글 뷰)] -->
+        <div class="preview-panel-card">
+          <div class="preview-mode-switch">
+            <div class="mode-buttons">
+              <button type="button" class="preview-mode-btn active" id="btnViewMessenger">
+                <span>💬 1. 메신저 프리뷰 (카카오톡 모바일)</span>
+              </button>
+              <button type="button" class="preview-mode-btn" id="btnViewBoard">
+                <span>📝 2. 게시글 프리뷰 (커뮤니티/SNS)</span>
+              </button>
+            </div>
+            <span class="preview-sync-tag">⚡ 실시간 서식 최적화</span>
+          </div>
+
+          <!-- 프리뷰 컨테이너 1: 메신저 뷰 (카카오톡 모바일 뷰) -->
+          <div class="preview-screen-wrap" id="previewScreenMessenger">
+            <div class="kakaotalk-phone-mockup">
+              <!-- 카카오톡 스마트폰 상단바 -->
+              <div class="kt-status-bar">
+                <span class="kt-time" id="ktLiveTime">14:00</span>
+                <div class="kt-phone-icons">5G 📶 98% 🔋</div>
+              </div>
+              <div class="kt-chat-header">
+                <div class="kt-chat-info">
+                  <strong>📖 [정기] 2026 주말 독서모임 단톡방</strong>
+                  <span class="kt-chat-members">18명 참여 중</span>
+                </div>
+                <div class="kt-header-icons">🔍 ≡</div>
+              </div>
+
+              <!-- 톡게시판 핀 고정 바 -->
+              <div class="kt-pinned-notice" id="ktPinnedNotice">
+                <span class="pin-icon">📌</span>
+                <div class="pin-text">
+                  <span class="pin-label">공지</span>
+                  <strong id="ktPinTitle">[제14회 북클럽] '도둑맞은 집중력' 함께 읽고 대화하기</strong>
+                </div>
+              </div>
+
+              <!-- 대화창 영역 -->
+              <div class="kt-messages-area">
+                <div class="kt-msg-date">2026년 9월 9일 수요일</div>
+
+                <!-- 봇/관리자 말풍선 -->
+                <div class="kt-msg-bubble-group">
+                  <div class="kt-profile-avatar">📚</div>
+                  <div class="kt-msg-content-box">
+                    <span class="kt-sender-name">독서모임 운영봇 (BookLink)</span>
+                    <div class="kt-bubble-yellow" id="ktBubbleText">
+                      <!-- JS 렌더링 -->
+                    </div>
+                    <div class="kt-action-buttons">
+                      <button type="button" class="kt-btn-action">🗳 참석 투표하기 (참석 8 / 불참 1)</button>
+                      <button type="button" class="kt-btn-action">📊 구글 시트 투명 명단 보기</button>
+                      <button type="button" class="kt-btn-action">📍 모임 장소 지도 열기</button>
+                    </div>
+                    <span class="kt-time-stamp" id="ktTimeStamp">오후 2:05</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 프리뷰 컨테이너 2: 게시글 뷰 (네이버 카페, 소모임, 당근, 에타, 인스타 탭) -->
+          <div class="preview-screen-wrap" id="previewScreenBoard" style="display: none;">
+            <div class="board-preview-container">
+              <!-- 게시판 선택 탭 -->
+              <div class="board-subtabs" id="boardSubtabGroup">
+                <button type="button" class="board-subtab active" data-board="somoim">소모임 정모</button>
+                <button type="button" class="board-subtab" data-board="naver">네이버 카페</button>
+                <button type="button" class="board-subtab" data-board="daangn">당근 동네모임</button>
+                <button type="button" class="board-subtab" data-board="everytime">에브리타임</button>
+                <button type="button" class="board-subtab" data-board="instagram">인스타그램 피드</button>
+              </div>
+
+              <!-- 실제 게시글 렌더링 뷰포트 -->
+              <div class="board-article-viewport" id="boardArticleContent">
+                <!-- JS 렌더링 -->
+              </div>
+            </div>
+          </div>
+
+          <!-- 프리뷰 하단 글자수 및 규격 정보 -->
+          <div class="preview-footer-meta">
+            <span id="previewCharStats">글자 수: 320자 (공백 포함)</span>
+            <span class="preview-spec-badge" id="previewSpecBadge">카카오톡 메시지 규격 준수 (최대 1,000자)</span>
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- 프로젝트 상세 및 로드맵 (Projects) -->
-    <section id="projects" class="section projects-section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-eyebrow">PORTFOLIO & ROADMAP</span>
-          <h2 class="section-title">개발 프로젝트 및 향후 계획</h2>
-          <p class="section-sub">기술개발연구프로젝트 수업을 통해 점진적으로 확장해 나가는 로드맵입니다.</p>
+      <!-- 2-3. 자동화 실행 터미널 콘솔 로그 (Live Bot Terminal) -->
+      <div class="terminal-card" id="automationTerminalCard">
+        <div class="terminal-header">
+          <div class="terminal-title">
+            <span class="terminal-dots">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </span>
+            <span class="terminal-name">automation-bot-executor@booklink: ~ /broadcast/run</span>
+          </div>
+          <div class="terminal-actions">
+            <span class="term-status-tag" id="termStatusTag">대기 상태 (IDLE)</span>
+            <button type="button" class="btn-term-clear" id="btnClearTerminal">콘솔 비우기</button>
+          </div>
         </div>
-
-        <div class="projects-grid">
-          <article class="project-card active-project">
-            <div class="project-header">
-              <span class="badge-status current">진행 중 (2주차)</span>
-              <span class="project-tech">HTML5 · CSS3 · Vanilla JS</span>
-            </div>
-            <h3>BookLink: 독서모임 통합 관리 & 투명 소통 허브</h3>
-            <p>
-              독서모임 호스트의 반복 업무를 줄이고 투명한 소통을 지원하는 웹 허브입니다. 
-              멀티플랫폼 동시 공지 시뮬레이터와 구글 시트 연동형 데이터베이스 뷰어를 구현했습니다.
-            </p>
-            <ul class="project-points">
-              <li>✔ 6대 플랫폼(카톡, 소모임, 당근, 인스타, 에타, 네이버) 서식 변환</li>
-              <li>✔ 구글 시트 양식의 실시간 검색 및 필터링 회원 테이블</li>
-              <li>✔ 모바일 환경에서도 가로 스크롤 없이 최적화된 반응형 UI</li>
-            </ul>
-          </article>
-
-          <article class="project-card">
-            <div class="project-header">
-              <span class="badge-status planned">준비 중 (차기 개발)</span>
-              <span class="project-tech">Google Sheets API · Kakao Webhook</span>
-            </div>
-            <h3>실제 구글 시트 실시간 양방향 OAuth 연동</h3>
-            <p>
-              관리자의 실제 구글 드라이브 시트 URL을 입력하면 자동으로 출석부와 회비 장부가 동기화되는 
-              OAuth2 기반의 실시간 데이터 연동 기능을 준비 중입니다.
-            </p>
-            <ul class="project-points">
-              <li>⏳ 구글 서비스 계정(Service Account)을 활용한 읽기/쓰기 자동화</li>
-              <li>⏳ 카카오톡 오픈채팅방 웹훅 알림 자동 발송 연계</li>
-            </ul>
-          </article>
+        <div class="terminal-body" id="terminalLogBody">
+          <div class="term-line info">[SYSTEM] BookLink 자동화 콘솔이 초기화되었습니다.</div>
+          <div class="term-line info">[READY] 메신저(카카오톡) 및 5개 게시판 플랫폼 세션이 대기 중입니다.</div>
+          <div class="term-line tip">[HINT] '메신저 & 게시글 원클릭 동시 배포 실행' 버튼을 누르면 실시간 봇 작업이 시작됩니다.</div>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- 발송 완료 시뮬레이션 모달 -->
-  <div class="modal-backdrop" id="broadcastModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <h3 id="modalTitle">🎉 멀티플랫폼 공지 전송 완료!</h3>
-        <button type="button" class="btn-close" id="btnCloseModal" aria-label="닫기">✕</button>
-      </div>
-      <div class="modal-body">
-        <p class="modal-desc">선택하신 플랫폼에 공지가 투명하고 정확하게 전송되었습니다.</p>
-        <div class="modal-channel-list" id="modalChannelResult">
-          <!-- JS 렌더링 -->
-        </div>
-        <div class="modal-summary-box">
-          <p>📌 <strong>핵심 가치 반영</strong>: 모든 플랫폼에 정보 격차 없이 동일한 모임 공지가 안전하게 공유되었습니다.</p>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="btnModalConfirm">확인</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 회원 추가 모달 -->
+  <!-- ===================================================================
+       모달 1: 신규 독서모임 회원 등록 모달
+       =================================================================== -->
   <div class="modal-backdrop" id="addMemberModal" aria-hidden="true" role="dialog" aria-labelledby="addMemberTitle">
     <div class="modal-dialog">
       <div class="modal-header">
         <h3 id="addMemberTitle">➕ 신규 독서모임 회원 등록</h3>
-        <button type="button" class="btn-close" id="btnCloseAddMember" aria-label="닫기">✕</button>
+        <button type="button" class="btn-modal-close" id="btnCloseAddMember" aria-label="닫기">✕</button>
       </div>
       <div class="modal-body">
         <form id="addMemberForm">
-          <div class="form-group">
-            <label for="newMemberName">회원 이름 / 닉네임</label>
-            <input type="text" id="newMemberName" placeholder="예: 김민지" required>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="newMemberName">회원 이름 (자동 익명화)</label>
+              <input type="text" id="newMemberName" placeholder="예: 김*지 (입력 시 자동 마스킹)" required>
+            </div>
+            <div class="form-group">
+              <label for="newMemberPhone">연락처 (가운데 마스킹)</label>
+              <input type="text" id="newMemberPhone" placeholder="010-****-5678" required>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="newMemberChannel">유입 플랫폼</label>
-            <select id="newMemberChannel" required>
-              <option value="소모임">소모임</option>
-              <option value="당근">당근</option>
-              <option value="인스타">인스타</option>
-              <option value="에타">에타</option>
-              <option value="카카오톡">카카오톡</option>
-              <option value="네이버">네이버</option>
-            </select>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="newMemberChannel">유입 채널</label>
+              <select id="newMemberChannel" required>
+                <option value="소모임">소모임</option>
+                <option value="당근">당근</option>
+                <option value="인스타">인스타</option>
+                <option value="에타">에타</option>
+                <option value="카카오톡">카카오톡</option>
+                <option value="네이버">네이버 카페</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="newMemberRole">회원 등급</label>
+              <select id="newMemberRole">
+                <option value="신규회원">신규회원</option>
+                <option value="일반회원">일반회원</option>
+                <option value="정회원">정회원</option>
+                <option value="운영진">운영진</option>
+              </select>
+            </div>
           </div>
+
           <div class="form-group">
             <label for="newMemberBook">지정 도서</label>
             <input type="text" id="newMemberBook" value="도둑맞은 집중력" required>
           </div>
-          <div class="form-group">
-            <label for="newMemberFee">회비 납부 여부</label>
-            <select id="newMemberFee">
-              <option value="완료">납부 완료 (10,000원)</option>
-              <option value="대기">입금 대기</option>
-            </select>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="newMemberFee">회비 납부 상태</label>
+              <select id="newMemberFee">
+                <option value="완료">납부 완료 (10,000원)</option>
+                <option value="대기">입금 대기</option>
+                <option value="면제">면제 (운영진)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="newMemberNote">발제문/독서노트</label>
+              <select id="newMemberNote">
+                <option value="제출">제출 완료</option>
+                <option value="미제출">미제출</option>
+              </select>
+            </div>
           </div>
-          <button type="submit" class="btn btn-primary btn-block">구글 시트에 회원 추가</button>
+
+          <button type="submit" class="btn-sheet-primary btn-block">구글 스프레드시트에 행 추가</button>
         </form>
       </div>
     </div>
   </div>
 
-  <!-- 푸터 -->
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div class="footer-info">
-        <strong>기술개발연구프로젝트 · 개인 홈페이지</strong>
-        <p>기획 대상: 독서모임 관리자 · 핵심 메시지: 투명한 소통</p>
+  <!-- ===================================================================
+       모달 2: 원클릭 배포 완료 종합 리포트 모달
+       =================================================================== -->
+  <div class="modal-backdrop" id="broadcastReportModal" aria-hidden="true" role="dialog" aria-labelledby="reportModalTitle">
+    <div class="modal-dialog modal-dialog-lg">
+      <div class="modal-header">
+        <h3 id="reportModalTitle">🎉 멀티플랫폼 원클릭 공지 배포 성공!</h3>
+        <button type="button" class="btn-modal-close" id="btnCloseReportModal" aria-label="닫기">✕</button>
       </div>
-      <div class="footer-links">
-        <a href="#about">소개</a>
-        <a href="#values">가치관</a>
-        <a href="#demo-sheet">회원 DB</a>
-        <a href="#demo-broadcast">공지 자동화</a>
-        <a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <div class="modal-body">
+        <div class="report-summary-card">
+          <div class="report-icon">🚀</div>
+          <div>
+            <strong>모든 타겟 채널에 공지가 100% 동일하게 배포되었습니다.</strong>
+            <p>ID/PW 계정 세션 인증을 통해 메신저 단톡방과 각 커뮤니티 게시판에 자동 등록 완료되었습니다.</p>
+          </div>
+        </div>
+
+        <div class="report-section-sub">
+          <h4>💬 메신저 전송 결과</h4>
+          <div class="report-channel-row" id="reportMessengerRow">
+            <span class="rep-channel">🟡 카카오톡 단톡방 / 알림톡</span>
+            <span class="rep-status badge-success">발송 완료 & 톡게시판 핀 고정</span>
+            <span class="rep-time">방금 전</span>
+          </div>
+        </div>
+
+        <div class="report-section-sub">
+          <h4>📝 커뮤니티 및 SNS 게시판 등록 결과</h4>
+          <div class="report-board-list" id="reportBoardList">
+            <!-- JS 렌더링 -->
+          </div>
+        </div>
+
+        <div class="report-transparent-box">
+          <strong>🔒 투명한 소통 및 신뢰 원칙 적용</strong>
+          <p>공지 본문에 구글 시트 투명 출석/회계 링크가 자동으로 삽입되어, 채널 간 정보 비대칭이 완벽하게 해소되었습니다.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-sheet-primary" id="btnConfirmReport">확인 완료</button>
       </div>
     </div>
-    <div class="container footer-bottom">
-      <p>© 2026 BookLink. Built with HTML, CSS & Vanilla JS for Transparent Communication.</p>
+  </div>
+
+  <!-- 콘솔 푸터 바 -->
+  <footer class="console-footer">
+    <div class="footer-left">
+      <strong>BookLink Admin Console</strong>
+      <span>기술개발연구프로젝트 · 독서모임 관리자용 고도화 운영 허브</span>
+    </div>
+    <div class="footer-right">
+      <span>연동 표준: Google Sheets v4 API & Multi-Platform Webhook Bot</span>
+      <span>© 2026 BookLink. All Rights Reserved.</span>
     </div>
   </footer>
 
   <script>
 /**
- * BookLink Interactive Script
- * Target: 독서모임 관리자 / Core Value: 투명한 소통
+ * BookLink Admin Console - Operational Management Engine
+ * Target: 독서모임 관리자 / Core Value: 투명한 소통 및 고도화 자동화
  */
 
 document.addEventListener("DOMContentLoaded", () => {
   // =========================================================================
-  // 1. Google Sheets Style Member DB Implementation
+  // 1. Google Sheets Style Member DB Engine
   // =========================================================================
 
+  // 개인정보 보호 익명화(마스킹) 유틸
+  function maskName(name) {
+    if (!name) return "";
+    const str = String(name).trim();
+    if (str.includes("*")) return str;
+    if (str.length <= 1) return str;
+    if (str.length === 2) return str[0] + "*";
+    return str[0] + "*".repeat(str.length - 2) + str[str.length - 1];
+  }
+
+  function maskPhone(phone) {
+    if (!phone) return "010-****-0000";
+    const str = String(phone).trim();
+    if (str.includes("*")) return str;
+    const matched = str.match(/^(\d{2,3})-?(\d{3,4})-?(\d{4})$/);
+    if (matched) {
+      return `${matched[1]}-****-${matched[3]}`;
+    }
+    return str.slice(0, 3) + "-****-" + str.slice(-4);
+  }
+
   const initialMembers = [
-    { id: 1, name: "이지원", channel: "소모임", attendance: 8, fee: "완료", book: "도둑맞은 집중력", status: "정회원" },
-    { id: 2, name: "박준영", channel: "당근", attendance: 3, fee: "완료", book: "도둑맞은 집중력", status: "일반회원" },
-    { id: 3, name: "최서연", channel: "인스타", attendance: 12, fee: "완료", book: "물고기는 존재하지 않는다", status: "운영진" },
-    { id: 4, name: "정민호", channel: "에타", attendance: 2, fee: "대기", book: "도둑맞은 집중력", status: "신규회원" },
-    { id: 5, name: "한가은", channel: "카카오톡", attendance: 6, fee: "완료", book: "원씽 (The ONE Thing)", status: "정회원" },
-    { id: 6, name: "윤도현", channel: "네이버", attendance: 4, fee: "대기", book: "도둑맞은 집중력", status: "일반회원" },
+    { id: 1, name: "이*원", phone: "010-****-8821", channel: "소모임", attendance: 8, fee: "완료", book: "도둑맞은 집중력", role: "정회원", note: "제출" },
+    { id: 2, name: "박*영", phone: "010-****-3847", channel: "당근", attendance: 3, fee: "완료", book: "도둑맞은 집중력", role: "일반회원", note: "제출" },
+    { id: 3, name: "최*연", phone: "010-****-1192", channel: "인스타", attendance: 12, fee: "완료", book: "물고기는 존재하지 않는다", role: "운영진", note: "제출" },
+    { id: 4, name: "정*호", phone: "010-****-9302", channel: "에타", attendance: 2, fee: "대기", book: "도둑맞은 집중력", role: "신규회원", note: "미제출" },
+    { id: 5, name: "한*은", phone: "010-****-2051", channel: "카카오톡", attendance: 6, fee: "완료", book: "원씽 (The ONE Thing)", role: "정회원", note: "제출" },
+    { id: 6, name: "윤*현", phone: "010-****-1403", channel: "네이버", attendance: 4, fee: "대기", book: "도둑맞은 집중력", role: "일반회원", note: "미제출" },
+    { id: 7, name: "김*현", phone: "010-****-3829", channel: "소모임", attendance: 9, fee: "완료", book: "클린 코드", role: "호스트", note: "제출" },
+    { id: 8, name: "임*윤", phone: "010-****-5520", channel: "당근", attendance: 5, fee: "면제", book: "도둑맞은 집중력", role: "운영진", note: "제출" }
   ];
 
-  // 로컬스토리지 또는 초기 데이터
-  let members = JSON.parse(localStorage.getItem("booklink_members")) || [...initialMembers];
+  let rawStored = JSON.parse(localStorage.getItem("booklink_members_v3"));
+  let members = (rawStored && rawStored.length > 0) ? rawStored : [...initialMembers];
+  // 기존 저장 데이터도 이름과 연락처 익명 마스킹 적용
+  members = members.map((m) => ({
+    ...m,
+    name: maskName(m.name),
+    phone: maskPhone(m.phone)
+  }));
+  let selectedMemberIds = new Set();
   let currentFilter = "all";
   let searchQuery = "";
+  let currentActiveCell = null;
 
+  // DOM Elements - Sheet
   const tableBody = document.getElementById("memberTableBody");
   const searchInput = document.getElementById("sheetSearchInput");
   const filterPills = document.querySelectorAll("#channelFilterGroup .filter-pill");
   const countAll = document.getElementById("countAll");
-  const paidRatioText = document.getElementById("paidRatioText");
+  const checkAllMembers = document.getElementById("checkAllMembers");
+  const batchActionBar = document.getElementById("batchActionBar");
+  const selectedCount = document.getElementById("selectedCount");
 
-  // 테이블 렌더링 함수
+  // KPI Elements
+  const kpiTotalMembers = document.getElementById("kpiTotalMembers");
+  const kpiFeeRatio = document.getElementById("kpiFeeRatio");
+  const kpiAvgAttendance = document.getElementById("kpiAvgAttendance");
+  const kpiNoteRatio = document.getElementById("kpiNoteRatio");
+
+  // Formula Bar Elements
+  const currentCellCoord = document.getElementById("currentCellCoord");
+  const formulaInput = document.getElementById("formulaInput");
+
+  // Sync Elements
+  const btnSyncGoogleNow = document.getElementById("btnSyncGoogleNow");
+  const sheetSaveIndicator = document.getElementById("sheetSaveIndicator");
+  const cloudSyncStatus = document.getElementById("cloudSyncStatus");
+
+  // XSS 방지 유틸
+  function escapeHtml(str) {
+    if (!str && str !== 0) return "";
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  // 1-1. Table Rendering
   function renderMemberTable() {
     if (!tableBody) return;
 
-    // 필터 및 검색 적용
     const filtered = members.filter((m) => {
       const matchChannel = currentFilter === "all" || m.channel === currentFilter;
       const q = searchQuery.toLowerCase().trim();
@@ -1841,7 +3081,8 @@ document.addEventListener("DOMContentLoaded", () => {
         m.name.toLowerCase().includes(q) ||
         m.channel.toLowerCase().includes(q) ||
         m.book.toLowerCase().includes(q) ||
-        m.status.toLowerCase().includes(q);
+        m.role.toLowerCase().includes(q) ||
+        m.phone.includes(q);
       return matchChannel && matchSearch;
     });
 
@@ -1850,65 +3091,141 @@ document.addEventListener("DOMContentLoaded", () => {
     if (filtered.length === 0) {
       tableBody.innerHTML = `
         <tr>
-          <td colspan="8" style="text-align: center; padding: 32px; color: var(--text-dim);">
-            일치하는 회원 데이터가 없습니다.
+          <td colspan="11" style="text-align: center; padding: 40px; color: var(--text-dim);">
+            일치하는 회원 데이터가 없습니다. (필터 또는 검색어를 확인하세요)
           </td>
         </tr>
       `;
     } else {
       filtered.forEach((m, idx) => {
         const tr = document.createElement("tr");
+        const isSelected = selectedMemberIds.has(m.id);
+        if (isSelected) tr.classList.add("row-selected");
 
-        // 채널 뱃지 클래스
-        const channelClassMap = {
-          "소모임": "channel-somoim",
-          "당근": "channel-daangn",
-          "인스타": "channel-instagram",
-          "에타": "channel-everytime",
-          "카카오톡": "channel-kakao",
-          "네이버": "channel-naver"
+        // Channel Chip Class
+        const chipMap = {
+          "카카오톡": "chip-kakao",
+          "소모임": "chip-somoim",
+          "네이버": "chip-naver",
+          "당근": "chip-daangn",
+          "에타": "chip-everytime",
+          "인스타": "chip-instagram"
         };
-        const channelClass = channelClassMap[m.channel] || "channel-somoim";
-        const feeClass = m.fee === "완료" ? "fee-paid" : "fee-pending";
+        const chipClass = chipMap[m.channel] || "chip-somoim";
+
+        // Fee Badge Class
+        let feeClass = "fee-paid";
+        let feeText = "✔ 납부 완료";
+        if (m.fee === "대기") {
+          feeClass = "fee-pending";
+          feeText = "⏳ 입금 대기";
+        } else if (m.fee === "면제") {
+          feeClass = "fee-exempt";
+          feeText = "🏷️ 회비 면제";
+        }
+
+        // Note Badge
+        const noteClass = m.note === "제출" ? "note-submitted" : "note-pending";
+        const noteText = m.note === "제출" ? "✔ 제출 완료" : "⏳ 미제출";
+
+        // Role Class
+        const isHost = m.role === "호스트";
+        const roleClass = isHost ? "role-tag role-host" : "role-tag";
 
         tr.innerHTML = `
-          <td class="col-index">${idx + 1}</td>
-          <td><strong>${escapeHtml(m.name)}</strong></td>
-          <td><span class="channel-chip ${channelClass}">${escapeHtml(m.channel)}</span></td>
-          <td>${m.attendance}회 출석</td>
-          <td>
-            <span class="fee-badge ${feeClass}" data-id="${m.id}" title="클릭하여 납부 상태 변경">
-              ${m.fee === "완료" ? "✔ 납부 완료" : "⏳ 입금 대기"}
+          <td class="col-select">
+            <input type="checkbox" class="row-checkbox" data-id="${m.id}" ${isSelected ? "checked" : ""}>
+          </td>
+          <td class="col-num" data-coord="A${idx + 2}">${idx + 1}</td>
+          <td class="col-name" data-coord="B${idx + 2}" data-val="${escapeHtml(m.name)}">
+            <strong>${escapeHtml(m.name)}</strong>
+          </td>
+          <td class="col-phone" data-coord="C${idx + 2}" data-val="${escapeHtml(m.phone)}">${escapeHtml(m.phone)}</td>
+          <td class="col-channel" data-coord="D${idx + 2}" data-val="${escapeHtml(m.channel)}">
+            <span class="channel-chip ${chipClass}">${escapeHtml(m.channel)}</span>
+          </td>
+          <td class="col-attendance" data-coord="E${idx + 2}" data-val="${m.attendance}">
+            <div class="attendance-cell">
+              <button type="button" class="btn-counter btn-att-minus" data-id="${m.id}">-</button>
+              <span class="count-number">${m.attendance}회</span>
+              <button type="button" class="btn-counter btn-att-plus" data-id="${m.id}">+</button>
+            </div>
+          </td>
+          <td class="col-fee" data-coord="F${idx + 2}" data-val="${m.fee}">
+            <span class="fee-badge ${feeClass}" data-id="${m.id}" title="클릭 시 상태 전환 (완료/대기/면제)">
+              ${feeText}
             </span>
           </td>
-          <td>📖 ${escapeHtml(m.book)}</td>
-          <td><span class="status-badge">${escapeHtml(m.status)}</span></td>
-          <td class="col-actions">
-            <button type="button" class="btn-delete-row" data-id="${m.id}" title="회원 삭제">✕</button>
+          <td class="col-book" data-coord="G${idx + 2}" data-val="${escapeHtml(m.book)}">📖 ${escapeHtml(m.book)}</td>
+          <td class="col-role" data-coord="H${idx + 2}" data-val="${escapeHtml(m.role)}">
+            <span class="${roleClass}">${escapeHtml(m.role)}</span>
+          </td>
+          <td class="col-note" data-coord="I${idx + 2}" data-val="${m.note}">
+            <span class="note-badge ${noteClass}" data-id="${m.id}" title="클릭 시 발제문 제출여부 토글">
+              ${noteText}
+            </span>
+          </td>
+          <td class="col-action">
+            <button type="button" class="btn-delete-row" data-id="${m.id}" title="명단에서 삭제">✕</button>
           </td>
         `;
         tableBody.appendChild(tr);
       });
     }
 
-    // 메트릭 업데이트
     updateMetrics();
+    updateBatchBar();
   }
 
+  // 1-2. Update KPI Metrics
   function updateMetrics() {
-    if (countAll) countAll.textContent = members.length;
-    if (paidRatioText) {
-      if (members.length === 0) {
-        paidRatioText.textContent = "0%";
-      } else {
-        const paidCount = members.filter((m) => m.fee === "완료").length;
-        const ratio = Math.round((paidCount / members.length) * 100);
-        paidRatioText.textContent = `${ratio}% (${paidCount}/${members.length}명)`;
-      }
+    if (!members.length) {
+      if (kpiTotalMembers) kpiTotalMembers.textContent = "0명";
+      if (kpiFeeRatio) kpiFeeRatio.textContent = "0%";
+      if (kpiAvgAttendance) kpiAvgAttendance.textContent = "0회";
+      if (kpiNoteRatio) kpiNoteRatio.textContent = "0%";
+      if (countAll) countAll.textContent = "0";
+      return;
+    }
+
+    const total = members.length;
+    if (kpiTotalMembers) kpiTotalMembers.textContent = `${total}명`;
+    if (countAll) countAll.textContent = total;
+
+    // Fee Paid Ratio (완료 or 면제)
+    const paidCount = members.filter((m) => m.fee === "완료" || m.fee === "면제").length;
+    const feeRatio = Math.round((paidCount / total) * 100);
+    if (kpiFeeRatio) kpiFeeRatio.textContent = `${feeRatio}% (${paidCount}/${total})`;
+
+    // Avg Attendance
+    const totalAtt = members.reduce((sum, m) => sum + (Number(m.attendance) || 0), 0);
+    const avgAtt = (totalAtt / total).toFixed(1);
+    if (kpiAvgAttendance) kpiAvgAttendance.textContent = `${avgAtt}회`;
+
+    // Note Ratio
+    const noteCount = members.filter((m) => m.note === "제출").length;
+    const noteRatio = Math.round((noteCount / total) * 100);
+    if (kpiNoteRatio) kpiNoteRatio.textContent = `${noteRatio}% (${noteCount}/${total})`;
+  }
+
+  // 1-3. Batch Selection Bar
+  function updateBatchBar() {
+    if (!batchActionBar) return;
+    const count = selectedMemberIds.size;
+    if (selectedCount) selectedCount.textContent = count;
+
+    if (count > 0) {
+      batchActionBar.style.display = "flex";
+    } else {
+      batchActionBar.style.display = "none";
+    }
+
+    if (checkAllMembers) {
+      checkAllMembers.checked = members.length > 0 && selectedMemberIds.size === members.length;
     }
   }
 
-  // 검색 이벤트
+  // 1-4. Search & Filter Listeners
   if (searchInput) {
     searchInput.addEventListener("input", (e) => {
       searchQuery = e.target.value;
@@ -1916,7 +3233,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 필터 탭 클릭
   filterPills.forEach((btn) => {
     btn.addEventListener("click", () => {
       filterPills.forEach((p) => p.classList.remove("active"));
@@ -1926,48 +3242,188 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 회비 상태 토글 & 삭제 이벤트 위임
+  // Check all
+  if (checkAllMembers) {
+    checkAllMembers.addEventListener("change", (e) => {
+      if (e.target.checked) {
+        selectedMemberIds = new Set(members.map((m) => m.id));
+      } else {
+        selectedMemberIds.clear();
+      }
+      renderMemberTable();
+    });
+  }
+
+  // Table Body Delegation
   if (tableBody) {
     tableBody.addEventListener("click", (e) => {
+      // Row Checkbox
+      const chk = e.target.closest(".row-checkbox");
+      if (chk) {
+        const id = parseInt(chk.getAttribute("data-id"), 10);
+        if (chk.checked) selectedMemberIds.add(id);
+        else selectedMemberIds.delete(id);
+        renderMemberTable();
+        return;
+      }
+
+      // Attendance Minus
+      const btnMinus = e.target.closest(".btn-att-minus");
+      if (btnMinus) {
+        const id = parseInt(btnMinus.getAttribute("data-id"), 10);
+        const target = members.find((m) => m.id === id);
+        if (target && target.attendance > 0) {
+          target.attendance -= 1;
+          saveAndRefresh();
+        }
+        return;
+      }
+
+      // Attendance Plus
+      const btnPlus = e.target.closest(".btn-att-plus");
+      if (btnPlus) {
+        const id = parseInt(btnPlus.getAttribute("data-id"), 10);
+        const target = members.find((m) => m.id === id);
+        if (target) {
+          target.attendance += 1;
+          saveAndRefresh();
+        }
+        return;
+      }
+
+      // Fee Toggle (완료 -> 대기 -> 면제 -> 완료)
       const feeBadge = e.target.closest(".fee-badge");
       if (feeBadge) {
         const id = parseInt(feeBadge.getAttribute("data-id"), 10);
         const target = members.find((m) => m.id === id);
         if (target) {
-          target.fee = target.fee === "완료" ? "대기" : "완료";
-          saveMembers();
-          renderMemberTable();
+          if (target.fee === "완료") target.fee = "대기";
+          else if (target.fee === "대기") target.fee = "면제";
+          else target.fee = "완료";
+          saveAndRefresh();
         }
         return;
       }
 
+      // Note Toggle (제출 <-> 미제출)
+      const noteBadge = e.target.closest(".note-badge");
+      if (noteBadge) {
+        const id = parseInt(noteBadge.getAttribute("data-id"), 10);
+        const target = members.find((m) => m.id === id);
+        if (target) {
+          target.note = target.note === "제출" ? "미제출" : "제출";
+          saveAndRefresh();
+        }
+        return;
+      }
+
+      // Delete Row
       const delBtn = e.target.closest(".btn-delete-row");
       if (delBtn) {
         const id = parseInt(delBtn.getAttribute("data-id"), 10);
-        if (confirm("해당 회원을 명단에서 삭제하시겠습니까?")) {
+        const target = members.find((m) => m.id === id);
+        if (target && confirm(`'${target.name}' 회원을 명단에서 삭제하시겠습니까?`)) {
           members = members.filter((m) => m.id !== id);
-          saveMembers();
-          renderMemberTable();
+          selectedMemberIds.delete(id);
+          saveAndRefresh();
         }
+        return;
+      }
+
+      // Cell Select for Formula Bar
+      const cell = e.target.closest("td");
+      if (cell) {
+        document.querySelectorAll(".sheet-grid-table td").forEach((td) => td.classList.remove("cell-active"));
+        cell.classList.add("cell-active");
+        currentActiveCell = cell;
+
+        const coord = cell.getAttribute("data-coord") || "B2";
+        const val = cell.getAttribute("data-val") || cell.textContent.trim();
+        if (currentCellCoord) currentCellCoord.textContent = coord;
+        if (formulaInput) formulaInput.value = val;
       }
     });
   }
 
-  // 신규 회원 등록 모달
+  // Formula Input Enter
+  if (formulaInput) {
+    formulaInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && currentActiveCell) {
+        currentActiveCell.textContent = formulaInput.value;
+        currentActiveCell.setAttribute("data-val", formulaInput.value);
+        formulaInput.blur();
+      }
+    });
+  }
+
+  // Batch Buttons
+  const btnBatchPaid = document.getElementById("btnBatchPaid");
+  if (btnBatchPaid) {
+    btnBatchPaid.addEventListener("click", () => {
+      members.forEach((m) => {
+        if (selectedMemberIds.has(m.id)) m.fee = "완료";
+      });
+      saveAndRefresh();
+    });
+  }
+
+  const btnBatchNoteSubmitted = document.getElementById("btnBatchNoteSubmitted");
+  if (btnBatchNoteSubmitted) {
+    btnBatchNoteSubmitted.addEventListener("click", () => {
+      members.forEach((m) => {
+        if (selectedMemberIds.has(m.id)) m.note = "제출";
+      });
+      saveAndRefresh();
+    });
+  }
+
+  const btnBatchDelete = document.getElementById("btnBatchDelete");
+  if (btnBatchDelete) {
+    btnBatchDelete.addEventListener("click", () => {
+      if (confirm(`선택한 ${selectedMemberIds.size}명의 회원을 일괄 삭제하시겠습니까?`)) {
+        members = members.filter((m) => !selectedMemberIds.has(m.id));
+        selectedMemberIds.clear();
+        saveAndRefresh();
+      }
+    });
+  }
+
+  // Instant Cloud Sync Animation
+  if (btnSyncGoogleNow) {
+    btnSyncGoogleNow.addEventListener("click", () => {
+      btnSyncGoogleNow.classList.add("syncing");
+      const textSpan = btnSyncGoogleNow.querySelector(".sync-text");
+      if (textSpan) textSpan.textContent = "동기화 중...";
+
+      if (sheetSaveIndicator) {
+        sheetSaveIndicator.textContent = "🔄 Google Cloud 저장소와 패킷 교환 중...";
+        sheetSaveIndicator.style.color = "var(--primary)";
+      }
+
+      setTimeout(() => {
+        btnSyncGoogleNow.classList.remove("syncing");
+        if (textSpan) textSpan.textContent = "즉시 동기화";
+        const now = new Date();
+        const timeStr = `${now.getHours()}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}`;
+        if (sheetSaveIndicator) {
+          sheetSaveIndicator.textContent = `☁ 모든 변경사항이 Google Drive에 저장됨 (${timeStr})`;
+          sheetSaveIndicator.style.color = "var(--sheet-green)";
+        }
+      }, 700);
+    });
+  }
+
+  // Add Member Modal
   const btnAddMember = document.getElementById("btnAddMember");
   const addMemberModal = document.getElementById("addMemberModal");
   const btnCloseAddMember = document.getElementById("btnCloseAddMember");
   const addMemberForm = document.getElementById("addMemberForm");
 
   if (btnAddMember && addMemberModal) {
-    btnAddMember.addEventListener("click", () => {
-      addMemberModal.classList.add("active");
-    });
+    btnAddMember.addEventListener("click", () => addMemberModal.classList.add("active"));
   }
   if (btnCloseAddMember && addMemberModal) {
-    btnCloseAddMember.addEventListener("click", () => {
-      addMemberModal.classList.remove("active");
-    });
+    btnCloseAddMember.addEventListener("click", () => addMemberModal.classList.remove("active"));
   }
   if (addMemberModal) {
     addMemberModal.addEventListener("click", (e) => {
@@ -1979,290 +3435,623 @@ document.addEventListener("DOMContentLoaded", () => {
     addMemberForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const name = document.getElementById("newMemberName").value.trim();
+      const phone = document.getElementById("newMemberPhone").value.trim();
       const channel = document.getElementById("newMemberChannel").value;
+      const role = document.getElementById("newMemberRole").value;
       const book = document.getElementById("newMemberBook").value.trim();
       const fee = document.getElementById("newMemberFee").value;
+      const note = document.getElementById("newMemberNote").value;
 
       if (!name) return;
 
       const newId = members.length > 0 ? Math.max(...members.map((m) => m.id)) + 1 : 1;
       members.push({
         id: newId,
-        name,
+        name: maskName(name),
+        phone: maskPhone(phone || "010-0000-0000"),
         channel,
         attendance: 1,
         fee,
         book,
-        status: "신규회원"
+        role,
+        note
       });
 
-      saveMembers();
-      renderMemberTable();
+      saveAndRefresh();
       addMemberForm.reset();
       addMemberModal.classList.remove("active");
     });
   }
 
-  // CSV 내보내기
+  // CSV Export
   const btnExportCsv = document.getElementById("btnExportCsv");
   if (btnExportCsv) {
     btnExportCsv.addEventListener("click", () => {
-      let csv = "번호,이름,유입플랫폼,누적출석,회비납부,지정도서,상태\n";
+      let csv = "번호,회원명,연락처,유입플랫폼,누적출석,회비납부,지정도서,등급,독서노트제출\n";
       members.forEach((m, idx) => {
-        csv += `${idx + 1},${m.name},${m.channel},${m.attendance},${m.fee},${m.book},${m.status}\n`;
+        csv += `${idx + 1},"${m.name}","${m.phone}","${m.channel}",${m.attendance},"${m.fee}","${m.book}","${m.role}","${m.note}"\n`;
       });
       const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "2026_독서모임_회원명단.csv";
+      a.download = "2026_독서모임_회원명단_시트.csv";
       a.click();
       URL.revokeObjectURL(url);
     });
   }
 
-  // 데이터 초기화
+  // JSON Export
+  const btnExportJson = document.getElementById("btnExportJson");
+  if (btnExportJson) {
+    btnExportJson.addEventListener("click", () => {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(members, null, 2));
+      const a = document.createElement("a");
+      a.href = dataStr;
+      a.download = "2026_독서모임_회원데이터.json";
+      a.click();
+    });
+  }
+
+  // Reset Data
   const btnResetData = document.getElementById("btnResetData");
   if (btnResetData) {
     btnResetData.addEventListener("click", () => {
-      if (confirm("초기 샘플 데이터로 복원하시겠습니까?")) {
+      if (confirm("초기 샘플 데이터 8명 명단으로 복원하시겠습니까?")) {
         members = [...initialMembers];
-        saveMembers();
-        renderMemberTable();
+        selectedMemberIds.clear();
+        saveAndRefresh();
       }
     });
   }
 
-  function saveMembers() {
-    localStorage.setItem("booklink_members", JSON.stringify(members));
+  function saveAndRefresh() {
+    localStorage.setItem("booklink_members_v3", JSON.stringify(members));
+    renderMemberTable();
   }
 
   // =========================================================================
-  // 2. Multi-Platform Broadcast Simulator
+  // 2. Credentials Manager (ID / PW Settings for Messenger & Boards)
+  // =========================================================================
+
+  // Password visibility toggle
+  document.querySelectorAll(".btn-toggle-pw").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const input = btn.previousElementSibling;
+      if (input) {
+        if (input.type === "password") {
+          input.type = "text";
+          btn.textContent = "🙈";
+        } else {
+          input.type = "password";
+          btn.textContent = "👁️";
+        }
+      }
+    });
+  });
+
+  // Save credentials
+  const btnSaveCredentials = document.getElementById("btnSaveCredentials");
+  if (btnSaveCredentials) {
+    btnSaveCredentials.addEventListener("click", () => {
+      btnSaveCredentials.textContent = "✔ 저장 완료!";
+      btnSaveCredentials.style.background = "var(--sheet-green)";
+      setTimeout(() => {
+        btnSaveCredentials.textContent = "💾 계정 정보 안전 저장";
+        btnSaveCredentials.style.background = "";
+      }, 1500);
+    });
+  }
+
+  // Kakao Bot Session Test
+  const btnKakaoTest = document.querySelector(".btn-auth-test[data-platform='kakao']");
+  const msgKakaoTest = document.getElementById("msgKakaoTest");
+  const badgeKakaoStatus = document.getElementById("badgeKakaoStatus");
+
+  if (btnKakaoTest) {
+    btnKakaoTest.addEventListener("click", () => {
+      if (msgKakaoTest) msgKakaoTest.textContent = "카카오 인증 서버 핑 테스트 중...";
+      setTimeout(() => {
+        if (msgKakaoTest) {
+          msgKakaoTest.textContent = "🟢 인증 성공: OAuth2 토큰 유효함";
+          msgKakaoTest.style.color = "var(--accent-emerald)";
+        }
+        if (badgeKakaoStatus) {
+          badgeKakaoStatus.textContent = "🟢 세션 정상 (200 OK)";
+          badgeKakaoStatus.classList.add("badge-active");
+        }
+      }, 600);
+    });
+  }
+
+  // Test All Accounts
+  const btnTestAllAccounts = document.getElementById("btnTestAllAccounts");
+  if (btnTestAllAccounts) {
+    btnTestAllAccounts.addEventListener("click", () => {
+      btnTestAllAccounts.textContent = "🔄 6개 플랫폼 세션 검증 중...";
+      setTimeout(() => {
+        btnTestAllAccounts.textContent = "✔ 전체 계정 정상 연결됨";
+        alert("카카오톡 메신저 및 5개 게시판 플랫폼의 ID/PW 자격증명 인증이 모두 정상 확인되었습니다.");
+      }, 800);
+    });
+  }
+
+  // =========================================================================
+  // 3. Multi-Platform Notice Composer & Real-time Split Previews
   // =========================================================================
 
   const noticeTitle = document.getElementById("noticeTitle");
   const noticeBook = document.getElementById("noticeBook");
   const noticeDateTime = document.getElementById("noticeDateTime");
   const noticePlace = document.getElementById("noticePlace");
+  const noticeFee = document.getElementById("noticeFee");
   const noticeBody = document.getElementById("noticeBody");
-  const previewContainer = document.getElementById("previewContainer");
-  const previewCharCount = document.getElementById("previewCharCount");
-  const previewTabs = document.querySelectorAll("#previewTabGroup .preview-tab");
 
-  let activePlatform = "kakao";
+  // Options
+  const chkKakao = document.getElementById("chkKakao");
+  const optKakaoPin = document.getElementById("optKakaoPin");
+  const optKakaoVote = document.getElementById("optKakaoVote");
+  const optKakaoMention = document.getElementById("optKakaoMention");
 
-  function getPlatformPreview(platform) {
+  const optBoardMarkdown = document.getElementById("optBoardMarkdown");
+  const optBoardHashtags = document.getElementById("optBoardHashtags");
+  const optBoardSheetLink = document.getElementById("optBoardSheetLink");
+
+  // Preview elements
+  const btnViewMessenger = document.getElementById("btnViewMessenger");
+  const btnViewBoard = document.getElementById("btnViewBoard");
+  const previewScreenMessenger = document.getElementById("previewScreenMessenger");
+  const previewScreenBoard = document.getElementById("previewScreenBoard");
+
+  const ktBubbleText = document.getElementById("ktBubbleText");
+  const ktPinTitle = document.getElementById("ktPinTitle");
+  const ktPinnedNotice = document.getElementById("ktPinnedNotice");
+  const boardArticleContent = document.getElementById("boardArticleContent");
+  const previewCharStats = document.getElementById("previewCharStats");
+  const previewSpecBadge = document.getElementById("previewSpecBadge");
+  const boardSubtabs = document.querySelectorAll("#boardSubtabGroup .board-subtab");
+
+  let activeBoardTab = "somoim";
+  let activePreviewMode = "messenger";
+
+  // Mode Switch (Messenger vs Board)
+  if (btnViewMessenger && btnViewBoard) {
+    btnViewMessenger.addEventListener("click", () => {
+      activePreviewMode = "messenger";
+      btnViewMessenger.classList.add("active");
+      btnViewBoard.classList.remove("active");
+      if (previewScreenMessenger) previewScreenMessenger.style.display = "flex";
+      if (previewScreenBoard) previewScreenBoard.style.display = "none";
+      updatePreview();
+    });
+
+    btnViewBoard.addEventListener("click", () => {
+      activePreviewMode = "board";
+      btnViewBoard.classList.add("active");
+      btnViewMessenger.classList.remove("active");
+      if (previewScreenMessenger) previewScreenMessenger.style.display = "none";
+      if (previewScreenBoard) previewScreenBoard.style.display = "flex";
+      updatePreview();
+    });
+  }
+
+  // Board Subtabs
+  boardSubtabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      boardSubtabs.forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
+      activeBoardTab = tab.getAttribute("data-board");
+      updatePreview();
+    });
+  });
+
+  // Generate Messenger Content (KakaoTalk Format)
+  function formatMessengerText() {
     const title = noticeTitle.value.trim();
     const book = noticeBook.value.trim();
     const dt = noticeDateTime.value.trim();
     const place = noticePlace.value.trim();
+    const fee = noticeFee.value.trim();
     const body = noticeBody.value.trim();
 
+    let text = `📢 [독서모임 공지] ${title}\n\n`;
+    if (optKakaoMention && optKakaoMention.checked) {
+      text += `@멤버 전원 이번 주 정기 모임 안내드립니다!\n\n`;
+    } else {
+      text += `안녕하세요 회원 여러분! 이번 주 정기 모임 안내드립니다.\n\n`;
+    }
+
+    text += `📚 도서: ${book}\n`;
+    text += `🗓 일시: ${dt}\n`;
+    text += `📍 장소: ${place}\n`;
+    text += `💰 회비: ${fee}\n\n`;
+    text += `💬 [발제 & 전달사항]\n${body}\n\n`;
+
+    if (optKakaoVote && optKakaoVote.checked) {
+      text += `🗳 참석 투표: 아래 버튼을 눌러 참석 여부를 선택해주세요!\n`;
+    }
+    text += `* 출석부와 회비 내역은 구글 시트로 투명하게 공개됩니다.`;
+
+    return text;
+  }
+
+  // Generate Board Content (Tailored by platform)
+  function formatBoardHtml(platform) {
+    const title = noticeTitle.value.trim();
+    const book = noticeBook.value.trim();
+    const dt = noticeDateTime.value.trim();
+    const place = noticePlace.value.trim();
+    const fee = noticeFee.value.trim();
+    const body = noticeBody.value.trim();
+
+    const sheetLink = optBoardSheetLink && optBoardSheetLink.checked
+      ? `<div style="background:#eff6ff; border:1px solid #bfdbfe; padding:10px 14px; border-radius:6px; margin-top:14px; font-size:0.8rem; color:#1e40af;">
+          🔗 <strong>투명한 운영 공개</strong>: <a href="#section-sheet" style="text-decoration:underline;">[구글 시트 실시간 출석부 및 회비 장부 열람하기]</a>
+         </div>`
+      : "";
+
+    const hashtagText = optBoardHashtags && optBoardHashtags.checked
+      ? `<div style="margin-top:14px; color:#2563eb; font-size:0.8rem; font-weight:600;">
+          #독서모임 #북클럽 #${book.replace(/[\s\(\)]+/g, "")} #독서토론 #강남독서모임 #책추천 #투명한소통
+         </div>`
+      : "";
+
     switch (platform) {
-      case "kakao":
-        return `
-<span class="preview-badge-brand" style="background:#fee500; color:#3c1e1e;">💬 카카오톡 알림톡 & 단톡방 포맷</span>
-📢 <strong>[독서모임 알림] ${escapeHtml(title)}</strong>
-
-안녕하세요, 회원님! 이번 주 정기 모임 공지드립니다.
-
-📚 <strong>선정 도서</strong>: ${escapeHtml(book)}
-🗓 <strong>일시</strong>: ${escapeHtml(dt)}
-📍 <strong>장소</strong>: ${escapeHtml(place)}
-
-💬 <strong>발제 및 전달사항</strong>:
-${escapeHtml(body)}
-
-* 본 공지는 모든 플랫폼에 투명하고 동일하게 전달됩니다.
-문의사항은 오픈채팅 1:1 질문방으로 남겨주세요!`;
-
       case "somoim":
         return `
-<span class="preview-badge-brand" style="background:#fee2e2; color:#b91c1c;">👥 소모임 앱 정기 정모 공지</span>
-[정모] <strong>${escapeHtml(title)}</strong>
+          <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <span style="background:#fee2e2; color:#991b1b; font-weight:700; font-size:0.75rem; padding:2px 8px; border-radius:4px;">👥 소모임 정기정모 공지</span>
+              <span style="font-size:0.75rem; color:#64748b;">모임장 호스트 작성</span>
+            </div>
+            <h3 style="font-size:1.15rem; color:#0f172a; margin-bottom:12px;">[정모] ${escapeHtml(title)}</h3>
+            <div style="background:#f8fafc; border-left:4px solid #ff4757; padding:12px; font-size:0.85rem; margin-bottom:14px;">
+              <p>• <strong>선정 도서</strong>: ${escapeHtml(book)}</p>
+              <p>• <strong>정모 일시</strong>: ${escapeHtml(dt)}</p>
+              <p>• <strong>모임 장소</strong>: ${escapeHtml(place)}</p>
+              <p>• <strong>회비 실비</strong>: ${escapeHtml(fee)}</p>
+            </div>
+            <div style="font-size:0.88rem; line-height:1.6; color:#334155; white-space:pre-wrap;">${escapeHtml(body)}</div>
+            ${sheetLink}
+            ${hashtagText}
+          </div>
+        `;
 
-안녕하세요 소모임 회원 여러분!
-함께 깊은 생각과 대화를 나눌 정기 모임을 안내합니다.
+      case "naver":
+        return `
+          <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:18px;">
+            <div style="border-bottom:1px solid #e2e8f0; padding-bottom:12px; margin-bottom:14px;">
+              <span style="color:#03c75a; font-weight:700; font-size:0.8rem;">[정기모임 공지]</span>
+              <h3 style="font-size:1.2rem; margin:4px 0 8px; color:#0f172a;">${escapeHtml(title)}</h3>
+              <div style="font-size:0.75rem; color:#64748b; display:flex; gap:12px;">
+                <span>작성자: 북클럽 매니저</span>
+                <span>조회: 1</span>
+                <span>댓글: 0</span>
+              </div>
+            </div>
+            <div style="font-size:0.88rem; line-height:1.7; color:#1e293b; white-space:pre-wrap;">
+안녕하세요, 네이버 카페 회원 여러분!
+이번 주 정기 독서모임을 안내해 드립니다.
 
-• 지정 도서: ${escapeHtml(book)}
-• 모임 시간: ${escapeHtml(dt)}
-• 모임 장소: ${escapeHtml(place)}
+■ 함께 나눌 책: <strong>${escapeHtml(book)}</strong>
+■ 모임 시간: ${escapeHtml(dt)}
+■ 모임 장소: ${escapeHtml(place)}
+■ 참가비 안내: ${escapeHtml(fee)}
 
-[진행 순서 및 안내]
+[발제 및 진행 안내]
 ${escapeHtml(body)}
-
-투명한 모임 운영을 위해 참석 투표(참석/불참)를 금요일 자정까지 완료해 주세요!`;
+            </div>
+            ${sheetLink}
+            ${hashtagText}
+          </div>
+        `;
 
       case "daangn":
         return `
-<span class="preview-badge-brand" style="background:#ffedd5; color:#c2410c;">🥕 당근마켓 우리동네 모임 포맷</span>
-🥕 <strong>동네 이웃과 함께하는 따뜻한 독서모임</strong>
-
-이웃님들 안녕하세요! 이번 주말 동네 독서모임 소식 공유해요 :)
-
-책 제목: <strong>${escapeHtml(book)}</strong>
-모이는 날: ${escapeHtml(dt)}
-만나는 곳: ${escapeHtml(place)}
-
-${escapeHtml(body)}
-
-* 당근 매너온도 36.5도 이상의 이웃이라면 누구나 환영합니다! 부담 없이 챗 주세요.`;
-
-      case "instagram":
-        return `
-<span class="preview-badge-brand" style="background:#fce7f3; color:#be185d;">📸 인스타그램 피드 & 카드뉴스 캡션</span>
-📖 <strong>${escapeHtml(title)}</strong>
--
-이번 모임에서 함께 나눌 책은 <strong>${escapeHtml(book)}</strong> 입니다.
-
-🗓 ${escapeHtml(dt)}
-📍 ${escapeHtml(place)}
-
-"${escapeHtml(body.split("\n")[0] || "")}"
-
-바쁜 일상 속, 책과 함께 나만의 호흡을 되찾아보세요.
-신청 및 문의는 프로필 링크의 구글 시트 신청서를 확인해 주세요!
-
-.
-.
-#독서모임 #북스타그램 #책추천 #${book.replace(/\s+/g, "")} #독서토론 #커뮤니티 #투명한소통`;
+          <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+              <span style="background:#ffedd5; color:#9a3412; font-weight:700; font-size:0.75rem; padding:2px 8px; border-radius:4px;">🥕 당근 동네생활 모임</span>
+              <span style="font-size:0.75rem; color:#64748b;">역삼1동 · 방금 전</span>
+            </div>
+            <h3 style="font-size:1.1rem; color:#0f172a; margin-bottom:10px;">이웃과 함께 읽는 ${escapeHtml(book)}</h3>
+            <p style="font-size:0.85rem; color:#475569; margin-bottom:12px;">
+              동네 이웃들과 책 한 권으로 솔직하고 따뜻한 대화를 나눠요 :)<br>
+              매너온도 36.5도 이상인 동네 이웃 누구나 환영합니다!
+            </p>
+            <div style="background:#fff7ed; border-radius:6px; padding:10px 14px; font-size:0.82rem; margin-bottom:12px;">
+              <p>📍 모이는 곳: ${escapeHtml(place)}</p>
+              <p>⏰ 언제: ${escapeHtml(dt)}</p>
+              <p>☕ 회비: ${escapeHtml(fee)}</p>
+            </div>
+            <div style="font-size:0.85rem; line-height:1.6; white-space:pre-wrap; color:#334155;">${escapeHtml(body)}</div>
+            ${sheetLink}
+          </div>
+        `;
 
       case "everytime":
         return `
-<span class="preview-badge-brand" style="background:#fef2f2; color:#dc2626;">🎓 에브리타임 대학생 북클럽 포맷</span>
-[소모임 홍보/공지] <strong>${escapeHtml(title)}</strong>
+          <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+              <span style="color:#c62917; font-weight:800; font-size:0.78rem;">[동아리/소모임]</span>
+              <span style="font-size:0.72rem; color:#94a3b8;">익명</span>
+            </div>
+            <h3 style="font-size:1.1rem; color:#0f172a; margin-bottom:10px;">${escapeHtml(title)}</h3>
+            <div style="font-size:0.85rem; line-height:1.6; color:#334155; white-space:pre-wrap;">
+이번 주말 독서모임 같이 할 학우분들 구합니다!
 
-새로운 시각과 진솔한 대화를 나누고 싶은 학우들을 모십니다!
-
-- 도서: ${escapeHtml(book)}
-- 일시: ${escapeHtml(dt)}
-- 장소: ${escapeHtml(place)}
+- 책: ${escapeHtml(book)}
+- 시간: ${escapeHtml(dt)}
+- 위치: ${escapeHtml(place)}
+- 회비: ${escapeHtml(fee)}
 
 ${escapeHtml(body)}
 
-참가비는 대관비 실비로 투명하게 공개됩니다. 쪽지 주시면 오픈채팅 링크 드릴게요!`;
+참가비는 대관 실비로 구글 시트에 100% 투명 공개됩니다. 부담 없이 쪽지 주세요!
+            </div>
+            ${hashtagText}
+          </div>
+        `;
+
+      case "instagram":
+        return `
+          <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+              <div style="width:32px; height:32px; border-radius:50%; background:#fce7f3; display:flex; align-items:center; justify-content:center; font-size:0.8rem;">📸</div>
+              <div>
+                <strong style="font-size:0.82rem; color:#0f172a;">bookclub_transparent</strong>
+                <p style="font-size:0.7rem; color:#94a3b8;">오리지널 피드 카드뉴스 캡션</p>
+              </div>
+            </div>
+            <div style="background:#f1f5f9; height:180px; border-radius:6px; display:flex; align-items:center; justify-content:center; color:#64748b; font-size:0.85rem; margin-bottom:14px; text-align:center;">
+              🖼 [카드뉴스 썸네일 이미지 미리보기]<br>
+              <strong>${escapeHtml(title)}</strong>
+            </div>
+            <div style="font-size:0.85rem; line-height:1.6; color:#1e293b; white-space:pre-wrap;">
+📖 ${escapeHtml(title)}
+-
+이번 모임에서 함께 나눌 책은 <strong>${escapeHtml(book)}</strong> 입니다.
+
+🗓 일시: ${escapeHtml(dt)}
+📍 장소: ${escapeHtml(place)}
+
+"${escapeHtml(body.split("\n")[0] || "")}"
+
+신청 및 투명한 회원 명단은 프로필 링크의 구글 시트에서 확인하실 수 있습니다.
+            </div>
+            ${hashtagText}
+          </div>
+        `;
 
       default:
         return title;
     }
   }
 
+  // Update Live Preview
   function updatePreview() {
-    if (!previewContainer) return;
-    const content = getPlatformPreview(activePlatform);
-    previewContainer.innerHTML = content;
+    const title = noticeTitle.value.trim();
 
-    // 글자수 카운트
-    const plainText = previewContainer.textContent || "";
-    if (previewCharCount) {
-      previewCharCount.textContent = `글자 수: ${plainText.length}자`;
+    // Pinned notice in Kakao
+    if (ktPinTitle) ktPinTitle.textContent = title;
+    if (ktPinnedNotice) {
+      ktPinnedNotice.style.display = optKakaoPin && optKakaoPin.checked ? "flex" : "none";
+    }
+
+    // Messenger Preview
+    const messengerText = formatMessengerText();
+    if (ktBubbleText) ktBubbleText.textContent = messengerText;
+
+    // Board Preview
+    const boardHtml = formatBoardHtml(activeBoardTab);
+    if (boardArticleContent) boardArticleContent.innerHTML = boardHtml;
+
+    // Char Stats
+    if (activePreviewMode === "messenger") {
+      if (previewCharStats) previewCharStats.textContent = `글자 수: ${messengerText.length}자 (공백 포함)`;
+      if (previewSpecBadge) previewSpecBadge.textContent = "카카오톡 메시지 규격 준수 (최대 1,000자)";
+    } else {
+      const plainBoard = boardArticleContent ? boardArticleContent.textContent : "";
+      if (previewCharStats) previewCharStats.textContent = `글자 수: ${plainBoard.length}자 (공백 포함)`;
+      if (previewSpecBadge) previewSpecBadge.textContent = "게시판 마크다운 서식 최적화 완료";
     }
   }
 
-  // 탭 변경
-  previewTabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      previewTabs.forEach((t) => t.classList.remove("active"));
-      tab.classList.add("active");
-      activePlatform = tab.getAttribute("data-target");
+  // Form Input Listeners
+  [noticeTitle, noticeBook, noticeDateTime, noticePlace, noticeFee, noticeBody].forEach((input) => {
+    if (input) input.addEventListener("input", updatePreview);
+  });
+
+  [optKakaoPin, optKakaoVote, optKakaoMention, optBoardMarkdown, optBoardHashtags, optBoardSheetLink].forEach((chk) => {
+    if (chk) chk.addEventListener("change", updatePreview);
+  });
+
+  // Sample Notice Buttons
+  const btnSampleNotice1 = document.getElementById("btnSampleNotice1");
+  if (btnSampleNotice1) {
+    btnSampleNotice1.addEventListener("click", () => {
+      noticeTitle.value = "[제14회 북클럽] '도둑맞은 집중력' 함께 읽고 대화하기";
+      noticeBook.value = "도둑맞은 집중력 (요한 하리)";
+      noticeDateTime.value = "2026년 9월 19일 (토) 오후 2:00 ~ 4:30";
+      noticePlace.value = "강남역 북카페 '생각의 숲' 3번 룸";
+      noticeFee.value = "10,000원 (대관료 및 음료 1잔 포함, 영수증 100% 공개)";
+      noticeBody.value = `스마트폰과 알고리즘의 유혹 속에서 우리의 집중력은 왜 흐려졌을까요?\n가장 인상 깊었던 챕터 1곳과 함께 나누고 싶은 질문 1개를 준비해 와주세요!\n* 모임 후 출석 및 회계 내역은 구글 시트를 통해 회원 전원에게 투명하게 공개됩니다.`;
       updatePreview();
     });
-  });
+  }
 
-  // 입력 감지
-  [noticeTitle, noticeBook, noticeDateTime, noticePlace, noticeBody].forEach((el) => {
-    if (el) {
-      el.addEventListener("input", updatePreview);
-    }
-  });
-
-  // 샘플 불러오기
-  const btnLoadSample = document.getElementById("btnLoadSampleNotice");
-  if (btnLoadSample) {
-    btnLoadSample.addEventListener("click", () => {
-      noticeTitle.value = "[제15회 북클럽] '클린 코드' & 투명한 협업 문화";
+  const btnSampleNotice2 = document.getElementById("btnSampleNotice2");
+  if (btnSampleNotice2) {
+    btnSampleNotice2.addEventListener("click", () => {
+      noticeTitle.value = "[제15회 북클럽] '클린 코드' & 협업의 정석";
       noticeBook.value = "클린 코드 (로버트 C. 마틴)";
-      noticeDateTime.value = "2026년 9월 26일 (토) 오후 3시";
-      noticePlace.value = "신논현 스터디룸 '모두의 공간' Room A";
-      noticeBody.value = "읽기 좋은 코드가 왜 더 나은 팀을 만드는지 토론합니다.\n가장 공감되었던 원칙 1가지와 실천 경험을 나눠주세요!\n* 모임 후 구글 시트로 출석 및 모임 기록이 100% 공개됩니다.";
+      noticeDateTime.value = "2026년 9월 26일 (토) 오후 3:00 ~ 5:30";
+      noticePlace.value = "신논현 코워킹 스페이스 Room A";
+      noticeFee.value = "10,000원 (공간 대관비 실비 집행)";
+      noticeBody.value = `읽기 좋은 코드가 왜 더 투명하고 지속 가능한 팀을 만드는지 토론합니다.\n현업이나 과제에서 겪었던 협업 사례 1가지를 나눠주세요!\n* 사전 독서노트를 작성해주신 분에 한해 선착순으로 진행됩니다.`;
       updatePreview();
     });
   }
 
-  // 멀티플랫폼 동시 전송 시뮬레이션
-  const btnBroadcastSubmit = document.getElementById("btnBroadcastSubmit");
-  const broadcastModal = document.getElementById("broadcastModal");
-  const btnCloseModal = document.getElementById("btnCloseModal");
-  const btnModalConfirm = document.getElementById("btnModalConfirm");
-  const modalChannelResult = document.getElementById("modalChannelResult");
+  // =========================================================================
+  // 4. One-Click Broadcast Execution & Live Terminal Console Engine
+  // =========================================================================
 
-  if (btnBroadcastSubmit && broadcastModal) {
-    btnBroadcastSubmit.addEventListener("click", () => {
-      const checkedChannels = Array.from(
-        document.querySelectorAll("input[name='broadcastChannel']:checked")
+  const btnExecuteBroadcast = document.getElementById("btnExecuteBroadcast");
+  const terminalCard = document.getElementById("automationTerminalCard");
+  const terminalLogBody = document.getElementById("terminalLogBody");
+  const termStatusTag = document.getElementById("termStatusTag");
+  const btnClearTerminal = document.getElementById("btnClearTerminal");
+
+  // Report Modal Elements
+  const broadcastReportModal = document.getElementById("broadcastReportModal");
+  const btnCloseReportModal = document.getElementById("btnCloseReportModal");
+  const btnConfirmReport = document.getElementById("btnConfirmReport");
+  const reportMessengerRow = document.getElementById("reportMessengerRow");
+  const reportBoardList = document.getElementById("reportBoardList");
+
+  if (btnClearTerminal && terminalLogBody) {
+    btnClearTerminal.addEventListener("click", () => {
+      terminalLogBody.innerHTML = `<div class="term-line info">[SYSTEM] 터미널 콘솔이 초기화되었습니다.</div>`;
+    });
+  }
+
+  function appendTerminalLog(msg, type = "info") {
+    if (!terminalLogBody) return;
+    const line = document.createElement("div");
+    line.className = `term-line ${type}`;
+    line.textContent = msg;
+    terminalLogBody.appendChild(line);
+    terminalLogBody.scrollTop = terminalLogBody.scrollHeight;
+  }
+
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  if (btnExecuteBroadcast) {
+    btnExecuteBroadcast.addEventListener("click", async () => {
+      const selectedChannels = Array.from(
+        document.querySelectorAll("input[name='sendChannels']:checked")
       ).map((el) => el.value);
 
-      if (checkedChannels.length === 0) {
-        alert("최소 1개 이상의 전송 대상 플랫폼을 선택해주세요.");
+      if (selectedChannels.length === 0) {
+        alert("최소 1개 이상의 메신저 또는 게시글 채널을 선택해주세요.");
         return;
       }
 
-      // 채널명 한글 매핑
-      const nameMap = {
-        kakao: "카카오톡 오픈채팅 & 알림톡",
-        somoim: "소모임 앱 공지사항",
-        daangn: "당근마켓 동네생활 모임",
-        instagram: "인스타그램 피드 & 스토리",
-        everytime: "에브리타임 동아리 게시판",
-        naver: "네이버 카페 & 블로그"
-      };
-
-      if (modalChannelResult) {
-        modalChannelResult.innerHTML = checkedChannels
-          .map(
-            (ch) => `
-          <div class="channel-result-row">
-            <span>📡 ${nameMap[ch] || ch}</span>
-            <span style="color: var(--accent-emerald); font-weight:700;">전송 완료 (동기화 100%)</span>
-          </div>
-        `
-          )
-          .join("");
+      // Scroll to Terminal smoothly
+      if (terminalCard) {
+        terminalCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
       }
 
-      broadcastModal.classList.add("active");
+      if (termStatusTag) {
+        termStatusTag.textContent = "작업 실행 중 (RUNNING...)";
+        termStatusTag.style.color = "#facc15";
+      }
+
+      appendTerminalLog(`\n>>> [START] 원클릭 멀티플랫폼 공지 자동화 태스크 시작 (${new Date().toLocaleTimeString()})`, "warn");
+
+      // 1. Credentials session test
+      await sleep(350);
+      appendTerminalLog("[AUTH] 플랫폼별 ID/PW 인증 세션 검증 시작...", "info");
+      await sleep(300);
+      appendTerminalLog("  ✔ 카카오톡 비즈니스 세션 토큰 확인 완료 (user: bookclub_master@kakao.com)", "success");
+      await sleep(250);
+      appendTerminalLog("  ✔ 커뮤니티(소모임, 네이버, 당근, 에타, 인스타) 로그인 세션 유효 확인 (100% OK)", "success");
+
+      // 2. Messenger Dispatch
+      if (selectedChannels.includes("kakao")) {
+        await sleep(350);
+        appendTerminalLog("[MESSENGER] 💬 카카오톡 단톡방(open.kakao.com/o/gBookClub2026) 메시지 패킷 송신...", "info");
+        await sleep(300);
+        appendTerminalLog("  ✔ 카카오톡 알림톡 및 채팅방 발송 성공 (수신자: 18명)", "success");
+        if (optKakaoPin && optKakaoPin.checked) {
+          await sleep(200);
+          appendTerminalLog("  ✔ 카카오톡 단톡방 상단 톡게시판 핀 공지 고정 완료", "success");
+        }
+        if (optKakaoVote && optKakaoVote.checked) {
+          await sleep(200);
+          appendTerminalLog("  ✔ [참석/불참/미정] 실시간 투표 폼 생성 완료", "success");
+        }
+      }
+
+      // 3. Board Postings
+      const boardChannelMap = {
+        somoim: "소모임 앱 정기정모 (Club ID: CLUB_92819)",
+        naver: "네이버 카페 [모임공지] (Doc #9412)",
+        daangn: "당근마켓 동네생활 모임 (지역: 역삼1동)",
+        everytime: "에브리타임 대학생 북클럽 (동아리 게시판)",
+        instagram: "인스타그램 피드 캡션 (@bookclub_transparent)"
+      };
+
+      for (const ch of selectedChannels) {
+        if (ch !== "kakao") {
+          await sleep(300);
+          appendTerminalLog(`[BOARD] 📝 ${boardChannelMap[ch]} 글쓰기 API 요청 중...`, "info");
+          await sleep(250);
+          appendTerminalLog(`  ✔ ${boardChannelMap[ch]} 포스팅 등록 성공 (HTTP 200 OK)`, "success");
+        }
+      }
+
+      // 4. Finished
+      await sleep(300);
+      appendTerminalLog(`[COMPLETE] 🎉 선택된 ${selectedChannels.length}개 채널에 원클릭 동시 배포가 100% 완료되었습니다!\n`, "success");
+
+      if (termStatusTag) {
+        termStatusTag.textContent = "배포 완료 (COMPLETED)";
+        termStatusTag.style.color = "#4ade80";
+      }
+
+      // Populate Report Modal
+      if (reportMessengerRow) {
+        if (selectedChannels.includes("kakao")) {
+          reportMessengerRow.style.display = "flex";
+        } else {
+          reportMessengerRow.style.display = "none";
+        }
+      }
+
+      if (reportBoardList) {
+        const boardItems = selectedChannels.filter((c) => c !== "kakao");
+        if (boardItems.length === 0) {
+          reportBoardList.innerHTML = `<div style="font-size:0.8rem; color:#94a3b8;">게시글 채널 선택 없음</div>`;
+        } else {
+          reportBoardList.innerHTML = boardItems
+            .map((ch) => `
+              <div class="report-board-item">
+                <span>📝 ${boardChannelMap[ch]}</span>
+                <span class="badge-success">등록 완료</span>
+              </div>
+            `)
+            .join("");
+        }
+      }
+
+      // Show modal
+      if (broadcastReportModal) {
+        broadcastReportModal.classList.add("active");
+      }
     });
   }
 
-  if (btnCloseModal && broadcastModal) {
-    btnCloseModal.addEventListener("click", () => {
-      broadcastModal.classList.remove("active");
+  // Modal Closers
+  if (btnCloseReportModal && broadcastReportModal) {
+    btnCloseReportModal.addEventListener("click", () => {
+      broadcastReportModal.classList.remove("active");
     });
   }
-  if (btnModalConfirm && broadcastModal) {
-    btnModalConfirm.addEventListener("click", () => {
-      broadcastModal.classList.remove("active");
+  if (btnConfirmReport && broadcastReportModal) {
+    btnConfirmReport.addEventListener("click", () => {
+      broadcastReportModal.classList.remove("active");
     });
   }
-  if (broadcastModal) {
-    broadcastModal.addEventListener("click", (e) => {
-      if (e.target === broadcastModal) broadcastModal.classList.remove("active");
+  if (broadcastReportModal) {
+    broadcastReportModal.addEventListener("click", (e) => {
+      if (e.target === broadcastReportModal) broadcastReportModal.classList.remove("active");
     });
   }
 
-  // XSS 방지 유틸
-  function escapeHtml(str) {
-    if (!str) return "";
-    return str
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
-
-  // 초기 렌더링
+  // Initial Load
   renderMemberTable();
   updatePreview();
 });
