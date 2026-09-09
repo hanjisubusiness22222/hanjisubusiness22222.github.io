@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="독서모임 관리자를 위한 투명한 소통 솔루션 - 멀티플랫폼 원클릭 공지와 구글 시트형 회원 관리 시스템">
+  <title>BookLink - 독서모임 관리자를 위한 투명한 소통 솔루션</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 스킵 링크 (접근성) -->
+  <a class="skip-link" href="#main">본문 바로가기</a>
+
+  <!-- 네비게이션 헤더 -->
+  <header class="site-header" id="header">
+    <div class="container header-inner">
+      <a class="site-logo" href="#hero">
+        <span class="logo-badge">BookLink</span>
+        <span class="logo-sub">투명한 소통</span>
+      </a>
+      <nav class="site-nav" aria-label="주요 메뉴">
+        <a href="#about" class="nav-link">소개</a>
+        <a href="#values" class="nav-link">투명한 소통</a>
+        <a href="#interests" class="nav-link">관심 분야</a>
+        <a href="#demo-sheet" class="nav-link">회원관리 DB</a>
+        <a href="#demo-broadcast" class="nav-link">공지 자동화</a>
+        <a href="#projects" class="nav-link">프로젝트</a>
+      </nav>
+      <div class="header-actions">
+        <a href="#demo-broadcast" class="btn-primary-sm">체험하기</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- 히어로 섹션 -->
+    <section id="hero" class="hero-section">
+      <div class="container hero-container">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span> 기술개발연구프로젝트 · 독서모임 운영 자동화
+        </div>
+        <h1 class="hero-title">
+          독서모임 관리자의 짐을 덜어주는<br>
+          <span class="gradient-text">투명한 소통</span>의 힘
+        </h1>
+        <p class="hero-desc">
+          인스타, 소모임, 당근, 에타, 카톡까지 흩어진 공지를 단 한 번에 배포하고,<br class="br-desktop">
+          구글 시트 기반의 투명한 회원 DB로 참여율과 신뢰를 극대화합니다.
+        </p>
+        <div class="hero-cta-group">
+          <a href="#demo-sheet" class="btn btn-primary">
+            <span>📊 회원관리 DB 체험</span>
+          </a>
+          <a href="#demo-broadcast" class="btn btn-secondary">
+            <span>📢 멀티플랫폼 공지 시험</span>
+          </a>
+        </div>
+        
+        <!-- 실시간 요약 카드 -->
+        <div class="hero-stats">
+          <div class="stat-card">
+            <span class="stat-value">6+</span>
+            <span class="stat-label">지원 채널 동시 연동</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-card">
+            <span class="stat-value">100%</span>
+            <span class="stat-label">공개형 투명 회계/출석</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-card">
+            <span class="stat-value">5분 ➔ 10초</span>
+            <span class="stat-label">공지 작성 배포 시간 단축</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 소개 섹션 (About) -->
+    <section id="about" class="section about-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">ABOUT ME & PROJECT</span>
+          <h2 class="section-title">안녕하세요, 독서모임의 지속 가능성을 연구합니다</h2>
+          <p class="section-sub">
+            다양한 플랫폼에서 회원을 모으고 이끄는 <strong>독서모임 관리자</strong>들의 수고를 덜고,<br>
+            회원들과 언제나 솔직하고 <strong>투명하게 소통</strong>할 수 있는 테크 솔루션을 설계합니다.
+          </p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-card highlight">
+            <div class="about-icon">🎯</div>
+            <h3>방문자: 누구를 위한 사이트인가요?</h3>
+            <p>
+              매주 여러 플랫폼(소모임, 당근, 인스타, 에브리타임)을 넘나들며 회원 명단을 정리하고, 
+              복사-붙여넣기로 공지를 올리느라 지친 <strong>독서모임 호스트와 운영진</strong>을 위한 공간입니다.
+            </p>
+          </div>
+          <div class="about-card">
+            <div class="about-icon">💡</div>
+            <h3>핵심 메시지: 투명한 소통</h3>
+            <p>
+              공지와 회비 내역, 출석 기록이 투명하게 공유될 때 회원은 소속감과 신뢰를 느낍니다. 
+              운영자의 수고는 줄이되, 정보는 더 정직하고 맑게 흐르는 커뮤니티 문화를 지향합니다.
+            </p>
+          </div>
+          <div class="about-card">
+            <div class="about-icon">🚀</div>
+            <h3>해결하고자 하는 문제</h3>
+            <p>
+              플랫폼마다 다른 글자수 규격과 공지 누락, 그리고 비효율적인 수기 엑셀 관리 문제를 
+              <strong>웹 자동화</strong>와 <strong>구글 시트 데이터 파이프라인</strong>으로 해결합니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 핵심 가치: 투명한 소통 (Values) -->
+    <section id="values" class="section values-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-eyebrow">CORE VALUE</span>
+          <h2 class="section-title">우리가 추구하는 '투명한 소통' 3원칙</h2>
+          <p class="section-sub">단순한 정보 전달을 넘어, 모임 운영의 신뢰를 쌓는 3가지 기준</p>
+        </div>
+
+        <div class="values-grid">
+          <div class="value-item">
+            <div class="value-number">01</div>
+            <h4>채널 간 정보 비대칭 제로</h4>
+            <p>인스타로 들어온 회원도, 당근이나 카톡으로 들어온 회원도 소외되지 않도록 모든 공지가 동시·동일하게 배포됩니다.</p>
+          </div>
+          <div class="value-item">
+            <div class="value-number">02</div>
+            <h4>누구나 납득하는 데이터 공유</h4>
+            <p>출석 현황, 모임 회비, 읽은 책 아카이브가 구글 시트와 연동되어 관리자와 회원 모두에게 맑게 공개됩니다.</p>
+          </div>
+          <div class="value-item">
+            <div class="value-number">03</div>
+            <h4>운영진의 과부하 방지</h4>
+            <p>소통이 투명해지려면 운영자가 지치지 않아야 합니다. 반복 업무를 자동화하여 책과 대화에 집중할 시간을 선물합니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 관심 분야 (Interests) -->
+    <section id="interests" class="section interests-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">INTEREST AREAS</span>
+          <h2 class="section-title">관심 연구 및 기술 분야</h2>
+          <p class="section-sub">모임 문화와 기술의 접점을 고민하는 핵심 관심사입니다.</p>
+        </div>
+
+        <div class="interests-grid">
+          <div class="interest-card">
+            <div class="interest-tag">자동화 & API</div>
+            <h3>멀티채널 자동 배포 아키텍처</h3>
+            <p>웹훅(Webhook) 및 각 소셜 플랫폼 API를 연계하여 한 번의 마크다운 작성으로 채널별 최적 포맷을 생성하는 시스템을 연구합니다.</p>
+          </div>
+          <div class="interest-card">
+            <div class="interest-tag">데이터 관리</div>
+            <h3>Google Workspace & 시트 연동</h3>
+            <p>별도의 무거운 서버나 복잡한 관리자 페이지 없이도, 누구나 친숙한 구글 시트를 DB로 활용하는 가벼운 노코드/로우코드 데이터 설계에 관심이 있습니다.</p>
+          </div>
+          <div class="interest-card">
+            <div class="interest-tag">커뮤니티 UX</div>
+            <h3>참여율 증진을 위한 소통 인터페이스</h3>
+            <p>독서모임 멤버들이 발제문에 적극적으로 반응하고 질문할 수 있도록 돕는 투명하고 직관적인 웹 인터페이스를 설계합니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 인터랙티브 기능 1: 구글 시트형 회원 관리 DB (Demo 1) -->
+    <section id="demo-sheet" class="section demo-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge-green">LIVE DEMO 1</span>
+          <h2 class="section-title">구글 시트형 독서모임 회원 관리 DB</h2>
+          <p class="section-sub">
+            관리자가 직관적으로 확인하고 검색할 수 있는 스프레드시트 뷰입니다.<br>
+            유입 채널별 필터링, 검색, 회비 납부 토글을 직접 테스트해보세요.
+          </p>
+        </div>
+
+        <!-- 시트 스타일 컨테이너 -->
+        <div class="sheet-wrapper">
+          <!-- 시트 상단 헤더 툴바 -->
+          <div class="sheet-toolbar">
+            <div class="sheet-title-area">
+              <span class="sheet-file-icon">📑</span>
+              <div>
+                <strong class="sheet-file-name">2026_독서클럽_회원명단_및_출석부</strong>
+                <span class="sheet-badge">실시간 동기화 켜짐</span>
+              </div>
+            </div>
+
+            <!-- 시트 컨트롤 (검색 및 빠른 액션) -->
+            <div class="sheet-controls">
+              <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="sheetSearchInput" placeholder="회원명, 책, 유입 채널 검색..." aria-label="회원 검색">
+              </div>
+              <button type="button" id="btnAddMember" class="btn-sheet-action">
+                <span>➕ 회원 추가</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 유입 채널 필터 탭 -->
+          <div class="sheet-filter-bar">
+            <span class="filter-label">채널 필터:</span>
+            <div class="filter-pills" id="channelFilterGroup">
+              <button type="button" class="filter-pill active" data-channel="all">전체 (<span id="countAll">6</span>)</button>
+              <button type="button" class="filter-pill" data-channel="소모임">소모임</button>
+              <button type="button" class="filter-pill" data-channel="당근">당근</button>
+              <button type="button" class="filter-pill" data-channel="인스타">인스타</button>
+              <button type="button" class="filter-pill" data-channel="에타">에타</button>
+              <button type="button" class="filter-pill" data-channel="카카오톡">카톡</button>
+              <button type="button" class="filter-pill" data-channel="네이버">네이버</button>
+            </div>
+            <div class="sheet-stats-summary">
+              <span>총 납부율: <strong id="paidRatioText" class="text-green">83%</strong></span>
+            </div>
+          </div>
+
+          <!-- 스프레드시트 테이블 본체 -->
+          <div class="sheet-table-responsive" tabindex="0" aria-label="독서모임 회원 관리 스프레드시트">
+            <table class="sheet-table" id="memberTable">
+              <thead>
+                <tr>
+                  <th class="col-index">#</th>
+                  <th class="col-name">이름</th>
+                  <th class="col-channel">유입 플랫폼</th>
+                  <th class="col-attendance">누적 출석</th>
+                  <th class="col-fee">회비 납부</th>
+                  <th class="col-book">지정 도서</th>
+                  <th class="col-status">상태</th>
+                  <th class="col-actions">관리</th>
+                </tr>
+              </thead>
+              <tbody id="memberTableBody">
+                <!-- Javascript로 동적 렌더링 -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 시트 하단 푸터 바 -->
+          <div class="sheet-footer-bar">
+            <span class="sheet-status-info">✔ 구글 스프레드시트 API 형식과 100% 호환 (JSON / CSV 내보내기 지원)</span>
+            <div class="sheet-footer-actions">
+              <button type="button" id="btnExportCsv" class="btn-sheet-mini">📥 CSV 내보내기</button>
+              <button type="button" id="btnResetData" class="btn-sheet-mini">🔄 데이터 초기화</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 인터랙티브 기능 2: 멀티플랫폼 원클릭 공지 자동화 (Demo 2) -->
+    <section id="demo-broadcast" class="section broadcast-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge-blue">LIVE DEMO 2</span>
+          <h2 class="section-title">멀티플랫폼 원클릭 공지 자동화</h2>
+          <p class="section-sub">
+            플랫폼마다 복사-붙여넣기 할 필요 없이 한 곳에서 작성하세요.<br>
+            채널별(카톡, 소모임, 당근, 인스타, 에타) 맞춤 포맷으로 변환되어 동시에 전송됩니다.
+          </p>
+        </div>
+
+        <div class="broadcast-layout">
+          <!-- 좌측: 공지 작성 에디터 -->
+          <div class="broadcast-editor-card">
+            <div class="card-header">
+              <h3>✏️ 통합 공지 작성기</h3>
+              <button type="button" id="btnLoadSampleNotice" class="btn-text">샘플 불러오기</button>
+            </div>
+
+            <form id="noticeForm" class="notice-form">
+              <div class="form-group">
+                <label for="noticeTitle">모임 회차 및 제목</label>
+                <input type="text" id="noticeTitle" value="[제14회 북클럽] '도둑맞은 집중력' 함께 읽기" required>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="noticeBook">선정 도서</label>
+                  <input type="text" id="noticeBook" value="도둑맞은 집중력 (요한 하리)" required>
+                </div>
+                <div class="form-group">
+                  <label for="noticeDateTime">일시</label>
+                  <input type="text" id="noticeDateTime" value="2026년 9월 19일 (토) 오후 2시" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="noticePlace">장소</label>
+                <input type="text" id="noticePlace" value="강남역 북카페 '생각의 숲' 3번 룸" required>
+              </div>
+
+              <div class="form-group">
+                <label for="noticeBody">발제 및 전달사항</label>
+                <textarea id="noticeBody" rows="4">스마트폰과 알고리즘 속에서 우리의 집중력은 왜 흐려졌을까요? 
+각자 가장 인상 깊었던 챕터 1곳과 질문 1개를 준비해 와주세요!
+* 참가비는 투명하게 대관료 및 음료비(1만원)로 집행됩니다.</textarea>
+              </div>
+
+              <div class="form-group">
+                <label class="label-heading">전송 대상 플랫폼 선택 (멀티 채널)</label>
+                <div class="channel-checkbox-grid">
+                  <label class="channel-check-item">
+                    <input type="checkbox" name="broadcastChannel" value="kakao" checked>
+                    <span class="check-box-custom"></span>
+                    <span class="channel-name kakao">카카오톡 (오픈채팅/알림)</span>
+                  </label>
+                  <label class="channel-check-item">
+                    <input type="checkbox" name="broadcastChannel" value="somoim" checked>
+                    <span class="check-box-custom"></span>
+                    <span class="channel-name somoim">소모임 앱</span>
+                  </label>
+                  <label class="channel-check-item">
+                    <input type="checkbox" name="broadcastChannel" value="daangn" checked>
+                    <span class="check-box-custom"></span>
+                    <span class="channel-name daangn">당근마켓 모임</span>
+                  </label>
+                  <label class="channel-check-item">
+                    <input type="checkbox" name="broadcastChannel" value="instagram" checked>
+                    <span class="check-box-custom"></span>
+                    <span class="channel-name instagram">인스타그램 피드</span>
+                  </label>
+                  <label class="channel-check-item">
+                    <input type="checkbox" name="broadcastChannel" value="everytime" checked>
+                    <span class="check-box-custom"></span>
+                    <span class="channel-name everytime">에브리타임</span>
+                  </label>
+                  <label class="channel-check-item">
+                    <input type="checkbox" name="broadcastChannel" value="naver" checked>
+                    <span class="check-box-custom"></span>
+                    <span class="channel-name naver">네이버 카페/블로그</span>
+                  </label>
+                </div>
+              </div>
+
+              <button type="button" id="btnBroadcastSubmit" class="btn btn-primary btn-block">
+                <span>🚀 선택한 채널에 원클릭 동시 전송</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- 우측: 플랫폼별 최적화 프리뷰 -->
+          <div class="broadcast-preview-card">
+            <div class="preview-header">
+              <span class="preview-title">📱 플랫폼별 실시간 변환 미리보기</span>
+              <div class="preview-tabs" id="previewTabGroup">
+                <button type="button" class="preview-tab active" data-target="kakao">카톡</button>
+                <button type="button" class="preview-tab" data-target="somoim">소모임</button>
+                <button type="button" class="preview-tab" data-target="daangn">당근</button>
+                <button type="button" class="preview-tab" data-target="instagram">인스타</button>
+                <button type="button" class="preview-tab" data-target="everytime">에타</button>
+              </div>
+            </div>
+
+            <div class="preview-viewport">
+              <div class="preview-mockup" id="previewContainer">
+                <!-- 동적 프리뷰 렌더링 -->
+              </div>
+            </div>
+
+            <div class="preview-meta">
+              <span id="previewCharCount">글자 수: 245자</span>
+              <span class="text-tag">서식 최적화 완료</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 프로젝트 상세 및 로드맵 (Projects) -->
+    <section id="projects" class="section projects-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">PORTFOLIO & ROADMAP</span>
+          <h2 class="section-title">개발 프로젝트 및 향후 계획</h2>
+          <p class="section-sub">기술개발연구프로젝트 수업을 통해 점진적으로 확장해 나가는 로드맵입니다.</p>
+        </div>
+
+        <div class="projects-grid">
+          <article class="project-card active-project">
+            <div class="project-header">
+              <span class="badge-status current">진행 중 (2주차)</span>
+              <span class="project-tech">HTML5 · CSS3 · Vanilla JS</span>
+            </div>
+            <h3>BookLink: 독서모임 통합 관리 & 투명 소통 허브</h3>
+            <p>
+              독서모임 호스트의 반복 업무를 줄이고 투명한 소통을 지원하는 웹 허브입니다. 
+              멀티플랫폼 동시 공지 시뮬레이터와 구글 시트 연동형 데이터베이스 뷰어를 구현했습니다.
+            </p>
+            <ul class="project-points">
+              <li>✔ 6대 플랫폼(카톡, 소모임, 당근, 인스타, 에타, 네이버) 서식 변환</li>
+              <li>✔ 구글 시트 양식의 실시간 검색 및 필터링 회원 테이블</li>
+              <li>✔ 모바일 환경에서도 가로 스크롤 없이 최적화된 반응형 UI</li>
+            </ul>
+          </article>
+
+          <article class="project-card">
+            <div class="project-header">
+              <span class="badge-status planned">준비 중 (차기 개발)</span>
+              <span class="project-tech">Google Sheets API · Kakao Webhook</span>
+            </div>
+            <h3>실제 구글 시트 실시간 양방향 OAuth 연동</h3>
+            <p>
+              관리자의 실제 구글 드라이브 시트 URL을 입력하면 자동으로 출석부와 회비 장부가 동기화되는 
+              OAuth2 기반의 실시간 데이터 연동 기능을 준비 중입니다.
+            </p>
+            <ul class="project-points">
+              <li>⏳ 구글 서비스 계정(Service Account)을 활용한 읽기/쓰기 자동화</li>
+              <li>⏳ 카카오톡 오픈채팅방 웹훅 알림 자동 발송 연계</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 발송 완료 시뮬레이션 모달 -->
+  <div class="modal-backdrop" id="broadcastModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="modalTitle">🎉 멀티플랫폼 공지 전송 완료!</h3>
+        <button type="button" class="btn-close" id="btnCloseModal" aria-label="닫기">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">선택하신 플랫폼에 공지가 투명하고 정확하게 전송되었습니다.</p>
+        <div class="modal-channel-list" id="modalChannelResult">
+          <!-- JS 렌더링 -->
+        </div>
+        <div class="modal-summary-box">
+          <p>📌 <strong>핵심 가치 반영</strong>: 모든 플랫폼에 정보 격차 없이 동일한 모임 공지가 안전하게 공유되었습니다.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btnModalConfirm">확인</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 회원 추가 모달 -->
+  <div class="modal-backdrop" id="addMemberModal" aria-hidden="true" role="dialog" aria-labelledby="addMemberTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="addMemberTitle">➕ 신규 독서모임 회원 등록</h3>
+        <button type="button" class="btn-close" id="btnCloseAddMember" aria-label="닫기">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="addMemberForm">
+          <div class="form-group">
+            <label for="newMemberName">회원 이름 / 닉네임</label>
+            <input type="text" id="newMemberName" placeholder="예: 김민지" required>
+          </div>
+          <div class="form-group">
+            <label for="newMemberChannel">유입 플랫폼</label>
+            <select id="newMemberChannel" required>
+              <option value="소모임">소모임</option>
+              <option value="당근">당근</option>
+              <option value="인스타">인스타</option>
+              <option value="에타">에타</option>
+              <option value="카카오톡">카카오톡</option>
+              <option value="네이버">네이버</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="newMemberBook">지정 도서</label>
+            <input type="text" id="newMemberBook" value="도둑맞은 집중력" required>
+          </div>
+          <div class="form-group">
+            <label for="newMemberFee">회비 납부 여부</label>
+            <select id="newMemberFee">
+              <option value="완료">납부 완료 (10,000원)</option>
+              <option value="대기">입금 대기</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">구글 시트에 회원 추가</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 푸터 -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-info">
+        <strong>기술개발연구프로젝트 · 개인 홈페이지</strong>
+        <p>기획 대상: 독서모임 관리자 · 핵심 메시지: 투명한 소통</p>
+      </div>
+      <div class="footer-links">
+        <a href="#about">소개</a>
+        <a href="#values">가치관</a>
+        <a href="#demo-sheet">회원 DB</a>
+        <a href="#demo-broadcast">공지 자동화</a>
+        <a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2026 BookLink. Built with HTML, CSS & Vanilla JS for Transparent Communication.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
