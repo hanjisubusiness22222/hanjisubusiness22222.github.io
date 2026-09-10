@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { id: 8, name: "임*윤", phone: "010-****-5520", channel: "당근", attendance: 5, fee: "면제", book: "도둑맞은 집중력", role: "운영진", note: "제출" }
   ];
 
-  let rawStored = JSON.parse(localStorage.getItem("booklink_members_v3"));
+  let rawStored = JSON.parse(localStorage.getItem("booklink_members_v4"));
   let members = (rawStored && rawStored.length > 0) ? rawStored : [...initialMembers];
   // 기존 저장 데이터도 이름과 연락처 익명 마스킹 적용
   members = members.map((m) => ({
@@ -1068,6 +1068,23 @@ ${escapeHtml(body)}
       if (e.target === broadcastReportModal) broadcastReportModal.classList.remove("active");
     });
   }
+
+  // Nav Tabs Smooth Scroll & Active Handling
+  const navTabs = document.querySelectorAll(".console-nav .nav-tab");
+  navTabs.forEach((tab) => {
+    tab.addEventListener("click", (e) => {
+      const targetId = tab.getAttribute("href");
+      if (targetId && targetId.startsWith("#")) {
+        e.preventDefault();
+        const targetEl = document.querySelector(targetId);
+        if (targetEl) {
+          navTabs.forEach((t) => t.classList.remove("active"));
+          tab.classList.add("active");
+          targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+    });
+  });
 
   // Initial Load
   renderMemberTable();

@@ -30,14 +30,20 @@
 
     <!-- 빠른 바로가기 탭 네비게이션 -->
     <nav class="console-nav" aria-label="관리자 기능 메뉴">
+      <a href="#section-about" class="nav-tab" data-tab="about">
+        <span class="tab-icon">👤</span> 소개 &amp; 기획
+      </a>
+      <a href="#section-interests" class="nav-tab" data-tab="interests">
+        <span class="tab-icon">💡</span> 관심 분야
+      </a>
       <a href="#section-sheet" class="nav-tab active" data-tab="sheet">
-        <span class="tab-icon">📊</span> 1. 회원 관리 DB
+        <span class="tab-icon">📊</span> 회원 관리 DB
       </a>
       <a href="#section-broadcast" class="nav-tab" data-tab="broadcast">
-        <span class="tab-icon">📢</span> 2. 원클릭 공지 자동화
+        <span class="tab-icon">📢</span> 공지 자동화
       </a>
-      <a href="#section-credentials" class="nav-tab" data-tab="credentials">
-        <span class="tab-icon">🔐</span> 계정 연동 설정
+      <a href="#section-projects" class="nav-tab" data-tab="projects">
+        <span class="tab-icon">🚀</span> 프로젝트
       </a>
     </nav>
 
@@ -53,6 +59,83 @@
   </header>
 
   <main class="console-main">
+    <!-- ===================================================================
+         수업 필수 영역 1: 자기소개 & 핵심 기획 (About & Core Philosophy)
+         =================================================================== -->
+    <section id="section-about" class="intro-dashboard-hero">
+      <div class="hero-content-wrapper">
+        <div class="hero-top-badge">
+          <span class="badge-pulse"></span>
+          <span>기술개발연구프로젝트 2주차 · 독서모임 관리자용 개인 홈페이지</span>
+        </div>
+        <h1 class="hero-main-heading">
+          독서모임 관리자의 짐을 덜어주는<br>
+          <span class="hero-gradient-text">투명한 소통</span>과 운영 자동화 솔루션
+        </h1>
+        <p class="hero-subtext">
+          매주 카톡, 소모임, 당근, 인스타, 에타 등 흩어진 채널로 고생하는 <strong>독서모임 관리자</strong>를 위해<br>
+          정보 비대칭 없는 <strong>원클릭 멀티플랫폼 공지</strong>와 <strong>구글 시트형 투명 회원 DB</strong>를 제공합니다.
+        </p>
+
+        <!-- 기획 3요소 카드 그리드 -->
+        <div class="intro-cards-grid">
+          <div class="intro-card">
+            <div class="card-icon-bubble">🎯</div>
+            <h3>방문자 (Target Audience)</h3>
+            <p>
+              매주 여러 플랫폼에서 회원을 모집하고 공지 복사-붙여넣기와 수기 출석 체크로 지친 <strong>독서모임 호스트 및 커뮤니티 운영진</strong>
+            </p>
+          </div>
+          <div class="intro-card highlight-card">
+            <div class="card-icon-bubble">💬</div>
+            <h3>핵심 메시지 (Core Value)</h3>
+            <p>
+              <strong>"투명한 소통"</strong> — 모든 채널에 공지가 동일하게 전달되고, 출석과 회비가 투명하게 공개될 때 모임의 신뢰가 완성됩니다.
+            </p>
+          </div>
+          <div class="intro-card">
+            <div class="card-icon-bubble">⚡</div>
+            <h3>완료 기준 (Deliverables)</h3>
+            <p>
+              1) <strong>멀티채널 원클릭 공지 자동화</strong> (카톡/소모임/당근/인스타/에타)<br>
+              2) <strong>구글 시트 연동형 실시간 회원 DB</strong> (검색/필터/회비 토글)
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         수업 필수 영역 2: 관심 분야 및 투명한 소통 3원칙 (Interests & Values)
+         =================================================================== -->
+    <section id="section-interests" class="interests-dashboard-section">
+      <div class="interests-container">
+        <div class="section-title-box">
+          <span class="section-eyebrow-tag">INTERESTS &amp; PRINCIPLES</span>
+          <h2 class="section-heading">관심 연구 분야 &amp; 투명한 소통 3원칙</h2>
+          <p class="section-desc">커뮤니티의 지속 가능성을 높이기 위해 집중하고 있는 테크 연구 분야입니다.</p>
+        </div>
+
+        <div class="interests-tri-grid">
+          <div class="interest-box">
+            <div class="interest-badge">자동화 &amp; API</div>
+            <h3>1. 멀티채널 자동 배포 아키텍처</h3>
+            <p>마크다운으로 한 번 작성한 모임 공지를 카카오톡 단톡방, 소모임 앱, 당근마켓, 인스타그램 피드, 에브리타임 규격에 맞춰 자동 파싱·변환하여 원클릭 동시 배포하는 웹훅 시스템을 연구합니다.</p>
+          </div>
+          <div class="interest-box">
+            <div class="interest-badge">투명한 데이터</div>
+            <h3>2. Google Workspace &amp; Sheets 연동</h3>
+            <p>무거운 백엔드 서버 없이도 운영자와 회원이 가장 익숙한 구글 스프레드시트를 실시간 데이터베이스로 삼아, 출석부와 회계 장부를 투명하고 안전하게 연동·공개하는 구조를 설계합니다.</p>
+          </div>
+          <div class="interest-box">
+            <div class="interest-badge">커뮤니티 UX</div>
+            <h3>3. 정보 비대칭 제로 커뮤니케이션</h3>
+            <p>어느 플랫폼으로 유입된 회원이든 소외감 없이 동일한 시간에 완벽한 정보를 받아보고, 발제문 제출과 참여 투표를 간편하게 수행할 수 있는 인터페이스를 구현합니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ===================================================================
          기능 1) 구글 시트형 독서모임 회원 관리 DB
          =================================================================== -->
@@ -630,6 +713,56 @@
           <div class="term-line info">[SYSTEM] BookLink 자동화 콘솔이 초기화되었습니다.</div>
           <div class="term-line info">[READY] 메신저(카카오톡) 및 5개 게시판 플랫폼 세션이 대기 중입니다.</div>
           <div class="term-line tip">[HINT] '메신저 & 게시글 원클릭 동시 배포 실행' 버튼을 누르면 실시간 봇 작업이 시작됩니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         수업 필수 영역 3: 프로젝트 로드맵 (Projects & Future Roadmap)
+         =================================================================== -->
+    <section id="section-projects" class="projects-dashboard-section">
+      <div class="projects-container">
+        <div class="section-title-box">
+          <span class="section-eyebrow-tag">PORTFOLIO &amp; ROADMAP</span>
+          <h2 class="section-heading">프로젝트 현황 및 개발 로드맵</h2>
+          <p class="section-desc">기술개발연구프로젝트 수업을 통해 단계적으로 발전시켜 나가는 진행 현황입니다.</p>
+        </div>
+
+        <div class="projects-card-grid">
+          <article class="project-status-card current-version">
+            <div class="card-status-header">
+              <span class="badge-status-now">현재 버전 (2주차 구현 완료)</span>
+              <span class="tech-stack-label">HTML5 · Vanilla CSS · Pure JS (No Framework)</span>
+            </div>
+            <h3>BookLink: 독서모임 통합 관리 &amp; 투명 소통 허브</h3>
+            <p>
+              독서모임 운영진의 반복 업무(공지 복사, 출석 수기 취합)를 획기적으로 줄이고, 
+              투명한 소통 문화를 정착시키기 위한 인터랙티브 웹 시스템입니다.
+            </p>
+            <ul class="project-feat-list">
+              <li>✔ 구글 시트 감성의 실시간 검색, 채널 필터, 회비 납부 토글, CSV 다운로드</li>
+              <li>✔ 6개 플랫폼(카톡, 소모임, 당근, 인스타, 에타, 네이버) 맞춤 포맷 실시간 변환</li>
+              <li>✔ 자동화 봇 실행 터미널 시뮬레이션 및 결과 종합 리포트 모달</li>
+              <li>✔ 좁은 화면(약 390px)에서도 가로 넘침 없는 반응형 최적화</li>
+            </ul>
+          </article>
+
+          <article class="project-status-card upcoming-version">
+            <div class="card-status-header">
+              <span class="badge-status-next">차기 로드맵 (3주차 이후)</span>
+              <span class="tech-stack-label">Google Service Account API · Kakao Webhook</span>
+            </div>
+            <h3>실제 구글 드라이브 시트 실시간 OAuth 양방향 동기화</h3>
+            <p>
+              호스트의 실제 구글 드라이브 스프레드시트 URL을 연동하여, 
+              브라우저에서 변경한 데이터가 실제 시트에 영구 기록되는 클라우드 연동 기능을 준비 중입니다.
+            </p>
+            <ul class="project-feat-list">
+              <li>⏳ Google Cloud Console OAuth 2.0 및 Service Account 인증 모듈 연계</li>
+              <li>⏳ 카카오톡 오픈채팅방 웹훅 봇 실제 배포 및 자동 공지 스케줄러</li>
+              <li>⏳ GitHub Pages 지속적 배포(CI/CD) 파이프라인 구축</li>
+            </ul>
+          </article>
         </div>
       </div>
     </section>

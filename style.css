@@ -2209,3 +2209,292 @@ button, input, select, textarea {
   display: flex;
   gap: 16px;
 }
+
+/* ==========================================================================
+   수업 통합 섹션: 자기소개 & 기획 (Hero / About)
+   ========================================================================== */
+.intro-dashboard-hero {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 40px 24px 36px;
+}
+
+.hero-content-wrapper {
+  max-width: 1360px;
+  margin: 0 auto;
+}
+
+.hero-top-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1d4ed8;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+
+.badge-pulse {
+  width: 8px;
+  height: 8px;
+  background: #2563eb;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.hero-main-heading {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+  margin-bottom: 12px;
+}
+
+.hero-gradient-text {
+  background: linear-gradient(135deg, #2563eb 0%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtext {
+  font-size: 1.05rem;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.intro-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.intro-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.intro-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(15,23,42,0.06);
+}
+
+.intro-card.highlight-card {
+  border-color: #93c5fd;
+  background: #f8fbff;
+}
+
+.card-icon-bubble {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+}
+
+.intro-card h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.intro-card p {
+  font-size: 0.875rem;
+  color: #64748b;
+  line-height: 1.55;
+}
+
+/* ==========================================================================
+   수업 통합 섹션: 관심 분야 & 투명한 소통 3원칙
+   ========================================================================== */
+.interests-dashboard-section {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  padding: 40px 24px;
+}
+
+.interests-container {
+  max-width: 1360px;
+  margin: 0 auto;
+}
+
+.section-title-box {
+  margin-bottom: 24px;
+}
+
+.section-eyebrow-tag {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #2563eb;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.section-heading {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.section-desc {
+  font-size: 0.95rem;
+  color: #64748b;
+}
+
+.interests-tri-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.interest-box {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px;
+  transition: all 0.2s;
+}
+
+.interest-box:hover {
+  background: #ffffff;
+  border-color: #2563eb;
+  box-shadow: 0 4px 14px rgba(37,99,235,0.08);
+}
+
+.interest-badge {
+  display: inline-block;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.interest-box h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.interest-box p {
+  font-size: 0.85rem;
+  color: #475569;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   수업 통합 섹션: 프로젝트 로드맵
+   ========================================================================== */
+.projects-dashboard-section {
+  background: #ffffff;
+  border-top: 1px solid var(--border);
+  padding: 44px 24px 50px;
+}
+
+.projects-container {
+  max-width: 1360px;
+  margin: 0 auto;
+}
+
+.projects-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.project-status-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 26px;
+  background: #f8fafc;
+}
+
+.project-status-card.current-version {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.card-status-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.badge-status-now {
+  background: #16a34a;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.badge-status-next {
+  background: #64748b;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.tech-stack-label {
+  font-size: 0.78rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.project-status-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 10px;
+}
+
+.project-status-card p {
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.project-feat-list {
+  list-style: none;
+  font-size: 0.83rem;
+  color: #334155;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+@media (max-width: 960px) {
+  .intro-cards-grid,
+  .interests-tri-grid,
+  .projects-card-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-main-heading {
+    font-size: 1.7rem;
+  }
+}

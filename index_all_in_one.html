@@ -2221,6 +2221,295 @@ button, input, select, textarea {
   gap: 16px;
 }
 
+/* ==========================================================================
+   수업 통합 섹션: 자기소개 & 기획 (Hero / About)
+   ========================================================================== */
+.intro-dashboard-hero {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 40px 24px 36px;
+}
+
+.hero-content-wrapper {
+  max-width: 1360px;
+  margin: 0 auto;
+}
+
+.hero-top-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1d4ed8;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+
+.badge-pulse {
+  width: 8px;
+  height: 8px;
+  background: #2563eb;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.hero-main-heading {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+  margin-bottom: 12px;
+}
+
+.hero-gradient-text {
+  background: linear-gradient(135deg, #2563eb 0%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtext {
+  font-size: 1.05rem;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.intro-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.intro-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.intro-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(15,23,42,0.06);
+}
+
+.intro-card.highlight-card {
+  border-color: #93c5fd;
+  background: #f8fbff;
+}
+
+.card-icon-bubble {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+}
+
+.intro-card h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.intro-card p {
+  font-size: 0.875rem;
+  color: #64748b;
+  line-height: 1.55;
+}
+
+/* ==========================================================================
+   수업 통합 섹션: 관심 분야 & 투명한 소통 3원칙
+   ========================================================================== */
+.interests-dashboard-section {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  padding: 40px 24px;
+}
+
+.interests-container {
+  max-width: 1360px;
+  margin: 0 auto;
+}
+
+.section-title-box {
+  margin-bottom: 24px;
+}
+
+.section-eyebrow-tag {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #2563eb;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.section-heading {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.section-desc {
+  font-size: 0.95rem;
+  color: #64748b;
+}
+
+.interests-tri-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.interest-box {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px;
+  transition: all 0.2s;
+}
+
+.interest-box:hover {
+  background: #ffffff;
+  border-color: #2563eb;
+  box-shadow: 0 4px 14px rgba(37,99,235,0.08);
+}
+
+.interest-badge {
+  display: inline-block;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.interest-box h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.interest-box p {
+  font-size: 0.85rem;
+  color: #475569;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   수업 통합 섹션: 프로젝트 로드맵
+   ========================================================================== */
+.projects-dashboard-section {
+  background: #ffffff;
+  border-top: 1px solid var(--border);
+  padding: 44px 24px 50px;
+}
+
+.projects-container {
+  max-width: 1360px;
+  margin: 0 auto;
+}
+
+.projects-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.project-status-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 26px;
+  background: #f8fafc;
+}
+
+.project-status-card.current-version {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.card-status-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.badge-status-now {
+  background: #16a34a;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.badge-status-next {
+  background: #64748b;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.tech-stack-label {
+  font-size: 0.78rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.project-status-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 10px;
+}
+
+.project-status-card p {
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.project-feat-list {
+  list-style: none;
+  font-size: 0.83rem;
+  color: #334155;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+@media (max-width: 960px) {
+  .intro-cards-grid,
+  .interests-tri-grid,
+  .projects-card-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-main-heading {
+    font-size: 1.7rem;
+  }
+}
+
 </style>
 </head>
 <body class="console-body">
@@ -2243,14 +2532,20 @@ button, input, select, textarea {
 
     <!-- 빠른 바로가기 탭 네비게이션 -->
     <nav class="console-nav" aria-label="관리자 기능 메뉴">
+      <a href="#section-about" class="nav-tab" data-tab="about">
+        <span class="tab-icon">👤</span> 소개 &amp; 기획
+      </a>
+      <a href="#section-interests" class="nav-tab" data-tab="interests">
+        <span class="tab-icon">💡</span> 관심 분야
+      </a>
       <a href="#section-sheet" class="nav-tab active" data-tab="sheet">
-        <span class="tab-icon">📊</span> 1. 회원 관리 DB
+        <span class="tab-icon">📊</span> 회원 관리 DB
       </a>
       <a href="#section-broadcast" class="nav-tab" data-tab="broadcast">
-        <span class="tab-icon">📢</span> 2. 원클릭 공지 자동화
+        <span class="tab-icon">📢</span> 공지 자동화
       </a>
-      <a href="#section-credentials" class="nav-tab" data-tab="credentials">
-        <span class="tab-icon">🔐</span> 계정 연동 설정
+      <a href="#section-projects" class="nav-tab" data-tab="projects">
+        <span class="tab-icon">🚀</span> 프로젝트
       </a>
     </nav>
 
@@ -2266,6 +2561,83 @@ button, input, select, textarea {
   </header>
 
   <main class="console-main">
+    <!-- ===================================================================
+         수업 필수 영역 1: 자기소개 & 핵심 기획 (About & Core Philosophy)
+         =================================================================== -->
+    <section id="section-about" class="intro-dashboard-hero">
+      <div class="hero-content-wrapper">
+        <div class="hero-top-badge">
+          <span class="badge-pulse"></span>
+          <span>기술개발연구프로젝트 2주차 · 독서모임 관리자용 개인 홈페이지</span>
+        </div>
+        <h1 class="hero-main-heading">
+          독서모임 관리자의 짐을 덜어주는<br>
+          <span class="hero-gradient-text">투명한 소통</span>과 운영 자동화 솔루션
+        </h1>
+        <p class="hero-subtext">
+          매주 카톡, 소모임, 당근, 인스타, 에타 등 흩어진 채널로 고생하는 <strong>독서모임 관리자</strong>를 위해<br>
+          정보 비대칭 없는 <strong>원클릭 멀티플랫폼 공지</strong>와 <strong>구글 시트형 투명 회원 DB</strong>를 제공합니다.
+        </p>
+
+        <!-- 기획 3요소 카드 그리드 -->
+        <div class="intro-cards-grid">
+          <div class="intro-card">
+            <div class="card-icon-bubble">🎯</div>
+            <h3>방문자 (Target Audience)</h3>
+            <p>
+              매주 여러 플랫폼에서 회원을 모집하고 공지 복사-붙여넣기와 수기 출석 체크로 지친 <strong>독서모임 호스트 및 커뮤니티 운영진</strong>
+            </p>
+          </div>
+          <div class="intro-card highlight-card">
+            <div class="card-icon-bubble">💬</div>
+            <h3>핵심 메시지 (Core Value)</h3>
+            <p>
+              <strong>"투명한 소통"</strong> — 모든 채널에 공지가 동일하게 전달되고, 출석과 회비가 투명하게 공개될 때 모임의 신뢰가 완성됩니다.
+            </p>
+          </div>
+          <div class="intro-card">
+            <div class="card-icon-bubble">⚡</div>
+            <h3>완료 기준 (Deliverables)</h3>
+            <p>
+              1) <strong>멀티채널 원클릭 공지 자동화</strong> (카톡/소모임/당근/인스타/에타)<br>
+              2) <strong>구글 시트 연동형 실시간 회원 DB</strong> (검색/필터/회비 토글)
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         수업 필수 영역 2: 관심 분야 및 투명한 소통 3원칙 (Interests & Values)
+         =================================================================== -->
+    <section id="section-interests" class="interests-dashboard-section">
+      <div class="interests-container">
+        <div class="section-title-box">
+          <span class="section-eyebrow-tag">INTERESTS &amp; PRINCIPLES</span>
+          <h2 class="section-heading">관심 연구 분야 &amp; 투명한 소통 3원칙</h2>
+          <p class="section-desc">커뮤니티의 지속 가능성을 높이기 위해 집중하고 있는 테크 연구 분야입니다.</p>
+        </div>
+
+        <div class="interests-tri-grid">
+          <div class="interest-box">
+            <div class="interest-badge">자동화 &amp; API</div>
+            <h3>1. 멀티채널 자동 배포 아키텍처</h3>
+            <p>마크다운으로 한 번 작성한 모임 공지를 카카오톡 단톡방, 소모임 앱, 당근마켓, 인스타그램 피드, 에브리타임 규격에 맞춰 자동 파싱·변환하여 원클릭 동시 배포하는 웹훅 시스템을 연구합니다.</p>
+          </div>
+          <div class="interest-box">
+            <div class="interest-badge">투명한 데이터</div>
+            <h3>2. Google Workspace &amp; Sheets 연동</h3>
+            <p>무거운 백엔드 서버 없이도 운영자와 회원이 가장 익숙한 구글 스프레드시트를 실시간 데이터베이스로 삼아, 출석부와 회계 장부를 투명하고 안전하게 연동·공개하는 구조를 설계합니다.</p>
+          </div>
+          <div class="interest-box">
+            <div class="interest-badge">커뮤니티 UX</div>
+            <h3>3. 정보 비대칭 제로 커뮤니케이션</h3>
+            <p>어느 플랫폼으로 유입된 회원이든 소외감 없이 동일한 시간에 완벽한 정보를 받아보고, 발제문 제출과 참여 투표를 간편하게 수행할 수 있는 인터페이스를 구현합니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ===================================================================
          기능 1) 구글 시트형 독서모임 회원 관리 DB
          =================================================================== -->
@@ -2846,6 +3218,56 @@ button, input, select, textarea {
         </div>
       </div>
     </section>
+
+    <!-- ===================================================================
+         수업 필수 영역 3: 프로젝트 로드맵 (Projects & Future Roadmap)
+         =================================================================== -->
+    <section id="section-projects" class="projects-dashboard-section">
+      <div class="projects-container">
+        <div class="section-title-box">
+          <span class="section-eyebrow-tag">PORTFOLIO &amp; ROADMAP</span>
+          <h2 class="section-heading">프로젝트 현황 및 개발 로드맵</h2>
+          <p class="section-desc">기술개발연구프로젝트 수업을 통해 단계적으로 발전시켜 나가는 진행 현황입니다.</p>
+        </div>
+
+        <div class="projects-card-grid">
+          <article class="project-status-card current-version">
+            <div class="card-status-header">
+              <span class="badge-status-now">현재 버전 (2주차 구현 완료)</span>
+              <span class="tech-stack-label">HTML5 · Vanilla CSS · Pure JS (No Framework)</span>
+            </div>
+            <h3>BookLink: 독서모임 통합 관리 &amp; 투명 소통 허브</h3>
+            <p>
+              독서모임 운영진의 반복 업무(공지 복사, 출석 수기 취합)를 획기적으로 줄이고, 
+              투명한 소통 문화를 정착시키기 위한 인터랙티브 웹 시스템입니다.
+            </p>
+            <ul class="project-feat-list">
+              <li>✔ 구글 시트 감성의 실시간 검색, 채널 필터, 회비 납부 토글, CSV 다운로드</li>
+              <li>✔ 6개 플랫폼(카톡, 소모임, 당근, 인스타, 에타, 네이버) 맞춤 포맷 실시간 변환</li>
+              <li>✔ 자동화 봇 실행 터미널 시뮬레이션 및 결과 종합 리포트 모달</li>
+              <li>✔ 좁은 화면(약 390px)에서도 가로 넘침 없는 반응형 최적화</li>
+            </ul>
+          </article>
+
+          <article class="project-status-card upcoming-version">
+            <div class="card-status-header">
+              <span class="badge-status-next">차기 로드맵 (3주차 이후)</span>
+              <span class="tech-stack-label">Google Service Account API · Kakao Webhook</span>
+            </div>
+            <h3>실제 구글 드라이브 시트 실시간 OAuth 양방향 동기화</h3>
+            <p>
+              호스트의 실제 구글 드라이브 스프레드시트 URL을 연동하여, 
+              브라우저에서 변경한 데이터가 실제 시트에 영구 기록되는 클라우드 연동 기능을 준비 중입니다.
+            </p>
+            <ul class="project-feat-list">
+              <li>⏳ Google Cloud Console OAuth 2.0 및 Service Account 인증 모듈 연계</li>
+              <li>⏳ 카카오톡 오픈채팅방 웹훅 봇 실제 배포 및 자동 공지 스케줄러</li>
+              <li>⏳ GitHub Pages 지속적 배포(CI/CD) 파이프라인 구축</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- ===================================================================
@@ -3022,7 +3444,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { id: 8, name: "임*윤", phone: "010-****-5520", channel: "당근", attendance: 5, fee: "면제", book: "도둑맞은 집중력", role: "운영진", note: "제출" }
   ];
 
-  let rawStored = JSON.parse(localStorage.getItem("booklink_members_v3"));
+  let rawStored = JSON.parse(localStorage.getItem("booklink_members_v4"));
   let members = (rawStored && rawStored.length > 0) ? rawStored : [...initialMembers];
   // 기존 저장 데이터도 이름과 연락처 익명 마스킹 적용
   members = members.map((m) => ({
@@ -4050,6 +4472,23 @@ ${escapeHtml(body)}
       if (e.target === broadcastReportModal) broadcastReportModal.classList.remove("active");
     });
   }
+
+  // Nav Tabs Smooth Scroll & Active Handling
+  const navTabs = document.querySelectorAll(".console-nav .nav-tab");
+  navTabs.forEach((tab) => {
+    tab.addEventListener("click", (e) => {
+      const targetId = tab.getAttribute("href");
+      if (targetId && targetId.startsWith("#")) {
+        e.preventDefault();
+        const targetEl = document.querySelector(targetId);
+        if (targetEl) {
+          navTabs.forEach((t) => t.classList.remove("active"));
+          tab.classList.add("active");
+          targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+    });
+  });
 
   // Initial Load
   renderMemberTable();
