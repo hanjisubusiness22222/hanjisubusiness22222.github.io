@@ -588,82 +588,51 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========================================================================
-  // 3. Multi-Platform Notice Composer & Real-time Split Previews
+  // 3. KakaoTalk Messenger Notice Composer & Live Preview
   // =========================================================================
 
-  const noticeTitle = document.getElementById("noticeTitle");
-  const noticeBook = document.getElementById("noticeBook");
-  const noticeDateTime = document.getElementById("noticeDateTime");
-  const noticePlace = document.getElementById("noticePlace");
-  const noticeFee = document.getElementById("noticeFee");
-  const noticeBody = document.getElementById("noticeBody");
+  const kakaoTitle = document.getElementById("kakaoTitle");
+  const kakaoBook = document.getElementById("kakaoBook");
+  const kakaoDateTime = document.getElementById("kakaoDateTime");
+  const kakaoPlace = document.getElementById("kakaoPlace");
+  const kakaoFee = document.getElementById("kakaoFee");
+  const kakaoBody = document.getElementById("kakaoBody");
 
-  // Options
-  const chkKakao = document.getElementById("chkKakao");
   const optKakaoPin = document.getElementById("optKakaoPin");
   const optKakaoVote = document.getElementById("optKakaoVote");
   const optKakaoMention = document.getElementById("optKakaoMention");
 
-  const optBoardMarkdown = document.getElementById("optBoardMarkdown");
-  const optBoardHashtags = document.getElementById("optBoardHashtags");
-  const optBoardSheetLink = document.getElementById("optBoardSheetLink");
-
-  // Preview elements
-  const btnViewMessenger = document.getElementById("btnViewMessenger");
-  const btnViewBoard = document.getElementById("btnViewBoard");
-  const previewScreenMessenger = document.getElementById("previewScreenMessenger");
-  const previewScreenBoard = document.getElementById("previewScreenBoard");
-
   const ktBubbleText = document.getElementById("ktBubbleText");
   const ktPinTitle = document.getElementById("ktPinTitle");
   const ktPinnedNotice = document.getElementById("ktPinnedNotice");
-  const boardArticleContent = document.getElementById("boardArticleContent");
-  const previewCharStats = document.getElementById("previewCharStats");
-  const previewSpecBadge = document.getElementById("previewSpecBadge");
-  const boardSubtabs = document.querySelectorAll("#boardSubtabGroup .board-subtab");
+  const kakaoCharStats = document.getElementById("kakaoCharStats");
 
-  let activeBoardTab = "somoim";
-  let activePreviewMode = "messenger";
+  const btnSampleKakao1 = document.getElementById("btnSampleKakao1");
+  const btnSampleKakao2 = document.getElementById("btnSampleKakao2");
+  const btnSendKakao = document.getElementById("btnSendKakao");
 
-  // Mode Switch (Messenger vs Board)
-  if (btnViewMessenger && btnViewBoard) {
-    btnViewMessenger.addEventListener("click", () => {
-      activePreviewMode = "messenger";
-      btnViewMessenger.classList.add("active");
-      btnViewBoard.classList.remove("active");
-      if (previewScreenMessenger) previewScreenMessenger.style.display = "flex";
-      if (previewScreenBoard) previewScreenBoard.style.display = "none";
-      updatePreview();
-    });
+  const kakaoTerminalCard = document.getElementById("kakaoTerminalCard");
+  const kakaoTerminalLogBody = document.getElementById("kakaoTerminalLogBody");
+  const kakaoTermStatusTag = document.getElementById("kakaoTermStatusTag");
+  const btnClearKakaoTerminal = document.getElementById("btnClearKakaoTerminal");
 
-    btnViewBoard.addEventListener("click", () => {
-      activePreviewMode = "board";
-      btnViewBoard.classList.add("active");
-      btnViewMessenger.classList.remove("active");
-      if (previewScreenMessenger) previewScreenMessenger.style.display = "none";
-      if (previewScreenBoard) previewScreenBoard.style.display = "flex";
-      updatePreview();
-    });
+  function appendKakaoLog(msg, type = "info") {
+    if (!kakaoTerminalLogBody) return;
+    const line = document.createElement("div");
+    line.className = `term-line ${type}`;
+    line.textContent = msg;
+    kakaoTerminalLogBody.appendChild(line);
+    kakaoTerminalLogBody.scrollTop = kakaoTerminalLogBody.scrollHeight;
   }
 
-  // Board Subtabs
-  boardSubtabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      boardSubtabs.forEach((t) => t.classList.remove("active"));
-      tab.classList.add("active");
-      activeBoardTab = tab.getAttribute("data-board");
-      updatePreview();
-    });
-  });
-
-  // Generate Messenger Content (KakaoTalk Format)
-  function formatMessengerText() {
-    const title = noticeTitle.value.trim();
-    const book = noticeBook.value.trim();
-    const dt = noticeDateTime.value.trim();
-    const place = noticePlace.value.trim();
-    const fee = noticeFee.value.trim();
-    const body = noticeBody.value.trim();
+  function formatKakaoText() {
+    if (!kakaoTitle) return "";
+    const title = kakaoTitle.value.trim();
+    const book = kakaoBook ? kakaoBook.value.trim() : "";
+    const dt = kakaoDateTime ? kakaoDateTime.value.trim() : "";
+    const place = kakaoPlace ? kakaoPlace.value.trim() : "";
+    const fee = kakaoFee ? kakaoFee.value.trim() : "";
+    const body = kakaoBody ? kakaoBody.value.trim() : "";
 
     let text = `📢 [독서모임 공지] ${title}\n\n`;
     if (optKakaoMention && optKakaoMention.checked) {
@@ -686,14 +655,168 @@ document.addEventListener("DOMContentLoaded", () => {
     return text;
   }
 
-  // Generate Board Content (Tailored by platform)
+  function updateKakaoPreview() {
+    if (!ktBubbleText) return;
+    const formatted = formatKakaoText();
+    ktBubbleText.textContent = formatted;
+
+    if (ktPinTitle && kakaoTitle) {
+      ktPinTitle.textContent = kakaoTitle.value.trim() || "모임 공지";
+    }
+    if (ktPinnedNotice && optKakaoPin) {
+      ktPinnedNotice.style.display = optKakaoPin.checked ? "flex" : "none";
+    }
+    if (kakaoCharStats) {
+      kakaoCharStats.textContent = `글자 수: ${formatted.length}자`;
+    }
+  }
+
+  [kakaoTitle, kakaoBook, kakaoDateTime, kakaoPlace, kakaoFee, kakaoBody].forEach((input) => {
+    if (input) {
+      input.addEventListener("input", updateKakaoPreview);
+    }
+  });
+  [optKakaoPin, optKakaoVote, optKakaoMention].forEach((chk) => {
+    if (chk) {
+      chk.addEventListener("change", updateKakaoPreview);
+    }
+  });
+
+  if (btnSampleKakao1 && kakaoTitle) {
+    btnSampleKakao1.addEventListener("click", () => {
+      kakaoTitle.value = "[제14회 북클럽] '도둑맞은 집중력' 함께 읽고 대화하기";
+      if (kakaoBook) kakaoBook.value = "도둑맞은 집중력 (요한 하리)";
+      if (kakaoDateTime) kakaoDateTime.value = "2026년 9월 19일 (토) 오후 2:00 ~ 4:30";
+      if (kakaoPlace) kakaoPlace.value = "강남역 북카페 '생각의 숲' 3번 룸";
+      if (kakaoFee) kakaoFee.value = "10,000원 (대관료 및 음료 1잔 포함)";
+      if (kakaoBody) kakaoBody.value = `스마트폰과 알고리즘의 유혹 속에서 우리의 집중력은 왜 흐려졌을까요?\n가장 인상 깊었던 챕터 1곳과 함께 나누고 싶은 질문 1개를 준비해 와주세요!\n* 모임 후 출석 및 회계 내역은 구글 시트를 통해 회원 전원에게 투명하게 공개됩니다.`;
+      updateKakaoPreview();
+    });
+  }
+
+  if (btnSampleKakao2 && kakaoTitle) {
+    btnSampleKakao2.addEventListener("click", () => {
+      kakaoTitle.value = "🚨 [긴급 안내] 정기모임 모임 장소 룸 번호 변경 공지";
+      if (kakaoBook) kakaoBook.value = "도둑맞은 집중력 (요한 하리)";
+      if (kakaoDateTime) kakaoDateTime.value = "2026년 9월 19일 (토) 오후 2:00 ~ 4:30";
+      if (kakaoPlace) kakaoPlace.value = "강남역 북카페 '생각의 숲' 4번 대형룸 (기존 3번 ➔ 4번 변경)";
+      if (kakaoFee) kakaoFee.value = "10,000원 (변동 없음)";
+      if (kakaoBody) kakaoBody.value = `참석 인원 증가로 인해 더욱 쾌적한 4번 대형룸으로 예약 공간이 변경되었습니다!\n도착하시면 4번 방으로 들어와주시기 바랍니다.`;
+      updateKakaoPreview();
+    });
+  }
+
+  if (btnClearKakaoTerminal && kakaoTerminalLogBody) {
+    btnClearKakaoTerminal.addEventListener("click", () => {
+      kakaoTerminalLogBody.innerHTML = `<div class="term-line info">[SYSTEM] 카카오톡 터미널 콘솔이 초기화되었습니다.</div>`;
+    });
+  }
+
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  if (btnSendKakao) {
+    btnSendKakao.addEventListener("click", async () => {
+      if (kakaoTerminalCard) {
+        kakaoTerminalCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+      if (kakaoTermStatusTag) {
+        kakaoTermStatusTag.textContent = "발송 진행 중 (DISPATCHING...)";
+        kakaoTermStatusTag.style.color = "#facc15";
+      }
+
+      appendKakaoLog(`\n>>> [START] 카카오톡 공지 즉시 전송 태스크 시작 (${new Date().toLocaleTimeString()})`, "warn");
+      await sleep(300);
+      appendKakaoLog("[AUTH] 카카오 계정(bookclub_master@kakao.com) OAuth2 세션 검증...", "info");
+      await sleep(250);
+      appendKakaoLog("  ✔ 카카오 비즈니스 봇 인증 성공 (Token: VALID)", "success");
+      await sleep(350);
+      appendKakaoLog("[DISPATCH] 💬 오픈채팅방(https://open.kakao.com/o/gBookClub2026) 메시지 전송...", "info");
+      await sleep(300);
+      appendKakaoLog("  ✔ 단톡방 참여 회원 18명에게 실시간 알림톡 발송 완료 (HTTP 200 OK)", "success");
+
+      if (optKakaoPin && optKakaoPin.checked) {
+        await sleep(200);
+        appendKakaoLog("  ✔ 단톡방 상단 톡게시판 핀 공지 고정 등록 완료", "success");
+      }
+      if (optKakaoVote && optKakaoVote.checked) {
+        await sleep(200);
+        appendKakaoLog("  ✔ [참석/불참/미정] 실시간 투표 폼 생성 완료", "success");
+      }
+      if (optKakaoMention && optKakaoMention.checked) {
+        await sleep(150);
+        appendKakaoLog("  ✔ @전체 멤버 멘션 푸시 알림 트리거 완료", "success");
+      }
+
+      await sleep(250);
+      appendKakaoLog(`[COMPLETE] 🎉 카카오톡 공지가 성공적으로 발송되었습니다!\n`, "success");
+
+      if (kakaoTermStatusTag) {
+        kakaoTermStatusTag.textContent = "발송 완료 (SUCCESS)";
+        kakaoTermStatusTag.style.color = "#4ade80";
+      }
+      alert("카카오톡 단톡방에 공지 알림이 성공적으로 전송되었습니다!");
+    });
+  }
+
+  // =========================================================================
+  // 4. Community Board Notice Composer & Multi-Platform Preview
+  // =========================================================================
+
+  const boardTitle = document.getElementById("boardTitle");
+  const boardBook = document.getElementById("boardBook");
+  const boardDateTime = document.getElementById("boardDateTime");
+  const boardPlace = document.getElementById("boardPlace");
+  const boardFee = document.getElementById("boardFee");
+  const boardBody = document.getElementById("boardBody");
+
+  const optBoardMarkdown = document.getElementById("optBoardMarkdown");
+  const optBoardHashtags = document.getElementById("optBoardHashtags");
+  const optBoardSheetLink = document.getElementById("optBoardSheetLink");
+
+  const boardArticleContent = document.getElementById("boardArticleContent");
+  const boardCharStats = document.getElementById("boardCharStats");
+  const boardSpecBadge = document.getElementById("boardSpecBadge");
+  const boardSubtabs = document.querySelectorAll("#boardSubtabGroup .board-subtab");
+
+  const btnSampleBoard1 = document.getElementById("btnSampleBoard1");
+  const btnSendBoard = document.getElementById("btnSendBoard");
+
+  const boardTerminalCard = document.getElementById("boardTerminalCard");
+  const boardTerminalLogBody = document.getElementById("boardTerminalLogBody");
+  const boardTermStatusTag = document.getElementById("boardTermStatusTag");
+  const btnClearBoardTerminal = document.getElementById("btnClearBoardTerminal");
+
+  let activeBoardTab = "somoim";
+
+  function appendBoardLog(msg, type = "info") {
+    if (!boardTerminalLogBody) return;
+    const line = document.createElement("div");
+    line.className = `term-line ${type}`;
+    line.textContent = msg;
+    boardTerminalLogBody.appendChild(line);
+    boardTerminalLogBody.scrollTop = boardTerminalLogBody.scrollHeight;
+  }
+
+  // Board Subtabs
+  boardSubtabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      boardSubtabs.forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
+      activeBoardTab = tab.getAttribute("data-board");
+      updateBoardPreview();
+    });
+  });
+
   function formatBoardHtml(platform) {
-    const title = noticeTitle.value.trim();
-    const book = noticeBook.value.trim();
-    const dt = noticeDateTime.value.trim();
-    const place = noticePlace.value.trim();
-    const fee = noticeFee.value.trim();
-    const body = noticeBody.value.trim();
+    if (!boardTitle) return "";
+    const title = boardTitle.value.trim();
+    const book = boardBook ? boardBook.value.trim() : "";
+    const dt = boardDateTime ? boardDateTime.value.trim() : "";
+    const place = boardPlace ? boardPlace.value.trim() : "";
+    const fee = boardFee ? boardFee.value.trim() : "";
+    const body = boardBody ? boardBody.value.trim() : "";
 
     const sheetLink = optBoardSheetLink && optBoardSheetLink.checked
       ? `<div style="background:#eff6ff; border:1px solid #bfdbfe; padding:10px 14px; border-radius:6px; margin-top:14px; font-size:0.8rem; color:#1e40af;">
@@ -749,7 +872,6 @@ document.addEventListener("DOMContentLoaded", () => {
 ■ 모임 장소: ${escapeHtml(place)}
 ■ 참가비 안내: ${escapeHtml(fee)}
 
-[발제 및 진행 안내]
 ${escapeHtml(body)}
             </div>
             ${sheetLink}
@@ -761,44 +883,44 @@ ${escapeHtml(body)}
         return `
           <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
             <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-              <span style="background:#ffedd5; color:#9a3412; font-weight:700; font-size:0.75rem; padding:2px 8px; border-radius:4px;">🥕 당근 동네생활 모임</span>
-              <span style="font-size:0.75rem; color:#64748b;">역삼1동 · 방금 전</span>
+              <span style="background:#ff6f0f; color:#ffffff; font-weight:700; font-size:0.75rem; padding:2px 8px; border-radius:4px;">🥕 당근 동네생활</span>
+              <span style="font-size:0.8rem; color:#64748b;">역삼1동 인근 북클럽</span>
             </div>
-            <h3 style="font-size:1.1rem; color:#0f172a; margin-bottom:10px;">이웃과 함께 읽는 ${escapeHtml(book)}</h3>
-            <p style="font-size:0.85rem; color:#475569; margin-bottom:12px;">
-              동네 이웃들과 책 한 권으로 솔직하고 따뜻한 대화를 나눠요 :)<br>
-              매너온도 36.5도 이상인 동네 이웃 누구나 환영합니다!
-            </p>
-            <div style="background:#fff7ed; border-radius:6px; padding:10px 14px; font-size:0.82rem; margin-bottom:12px;">
-              <p>📍 모이는 곳: ${escapeHtml(place)}</p>
-              <p>⏰ 언제: ${escapeHtml(dt)}</p>
-              <p>☕ 회비: ${escapeHtml(fee)}</p>
+            <h3 style="font-size:1.1rem; color:#0f172a; margin-bottom:10px;">${escapeHtml(title)}</h3>
+            <div style="font-size:0.88rem; line-height:1.6; color:#334155; white-space:pre-wrap;">
+동네 이웃들과 편안하게 책 이야기를 나누는 따뜻한 모임입니다 :)
+
+• 도서: ${escapeHtml(book)}
+• 일시: ${escapeHtml(dt)}
+• 장소: ${escapeHtml(place)}
+• 회비: ${escapeHtml(fee)}
+
+${escapeHtml(body)}
             </div>
-            <div style="font-size:0.85rem; line-height:1.6; white-space:pre-wrap; color:#334155;">${escapeHtml(body)}</div>
             ${sheetLink}
+            ${hashtagText}
           </div>
         `;
 
       case "everytime":
         return `
           <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-              <span style="color:#c62917; font-weight:800; font-size:0.78rem;">[동아리/소모임]</span>
-              <span style="font-size:0.72rem; color:#94a3b8;">익명</span>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+              <span style="background:#c62917; color:#ffffff; font-weight:700; font-size:0.75rem; padding:2px 8px; border-radius:4px;">🔴 에브리타임</span>
+              <span style="font-size:0.8rem; color:#64748b;">동아리/학술 소모임 게시판</span>
             </div>
-            <h3 style="font-size:1.1rem; color:#0f172a; margin-bottom:10px;">${escapeHtml(title)}</h3>
+            <h3 style="font-size:1.05rem; color:#0f172a; margin-bottom:8px;">${escapeHtml(title)}</h3>
             <div style="font-size:0.85rem; line-height:1.6; color:#334155; white-space:pre-wrap;">
-이번 주말 독서모임 같이 할 학우분들 구합니다!
+대학생 & 청년 대상 열린 독서모임입니다! 이번 주 모임 함께해요.
 
-- 책: ${escapeHtml(book)}
-- 시간: ${escapeHtml(dt)}
-- 위치: ${escapeHtml(place)}
-- 회비: ${escapeHtml(fee)}
+- 책 제목: ${escapeHtml(book)}
+- 언제: ${escapeHtml(dt)}
+- 어디서: ${escapeHtml(place)}
+- 비용: ${escapeHtml(fee)}
 
 ${escapeHtml(body)}
-
-참가비는 대관 실비로 구글 시트에 100% 투명 공개됩니다. 부담 없이 쪽지 주세요!
             </div>
+            ${sheetLink}
             ${hashtagText}
           </div>
         `;
@@ -806,187 +928,112 @@ ${escapeHtml(body)}
       case "instagram":
         return `
           <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
-            <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
-              <div style="width:32px; height:32px; border-radius:50%; background:#fce7f3; display:flex; align-items:center; justify-content:center; font-size:0.8rem;">📸</div>
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+              <div style="width:34px; height:34px; border-radius:50%; background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.75rem;">📷</div>
               <div>
-                <strong style="font-size:0.82rem; color:#0f172a;">bookclub_transparent</strong>
-                <p style="font-size:0.7rem; color:#94a3b8;">오리지널 피드 카드뉴스 캡션</p>
+                <strong style="font-size:0.85rem; color:#0f172a;">bookclub_official</strong>
+                <div style="font-size:0.72rem; color:#64748b;">스폰서 및 공식 피드 포스팅</div>
               </div>
             </div>
-            <div style="background:#f1f5f9; height:180px; border-radius:6px; display:flex; align-items:center; justify-content:center; color:#64748b; font-size:0.85rem; margin-bottom:14px; text-align:center;">
-              🖼 [카드뉴스 썸네일 이미지 미리보기]<br>
-              <strong>${escapeHtml(title)}</strong>
+            <div style="background:#f1f5f9; height:180px; border-radius:6px; display:flex; flex-direction:column; align-items:center; justify-content:center; margin-bottom:12px; color:#475569; text-align:center; padding:12px;">
+              <span style="font-size:2rem; margin-bottom:6px;">📖</span>
+              <strong style="font-size:0.95rem; color:#1e293b;">${escapeHtml(book)}</strong>
+              <span style="font-size:0.75rem; color:#64748b; margin-top:4px;">카드뉴스 표지 썸네일 자동 생성</span>
             </div>
-            <div style="font-size:0.85rem; line-height:1.6; color:#1e293b; white-space:pre-wrap;">
-📖 ${escapeHtml(title)}
--
-이번 모임에서 함께 나눌 책은 <strong>${escapeHtml(book)}</strong> 입니다.
+            <div style="font-size:0.83rem; line-height:1.6; color:#1e293b; white-space:pre-wrap;">
+✨ ${escapeHtml(title)} ✨
 
+📖 이주의 도서: ${escapeHtml(book)}
 🗓 일시: ${escapeHtml(dt)}
 📍 장소: ${escapeHtml(place)}
 
-"${escapeHtml(body.split("\n")[0] || "")}"
-
-신청 및 투명한 회원 명단은 프로필 링크의 구글 시트에서 확인하실 수 있습니다.
+${escapeHtml(body)}
             </div>
             ${hashtagText}
           </div>
         `;
 
       default:
-        return title;
+        return `<p>${escapeHtml(body)}</p>`;
     }
   }
 
-  // Update Live Preview
-  function updatePreview() {
-    const title = noticeTitle.value.trim();
+  function updateBoardPreview() {
+    if (!boardArticleContent) return;
+    const html = formatBoardHtml(activeBoardTab);
+    boardArticleContent.innerHTML = html;
 
-    // Pinned notice in Kakao
-    if (ktPinTitle) ktPinTitle.textContent = title;
-    if (ktPinnedNotice) {
-      ktPinnedNotice.style.display = optKakaoPin && optKakaoPin.checked ? "flex" : "none";
+    const pureText = boardArticleContent.textContent || "";
+    if (boardCharStats) {
+      boardCharStats.textContent = `글자 수: ${pureText.trim().length}자`;
     }
-
-    // Messenger Preview
-    const messengerText = formatMessengerText();
-    if (ktBubbleText) ktBubbleText.textContent = messengerText;
-
-    // Board Preview
-    const boardHtml = formatBoardHtml(activeBoardTab);
-    if (boardArticleContent) boardArticleContent.innerHTML = boardHtml;
-
-    // Char Stats
-    if (activePreviewMode === "messenger") {
-      if (previewCharStats) previewCharStats.textContent = `글자 수: ${messengerText.length}자 (공백 포함)`;
-      if (previewSpecBadge) previewSpecBadge.textContent = "카카오톡 메시지 규격 준수 (최대 1,000자)";
-    } else {
-      const plainBoard = boardArticleContent ? boardArticleContent.textContent : "";
-      if (previewCharStats) previewCharStats.textContent = `글자 수: ${plainBoard.length}자 (공백 포함)`;
-      if (previewSpecBadge) previewSpecBadge.textContent = "게시판 마크다운 서식 최적화 완료";
+    if (boardSpecBadge) {
+      const specNames = {
+        somoim: "소모임 정모 규격 준수",
+        naver: "네이버 카페 에디터 호환",
+        daangn: "당근 동네생활 피드 규격",
+        everytime: "에타 게시글 서식 최적화",
+        instagram: "인스타그램 피드 캡션 최적화"
+      };
+      boardSpecBadge.textContent = specNames[activeBoardTab] || "서식 최적화";
     }
   }
 
-  // Form Input Listeners
-  [noticeTitle, noticeBook, noticeDateTime, noticePlace, noticeFee, noticeBody].forEach((input) => {
-    if (input) input.addEventListener("input", updatePreview);
+  [boardTitle, boardBook, boardDateTime, boardPlace, boardFee, boardBody].forEach((input) => {
+    if (input) {
+      input.addEventListener("input", updateBoardPreview);
+    }
+  });
+  [optBoardMarkdown, optBoardHashtags, optBoardSheetLink].forEach((chk) => {
+    if (chk) {
+      chk.addEventListener("change", updateBoardPreview);
+    }
   });
 
-  [optKakaoPin, optKakaoVote, optKakaoMention, optBoardMarkdown, optBoardHashtags, optBoardSheetLink].forEach((chk) => {
-    if (chk) chk.addEventListener("change", updatePreview);
-  });
-
-  // Sample Notice Buttons
-  const btnSampleNotice1 = document.getElementById("btnSampleNotice1");
-  if (btnSampleNotice1) {
-    btnSampleNotice1.addEventListener("click", () => {
-      noticeTitle.value = "[제14회 북클럽] '도둑맞은 집중력' 함께 읽고 대화하기";
-      noticeBook.value = "도둑맞은 집중력 (요한 하리)";
-      noticeDateTime.value = "2026년 9월 19일 (토) 오후 2:00 ~ 4:30";
-      noticePlace.value = "강남역 북카페 '생각의 숲' 3번 룸";
-      noticeFee.value = "10,000원 (대관료 및 음료 1잔 포함, 영수증 100% 공개)";
-      noticeBody.value = `스마트폰과 알고리즘의 유혹 속에서 우리의 집중력은 왜 흐려졌을까요?\n가장 인상 깊었던 챕터 1곳과 함께 나누고 싶은 질문 1개를 준비해 와주세요!\n* 모임 후 출석 및 회계 내역은 구글 시트를 통해 회원 전원에게 투명하게 공개됩니다.`;
-      updatePreview();
+  if (btnSampleBoard1 && boardTitle) {
+    btnSampleBoard1.addEventListener("click", () => {
+      boardTitle.value = "[제14회 북클럽] '도둑맞은 집중력' 함께 읽고 대화하기";
+      if (boardBook) boardBook.value = "도둑맞은 집중력 (요한 하리)";
+      if (boardDateTime) boardDateTime.value = "2026년 9월 19일 (토) 오후 2:00 ~ 4:30";
+      if (boardPlace) boardPlace.value = "강남역 북카페 '생각의 숲' 3번 룸 (스터디룸 B)";
+      if (boardFee) boardFee.value = "10,000원 (대관료 및 음료 1잔 포함, 영수증 100% 공개)";
+      if (boardBody) boardBody.value = `스마트폰과 알고리즘의 유혹 속에서 우리의 집중력은 왜 흐려졌을까요?\n가장 인상 깊었던 챕터 1곳과 함께 나누고 싶은 질문 1개를 준비해 와주세요!\n\n모임 진행 순서:\n1. 아이스브레이킹 및 도서 한줄평 (20분)\n2. 발제 질문 중심 자유 토론 (80분)\n3. 다음 모임 도서 추천 및 마무리 (20분)\n\n* 모임 후 출석 및 회계 내역은 구글 시트를 통해 회원 전원에게 투명하게 공개됩니다.`;
+      updateBoardPreview();
     });
   }
 
-  const btnSampleNotice2 = document.getElementById("btnSampleNotice2");
-  if (btnSampleNotice2) {
-    btnSampleNotice2.addEventListener("click", () => {
-      noticeTitle.value = "[제15회 북클럽] '클린 코드' & 협업의 정석";
-      noticeBook.value = "클린 코드 (로버트 C. 마틴)";
-      noticeDateTime.value = "2026년 9월 26일 (토) 오후 3:00 ~ 5:30";
-      noticePlace.value = "신논현 코워킹 스페이스 Room A";
-      noticeFee.value = "10,000원 (공간 대관비 실비 집행)";
-      noticeBody.value = `읽기 좋은 코드가 왜 더 투명하고 지속 가능한 팀을 만드는지 토론합니다.\n현업이나 과제에서 겪었던 협업 사례 1가지를 나눠주세요!\n* 사전 독서노트를 작성해주신 분에 한해 선착순으로 진행됩니다.`;
-      updatePreview();
+  if (btnClearBoardTerminal && boardTerminalLogBody) {
+    btnClearBoardTerminal.addEventListener("click", () => {
+      boardTerminalLogBody.innerHTML = `<div class="term-line info">[SYSTEM] 커뮤니티 터미널 콘솔이 초기화되었습니다.</div>`;
     });
   }
 
-  // =========================================================================
-  // 4. One-Click Broadcast Execution & Live Terminal Console Engine
-  // =========================================================================
-
-  const btnExecuteBroadcast = document.getElementById("btnExecuteBroadcast");
-  const terminalCard = document.getElementById("automationTerminalCard");
-  const terminalLogBody = document.getElementById("terminalLogBody");
-  const termStatusTag = document.getElementById("termStatusTag");
-  const btnClearTerminal = document.getElementById("btnClearTerminal");
-
-  // Report Modal Elements
-  const broadcastReportModal = document.getElementById("broadcastReportModal");
-  const btnCloseReportModal = document.getElementById("btnCloseReportModal");
-  const btnConfirmReport = document.getElementById("btnConfirmReport");
-  const reportMessengerRow = document.getElementById("reportMessengerRow");
-  const reportBoardList = document.getElementById("reportBoardList");
-
-  if (btnClearTerminal && terminalLogBody) {
-    btnClearTerminal.addEventListener("click", () => {
-      terminalLogBody.innerHTML = `<div class="term-line info">[SYSTEM] 터미널 콘솔이 초기화되었습니다.</div>`;
-    });
-  }
-
-  function appendTerminalLog(msg, type = "info") {
-    if (!terminalLogBody) return;
-    const line = document.createElement("div");
-    line.className = `term-line ${type}`;
-    line.textContent = msg;
-    terminalLogBody.appendChild(line);
-    terminalLogBody.scrollTop = terminalLogBody.scrollHeight;
-  }
-
-  function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
-  if (btnExecuteBroadcast) {
-    btnExecuteBroadcast.addEventListener("click", async () => {
+  if (btnSendBoard) {
+    btnSendBoard.addEventListener("click", async () => {
       const selectedChannels = Array.from(
-        document.querySelectorAll("input[name='sendChannels']:checked")
+        document.querySelectorAll("input[name='sendBoardChannels']:checked")
       ).map((el) => el.value);
 
       if (selectedChannels.length === 0) {
-        alert("최소 1개 이상의 메신저 또는 게시글 채널을 선택해주세요.");
+        alert("최소 1개 이상의 커뮤니티 채널을 선택해주세요.");
         return;
       }
 
-      // Scroll to Terminal smoothly
-      if (terminalCard) {
-        terminalCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      if (boardTerminalCard) {
+        boardTerminalCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
       }
 
-      if (termStatusTag) {
-        termStatusTag.textContent = "작업 실행 중 (RUNNING...)";
-        termStatusTag.style.color = "#facc15";
+      if (boardTermStatusTag) {
+        boardTermStatusTag.textContent = "작업 실행 중 (RUNNING...)";
+        boardTermStatusTag.style.color = "#facc15";
       }
 
-      appendTerminalLog(`\n>>> [START] 원클릭 멀티플랫폼 공지 자동화 태스크 시작 (${new Date().toLocaleTimeString()})`, "warn");
-
-      // 1. Credentials session test
-      await sleep(350);
-      appendTerminalLog("[AUTH] 플랫폼별 ID/PW 인증 세션 검증 시작...", "info");
+      appendBoardLog(`\n>>> [START] 커뮤니티 게시판 일괄 등록 태스크 시작 (${new Date().toLocaleTimeString()})`, "warn");
       await sleep(300);
-      appendTerminalLog("  ✔ 카카오톡 비즈니스 세션 토큰 확인 완료 (user: bookclub_master@kakao.com)", "success");
+      appendBoardLog("[AUTH] 커뮤니티 로그인 계정 및 API 키 세션 검증...", "info");
       await sleep(250);
-      appendTerminalLog("  ✔ 커뮤니티(소모임, 네이버, 당근, 에타, 인스타) 로그인 세션 유효 확인 (100% OK)", "success");
+      appendBoardLog("  ✔ 5개 커뮤니티 플랫폼 인증 세션 100% 유효함 (200 OK)", "success");
 
-      // 2. Messenger Dispatch
-      if (selectedChannels.includes("kakao")) {
-        await sleep(350);
-        appendTerminalLog("[MESSENGER] 💬 카카오톡 단톡방(open.kakao.com/o/gBookClub2026) 메시지 패킷 송신...", "info");
-        await sleep(300);
-        appendTerminalLog("  ✔ 카카오톡 알림톡 및 채팅방 발송 성공 (수신자: 18명)", "success");
-        if (optKakaoPin && optKakaoPin.checked) {
-          await sleep(200);
-          appendTerminalLog("  ✔ 카카오톡 단톡방 상단 톡게시판 핀 공지 고정 완료", "success");
-        }
-        if (optKakaoVote && optKakaoVote.checked) {
-          await sleep(200);
-          appendTerminalLog("  ✔ [참석/불참/미정] 실시간 투표 폼 생성 완료", "success");
-        }
-      }
-
-      // 3. Board Postings
       const boardChannelMap = {
         somoim: "소모임 앱 정기정모 (Club ID: CLUB_92819)",
         naver: "네이버 카페 [모임공지] (Doc #9412)",
@@ -996,73 +1043,26 @@ ${escapeHtml(body)}
       };
 
       for (const ch of selectedChannels) {
-        if (ch !== "kakao") {
-          await sleep(300);
-          appendTerminalLog(`[BOARD] 📝 ${boardChannelMap[ch]} 글쓰기 API 요청 중...`, "info");
-          await sleep(250);
-          appendTerminalLog(`  ✔ ${boardChannelMap[ch]} 포스팅 등록 성공 (HTTP 200 OK)`, "success");
-        }
+        await sleep(300);
+        appendBoardLog(`[BOARD] 📝 ${boardChannelMap[ch]} 글쓰기 API 요청 중...`, "info");
+        await sleep(250);
+        appendBoardLog(`  ✔ ${boardChannelMap[ch]} 포스팅 등록 성공 (HTTP 200 OK)`, "success");
       }
 
-      // 4. Finished
-      await sleep(300);
-      appendTerminalLog(`[COMPLETE] 🎉 선택된 ${selectedChannels.length}개 채널에 원클릭 동시 배포가 100% 완료되었습니다!\n`, "success");
+      await sleep(250);
+      appendBoardLog(`[COMPLETE] 🎉 선택된 ${selectedChannels.length}개 커뮤니티에 자동 포스팅이 100% 완료되었습니다!\n`, "success");
 
-      if (termStatusTag) {
-        termStatusTag.textContent = "배포 완료 (COMPLETED)";
-        termStatusTag.style.color = "#4ade80";
+      if (boardTermStatusTag) {
+        boardTermStatusTag.textContent = "배포 완료 (COMPLETED)";
+        boardTermStatusTag.style.color = "#4ade80";
       }
-
-      // Populate Report Modal
-      if (reportMessengerRow) {
-        if (selectedChannels.includes("kakao")) {
-          reportMessengerRow.style.display = "flex";
-        } else {
-          reportMessengerRow.style.display = "none";
-        }
-      }
-
-      if (reportBoardList) {
-        const boardItems = selectedChannels.filter((c) => c !== "kakao");
-        if (boardItems.length === 0) {
-          reportBoardList.innerHTML = `<div style="font-size:0.8rem; color:#94a3b8;">게시글 채널 선택 없음</div>`;
-        } else {
-          reportBoardList.innerHTML = boardItems
-            .map((ch) => `
-              <div class="report-board-item">
-                <span>📝 ${boardChannelMap[ch]}</span>
-                <span class="badge-success">등록 완료</span>
-              </div>
-            `)
-            .join("");
-        }
-      }
-
-      // Show modal
-      if (broadcastReportModal) {
-        broadcastReportModal.classList.add("active");
-      }
+      alert(`선택하신 ${selectedChannels.length}개 커뮤니티 플랫폼에 게시글 등록이 성공적으로 완료되었습니다!`);
     });
   }
 
-  // Modal Closers
-  if (btnCloseReportModal && broadcastReportModal) {
-    btnCloseReportModal.addEventListener("click", () => {
-      broadcastReportModal.classList.remove("active");
-    });
-  }
-  if (btnConfirmReport && broadcastReportModal) {
-    btnConfirmReport.addEventListener("click", () => {
-      broadcastReportModal.classList.remove("active");
-    });
-  }
-  if (broadcastReportModal) {
-    broadcastReportModal.addEventListener("click", (e) => {
-      if (e.target === broadcastReportModal) broadcastReportModal.classList.remove("active");
-    });
-  }
-
-  // Nav Tabs Smooth Scroll & Active Handling
+  // =========================================================================
+  // 5. Nav Tabs Smooth Scroll & Active Handling
+  // =========================================================================
   const navTabs = document.querySelectorAll(".console-nav .nav-tab");
   navTabs.forEach((tab) => {
     tab.addEventListener("click", (e) => {
@@ -1081,5 +1081,6 @@ ${escapeHtml(body)}
 
   // Initial Load
   renderMemberTable();
-  updatePreview();
+  updateKakaoPreview();
+  updateBoardPreview();
 });
