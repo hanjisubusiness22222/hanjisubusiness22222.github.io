@@ -564,11 +564,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (msgKakaoTest) msgKakaoTest.textContent = "카카오 인증 서버 핑 테스트 중...";
       setTimeout(() => {
         if (msgKakaoTest) {
-          msgKakaoTest.textContent = "🟢 인증 성공: OAuth2 토큰 유효함";
+          msgKakaoTest.textContent = "🟢 인증 성공: 3개 단톡방 세션 정상 연결됨";
           msgKakaoTest.style.color = "var(--accent-emerald)";
         }
         if (badgeKakaoStatus) {
-          badgeKakaoStatus.textContent = "🟢 세션 정상 (200 OK)";
+          badgeKakaoStatus.textContent = "🟢 세션 정상 (3개 방 연결)";
           badgeKakaoStatus.classList.add("badge-active");
         }
       }, 600);

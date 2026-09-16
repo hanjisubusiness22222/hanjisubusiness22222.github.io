@@ -2667,8 +2667,24 @@ button, input, select, textarea {
                   </div>
                 </div>
                 <div class="cred-field full-span">
-                  <label for="credKakaoRoom">연동 대상 단톡방 / 오픈채팅방 링크 코드</label>
-                  <input type="text" id="credKakaoRoom" value="https://open.kakao.com/o/gBookClub2026" placeholder="오픈채팅방 URL 또는 채팅방 고유 ID">
+                  <label style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                    <span>연동 대상 단톡방 / 오픈채팅방 링크 코드 (총 3개)</span>
+                    <span style="font-size:0.75rem; color:#64748b; font-weight:normal;">운영 단톡방 3곳 개별 링크 등록</span>
+                  </label>
+                  <div style="display:flex; flex-direction:column; gap:8px;">
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <span style="font-size:0.78rem; font-weight:700; color:#1e40af; background:#eff6ff; border:1px solid #bfdbfe; padding:6px 10px; border-radius:6px; min-width:70px; text-align:center;">단톡방 1</span>
+                      <input type="text" id="credKakaoRoom1" value="https://open.kakao.com/o/gBookClub2026_Room1" placeholder="단톡방 1 오픈채팅방 URL 또는 참여 코드" style="flex:1;">
+                    </div>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <span style="font-size:0.78rem; font-weight:700; color:#1e40af; background:#eff6ff; border:1px solid #bfdbfe; padding:6px 10px; border-radius:6px; min-width:70px; text-align:center;">단톡방 2</span>
+                      <input type="text" id="credKakaoRoom2" value="https://open.kakao.com/o/gBookClub2026_Room2" placeholder="단톡방 2 오픈채팅방 URL 또는 참여 코드" style="flex:1;">
+                    </div>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <span style="font-size:0.78rem; font-weight:700; color:#1e40af; background:#eff6ff; border:1px solid #bfdbfe; padding:6px 10px; border-radius:6px; min-width:70px; text-align:center;">단톡방 3</span>
+                      <input type="text" id="credKakaoRoom3" value="https://open.kakao.com/o/gBookClub2026_Room3" placeholder="단톡방 3 오픈채팅방 URL 또는 참여 코드" style="flex:1;">
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="channel-auth-actions">
@@ -3968,11 +3984,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (msgKakaoTest) msgKakaoTest.textContent = "카카오 인증 서버 핑 테스트 중...";
       setTimeout(() => {
         if (msgKakaoTest) {
-          msgKakaoTest.textContent = "🟢 인증 성공: OAuth2 토큰 유효함";
+          msgKakaoTest.textContent = "🟢 인증 성공: 3개 단톡방 세션 정상 연결됨";
           msgKakaoTest.style.color = "var(--accent-emerald)";
         }
         if (badgeKakaoStatus) {
-          badgeKakaoStatus.textContent = "🟢 세션 정상 (200 OK)";
+          badgeKakaoStatus.textContent = "🟢 세션 정상 (3개 방 연결)";
           badgeKakaoStatus.classList.add("badge-active");
         }
       }, 600);

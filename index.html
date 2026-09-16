@@ -7,7 +7,7 @@
   <title>BookLink Admin - 독서모임 통합 관리 콘솔</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="style.css?v=20260916_08">
+  <link rel="stylesheet" href="style.css?v=20260916_09">
   <script>
     try {
       ['booklink_members_v1', 'booklink_members_v2', 'booklink_members_v3', 'booklink_members_v4', 'booklink_members_v5'].forEach(function(k){ localStorage.removeItem(k); });
@@ -113,8 +113,24 @@
                   </div>
                 </div>
                 <div class="cred-field full-span">
-                  <label for="credKakaoRoom">연동 대상 단톡방 / 오픈채팅방 링크 코드</label>
-                  <input type="text" id="credKakaoRoom" value="https://open.kakao.com/o/gBookClub2026" placeholder="오픈채팅방 URL 또는 채팅방 고유 ID">
+                  <label style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                    <span>연동 대상 단톡방 / 오픈채팅방 링크 코드 (총 3개)</span>
+                    <span style="font-size:0.75rem; color:#64748b; font-weight:normal;">운영 단톡방 3곳 개별 링크 등록</span>
+                  </label>
+                  <div style="display:flex; flex-direction:column; gap:8px;">
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <span style="font-size:0.78rem; font-weight:700; color:#1e40af; background:#eff6ff; border:1px solid #bfdbfe; padding:6px 10px; border-radius:6px; min-width:70px; text-align:center;">단톡방 1</span>
+                      <input type="text" id="credKakaoRoom1" value="https://open.kakao.com/o/gBookClub2026_Room1" placeholder="단톡방 1 오픈채팅방 URL 또는 참여 코드" style="flex:1;">
+                    </div>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <span style="font-size:0.78rem; font-weight:700; color:#1e40af; background:#eff6ff; border:1px solid #bfdbfe; padding:6px 10px; border-radius:6px; min-width:70px; text-align:center;">단톡방 2</span>
+                      <input type="text" id="credKakaoRoom2" value="https://open.kakao.com/o/gBookClub2026_Room2" placeholder="단톡방 2 오픈채팅방 URL 또는 참여 코드" style="flex:1;">
+                    </div>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <span style="font-size:0.78rem; font-weight:700; color:#1e40af; background:#eff6ff; border:1px solid #bfdbfe; padding:6px 10px; border-radius:6px; min-width:70px; text-align:center;">단톡방 3</span>
+                      <input type="text" id="credKakaoRoom3" value="https://open.kakao.com/o/gBookClub2026_Room3" placeholder="단톡방 3 오픈채팅방 URL 또는 참여 코드" style="flex:1;">
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="channel-auth-actions">
@@ -847,6 +863,6 @@ https://open.kakao.com/o/sWLBJTue
     </div>
   </footer>
 
-  <script src="app.js?v=20260916_08"></script>
+  <script src="app.js?v=20260916_09"></script>
 </body>
 </html>
