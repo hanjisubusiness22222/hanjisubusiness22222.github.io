@@ -10,44 +10,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 개인정보 보호 익명화(마스킹) 유틸
   function maskName(name) {
-    if (!name) return "";
-    const str = String(name).trim();
-    if (str.includes("*")) return str;
-    if (str.length <= 1) return str;
-    if (str.length === 2) return str[0] + "*";
-    return str[0] + "*".repeat(str.length - 2) + str[str.length - 1];
+    if (!name) return "***";
+    return "***";
   }
 
   function maskPhone(phone) {
-    if (!phone) return "010-****-0000";
-    const str = String(phone).trim();
-    if (str.includes("*")) return str;
-    const matched = str.match(/^(\d{2,3})-?(\d{3,4})-?(\d{4})$/);
-    if (matched) {
-      return `${matched[1]}-****-${matched[3]}`;
-    }
-    return str.slice(0, 3) + "-****-" + str.slice(-4);
+    return "010-0000-0000";
   }
 
   const initialMembers = [
-    { id: 1, name: "이*원", phone: "010-****-8821", channel: "소모임", attendance: 8, fee: "완료", book: "도둑맞은 집중력", role: "정회원", note: "제출" },
-    { id: 2, name: "박*영", phone: "010-****-3847", channel: "당근", attendance: 3, fee: "완료", book: "도둑맞은 집중력", role: "일반회원", note: "제출" },
-    { id: 3, name: "최*연", phone: "010-****-1192", channel: "인스타", attendance: 12, fee: "완료", book: "물고기는 존재하지 않는다", role: "운영진", note: "제출" },
-    { id: 4, name: "정*호", phone: "010-****-9302", channel: "에타", attendance: 2, fee: "대기", book: "도둑맞은 집중력", role: "신규회원", note: "미제출" },
-    { id: 5, name: "한*은", phone: "010-****-2051", channel: "카카오톡", attendance: 6, fee: "완료", book: "원씽 (The ONE Thing)", role: "정회원", note: "제출" },
-    { id: 6, name: "윤*현", phone: "010-****-1403", channel: "네이버", attendance: 4, fee: "대기", book: "도둑맞은 집중력", role: "일반회원", note: "미제출" },
-    { id: 7, name: "김*현", phone: "010-****-3829", channel: "소모임", attendance: 9, fee: "완료", book: "클린 코드", role: "호스트", note: "제출" },
-    { id: 8, name: "임*윤", phone: "010-****-5520", channel: "당근", attendance: 5, fee: "면제", book: "도둑맞은 집중력", role: "운영진", note: "제출" }
+    { id: 1, name: "***", phone: "010-0000-0000", channel: "소모임", attendance: 8, fee: "완료", book: "도둑맞은 집중력", role: "정회원", note: "제출" },
+    { id: 2, name: "***", phone: "010-0000-0000", channel: "당근", attendance: 3, fee: "완료", book: "도둑맞은 집중력", role: "일반회원", note: "제출" },
+    { id: 3, name: "***", phone: "010-0000-0000", channel: "인스타", attendance: 12, fee: "완료", book: "물고기는 존재하지 않는다", role: "운영진", note: "제출" },
+    { id: 4, name: "***", phone: "010-0000-0000", channel: "에타", attendance: 2, fee: "대기", book: "도둑맞은 집중력", role: "신규회원", note: "미제출" },
+    { id: 5, name: "***", phone: "010-0000-0000", channel: "카카오톡", attendance: 6, fee: "완료", book: "원씽 (The ONE Thing)", role: "정회원", note: "제출" },
+    { id: 6, name: "***", phone: "010-0000-0000", channel: "네이버", attendance: 4, fee: "대기", book: "도둑맞은 집중력", role: "일반회원", note: "미제출" },
+    { id: 7, name: "***", phone: "010-0000-0000", channel: "소모임", attendance: 9, fee: "완료", book: "클린 코드", role: "호스트", note: "제출" },
+    { id: 8, name: "***", phone: "010-0000-0000", channel: "당근", attendance: 5, fee: "면제", book: "도둑맞은 집중력", role: "운영진", note: "제출" }
   ];
 
-  let rawStored = JSON.parse(localStorage.getItem("booklink_members_v4"));
+  let rawStored = JSON.parse(localStorage.getItem("booklink_members_v5") || localStorage.getItem("booklink_members_v4") || localStorage.getItem("booklink_members_v3"));
   let members = (rawStored && rawStored.length > 0) ? rawStored : [...initialMembers];
-  // 기존 저장 데이터도 이름과 연락처 익명 마스킹 적용
+  // 기존 저장 데이터도 이름(***)과 연락처(010-0000-0000) 익명화 적용
   members = members.map((m) => ({
     ...m,
     name: maskName(m.name),
     phone: maskPhone(m.phone)
   }));
+  localStorage.setItem("booklink_members_v5", JSON.stringify(members));
   let selectedMemberIds = new Set();
   let currentFilter = "all";
   let searchQuery = "";
@@ -524,7 +514,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function saveAndRefresh() {
-    localStorage.setItem("booklink_members_v3", JSON.stringify(members));
+    localStorage.setItem("booklink_members_v5", JSON.stringify(members));
     renderMemberTable();
   }
 

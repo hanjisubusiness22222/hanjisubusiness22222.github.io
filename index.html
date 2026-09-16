@@ -283,7 +283,7 @@
                 <th class="col-select"><input type="checkbox" id="checkAllMembers" aria-label="전체 회원 선택"></th>
                 <th class="col-num">No</th>
                 <th class="col-name" data-sort="name">회원명 (익명) <span class="sort-arrow">↕</span></th>
-                <th class="col-phone">연락처 (마스킹)</th>
+                <th class="col-phone">연락처 (익명화)</th>
                 <th class="col-channel" data-sort="channel">유입 채널 <span class="sort-arrow">↕</span></th>
                 <th class="col-attendance" data-sort="attendance">누적 출석 <span class="sort-arrow">↕</span></th>
                 <th class="col-fee" data-sort="fee">회비 납부 (10,000원) <span class="sort-arrow">↕</span></th>
@@ -782,11 +782,11 @@
           <div class="form-grid-2">
             <div class="form-group">
               <label for="newMemberName">회원 이름 (자동 익명화)</label>
-              <input type="text" id="newMemberName" placeholder="예: 김*지 (입력 시 자동 마스킹)" required>
+              <input type="text" id="newMemberName" placeholder="***" required>
             </div>
             <div class="form-group">
-              <label for="newMemberPhone">연락처 (가운데 마스킹)</label>
-              <input type="text" id="newMemberPhone" placeholder="010-****-5678" required>
+              <label for="newMemberPhone">연락처 (자동 익명화)</label>
+              <input type="text" id="newMemberPhone" placeholder="010-0000-0000" required>
             </div>
           </div>
 
