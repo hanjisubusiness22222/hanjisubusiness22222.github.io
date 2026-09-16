@@ -7,7 +7,7 @@
   <title>BookLink Admin - 독서모임 통합 관리 콘솔</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="style.css?v=20260916_04">
+  <link rel="stylesheet" href="style.css?v=20260916_05">
   <script>
     try {
       ['booklink_members_v1', 'booklink_members_v2', 'booklink_members_v3', 'booklink_members_v4', 'booklink_members_v5'].forEach(function(k){ localStorage.removeItem(k); });
@@ -240,49 +240,49 @@
               <h3>💬 카카오톡 공지 작성기</h3>
             </div>
             <div class="editor-head-actions">
-              <button type="button" id="btnSampleKakao1" class="btn-sample-tag">샘플 1 (정기모임)</button>
-              <button type="button" id="btnSampleKakao2" class="btn-sample-tag">샘플 2 (긴급공지)</button>
+              <button type="button" id="btnDateThisWeek" class="btn-sample-tag">이번주 [09/19, 20]</button>
+              <button type="button" id="btnDateNextWeek" class="btn-sample-tag">다음주 [09/26, 27]</button>
+              <button type="button" id="btnResetKakaoTpl" class="btn-sample-tag" title="기본 공지 서식 복원">양식 복원</button>
             </div>
           </div>
 
-          <form id="kakaoNoticeForm" class="notice-admin-form">
+          <form id="kakaoNoticeForm" class="notice-admin-form" onsubmit="return false;">
+            <!-- 날짜만 변경되는 핵심 입력부 -->
+            <div class="form-group" style="background:#fefce8; border:1px solid #fef08a; padding:14px 16px; border-radius:8px;">
+              <label for="kakaoDate" style="color:#854d0e; font-weight:700; display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <span>📅 모임 일정 / 날짜 입력 (맨 윗줄 자동 반영)</span>
+                <span style="font-size:0.75rem; color:#a16207; font-weight:normal;">날짜 수정 시 공지 첫 줄이 즉시 변경됩니다</span>
+              </label>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-weight:800; font-size:1.1rem; color:#1e293b;">[</span>
+                <input type="text" id="kakaoDate" value="09/19, 20" placeholder="예: 09/19, 20" style="font-weight:700; font-size:1.05rem; color:#1e40af; flex:1; padding:8px 12px; border:1px solid #cbd5e1; border-radius:6px; background:#ffffff;" required>
+                <span style="font-weight:800; font-size:1.1rem; color:#1e293b;">] 모임신청 안내</span>
+              </div>
+            </div>
+
+            <!-- 실제 카카오톡 공지 전문 템플릿 (직접 수정도 가능) -->
             <div class="form-group">
-              <label for="kakaoTitle">모임 회차 및 공지 제목</label>
-              <input type="text" id="kakaoTitle" value="[제14회 북클럽] '도둑맞은 집중력' 함께 읽고 대화하기" required>
-            </div>
+              <label for="kakaoNoticeText" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <span>📝 카카오톡 공지 전문 (실제 운영 양식)</span>
+                <span style="font-size:0.75rem; color:#64748b;">필요시 본문 문구나 링크를 직접 수정할 수 있습니다</span>
+              </label>
+              <textarea id="kakaoNoticeText" rows="12" style="font-family: 'Pretendard', sans-serif; font-size: 0.88rem; line-height: 1.65; white-space: pre-wrap; padding:12px; border:1px solid #cbd5e1; border-radius:6px; width:100%; box-sizing:border-box;" required>[09/19, 20] 모임신청 안내
+ 
+①가입한 플랫폼에서 &lt;참석&gt; 표시 
+ 
+②모임 신청 &lt;플래닛 신청 페이지&gt;
+https://bookclubplanet26.streamlit.app/
+미 응답시 참석이 제한될 수 있습니다.
 
-            <div class="form-grid-2">
-              <div class="form-group">
-                <label for="kakaoBook">선정 도서</label>
-                <input type="text" id="kakaoBook" value="도둑맞은 집중력 (요한 하리)" required>
-              </div>
-              <div class="form-group">
-                <label for="kakaoDateTime">모임 일시</label>
-                <input type="text" id="kakaoDateTime" value="2026년 9월 19일 (토) 오후 2:00 ~ 4:30" required>
-              </div>
-            </div>
+* 미등록은 아래로 연락
+https://open.kakao.com/o/sWLBJTue
 
-            <div class="form-grid-2">
-              <div class="form-group">
-                <label for="kakaoPlace">모임 장소</label>
-                <input type="text" id="kakaoPlace" value="강남역 북카페 '생각의 숲' 3번 룸" required>
-              </div>
-              <div class="form-group">
-                <label for="kakaoFee">참가비 / 준비물</label>
-                <input type="text" id="kakaoFee" value="10,000원 (대관료 및 음료 1잔 포함)" required>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="kakaoBody">공지 본문 &amp; 발제 전달사항</label>
-              <textarea id="kakaoBody" rows="4">스마트폰과 알고리즘의 유혹 속에서 우리의 집중력은 왜 흐려졌을까요?
-가장 인상 깊었던 챕터 1곳과 함께 나누고 싶은 질문 1개를 준비해 와주세요!
-* 모임 후 출석 및 회계 내역은 구글 시트를 통해 회원 전원에게 투명하게 공개됩니다.</textarea>
+💫신청 방식 변경으로 인해, 기존 회원분들도 새롭게 등록해야하니 꼭 확인해 주세요💫</textarea>
             </div>
 
             <div class="form-section-divider"></div>
             <div class="form-section-title messenger-title">
-              <span>🟡 카카오톡 단톡방 전용 설정</span>
+              <span>🟡 카카오톡 단톡방 전용 발송 옵션</span>
             </div>
             <div class="channel-select-box messenger-box">
               <div class="sub-options-box">
@@ -292,11 +292,21 @@
               </div>
             </div>
 
-            <div class="form-action-wrap">
+            <!-- 발송 & 복사 퀵 액션 버튼 그룹 -->
+            <div class="form-action-wrap" style="display:flex; flex-direction:column; gap:10px; margin-top:14px;">
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                <button type="button" id="btnCopyKakao" class="btn-sheet-tool" style="padding:12px; font-weight:700; font-size:0.9rem; justify-content:center; border:1px solid #cbd5e1; background:#ffffff; border-radius:6px; cursor:pointer;">
+                  <span>📋</span> <span>공지 전문 복사</span>
+                </button>
+                <button type="button" id="btnOpenKakaoApp" class="btn-sheet-tool" style="padding:12px; font-weight:700; font-size:0.9rem; justify-content:center; border:1px solid #fde047; background:#fef9c3; color:#854d0e; border-radius:6px; cursor:pointer;">
+                  <span>💬</span> <span>카카오톡 전송 / 공유</span>
+                </button>
+              </div>
+
               <button type="button" id="btnSendKakao" class="btn-execute-broadcast" style="background: linear-gradient(135deg, #fee500 0%, #facc15 100%); color: #1e1b4b;">
-                <span class="btn-rocket">💬</span>
-                <span class="btn-main-txt">카카오톡 단톡방 즉시 전송</span>
-                <span class="btn-sub-txt">봇 세션 연동 ➔ 단톡방 18명에게 발송 &amp; 톡게시판 핀 등록</span>
+                <span class="btn-rocket">🚀</span>
+                <span class="btn-main-txt">카카오톡 단톡방 즉시 전송 (자동화 봇)</span>
+                <span class="btn-sub-txt">봇 세션 연동 ➔ 단톡방 발송 &amp; 톡게시판 핀 등록</span>
               </button>
             </div>
           </form>
@@ -329,7 +339,7 @@
                 <span class="pin-icon">📌</span>
                 <div class="pin-text">
                   <span class="pin-label">공지</span>
-                  <strong id="ktPinTitle">[제14회 북클럽] '도둑맞은 집중력' 함께 읽고 대화하기</strong>
+                  <strong id="ktPinTitle">[09/19, 20] 모임신청 안내</strong>
                 </div>
               </div>
 
@@ -343,9 +353,9 @@
                       <!-- JS 렌더링 -->
                     </div>
                     <div class="kt-action-buttons">
-                      <button type="button" class="kt-btn-action">🗳 참석 투표하기 (참석 8 / 불참 1)</button>
-                      <button type="button" class="kt-btn-action">📊 구글 시트 투명 명단 보기</button>
-                      <button type="button" class="kt-btn-action">📍 모임 장소 지도 열기</button>
+                      <a href="https://bookclubplanet26.streamlit.app/" target="_blank" rel="noopener noreferrer" class="kt-btn-action" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">🪐 플래닛 신청 페이지 바로가기</a>
+                      <a href="https://open.kakao.com/o/sWLBJTue" target="_blank" rel="noopener noreferrer" class="kt-btn-action" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">💬 오픈카톡 문의하기</a>
+                      <button type="button" class="kt-btn-action">🗳 [참석] 투표 참여하기</button>
                     </div>
                     <span class="kt-time-stamp" id="ktTimeStamp">오후 2:05</span>
                   </div>
@@ -870,6 +880,6 @@
     </div>
   </footer>
 
-  <script src="app.js?v=20260916_04"></script>
+  <script src="app.js?v=20260916_05"></script>
 </body>
 </html>

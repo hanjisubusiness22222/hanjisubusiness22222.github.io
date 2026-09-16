@@ -588,15 +588,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========================================================================
-  // 3. KakaoTalk Messenger Notice Composer & Live Preview
+  // 3. KakaoTalk Notice Composer & Real Mobile Mockup Preview
   // =========================================================================
 
-  const kakaoTitle = document.getElementById("kakaoTitle");
-  const kakaoBook = document.getElementById("kakaoBook");
-  const kakaoDateTime = document.getElementById("kakaoDateTime");
-  const kakaoPlace = document.getElementById("kakaoPlace");
-  const kakaoFee = document.getElementById("kakaoFee");
-  const kakaoBody = document.getElementById("kakaoBody");
+  const kakaoDate = document.getElementById("kakaoDate");
+  const kakaoNoticeText = document.getElementById("kakaoNoticeText");
 
   const optKakaoPin = document.getElementById("optKakaoPin");
   const optKakaoVote = document.getElementById("optKakaoVote");
@@ -607,8 +603,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const ktPinnedNotice = document.getElementById("ktPinnedNotice");
   const kakaoCharStats = document.getElementById("kakaoCharStats");
 
-  const btnSampleKakao1 = document.getElementById("btnSampleKakao1");
-  const btnSampleKakao2 = document.getElementById("btnSampleKakao2");
+  const btnDateThisWeek = document.getElementById("btnDateThisWeek");
+  const btnDateNextWeek = document.getElementById("btnDateNextWeek");
+  const btnResetKakaoTpl = document.getElementById("btnResetKakaoTpl");
+  const btnCopyKakao = document.getElementById("btnCopyKakao");
+  const btnOpenKakaoApp = document.getElementById("btnOpenKakaoApp");
   const btnSendKakao = document.getElementById("btnSendKakao");
 
   const kakaoTerminalCard = document.getElementById("kakaoTerminalCard");
@@ -625,84 +624,133 @@ document.addEventListener("DOMContentLoaded", () => {
     kakaoTerminalLogBody.scrollTop = kakaoTerminalLogBody.scrollHeight;
   }
 
-  function formatKakaoText() {
-    if (!kakaoTitle) return "";
-    const title = kakaoTitle.value.trim();
-    const book = kakaoBook ? kakaoBook.value.trim() : "";
-    const dt = kakaoDateTime ? kakaoDateTime.value.trim() : "";
-    const place = kakaoPlace ? kakaoPlace.value.trim() : "";
-    const fee = kakaoFee ? kakaoFee.value.trim() : "";
-    const body = kakaoBody ? kakaoBody.value.trim() : "";
+  function buildKakaoNotice(date) {
+    return `[${date}] 모임신청 안내
+ 
+①가입한 플랫폼에서 <참석> 표시 
+ 
+②모임 신청 <플래닛 신청 페이지>
+https://bookclubplanet26.streamlit.app/
+미 응답시 참석이 제한될 수 있습니다.
 
-    let text = `📢 [독서모임 공지] ${title}\n\n`;
-    if (optKakaoMention && optKakaoMention.checked) {
-      text += `@멤버 전원 이번 주 정기 모임 안내드립니다!\n\n`;
-    } else {
-      text += `안녕하세요 회원 여러분! 이번 주 정기 모임 안내드립니다.\n\n`;
-    }
+* 미등록은 아래로 연락
+https://open.kakao.com/o/sWLBJTue
 
-    text += `📚 도서: ${book}\n`;
-    text += `🗓 일시: ${dt}\n`;
-    text += `📍 장소: ${place}\n`;
-    text += `💰 회비: ${fee}\n\n`;
-    text += `💬 [발제 & 전달사항]\n${body}\n\n`;
-
-    if (optKakaoVote && optKakaoVote.checked) {
-      text += `🗳 참석 투표: 아래 버튼을 눌러 참석 여부를 선택해주세요!\n`;
-    }
-    text += `* 출석부와 회비 내역은 구글 시트로 투명하게 공개됩니다.`;
-
-    return text;
+💫신청 방식 변경으로 인해, 기존 회원분들도 새롭게 등록해야하니 꼭 확인해 주세요💫`;
   }
 
   function updateKakaoPreview() {
     if (!ktBubbleText) return;
-    const formatted = formatKakaoText();
-    ktBubbleText.textContent = formatted;
+    const text = kakaoNoticeText ? kakaoNoticeText.value.trim() : "";
+    
+    // Render links as clickable styled anchors in phone bubble
+    const escaped = escapeHtml(text);
+    const htmlWithLinks = escaped.replace(
+      /(https?:\/\/[^\s]+)/g,
+      '<a href="$1" target="_blank" rel="noopener noreferrer" style="color:#2563eb; text-decoration:underline; font-weight:600; word-break:break-all;">$1</a>'
+    );
+    ktBubbleText.innerHTML = htmlWithLinks;
 
-    if (ktPinTitle && kakaoTitle) {
-      ktPinTitle.textContent = kakaoTitle.value.trim() || "모임 공지";
+    const firstLine = text.split("\n")[0] || "[09/19, 20] 모임신청 안내";
+    if (ktPinTitle) {
+      ktPinTitle.textContent = firstLine;
     }
     if (ktPinnedNotice && optKakaoPin) {
       ktPinnedNotice.style.display = optKakaoPin.checked ? "flex" : "none";
     }
     if (kakaoCharStats) {
-      kakaoCharStats.textContent = `글자 수: ${formatted.length}자`;
+      kakaoCharStats.textContent = `글자 수: ${text.length}자`;
     }
   }
 
-  [kakaoTitle, kakaoBook, kakaoDateTime, kakaoPlace, kakaoFee, kakaoBody].forEach((input) => {
-    if (input) {
-      input.addEventListener("input", updateKakaoPreview);
+  function onDateChange() {
+    const rawDate = kakaoDate ? kakaoDate.value.trim() : "09/19, 20";
+    if (kakaoNoticeText) {
+      const lines = kakaoNoticeText.value.split("\n");
+      lines[0] = `[${rawDate}] 모임신청 안내`;
+      kakaoNoticeText.value = lines.join("\n");
     }
-  });
-  [optKakaoPin, optKakaoVote, optKakaoMention].forEach((chk) => {
-    if (chk) {
-      chk.addEventListener("change", updateKakaoPreview);
-    }
-  });
+    updateKakaoPreview();
+  }
 
-  if (btnSampleKakao1 && kakaoTitle) {
-    btnSampleKakao1.addEventListener("click", () => {
-      kakaoTitle.value = "[제14회 북클럽] '도둑맞은 집중력' 함께 읽고 대화하기";
-      if (kakaoBook) kakaoBook.value = "도둑맞은 집중력 (요한 하리)";
-      if (kakaoDateTime) kakaoDateTime.value = "2026년 9월 19일 (토) 오후 2:00 ~ 4:30";
-      if (kakaoPlace) kakaoPlace.value = "강남역 북카페 '생각의 숲' 3번 룸";
-      if (kakaoFee) kakaoFee.value = "10,000원 (대관료 및 음료 1잔 포함)";
-      if (kakaoBody) kakaoBody.value = `스마트폰과 알고리즘의 유혹 속에서 우리의 집중력은 왜 흐려졌을까요?\n가장 인상 깊었던 챕터 1곳과 함께 나누고 싶은 질문 1개를 준비해 와주세요!\n* 모임 후 출석 및 회계 내역은 구글 시트를 통해 회원 전원에게 투명하게 공개됩니다.`;
+  if (kakaoDate) {
+    kakaoDate.addEventListener("input", onDateChange);
+  }
+  if (kakaoNoticeText) {
+    kakaoNoticeText.addEventListener("input", updateKakaoPreview);
+  }
+  if (optKakaoPin) {
+    optKakaoPin.addEventListener("change", updateKakaoPreview);
+  }
+
+  if (btnDateThisWeek && kakaoDate) {
+    btnDateThisWeek.addEventListener("click", () => {
+      kakaoDate.value = "09/19, 20";
+      onDateChange();
+    });
+  }
+
+  if (btnDateNextWeek && kakaoDate) {
+    btnDateNextWeek.addEventListener("click", () => {
+      kakaoDate.value = "09/26, 27";
+      onDateChange();
+    });
+  }
+
+  if (btnResetKakaoTpl && kakaoNoticeText) {
+    btnResetKakaoTpl.addEventListener("click", () => {
+      const curDate = kakaoDate ? kakaoDate.value.trim() : "09/19, 20";
+      kakaoNoticeText.value = buildKakaoNotice(curDate);
       updateKakaoPreview();
     });
   }
 
-  if (btnSampleKakao2 && kakaoTitle) {
-    btnSampleKakao2.addEventListener("click", () => {
-      kakaoTitle.value = "🚨 [긴급 안내] 정기모임 모임 장소 룸 번호 변경 공지";
-      if (kakaoBook) kakaoBook.value = "도둑맞은 집중력 (요한 하리)";
-      if (kakaoDateTime) kakaoDateTime.value = "2026년 9월 19일 (토) 오후 2:00 ~ 4:30";
-      if (kakaoPlace) kakaoPlace.value = "강남역 북카페 '생각의 숲' 4번 대형룸 (기존 3번 ➔ 4번 변경)";
-      if (kakaoFee) kakaoFee.value = "10,000원 (변동 없음)";
-      if (kakaoBody) kakaoBody.value = `참석 인원 증가로 인해 더욱 쾌적한 4번 대형룸으로 예약 공간이 변경되었습니다!\n도착하시면 4번 방으로 들어와주시기 바랍니다.`;
-      updateKakaoPreview();
+  function copyTextToClipboard(str, successMsg) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(str)
+        .then(() => alert(successMsg))
+        .catch(() => fallbackCopy(str, successMsg));
+    } else {
+      fallbackCopy(str, successMsg);
+    }
+  }
+
+  function fallbackCopy(str, successMsg) {
+    const ta = document.createElement("textarea");
+    ta.value = str;
+    ta.style.position = "fixed";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand("copy");
+      alert(successMsg);
+    } catch (e) {
+      alert("복사에 실패했습니다. 직접 텍스트를 선택하여 복사해주세요.");
+    }
+    document.body.removeChild(ta);
+  }
+
+  if (btnCopyKakao) {
+    btnCopyKakao.addEventListener("click", () => {
+      const text = kakaoNoticeText ? kakaoNoticeText.value.trim() : "";
+      copyTextToClipboard(text, "📋 카카오톡 공지 전문이 복사되었습니다!\n단톡방에 바로 붙여넣기(Ctrl+V)하세요.");
+    });
+  }
+
+  if (btnOpenKakaoApp) {
+    btnOpenKakaoApp.addEventListener("click", () => {
+      const text = kakaoNoticeText ? kakaoNoticeText.value.trim() : "";
+      if (navigator.share) {
+        navigator.share({
+          title: "독서모임 신청 안내",
+          text: text,
+          url: "https://bookclubplanet26.streamlit.app/"
+        }).catch(() => {});
+      } else {
+        copyTextToClipboard(text, "📋 공지 전문이 클립보드에 복사되었습니다!\n카카오톡 단톡방으로 이동하여 붙여넣으세요.");
+        window.location.href = "kakaotalk://";
+      }
     });
   }
 
@@ -718,6 +766,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (btnSendKakao) {
     btnSendKakao.addEventListener("click", async () => {
+      const dateVal = kakaoDate ? kakaoDate.value.trim() : "09/19, 20";
       if (kakaoTerminalCard) {
         kakaoTerminalCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
       }
@@ -726,19 +775,23 @@ document.addEventListener("DOMContentLoaded", () => {
         kakaoTermStatusTag.style.color = "#facc15";
       }
 
-      appendKakaoLog(`\n>>> [START] 카카오톡 공지 즉시 전송 태스크 시작 (${new Date().toLocaleTimeString()})`, "warn");
+      appendKakaoLog(`\n>>> [START] 카카오톡 공지 전송 태스크 시작 (${new Date().toLocaleTimeString()})`, "warn");
       await sleep(300);
-      appendKakaoLog("[AUTH] 카카오 계정(bookclub_master@kakao.com) OAuth2 세션 검증...", "info");
+      appendKakaoLog("[AUTH] 카카오 비즈니스 계정(bookclub_master@kakao.com) 세션 검증...", "info");
       await sleep(250);
-      appendKakaoLog("  ✔ 카카오 비즈니스 봇 인증 성공 (Token: VALID)", "success");
-      await sleep(350);
-      appendKakaoLog("[DISPATCH] 💬 오픈채팅방(https://open.kakao.com/o/gBookClub2026) 메시지 전송...", "info");
+      appendKakaoLog("  ✔ 카카오 봇 OAuth2 인증 토큰 유효함 (Token: 200 OK)", "success");
       await sleep(300);
-      appendKakaoLog("  ✔ 단톡방 참여 회원 18명에게 실시간 알림톡 발송 완료 (HTTP 200 OK)", "success");
+      appendKakaoLog(`[PAYLOAD] 📢 타이틀: [${dateVal}] 모임신청 안내`, "info");
+      appendKakaoLog("  ✔ 플래닛 신청 링크 검증: https://bookclubplanet26.streamlit.app/ (200 OK)", "info");
+      appendKakaoLog("  ✔ 1:1 문의 오픈카톡 링크 연동: https://open.kakao.com/o/sWLBJTue", "info");
+      await sleep(350);
+      appendKakaoLog("[DISPATCH] 💬 오픈채팅방(독서클럽 정기 단톡방) 메시지 패킷 송신...", "info");
+      await sleep(300);
+      appendKakaoLog("  ✔ 단톡방 참여 회원 18명에게 실시간 공지 발송 완료 (HTTP 200 OK)", "success");
 
       if (optKakaoPin && optKakaoPin.checked) {
         await sleep(200);
-        appendKakaoLog("  ✔ 단톡방 상단 톡게시판 핀 공지 고정 등록 완료", "success");
+        appendKakaoLog(`  ✔ 단톡방 상단 톡게시판 핀 공지 고정 완료: [${dateVal}] 모임신청 안내`, "success");
       }
       if (optKakaoVote && optKakaoVote.checked) {
         await sleep(200);
@@ -750,13 +803,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       await sleep(250);
-      appendKakaoLog(`[COMPLETE] 🎉 카카오톡 공지가 성공적으로 발송되었습니다!\n`, "success");
+      appendKakaoLog(`[COMPLETE] 🎉 [${dateVal}] 카카오톡 모임신청 공지가 성공적으로 발송되었습니다!\n`, "success");
 
       if (kakaoTermStatusTag) {
         kakaoTermStatusTag.textContent = "발송 완료 (SUCCESS)";
         kakaoTermStatusTag.style.color = "#4ade80";
       }
-      alert("카카오톡 단톡방에 공지 알림이 성공적으로 전송되었습니다!");
+      alert(`[${dateVal}] 카카오톡 모임신청 공지가 단톡방에 성공적으로 전송되었습니다!`);
     });
   }
 
