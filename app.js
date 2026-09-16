@@ -594,10 +594,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const kakaoDate = document.getElementById("kakaoDate");
   const kakaoNoticeText = document.getElementById("kakaoNoticeText");
 
-  const optKakaoPin = document.getElementById("optKakaoPin");
-  const optKakaoVote = document.getElementById("optKakaoVote");
-  const optKakaoMention = document.getElementById("optKakaoMention");
-
   const ktBubbleText = document.getElementById("ktBubbleText");
   const ktPinTitle = document.getElementById("ktPinTitle");
   const ktPinnedNotice = document.getElementById("ktPinnedNotice");
@@ -655,9 +651,6 @@ https://open.kakao.com/o/sWLBJTue
     if (ktPinTitle) {
       ktPinTitle.textContent = firstLine;
     }
-    if (ktPinnedNotice && optKakaoPin) {
-      ktPinnedNotice.style.display = optKakaoPin.checked ? "flex" : "none";
-    }
     if (kakaoCharStats) {
       kakaoCharStats.textContent = `글자 수: ${text.length}자`;
     }
@@ -678,9 +671,6 @@ https://open.kakao.com/o/sWLBJTue
   }
   if (kakaoNoticeText) {
     kakaoNoticeText.addEventListener("input", updateKakaoPreview);
-  }
-  if (optKakaoPin) {
-    optKakaoPin.addEventListener("change", updateKakaoPreview);
   }
 
   if (btnDateThisWeek && kakaoDate) {
@@ -788,19 +778,6 @@ https://open.kakao.com/o/sWLBJTue
       appendKakaoLog("[DISPATCH] 💬 오픈채팅방(독서클럽 정기 단톡방) 메시지 패킷 송신...", "info");
       await sleep(300);
       appendKakaoLog("  ✔ 단톡방 참여 회원 18명에게 실시간 공지 발송 완료 (HTTP 200 OK)", "success");
-
-      if (optKakaoPin && optKakaoPin.checked) {
-        await sleep(200);
-        appendKakaoLog(`  ✔ 단톡방 상단 톡게시판 핀 공지 고정 완료: [${dateVal}] 모임신청 안내`, "success");
-      }
-      if (optKakaoVote && optKakaoVote.checked) {
-        await sleep(200);
-        appendKakaoLog("  ✔ [참석/불참/미정] 실시간 투표 폼 생성 완료", "success");
-      }
-      if (optKakaoMention && optKakaoMention.checked) {
-        await sleep(150);
-        appendKakaoLog("  ✔ @전체 멤버 멘션 푸시 알림 트리거 완료", "success");
-      }
 
       await sleep(250);
       appendKakaoLog(`[COMPLETE] 🎉 [${dateVal}] 카카오톡 모임신청 공지가 성공적으로 발송되었습니다!\n`, "success");

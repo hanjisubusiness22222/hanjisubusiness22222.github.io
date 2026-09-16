@@ -2831,23 +2831,8 @@ https://bookclubplanet26.streamlit.app/
 * 미등록은 아래로 연락
 https://open.kakao.com/o/sWLBJTue
 
-💫신청 방식 변경으로 인해, 기존 회원분들도 새롭게 등록해야하니 꼭 확인해 주세요💫</textarea>
-            </div>
-
-            <div class="form-section-divider"></div>
-            <div class="form-section-title messenger-title">
-              <span>🟡 카카오톡 단톡방 전용 발송 옵션</span>
-            </div>
-            <div class="channel-select-box messenger-box">
-              <div class="sub-options-box">
-                <label class="sub-option"><input type="checkbox" id="optKakaoPin" checked> 단톡방 상단 공지(톡게시판) 자동 핀 고정</label>
-                <label class="sub-option"><input type="checkbox" id="optKakaoVote" checked> [참석/불참/미정] 실시간 투표 폼 생성</label>
-                <label class="sub-option"><input type="checkbox" id="optKakaoMention"> 전체 멤버 멘션(@멤버) 포함</label>
-              </div>
-            </div>
-
             <!-- 발송 & 복사 퀵 액션 버튼 그룹 -->
-            <div class="form-action-wrap" style="display:flex; flex-direction:column; gap:10px; margin-top:14px;">
+            <div class="form-action-wrap" style="display:flex; flex-direction:column; gap:10px; margin-top:16px;">
               <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                 <button type="button" id="btnCopyKakao" class="btn-sheet-tool" style="padding:12px; font-weight:700; font-size:0.9rem; justify-content:center; border:1px solid #cbd5e1; background:#ffffff; border-radius:6px; cursor:pointer;">
                   <span>📋</span> <span>공지 전문 복사</span>
@@ -2860,7 +2845,7 @@ https://open.kakao.com/o/sWLBJTue
               <button type="button" id="btnSendKakao" class="btn-execute-broadcast" style="background: linear-gradient(135deg, #fee500 0%, #facc15 100%); color: #1e1b4b;">
                 <span class="btn-rocket">🚀</span>
                 <span class="btn-main-txt">카카오톡 단톡방 즉시 전송 (자동화 봇)</span>
-                <span class="btn-sub-txt">봇 세션 연동 ➔ 단톡방 발송 &amp; 톡게시판 핀 등록</span>
+                <span class="btn-sub-txt">봇 세션 연동 ➔ 단톡방 18명에게 공지 메시지 즉시 발송</span>
               </button>
             </div>
           </form>
@@ -2909,7 +2894,6 @@ https://open.kakao.com/o/sWLBJTue
                     <div class="kt-action-buttons">
                       <a href="https://bookclubplanet26.streamlit.app/" target="_blank" rel="noopener noreferrer" class="kt-btn-action" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">🪐 플래닛 신청 페이지 바로가기</a>
                       <a href="https://open.kakao.com/o/sWLBJTue" target="_blank" rel="noopener noreferrer" class="kt-btn-action" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">💬 오픈카톡 문의하기</a>
-                      <button type="button" class="kt-btn-action">🗳 [참석] 투표 참여하기</button>
                     </div>
                     <span class="kt-time-stamp" id="ktTimeStamp">오후 2:05</span>
                   </div>
@@ -4031,10 +4015,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const kakaoDate = document.getElementById("kakaoDate");
   const kakaoNoticeText = document.getElementById("kakaoNoticeText");
 
-  const optKakaoPin = document.getElementById("optKakaoPin");
-  const optKakaoVote = document.getElementById("optKakaoVote");
-  const optKakaoMention = document.getElementById("optKakaoMention");
-
   const ktBubbleText = document.getElementById("ktBubbleText");
   const ktPinTitle = document.getElementById("ktPinTitle");
   const ktPinnedNotice = document.getElementById("ktPinnedNotice");
@@ -4092,9 +4072,6 @@ https://open.kakao.com/o/sWLBJTue
     if (ktPinTitle) {
       ktPinTitle.textContent = firstLine;
     }
-    if (ktPinnedNotice && optKakaoPin) {
-      ktPinnedNotice.style.display = optKakaoPin.checked ? "flex" : "none";
-    }
     if (kakaoCharStats) {
       kakaoCharStats.textContent = `글자 수: ${text.length}자`;
     }
@@ -4115,9 +4092,6 @@ https://open.kakao.com/o/sWLBJTue
   }
   if (kakaoNoticeText) {
     kakaoNoticeText.addEventListener("input", updateKakaoPreview);
-  }
-  if (optKakaoPin) {
-    optKakaoPin.addEventListener("change", updateKakaoPreview);
   }
 
   if (btnDateThisWeek && kakaoDate) {
@@ -4225,19 +4199,6 @@ https://open.kakao.com/o/sWLBJTue
       appendKakaoLog("[DISPATCH] 💬 오픈채팅방(독서클럽 정기 단톡방) 메시지 패킷 송신...", "info");
       await sleep(300);
       appendKakaoLog("  ✔ 단톡방 참여 회원 18명에게 실시간 공지 발송 완료 (HTTP 200 OK)", "success");
-
-      if (optKakaoPin && optKakaoPin.checked) {
-        await sleep(200);
-        appendKakaoLog(`  ✔ 단톡방 상단 톡게시판 핀 공지 고정 완료: [${dateVal}] 모임신청 안내`, "success");
-      }
-      if (optKakaoVote && optKakaoVote.checked) {
-        await sleep(200);
-        appendKakaoLog("  ✔ [참석/불참/미정] 실시간 투표 폼 생성 완료", "success");
-      }
-      if (optKakaoMention && optKakaoMention.checked) {
-        await sleep(150);
-        appendKakaoLog("  ✔ @전체 멤버 멘션 푸시 알림 트리거 완료", "success");
-      }
 
       await sleep(250);
       appendKakaoLog(`[COMPLETE] 🎉 [${dateVal}] 카카오톡 모임신청 공지가 성공적으로 발송되었습니다!\n`, "success");
