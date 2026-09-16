@@ -2835,21 +2835,18 @@ https://open.kakao.com/o/sWLBJTue
             </div>
 
             <!-- 발송 & 복사 퀵 액션 버튼 그룹 -->
-            <div class="form-action-wrap" style="display:flex; flex-direction:column; gap:10px; margin-top:16px;">
-              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                <button type="button" id="btnCopyKakao" class="btn-sheet-tool" style="padding:12px; font-weight:700; font-size:0.9rem; justify-content:center; border:1px solid #cbd5e1; background:#ffffff; border-radius:6px; cursor:pointer;">
-                  <span>📋</span> <span>공지 전문 복사</span>
+            <div class="form-action-wrap" style="display:flex; flex-direction:column; gap:12px; margin-top:16px;">
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+                <button type="button" id="btnCopyKakao" class="btn-sheet-primary" style="padding:14px; font-weight:700; font-size:0.95rem; justify-content:center; display:flex; align-items:center; gap:8px; cursor:pointer; background:#2563eb; color:#ffffff; border:none; border-radius:6px;">
+                  <span>📋</span> <span>공지 전문 복사 (단톡방 붙여넣기)</span>
                 </button>
-                <button type="button" id="btnOpenKakaoApp" class="btn-sheet-tool" style="padding:12px; font-weight:700; font-size:0.9rem; justify-content:center; border:1px solid #fde047; background:#fef9c3; color:#854d0e; border-radius:6px; cursor:pointer;">
-                  <span>💬</span> <span>카카오톡 전송 / 공유</span>
+                <button type="button" id="btnOpenKakaoApp" class="btn-sheet-tool" style="padding:14px; font-weight:700; font-size:0.95rem; justify-content:center; display:flex; align-items:center; gap:8px; border:1px solid #fde047; background:#fee500; color:#1e1b4b; border-radius:6px; cursor:pointer;">
+                  <span>💬</span> <span>카카오톡 앱 열기 / 공유</span>
                 </button>
               </div>
-
-              <button type="button" id="btnSendKakao" class="btn-execute-broadcast" style="background: linear-gradient(135deg, #fee500 0%, #facc15 100%); color: #1e1b4b;">
-                <span class="btn-rocket">🚀</span>
-                <span class="btn-main-txt">카카오톡 단톡방 즉시 전송 (자동화 봇)</span>
-                <span class="btn-sub-txt">봇 세션 연동 ➔ 단톡방 18명에게 공지 메시지 즉시 발송</span>
-              </button>
+              <div style="font-size:0.83rem; color:#475569; background:#f8fafc; padding:10px 14px; border-radius:6px; border:1px solid #e2e8f0; display:flex; align-items:center; gap:8px;">
+                <span style="font-size:1.1rem;">💡</span> <span><strong>단톡방 3곳 발송 팁:</strong> <code>[공지 전문 복사]</code> 클릭 후, 카카오톡 3개 단톡방에 각각 <code>Ctrl + V</code> (붙여넣기) 하시면 가장 빠르고 안전하게 발송됩니다.</span>
+              </div>
             </div>
           </form>
         </div>
@@ -2912,23 +2909,6 @@ https://open.kakao.com/o/sWLBJTue
         </div>
       </div>
 
-      <!-- 카카오톡 발송 터미널 콘솔 로그 -->
-      <div class="terminal-card" id="kakaoTerminalCard">
-        <div class="terminal-header">
-          <div class="terminal-title">
-            <span class="terminal-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></span>
-            <span class="terminal-name">kakao-bot@booklink: ~ /messenger/dispatch</span>
-          </div>
-          <div class="terminal-actions">
-            <span class="term-status-tag" id="kakaoTermStatusTag">대기 상태 (IDLE)</span>
-            <button type="button" class="btn-term-clear" id="btnClearKakaoTerminal">콘솔 비우기</button>
-          </div>
-        </div>
-        <div class="terminal-body" id="kakaoTerminalLogBody">
-          <div class="term-line info">[SYSTEM] 카카오톡 메신저 봇 모듈 준비완료.</div>
-          <div class="term-line info">[READY] 카카오 오픈채팅방/단톡방 세션 정상 연결됨.</div>
-        </div>
-      </div>
     </section>
 
     <!-- ===================================================================
@@ -4028,21 +4008,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnResetKakaoTpl = document.getElementById("btnResetKakaoTpl");
   const btnCopyKakao = document.getElementById("btnCopyKakao");
   const btnOpenKakaoApp = document.getElementById("btnOpenKakaoApp");
-  const btnSendKakao = document.getElementById("btnSendKakao");
-
-  const kakaoTerminalCard = document.getElementById("kakaoTerminalCard");
-  const kakaoTerminalLogBody = document.getElementById("kakaoTerminalLogBody");
-  const kakaoTermStatusTag = document.getElementById("kakaoTermStatusTag");
-  const btnClearKakaoTerminal = document.getElementById("btnClearKakaoTerminal");
-
-  function appendKakaoLog(msg, type = "info") {
-    if (!kakaoTerminalLogBody) return;
-    const line = document.createElement("div");
-    line.className = `term-line ${type}`;
-    line.textContent = msg;
-    kakaoTerminalLogBody.appendChild(line);
-    kakaoTerminalLogBody.scrollTop = kakaoTerminalLogBody.scrollHeight;
-  }
 
   function buildKakaoNotice(date) {
     return `[${date}] 모임신청 안내
@@ -4168,50 +4133,8 @@ https://open.kakao.com/o/sWLBJTue
     });
   }
 
-  if (btnClearKakaoTerminal && kakaoTerminalLogBody) {
-    btnClearKakaoTerminal.addEventListener("click", () => {
-      kakaoTerminalLogBody.innerHTML = `<div class="term-line info">[SYSTEM] 카카오톡 터미널 콘솔이 초기화되었습니다.</div>`;
-    });
-  }
-
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
-  if (btnSendKakao) {
-    btnSendKakao.addEventListener("click", async () => {
-      const dateVal = kakaoDate ? kakaoDate.value.trim() : "09/19, 20";
-      if (kakaoTerminalCard) {
-        kakaoTerminalCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      }
-      if (kakaoTermStatusTag) {
-        kakaoTermStatusTag.textContent = "발송 진행 중 (DISPATCHING...)";
-        kakaoTermStatusTag.style.color = "#facc15";
-      }
-
-      appendKakaoLog(`\n>>> [START] 카카오톡 공지 전송 태스크 시작 (${new Date().toLocaleTimeString()})`, "warn");
-      await sleep(300);
-      appendKakaoLog("[AUTH] 카카오 비즈니스 계정(bookclub_master@kakao.com) 세션 검증...", "info");
-      await sleep(250);
-      appendKakaoLog("  ✔ 카카오 봇 OAuth2 인증 토큰 유효함 (Token: 200 OK)", "success");
-      await sleep(300);
-      appendKakaoLog(`[PAYLOAD] 📢 타이틀: [${dateVal}] 모임신청 안내`, "info");
-      appendKakaoLog("  ✔ 플래닛 신청 링크 검증: https://bookclubplanet26.streamlit.app/ (200 OK)", "info");
-      appendKakaoLog("  ✔ 1:1 문의 오픈카톡 링크 연동: https://open.kakao.com/o/sWLBJTue", "info");
-      await sleep(350);
-      appendKakaoLog("[DISPATCH] 💬 오픈채팅방(독서클럽 정기 단톡방) 메시지 패킷 송신...", "info");
-      await sleep(300);
-      appendKakaoLog("  ✔ 단톡방 참여 회원 18명에게 실시간 공지 발송 완료 (HTTP 200 OK)", "success");
-
-      await sleep(250);
-      appendKakaoLog(`[COMPLETE] 🎉 [${dateVal}] 카카오톡 모임신청 공지가 성공적으로 발송되었습니다!\n`, "success");
-
-      if (kakaoTermStatusTag) {
-        kakaoTermStatusTag.textContent = "발송 완료 (SUCCESS)";
-        kakaoTermStatusTag.style.color = "#4ade80";
-      }
-      alert(`[${dateVal}] 카카오톡 모임신청 공지가 단톡방에 성공적으로 전송되었습니다!`);
-    });
   }
 
   // =========================================================================

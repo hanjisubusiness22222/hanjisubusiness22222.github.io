@@ -604,21 +604,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnResetKakaoTpl = document.getElementById("btnResetKakaoTpl");
   const btnCopyKakao = document.getElementById("btnCopyKakao");
   const btnOpenKakaoApp = document.getElementById("btnOpenKakaoApp");
-  const btnSendKakao = document.getElementById("btnSendKakao");
-
-  const kakaoTerminalCard = document.getElementById("kakaoTerminalCard");
-  const kakaoTerminalLogBody = document.getElementById("kakaoTerminalLogBody");
-  const kakaoTermStatusTag = document.getElementById("kakaoTermStatusTag");
-  const btnClearKakaoTerminal = document.getElementById("btnClearKakaoTerminal");
-
-  function appendKakaoLog(msg, type = "info") {
-    if (!kakaoTerminalLogBody) return;
-    const line = document.createElement("div");
-    line.className = `term-line ${type}`;
-    line.textContent = msg;
-    kakaoTerminalLogBody.appendChild(line);
-    kakaoTerminalLogBody.scrollTop = kakaoTerminalLogBody.scrollHeight;
-  }
 
   function buildKakaoNotice(date) {
     return `[${date}] 모임신청 안내
@@ -744,50 +729,8 @@ https://open.kakao.com/o/sWLBJTue
     });
   }
 
-  if (btnClearKakaoTerminal && kakaoTerminalLogBody) {
-    btnClearKakaoTerminal.addEventListener("click", () => {
-      kakaoTerminalLogBody.innerHTML = `<div class="term-line info">[SYSTEM] 카카오톡 터미널 콘솔이 초기화되었습니다.</div>`;
-    });
-  }
-
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
-  if (btnSendKakao) {
-    btnSendKakao.addEventListener("click", async () => {
-      const dateVal = kakaoDate ? kakaoDate.value.trim() : "09/19, 20";
-      if (kakaoTerminalCard) {
-        kakaoTerminalCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      }
-      if (kakaoTermStatusTag) {
-        kakaoTermStatusTag.textContent = "발송 진행 중 (DISPATCHING...)";
-        kakaoTermStatusTag.style.color = "#facc15";
-      }
-
-      appendKakaoLog(`\n>>> [START] 카카오톡 공지 전송 태스크 시작 (${new Date().toLocaleTimeString()})`, "warn");
-      await sleep(300);
-      appendKakaoLog("[AUTH] 카카오 비즈니스 계정(bookclub_master@kakao.com) 세션 검증...", "info");
-      await sleep(250);
-      appendKakaoLog("  ✔ 카카오 봇 OAuth2 인증 토큰 유효함 (Token: 200 OK)", "success");
-      await sleep(300);
-      appendKakaoLog(`[PAYLOAD] 📢 타이틀: [${dateVal}] 모임신청 안내`, "info");
-      appendKakaoLog("  ✔ 플래닛 신청 링크 검증: https://bookclubplanet26.streamlit.app/ (200 OK)", "info");
-      appendKakaoLog("  ✔ 1:1 문의 오픈카톡 링크 연동: https://open.kakao.com/o/sWLBJTue", "info");
-      await sleep(350);
-      appendKakaoLog("[DISPATCH] 💬 오픈채팅방(독서클럽 정기 단톡방) 메시지 패킷 송신...", "info");
-      await sleep(300);
-      appendKakaoLog("  ✔ 단톡방 참여 회원 18명에게 실시간 공지 발송 완료 (HTTP 200 OK)", "success");
-
-      await sleep(250);
-      appendKakaoLog(`[COMPLETE] 🎉 [${dateVal}] 카카오톡 모임신청 공지가 성공적으로 발송되었습니다!\n`, "success");
-
-      if (kakaoTermStatusTag) {
-        kakaoTermStatusTag.textContent = "발송 완료 (SUCCESS)";
-        kakaoTermStatusTag.style.color = "#4ade80";
-      }
-      alert(`[${dateVal}] 카카오톡 모임신청 공지가 단톡방에 성공적으로 전송되었습니다!`);
-    });
   }
 
   // =========================================================================
