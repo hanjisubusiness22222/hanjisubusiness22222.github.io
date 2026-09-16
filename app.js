@@ -29,7 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
     { id: 8, name: "***", phone: "010-0000-0000", channel: "당근", attendance: 5, fee: "면제", book: "도둑맞은 집중력", role: "운영진", note: "제출" }
   ];
 
-  let rawStored = JSON.parse(localStorage.getItem("booklink_members_v5") || localStorage.getItem("booklink_members_v4") || localStorage.getItem("booklink_members_v3"));
+  // 이전 버전 로컬 스토리지 캐시 완전 정리 (개인정보 보호)
+  ["booklink_members_v1", "booklink_members_v2", "booklink_members_v3", "booklink_members_v4", "booklink_members_v5"].forEach((k) => localStorage.removeItem(k));
+
+  let rawStored = JSON.parse(localStorage.getItem("booklink_members_v6"));
   let members = (rawStored && rawStored.length > 0) ? rawStored : [...initialMembers];
   // 기존 저장 데이터도 이름(***)과 연락처(010-0000-0000) 익명화 적용
   members = members.map((m) => ({
@@ -37,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     name: maskName(m.name),
     phone: maskPhone(m.phone)
   }));
-  localStorage.setItem("booklink_members_v5", JSON.stringify(members));
+  localStorage.setItem("booklink_members_v6", JSON.stringify(members));
   let selectedMemberIds = new Set();
   let currentFilter = "all";
   let searchQuery = "";
@@ -145,10 +148,10 @@ document.addEventListener("DOMContentLoaded", () => {
             <input type="checkbox" class="row-checkbox" data-id="${m.id}" ${isSelected ? "checked" : ""}>
           </td>
           <td class="col-num" data-coord="A${idx + 2}">${idx + 1}</td>
-          <td class="col-name" data-coord="B${idx + 2}" data-val="${escapeHtml(m.name)}">
-            <strong>${escapeHtml(m.name)}</strong>
+          <td class="col-name" data-coord="B${idx + 2}" data-val="${escapeHtml(maskName(m.name))}">
+            <strong>${escapeHtml(maskName(m.name))}</strong>
           </td>
-          <td class="col-phone" data-coord="C${idx + 2}" data-val="${escapeHtml(m.phone)}">${escapeHtml(m.phone)}</td>
+          <td class="col-phone" data-coord="C${idx + 2}" data-val="${escapeHtml(maskPhone(m.phone))}">${escapeHtml(maskPhone(m.phone))}</td>
           <td class="col-channel" data-coord="D${idx + 2}" data-val="${escapeHtml(m.channel)}">
             <span class="channel-chip ${chipClass}">${escapeHtml(m.channel)}</span>
           </td>
@@ -514,7 +517,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function saveAndRefresh() {
-    localStorage.setItem("booklink_members_v5", JSON.stringify(members));
+    localStorage.setItem("booklink_members_v6", JSON.stringify(members));
     renderMemberTable();
   }
 
