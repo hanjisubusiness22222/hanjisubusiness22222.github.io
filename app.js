@@ -573,7 +573,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const btnWeekThis = document.getElementById("btnWeekThis");
   const btnWeekNext = document.getElementById("btnWeekNext");
-  const btnWeekAfterNext = document.getElementById("btnWeekAfterNext");
 
   // 카카오톡 공지 작성기 요소
   const kakaoDate = document.getElementById("kakaoDate");
@@ -844,18 +843,16 @@ ${htmlWithLinks}
     applyDateRange(dates.shortRange);
 
     // 퀵 버튼 active 상태 표시
-    [btnWeekThis, btnWeekNext, btnWeekAfterNext].forEach((btn) => {
+    [btnWeekThis, btnWeekNext].forEach((btn) => {
       if (btn) btn.classList.remove("active");
     });
     if (offset === 0 && btnWeekThis) btnWeekThis.classList.add("active");
     if (offset === 1 && btnWeekNext) btnWeekNext.classList.add("active");
-    if (offset === 2 && btnWeekAfterNext) btnWeekAfterNext.classList.add("active");
   }
 
   // 퀵 주차 버튼 이벤트
   if (btnWeekThis) btnWeekThis.addEventListener("click", () => setWeekOffset(0));
   if (btnWeekNext) btnWeekNext.addEventListener("click", () => setWeekOffset(1));
-  if (btnWeekAfterNext) btnWeekAfterNext.addEventListener("click", () => setWeekOffset(2));
 
   // 카카오 내부 날짜 버튼
   if (btnDateThisWeek) btnDateThisWeek.addEventListener("click", () => setWeekOffset(0));
