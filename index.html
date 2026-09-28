@@ -362,309 +362,53 @@
         <p>공지 발송 시 투명한 소통 링크로 연동되는 회원 출석 및 회비 납부 데이터베이스입니다. 실시간 동기화 및 편집이 가능합니다.</p>
       </div>
 
-      <!-- 구글 시트 문서 메인 헤더 & 메뉴바 -->
-      <div class="sheet-app-container">
-        <!-- 1-1. 구글 시트 상단 타이틀 & 메뉴 영역 -->
-        <div class="sheet-doc-header">
-          <div class="sheet-doc-meta">
-            <div class="sheet-icon-google">
-              <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor">
-                <path fill="#0F9D58" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+      <!-- 실제 구글 스프레드시트 연동 카드 -->
+      <div class="sheet-real-container" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,0.06); margin-top:16px;">
+        <!-- 상단 헤더 & 컨트롤 바 -->
+        <div style="background:#f8fafc; border-bottom:1px solid #e2e8f0; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="display:flex; align-items:center; justify-content:center; width:38px; height:38px; background:#dcfce7; border-radius:8px; border:1px solid #bbf7d0;">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="#0F9D58">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
                 <path fill="#ffffff" d="M14 17H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
               </svg>
             </div>
-            <div class="sheet-title-edit-group">
-              <input type="text" id="sheetDocTitle" class="sheet-doc-title-input" value="2026_독서클럽_정기모임_회원명단_v2.4" aria-label="시트 문서 이름">
-              <div class="sheet-doc-actions-row">
-                <button type="button" class="sheet-star-btn" id="btnStarSheet" title="별표 표시">⭐</button>
-                <span class="sheet-save-indicator" id="sheetSaveIndicator">☁ 모든 변경사항이 Google Drive에 실시간 저장됨</span>
+            <div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <strong style="font-size:1.02rem; color:#0f172a;">독서모임 공식 구글 스프레드시트</strong>
+                <span style="background:#dcfce7; color:#15803d; border:1px solid #86efac; font-size:0.75rem; padding:2px 8px; border-radius:12px; font-weight:700;">🟢 실시간 연동 활성</span>
               </div>
+              <span style="font-size:0.78rem; color:#64748b;">Google Drive 클라우드 자동 동기화</span>
             </div>
           </div>
 
-          <!-- 구글 시트 상단 통계 요약 위젯 -->
-          <div class="sheet-kpi-summary">
-            <div class="kpi-item">
-              <span class="kpi-label">전체 회원</span>
-              <span class="kpi-val" id="kpiTotalMembers">8명</span>
-            </div>
-            <div class="kpi-divider"></div>
-            <div class="kpi-item">
-              <span class="kpi-label">회비 납부율</span>
-              <span class="kpi-val text-success" id="kpiFeeRatio">87.5%</span>
-            </div>
-            <div class="kpi-divider"></div>
-            <div class="kpi-item">
-              <span class="kpi-label">평균 출석</span>
-              <span class="kpi-val" id="kpiAvgAttendance">6.2회</span>
-            </div>
-            <div class="kpi-divider"></div>
-            <div class="kpi-item">
-              <span class="kpi-label">발제문 제출</span>
-              <span class="kpi-val text-primary" id="kpiNoteRatio">75%</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- 1-2. 구글 시트 메뉴바 (File, Edit, View, Data 등) -->
-        <div class="sheet-menubar">
-          <button type="button" class="menu-item" id="menuFile">파일(F)</button>
-          <button type="button" class="menu-item" id="menuEdit">수정(E)</button>
-          <button type="button" class="menu-item" id="menuView">보기(V)</button>
-          <button type="button" class="menu-item" id="menuInsert">삽입(I)</button>
-          <button type="button" class="menu-item" id="menuFormat">서식(O)</button>
-          <button type="button" class="menu-item" id="menuData">데이터(D)</button>
-          <button type="button" class="menu-item" id="menuTools">도구(T)</button>
-          <button type="button" class="menu-item" id="menuExtensions">확장프로그램(E)</button>
-        </div>
-
-        <!-- 1-3. 구글 시트 서식 툴바 (Undo, Redo, B, I, U, Color, Align, Filter) -->
-        <div class="sheet-toolbar">
-          <div class="toolbar-group">
-            <button type="button" class="t-btn" id="tbUndo" title="실행취소 (Ctrl+Z)">↶</button>
-            <button type="button" class="t-btn" id="tbRedo" title="다시실행 (Ctrl+Y)">↷</button>
-            <button type="button" class="t-btn" id="tbPrint" title="인쇄 (Ctrl+P)">🖨️</button>
-          </div>
-          <div class="t-divider"></div>
-          <div class="toolbar-group">
-            <select class="t-select" id="tbZoom" title="화면 배율">
-              <option value="100%">100%</option>
-              <option value="90%">90%</option>
-              <option value="125%">125%</option>
-            </select>
-          </div>
-          <div class="t-divider"></div>
-          <div class="toolbar-group">
-            <button type="button" class="t-btn t-bold" id="tbBold" title="굵게 (Ctrl+B)">B</button>
-            <button type="button" class="t-btn t-italic" id="tbItalic" title="기울임꼴 (Ctrl+I)">I</button>
-            <button type="button" class="t-btn t-strike" id="tbStrike" title="취소선">S</button>
-            <button type="button" class="t-btn t-color" id="tbTextColor" title="텍스트 색상">A<span class="color-bar"></span></button>
-            <button type="button" class="t-btn t-fill" id="tbFillColor" title="채우기 색상">🪣</button>
-          </div>
-          <div class="t-divider"></div>
-          <div class="toolbar-group">
-            <button type="button" class="t-btn active" title="왼쪽 정렬">⇤</button>
-            <button type="button" class="t-btn" title="가운데 정렬">⇥⇤</button>
-            <button type="button" class="t-btn" title="오른쪽 정렬">⇥</button>
-          </div>
-          <div class="t-divider"></div>
-          <div class="toolbar-group">
-            <button type="button" class="t-btn" id="tbFilterToggle" title="필터 토글">🔻</button>
-            <button type="button" class="t-btn" id="tbFunctions" title="함수 삽입(SUM/AVERAGE)">Σ</button>
-          </div>
-        </div>
-
-        <!-- 1-4. 구글 시트 수식 입력줄 (Formula Bar: 셀 좌표 및 값/수식) -->
-        <div class="sheet-formula-bar">
-          <div class="formula-cell-coord" id="currentCellCoord">A1</div>
-          <div class="formula-fx-symbol">fx</div>
-          <input type="text" id="formulaInput" class="formula-input" placeholder="셀을 클릭하거나 수식을 입력하세요 (=SUM, =AVERAGE)" aria-label="수식 입력창">
-        </div>
-
-        <!-- 1-5. 빠른 컨트롤 바 (검색, 플랫폼 필터, 일괄 액션) -->
-        <div class="sheet-control-bar">
-          <div class="filter-controls-left">
-            <span class="control-label">플랫폼 필터:</span>
-            <div class="filter-pills-wrap" id="channelFilterGroup">
-              <button type="button" class="filter-pill active" data-channel="all">전체 (<span id="countAll">8</span>)</button>
-              <button type="button" class="filter-pill" data-channel="소모임">소모임</button>
-              <button type="button" class="filter-pill" data-channel="당근">당근</button>
-              <button type="button" class="filter-pill" data-channel="인스타">인스타</button>
-              <button type="button" class="filter-pill" data-channel="에타">에타</button>
-              <button type="button" class="filter-pill" data-channel="카카오톡">카카오톡</button>
-              <button type="button" class="filter-pill" data-channel="네이버">네이버 카페</button>
-            </div>
-          </div>
-
-          <div class="filter-controls-right">
-            <div class="sheet-search-box">
-              <span class="search-icon">🔍</span>
-              <input type="text" id="sheetSearchInput" placeholder="회원명, 책이름, 연락처 검색..." aria-label="회원 검색">
-            </div>
-            <button type="button" id="btnAddMember" class="btn-sheet-primary">
-              <span>➕ 신규 회원 등록</span>
+          <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+            <button type="button" id="btnCopySheetLink" class="btn-sheet-tool" style="padding:10px 14px; font-size:0.85rem; font-weight:700; background:#ffffff; color:#334155; border:1px solid #cbd5e1; border-radius:6px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+              <span>📋</span> <span>시트 주소 복사</span>
             </button>
-          </div>
-        </div>
-
-        <!-- 일괄 액션 바 (선택된 항목 있을 때 활성화) -->
-        <div class="batch-action-bar" id="batchActionBar" style="display: none;">
-          <span class="batch-count"><strong id="selectedCount">0</strong>명 선택됨</span>
-          <div class="batch-buttons">
-            <button type="button" class="btn-batch" id="btnBatchPaid">✔ 일괄 회비 납부완료 처리</button>
-            <button type="button" class="btn-batch" id="btnBatchNoteSubmitted">📝 일괄 발제문 제출완료 처리</button>
-            <button type="button" class="btn-batch btn-batch-danger" id="btnBatchDelete">🗑 선택 삭제</button>
-          </div>
-        </div>
-
-        <!-- 1-6. 스프레드시트 본체 그리드 테이블 -->
-        <div class="sheet-grid-wrapper" tabindex="0" aria-label="구글 시트형 독서모임 회원 명단 그리드">
-          <table class="sheet-grid-table" id="memberTable">
-            <thead>
-              <tr class="sheet-header-row">
-                <th class="col-select"><input type="checkbox" id="checkAllMembers" aria-label="전체 회원 선택"></th>
-                <th class="col-num">No</th>
-                <th class="col-name" data-sort="name">회원명 (익명) <span class="sort-arrow">↕</span></th>
-                <th class="col-phone">연락처 (익명화)</th>
-                <th class="col-channel" data-sort="channel">유입 채널 <span class="sort-arrow">↕</span></th>
-                <th class="col-attendance" data-sort="attendance">누적 출석 <span class="sort-arrow">↕</span></th>
-                <th class="col-fee" data-sort="fee">회비 납부 (10,000원) <span class="sort-arrow">↕</span></th>
-                <th class="col-book">지정 도서</th>
-                <th class="col-role">등급 / 역할</th>
-                <th class="col-note">발제문/독서노트</th>
-                <th class="col-action">관리</th>
-              </tr>
-            </thead>
-            <tbody id="memberTableBody">
-              <!-- JS에서 실시간 렌더링 -->
-            </tbody>
-          </table>
-        </div>
-
-        <!-- 1-7. 구글 시트 하단 탭 및 데이터 내보내기 풋터 바 -->
-        <div class="sheet-footer">
-          <div class="sheet-tabs-container">
-            <button type="button" class="sheet-tab active" data-sheet="regular">
-              <span>📑 [Sheet 1] 2026_정기모임_회원명단</span>
+            <button type="button" id="btnRefreshSheetIframe" class="btn-sheet-tool" style="padding:10px 14px; font-size:0.85rem; font-weight:700; background:#ffffff; color:#15803d; border:1px solid #86efac; border-radius:6px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+              <span>🔄</span> <span>시트 새로고침</span>
             </button>
-            <button type="button" class="sheet-tab" data-sheet="accounting">
-              <span>💰 [Sheet 2] 회비_입출금_정산장부</span>
-            </button>
-            <button type="button" class="sheet-tab-add" id="btnAddNewSheetTab" title="새 시트 탭 추가">➕</button>
+            <a href="https://docs.google.com/spreadsheets/d/1i6zZuk5ii6VotMiYPdHSQOFzpht2JTUgOuDrRoXcZh8/edit?gid=0#gid=0" target="_blank" rel="noopener noreferrer" style="text-decoration:none; padding:10px 18px; font-size:0.9rem; font-weight:800; background:#0f9d58; color:#ffffff; border-radius:6px; display:flex; align-items:center; gap:8px; box-shadow:0 2px 8px rgba(15,157,88,0.25);">
+              <span>📊</span> <span>구글 시트 원본 새 창에서 열기 / 편집 ↗</span>
+            </a>
           </div>
+        </div>
 
-          <div class="sheet-footer-actions">
-            <span class="sheet-status-text" id="footerSyncStatus">구글 시트 API 연동 규격 100% 일치 (Cloud Auto-syncing)</span>
-            <button type="button" id="btnExportCsv" class="btn-sheet-tool">📥 CSV 다운로드</button>
-            <button type="button" id="btnExportJson" class="btn-sheet-tool">📄 JSON 백업</button>
-            <button type="button" id="btnResetData" class="btn-sheet-tool">🔄 초기 데이터 복원</button>
-          </div>
+        <!-- 실제 구글 스프레드시트 임베드 뷰어 -->
+        <div style="width:100%; height:620px; background:#ffffff; position:relative; overflow:hidden;">
+          <iframe id="googleSheetIframe" src="https://docs.google.com/spreadsheets/d/1i6zZuk5ii6VotMiYPdHSQOFzpht2JTUgOuDrRoXcZh8/htmlembed?gid=0&amp;widget=true" style="width:100%; height:100%; border:none; display:block;" title="독서모임 공식 구글 스프레드시트"></iframe>
+        </div>
+
+        <!-- 하단 실시간 안내 바 -->
+        <div style="padding:12px 20px; background:#f8fafc; border-top:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; font-size:0.82rem; color:#64748b; flex-wrap:wrap; gap:8px;">
+          <span>💡 <strong>실시간 편집 안내:</strong> 본 화면에서 시트가 바로 조회되며, 내용 수정 및 신규 등록은 상단의 <code>[구글 시트 원본 새 창에서 열기 / 편집]</code>을 눌러 직접 작업하실 수 있습니다.</span>
+          <span style="font-weight:700; color:#0f9d58;">Google Sheets v4 Cloud Sync</span>
         </div>
       </div>
     </section>
 
-   </section>
-
   </main>
-
-  <!-- ===================================================================
-       모달 1: 신규 독서모임 회원 등록 모달
-       =================================================================== -->
-  <div class="modal-backdrop" id="addMemberModal" aria-hidden="true" role="dialog" aria-labelledby="addMemberTitle">
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <h3 id="addMemberTitle">➕ 신규 독서모임 회원 등록</h3>
-        <button type="button" class="btn-modal-close" id="btnCloseAddMember" aria-label="닫기">✕</button>
-      </div>
-      <div class="modal-body">
-        <form id="addMemberForm">
-          <div class="form-grid-2">
-            <div class="form-group">
-              <label for="newMemberName">회원 이름 (자동 익명화)</label>
-              <input type="text" id="newMemberName" placeholder="***" required>
-            </div>
-            <div class="form-group">
-              <label for="newMemberPhone">연락처 (자동 익명화)</label>
-              <input type="text" id="newMemberPhone" placeholder="010-0000-0000" required>
-            </div>
-          </div>
-
-          <div class="form-grid-2">
-            <div class="form-group">
-              <label for="newMemberChannel">유입 채널</label>
-              <select id="newMemberChannel" required>
-                <option value="소모임">소모임</option>
-                <option value="당근">당근</option>
-                <option value="인스타">인스타</option>
-                <option value="에타">에타</option>
-                <option value="카카오톡">카카오톡</option>
-                <option value="네이버">네이버 카페</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="newMemberRole">회원 등급</label>
-              <select id="newMemberRole">
-                <option value="신규회원">신규회원</option>
-                <option value="일반회원">일반회원</option>
-                <option value="정회원">정회원</option>
-                <option value="운영진">운영진</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="newMemberBook">지정 도서</label>
-            <input type="text" id="newMemberBook" value="도둑맞은 집중력" required>
-          </div>
-
-          <div class="form-grid-2">
-            <div class="form-group">
-              <label for="newMemberFee">회비 납부 상태</label>
-              <select id="newMemberFee">
-                <option value="완료">납부 완료 (10,000원)</option>
-                <option value="대기">입금 대기</option>
-                <option value="면제">면제 (운영진)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="newMemberNote">발제문/독서노트</label>
-              <select id="newMemberNote">
-                <option value="제출">제출 완료</option>
-                <option value="미제출">미제출</option>
-              </select>
-            </div>
-          </div>
-
-          <button type="submit" class="btn-sheet-primary btn-block">구글 스프레드시트에 행 추가</button>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===================================================================
-       모달 2: 원클릭 배포 완료 종합 리포트 모달
-       =================================================================== -->
-  <div class="modal-backdrop" id="broadcastReportModal" aria-hidden="true" role="dialog" aria-labelledby="reportModalTitle">
-    <div class="modal-dialog modal-dialog-lg">
-      <div class="modal-header">
-        <h3 id="reportModalTitle">🎉 멀티플랫폼 원클릭 공지 배포 성공!</h3>
-        <button type="button" class="btn-modal-close" id="btnCloseReportModal" aria-label="닫기">✕</button>
-      </div>
-      <div class="modal-body">
-        <div class="report-summary-card">
-          <div class="report-icon">🚀</div>
-          <div>
-            <strong>모든 타겟 채널에 공지가 100% 동일하게 배포되었습니다.</strong>
-            <p>ID/PW 계정 세션 인증을 통해 관리자 카카오톡과 네이버 카페 게시판에 자동 등록 완료되었습니다.</p>
-          </div>
-        </div>
-
-        <div class="report-section-sub">
-          <h4>💬 메신저 전송 결과</h4>
-          <div class="report-channel-row" id="reportMessengerRow">
-            <span class="rep-channel">🟡 관리자 카카오톡 (나와의 채팅)</span>
-            <span class="rep-status badge-success">발송 완료 & 톡게시판 핀 고정</span>
-            <span class="rep-time">방금 전</span>
-          </div>
-        </div>
-
-        <div class="report-section-sub">
-          <h4>📝 커뮤니티 및 SNS 게시판 등록 결과</h4>
-          <div class="report-board-list" id="reportBoardList">
-            <!-- JS 렌더링 -->
-          </div>
-        </div>
-
-        <div class="report-transparent-box">
-          <strong>🔒 투명한 소통 및 신뢰 원칙 적용</strong>
-          <p>공지 본문에 구글 시트 투명 출석/회계 링크가 자동으로 삽입되어, 채널 간 정보 비대칭이 완벽하게 해소되었습니다.</p>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-sheet-primary" id="btnConfirmReport">확인 완료</button>
-      </div>
-    </div>
-  </div>
 
   <!-- 콘솔 푸터 바 -->
   <footer class="console-footer">

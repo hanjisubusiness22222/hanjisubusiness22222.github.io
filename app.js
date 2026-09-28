@@ -5,70 +5,45 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   // =========================================================================
-  // 1. Google Sheets Style Member DB Engine
+  // 1. Official Google Spreadsheet Integration
   // =========================================================================
 
-  // 개인정보 보호 익명화(마스킹) 유틸
-  function maskName(name) {
-    if (!name) return "***";
-    return "***";
-  }
+  const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1i6zZuk5ii6VotMiYPdHSQOFzpht2JTUgOuDrRoXcZh8/edit?gid=0#gid=0";
+  const GOOGLE_SHEET_EMBED_URL = "https://docs.google.com/spreadsheets/d/1i6zZuk5ii6VotMiYPdHSQOFzpht2JTUgOuDrRoXcZh8/htmlembed?gid=0&widget=true";
 
-  function maskPhone(phone) {
-    return "010-0000-0000";
-  }
-
-  const initialMembers = [
-    { id: 1, name: "***", phone: "010-0000-0000", channel: "소모임", attendance: 8, fee: "완료", book: "도둑맞은 집중력", role: "정회원", note: "제출" },
-    { id: 2, name: "***", phone: "010-0000-0000", channel: "당근", attendance: 3, fee: "완료", book: "도둑맞은 집중력", role: "일반회원", note: "제출" },
-    { id: 3, name: "***", phone: "010-0000-0000", channel: "인스타", attendance: 12, fee: "완료", book: "물고기는 존재하지 않는다", role: "운영진", note: "제출" },
-    { id: 4, name: "***", phone: "010-0000-0000", channel: "에타", attendance: 2, fee: "대기", book: "도둑맞은 집중력", role: "신규회원", note: "미제출" },
-    { id: 5, name: "***", phone: "010-0000-0000", channel: "카카오톡", attendance: 6, fee: "완료", book: "원씽 (The ONE Thing)", role: "정회원", note: "제출" },
-    { id: 6, name: "***", phone: "010-0000-0000", channel: "네이버", attendance: 4, fee: "대기", book: "도둑맞은 집중력", role: "일반회원", note: "미제출" },
-    { id: 7, name: "***", phone: "010-0000-0000", channel: "소모임", attendance: 9, fee: "완료", book: "클린 코드", role: "호스트", note: "제출" },
-    { id: 8, name: "***", phone: "010-0000-0000", channel: "당근", attendance: 5, fee: "면제", book: "도둑맞은 집중력", role: "운영진", note: "제출" }
-  ];
-
-  // 이전 버전 로컬 스토리지 캐시 완전 정리 (개인정보 보호)
-  ["booklink_members_v1", "booklink_members_v2", "booklink_members_v3", "booklink_members_v4", "booklink_members_v5"].forEach((k) => localStorage.removeItem(k));
-
-  let rawStored = JSON.parse(localStorage.getItem("booklink_members_v6"));
-  let members = (rawStored && rawStored.length > 0) ? rawStored : [...initialMembers];
-  // 기존 저장 데이터도 이름(***)과 연락처(010-0000-0000) 익명화 적용
-  members = members.map((m) => ({
-    ...m,
-    name: maskName(m.name),
-    phone: maskPhone(m.phone)
-  }));
-  localStorage.setItem("booklink_members_v6", JSON.stringify(members));
-  let selectedMemberIds = new Set();
-  let currentFilter = "all";
-  let searchQuery = "";
-  let currentActiveCell = null;
-
-  // DOM Elements - Sheet
-  const tableBody = document.getElementById("memberTableBody");
-  const searchInput = document.getElementById("sheetSearchInput");
-  const filterPills = document.querySelectorAll("#channelFilterGroup .filter-pill");
-  const countAll = document.getElementById("countAll");
-  const checkAllMembers = document.getElementById("checkAllMembers");
-  const batchActionBar = document.getElementById("batchActionBar");
-  const selectedCount = document.getElementById("selectedCount");
-
-  // KPI Elements
-  const kpiTotalMembers = document.getElementById("kpiTotalMembers");
-  const kpiFeeRatio = document.getElementById("kpiFeeRatio");
-  const kpiAvgAttendance = document.getElementById("kpiAvgAttendance");
-  const kpiNoteRatio = document.getElementById("kpiNoteRatio");
-
-  // Formula Bar Elements
-  const currentCellCoord = document.getElementById("currentCellCoord");
-  const formulaInput = document.getElementById("formulaInput");
-
-  // Sync Elements
+  const googleSheetIframe = document.getElementById("googleSheetIframe");
+  const btnCopySheetLink = document.getElementById("btnCopySheetLink");
+  const btnRefreshSheetIframe = document.getElementById("btnRefreshSheetIframe");
   const btnSyncGoogleNow = document.getElementById("btnSyncGoogleNow");
-  const sheetSaveIndicator = document.getElementById("sheetSaveIndicator");
-  const cloudSyncStatus = document.getElementById("cloudSyncStatus");
+
+  // 클립보드 텍스트 복사 유틸
+  function copyTextToClipboard(str, successMsg) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(str)
+        .then(() => {
+          if (successMsg) alert(successMsg);
+        })
+        .catch(() => fallbackCopy(str, successMsg));
+    } else {
+      fallbackCopy(str, successMsg);
+    }
+  }
+
+  function fallbackCopy(str, successMsg) {
+    const ta = document.createElement("textarea");
+    ta.value = str;
+    ta.style.position = "fixed";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand("copy");
+      if (successMsg) alert(successMsg);
+    } catch (e) {
+      alert("복사에 실패했습니다. 직접 텍스트를 선택하여 복사해주세요.");
+    }
+    document.body.removeChild(ta);
+  }
 
   // XSS 방지 유틸
   function escapeHtml(str) {
@@ -81,446 +56,46 @@ document.addEventListener("DOMContentLoaded", () => {
       .replace(/'/g, "&#039;");
   }
 
-  // 1-1. Table Rendering
-  function renderMemberTable() {
-    if (!tableBody) return;
-
-    const filtered = members.filter((m) => {
-      const matchChannel = currentFilter === "all" || m.channel === currentFilter;
-      const q = searchQuery.toLowerCase().trim();
-      const matchSearch = !q ||
-        m.name.toLowerCase().includes(q) ||
-        m.channel.toLowerCase().includes(q) ||
-        m.book.toLowerCase().includes(q) ||
-        m.role.toLowerCase().includes(q) ||
-        m.phone.includes(q);
-      return matchChannel && matchSearch;
+  // 1-1. 시트 주소 복사
+  if (btnCopySheetLink) {
+    btnCopySheetLink.addEventListener("click", () => {
+      copyTextToClipboard(GOOGLE_SHEET_URL, "📋 구글 스프레드시트 링크가 클립보드에 복사되었습니다!\n" + GOOGLE_SHEET_URL);
     });
-
-    tableBody.innerHTML = "";
-
-    if (filtered.length === 0) {
-      tableBody.innerHTML = `
-        <tr>
-          <td colspan="11" style="text-align: center; padding: 40px; color: var(--text-dim);">
-            일치하는 회원 데이터가 없습니다. (필터 또는 검색어를 확인하세요)
-          </td>
-        </tr>
-      `;
-    } else {
-      filtered.forEach((m, idx) => {
-        const tr = document.createElement("tr");
-        const isSelected = selectedMemberIds.has(m.id);
-        if (isSelected) tr.classList.add("row-selected");
-
-        // Channel Chip Class
-        const chipMap = {
-          "카카오톡": "chip-kakao",
-          "소모임": "chip-somoim",
-          "네이버": "chip-naver",
-          "당근": "chip-daangn",
-          "에타": "chip-everytime",
-          "인스타": "chip-instagram"
-        };
-        const chipClass = chipMap[m.channel] || "chip-somoim";
-
-        // Fee Badge Class
-        let feeClass = "fee-paid";
-        let feeText = "✔ 납부 완료";
-        if (m.fee === "대기") {
-          feeClass = "fee-pending";
-          feeText = "⏳ 입금 대기";
-        } else if (m.fee === "면제") {
-          feeClass = "fee-exempt";
-          feeText = "🏷️ 회비 면제";
-        }
-
-        // Note Badge
-        const noteClass = m.note === "제출" ? "note-submitted" : "note-pending";
-        const noteText = m.note === "제출" ? "✔ 제출 완료" : "⏳ 미제출";
-
-        // Role Class
-        const isHost = m.role === "호스트";
-        const roleClass = isHost ? "role-tag role-host" : "role-tag";
-
-        tr.innerHTML = `
-          <td class="col-select">
-            <input type="checkbox" class="row-checkbox" data-id="${m.id}" ${isSelected ? "checked" : ""}>
-          </td>
-          <td class="col-num" data-coord="A${idx + 2}">${idx + 1}</td>
-          <td class="col-name" data-coord="B${idx + 2}" data-val="${escapeHtml(maskName(m.name))}">
-            <strong>${escapeHtml(maskName(m.name))}</strong>
-          </td>
-          <td class="col-phone" data-coord="C${idx + 2}" data-val="${escapeHtml(maskPhone(m.phone))}">${escapeHtml(maskPhone(m.phone))}</td>
-          <td class="col-channel" data-coord="D${idx + 2}" data-val="${escapeHtml(m.channel)}">
-            <span class="channel-chip ${chipClass}">${escapeHtml(m.channel)}</span>
-          </td>
-          <td class="col-attendance" data-coord="E${idx + 2}" data-val="${m.attendance}">
-            <div class="attendance-cell">
-              <button type="button" class="btn-counter btn-att-minus" data-id="${m.id}">-</button>
-              <span class="count-number">${m.attendance}회</span>
-              <button type="button" class="btn-counter btn-att-plus" data-id="${m.id}">+</button>
-            </div>
-          </td>
-          <td class="col-fee" data-coord="F${idx + 2}" data-val="${m.fee}">
-            <span class="fee-badge ${feeClass}" data-id="${m.id}" title="클릭 시 상태 전환 (완료/대기/면제)">
-              ${feeText}
-            </span>
-          </td>
-          <td class="col-book" data-coord="G${idx + 2}" data-val="${escapeHtml(m.book)}">📖 ${escapeHtml(m.book)}</td>
-          <td class="col-role" data-coord="H${idx + 2}" data-val="${escapeHtml(m.role)}">
-            <span class="${roleClass}">${escapeHtml(m.role)}</span>
-          </td>
-          <td class="col-note" data-coord="I${idx + 2}" data-val="${m.note}">
-            <span class="note-badge ${noteClass}" data-id="${m.id}" title="클릭 시 발제문 제출여부 토글">
-              ${noteText}
-            </span>
-          </td>
-          <td class="col-action">
-            <button type="button" class="btn-delete-row" data-id="${m.id}" title="명단에서 삭제">✕</button>
-          </td>
-        `;
-        tableBody.appendChild(tr);
-      });
-    }
-
-    updateMetrics();
-    updateBatchBar();
   }
 
-  // 1-2. Update KPI Metrics
-  function updateMetrics() {
-    if (!members.length) {
-      if (kpiTotalMembers) kpiTotalMembers.textContent = "0명";
-      if (kpiFeeRatio) kpiFeeRatio.textContent = "0%";
-      if (kpiAvgAttendance) kpiAvgAttendance.textContent = "0회";
-      if (kpiNoteRatio) kpiNoteRatio.textContent = "0%";
-      if (countAll) countAll.textContent = "0";
-      return;
-    }
-
-    const total = members.length;
-    if (kpiTotalMembers) kpiTotalMembers.textContent = `${total}명`;
-    if (countAll) countAll.textContent = total;
-
-    // Fee Paid Ratio (완료 or 면제)
-    const paidCount = members.filter((m) => m.fee === "완료" || m.fee === "면제").length;
-    const feeRatio = Math.round((paidCount / total) * 100);
-    if (kpiFeeRatio) kpiFeeRatio.textContent = `${feeRatio}% (${paidCount}/${total})`;
-
-    // Avg Attendance
-    const totalAtt = members.reduce((sum, m) => sum + (Number(m.attendance) || 0), 0);
-    const avgAtt = (totalAtt / total).toFixed(1);
-    if (kpiAvgAttendance) kpiAvgAttendance.textContent = `${avgAtt}회`;
-
-    // Note Ratio
-    const noteCount = members.filter((m) => m.note === "제출").length;
-    const noteRatio = Math.round((noteCount / total) * 100);
-    if (kpiNoteRatio) kpiNoteRatio.textContent = `${noteRatio}% (${noteCount}/${total})`;
-  }
-
-  // 1-3. Batch Selection Bar
-  function updateBatchBar() {
-    if (!batchActionBar) return;
-    const count = selectedMemberIds.size;
-    if (selectedCount) selectedCount.textContent = count;
-
-    if (count > 0) {
-      batchActionBar.style.display = "flex";
-    } else {
-      batchActionBar.style.display = "none";
-    }
-
-    if (checkAllMembers) {
-      checkAllMembers.checked = members.length > 0 && selectedMemberIds.size === members.length;
+  // 1-2. 시트 Iframe 새로고침
+  function reloadSheetIframe() {
+    if (googleSheetIframe) {
+      googleSheetIframe.src = GOOGLE_SHEET_EMBED_URL + "&t=" + Date.now();
     }
   }
 
-  // 1-4. Search & Filter Listeners
-  if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
-      searchQuery = e.target.value;
-      renderMemberTable();
+  if (btnRefreshSheetIframe) {
+    btnRefreshSheetIframe.addEventListener("click", () => {
+      reloadSheetIframe();
+      btnRefreshSheetIframe.textContent = "✔ 새로고침 완료!";
+      setTimeout(() => {
+        btnRefreshSheetIframe.innerHTML = "<span>🔄</span> <span>시트 새로고침</span>";
+      }, 1000);
     });
   }
 
-  filterPills.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      filterPills.forEach((p) => p.classList.remove("active"));
-      btn.classList.add("active");
-      currentFilter = btn.getAttribute("data-channel");
-      renderMemberTable();
-    });
-  });
-
-  // Check all
-  if (checkAllMembers) {
-    checkAllMembers.addEventListener("change", (e) => {
-      if (e.target.checked) {
-        selectedMemberIds = new Set(members.map((m) => m.id));
-      } else {
-        selectedMemberIds.clear();
-      }
-      renderMemberTable();
-    });
-  }
-
-  // Table Body Delegation
-  if (tableBody) {
-    tableBody.addEventListener("click", (e) => {
-      // Row Checkbox
-      const chk = e.target.closest(".row-checkbox");
-      if (chk) {
-        const id = parseInt(chk.getAttribute("data-id"), 10);
-        if (chk.checked) selectedMemberIds.add(id);
-        else selectedMemberIds.delete(id);
-        renderMemberTable();
-        return;
-      }
-
-      // Attendance Minus
-      const btnMinus = e.target.closest(".btn-att-minus");
-      if (btnMinus) {
-        const id = parseInt(btnMinus.getAttribute("data-id"), 10);
-        const target = members.find((m) => m.id === id);
-        if (target && target.attendance > 0) {
-          target.attendance -= 1;
-          saveAndRefresh();
-        }
-        return;
-      }
-
-      // Attendance Plus
-      const btnPlus = e.target.closest(".btn-att-plus");
-      if (btnPlus) {
-        const id = parseInt(btnPlus.getAttribute("data-id"), 10);
-        const target = members.find((m) => m.id === id);
-        if (target) {
-          target.attendance += 1;
-          saveAndRefresh();
-        }
-        return;
-      }
-
-      // Fee Toggle (완료 -> 대기 -> 면제 -> 완료)
-      const feeBadge = e.target.closest(".fee-badge");
-      if (feeBadge) {
-        const id = parseInt(feeBadge.getAttribute("data-id"), 10);
-        const target = members.find((m) => m.id === id);
-        if (target) {
-          if (target.fee === "완료") target.fee = "대기";
-          else if (target.fee === "대기") target.fee = "면제";
-          else target.fee = "완료";
-          saveAndRefresh();
-        }
-        return;
-      }
-
-      // Note Toggle (제출 <-> 미제출)
-      const noteBadge = e.target.closest(".note-badge");
-      if (noteBadge) {
-        const id = parseInt(noteBadge.getAttribute("data-id"), 10);
-        const target = members.find((m) => m.id === id);
-        if (target) {
-          target.note = target.note === "제출" ? "미제출" : "제출";
-          saveAndRefresh();
-        }
-        return;
-      }
-
-      // Delete Row
-      const delBtn = e.target.closest(".btn-delete-row");
-      if (delBtn) {
-        const id = parseInt(delBtn.getAttribute("data-id"), 10);
-        const target = members.find((m) => m.id === id);
-        if (target && confirm(`'${target.name}' 회원을 명단에서 삭제하시겠습니까?`)) {
-          members = members.filter((m) => m.id !== id);
-          selectedMemberIds.delete(id);
-          saveAndRefresh();
-        }
-        return;
-      }
-
-      // Cell Select for Formula Bar
-      const cell = e.target.closest("td");
-      if (cell) {
-        document.querySelectorAll(".sheet-grid-table td").forEach((td) => td.classList.remove("cell-active"));
-        cell.classList.add("cell-active");
-        currentActiveCell = cell;
-
-        const coord = cell.getAttribute("data-coord") || "B2";
-        const val = cell.getAttribute("data-val") || cell.textContent.trim();
-        if (currentCellCoord) currentCellCoord.textContent = coord;
-        if (formulaInput) formulaInput.value = val;
-      }
-    });
-  }
-
-  // Formula Input Enter
-  if (formulaInput) {
-    formulaInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && currentActiveCell) {
-        currentActiveCell.textContent = formulaInput.value;
-        currentActiveCell.setAttribute("data-val", formulaInput.value);
-        formulaInput.blur();
-      }
-    });
-  }
-
-  // Batch Buttons
-  const btnBatchPaid = document.getElementById("btnBatchPaid");
-  if (btnBatchPaid) {
-    btnBatchPaid.addEventListener("click", () => {
-      members.forEach((m) => {
-        if (selectedMemberIds.has(m.id)) m.fee = "완료";
-      });
-      saveAndRefresh();
-    });
-  }
-
-  const btnBatchNoteSubmitted = document.getElementById("btnBatchNoteSubmitted");
-  if (btnBatchNoteSubmitted) {
-    btnBatchNoteSubmitted.addEventListener("click", () => {
-      members.forEach((m) => {
-        if (selectedMemberIds.has(m.id)) m.note = "제출";
-      });
-      saveAndRefresh();
-    });
-  }
-
-  const btnBatchDelete = document.getElementById("btnBatchDelete");
-  if (btnBatchDelete) {
-    btnBatchDelete.addEventListener("click", () => {
-      if (confirm(`선택한 ${selectedMemberIds.size}명의 회원을 일괄 삭제하시겠습니까?`)) {
-        members = members.filter((m) => !selectedMemberIds.has(m.id));
-        selectedMemberIds.clear();
-        saveAndRefresh();
-      }
-    });
-  }
-
-  // Instant Cloud Sync Animation
+  // 1-3. 상단 헤더 '구글 시트 즉시 동기화' 버튼
   if (btnSyncGoogleNow) {
     btnSyncGoogleNow.addEventListener("click", () => {
       btnSyncGoogleNow.classList.add("syncing");
       const textSpan = btnSyncGoogleNow.querySelector(".sync-text");
       if (textSpan) textSpan.textContent = "동기화 중...";
 
-      if (sheetSaveIndicator) {
-        sheetSaveIndicator.textContent = "🔄 Google Cloud 저장소와 패킷 교환 중...";
-        sheetSaveIndicator.style.color = "var(--primary)";
-      }
+      reloadSheetIframe();
 
       setTimeout(() => {
         btnSyncGoogleNow.classList.remove("syncing");
         if (textSpan) textSpan.textContent = "구글 시트 즉시 동기화";
-        const now = new Date();
-        const timeStr = `${now.getHours()}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}`;
-        if (sheetSaveIndicator) {
-          sheetSaveIndicator.textContent = `☁ 모든 변경사항이 Google Drive에 저장됨 (${timeStr})`;
-          sheetSaveIndicator.style.color = "var(--sheet-green)";
-        }
+        alert("✔ Google Drive 클라우드와 스프레드시트 화면이 실시간 동기화되었습니다!");
       }, 700);
     });
   }
-
-  // Add Member Modal
-  const btnAddMember = document.getElementById("btnAddMember");
-  const addMemberModal = document.getElementById("addMemberModal");
-  const btnCloseAddMember = document.getElementById("btnCloseAddMember");
-  const addMemberForm = document.getElementById("addMemberForm");
-
-  if (btnAddMember && addMemberModal) {
-    btnAddMember.addEventListener("click", () => addMemberModal.classList.add("active"));
-  }
-  if (btnCloseAddMember && addMemberModal) {
-    btnCloseAddMember.addEventListener("click", () => addMemberModal.classList.remove("active"));
-  }
-  if (addMemberModal) {
-    addMemberModal.addEventListener("click", (e) => {
-      if (e.target === addMemberModal) addMemberModal.classList.remove("active");
-    });
-  }
-
-  if (addMemberForm) {
-    addMemberForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const name = document.getElementById("newMemberName").value.trim();
-      const phone = document.getElementById("newMemberPhone").value.trim();
-      const channel = document.getElementById("newMemberChannel").value;
-      const role = document.getElementById("newMemberRole").value;
-      const book = document.getElementById("newMemberBook").value.trim();
-      const fee = document.getElementById("newMemberFee").value;
-      const note = document.getElementById("newMemberNote").value;
-
-      if (!name) return;
-
-      const newId = members.length > 0 ? Math.max(...members.map((m) => m.id)) + 1 : 1;
-      members.push({
-        id: newId,
-        name: maskName(name),
-        phone: maskPhone(phone || "010-0000-0000"),
-        channel,
-        attendance: 1,
-        fee,
-        book,
-        role,
-        note
-      });
-
-      saveAndRefresh();
-      addMemberForm.reset();
-      addMemberModal.classList.remove("active");
-    });
-  }
-
-  // CSV Export
-  const btnExportCsv = document.getElementById("btnExportCsv");
-  if (btnExportCsv) {
-    btnExportCsv.addEventListener("click", () => {
-      let csv = "번호,회원명,연락처,유입플랫폼,누적출석,회비납부,지정도서,등급,독서노트제출\n";
-      members.forEach((m, idx) => {
-        csv += `${idx + 1},"${m.name}","${m.phone}","${m.channel}",${m.attendance},"${m.fee}","${m.book}","${m.role}","${m.note}"\n`;
-      });
-      const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "2026_독서모임_회원명단_시트.csv";
-      a.click();
-      URL.revokeObjectURL(url);
-    });
-  }
-
-  // JSON Export
-  const btnExportJson = document.getElementById("btnExportJson");
-  if (btnExportJson) {
-    btnExportJson.addEventListener("click", () => {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(members, null, 2));
-      const a = document.createElement("a");
-      a.href = dataStr;
-      a.download = "2026_독서모임_회원데이터.json";
-      a.click();
-    });
-  }
-
-  // Reset Data
-  const btnResetData = document.getElementById("btnResetData");
-  if (btnResetData) {
-    btnResetData.addEventListener("click", () => {
-      if (confirm("초기 샘플 데이터 8명 명단으로 복원하시겠습니까?")) {
-        members = [...initialMembers];
-        selectedMemberIds.clear();
-        saveAndRefresh();
-      }
-    });
-  }
-
-  function saveAndRefresh() {
-    localStorage.setItem("booklink_members_v6", JSON.stringify(members));
-    renderMemberTable();
-  }
-
   // =========================================================================
   // 3. Weekly Weekend (Sat/Sun) Master Scheduler (자유 도서 모임)
   // =========================================================================
@@ -1045,7 +620,6 @@ ${htmlWithLinks}
   // =========================================================================
   // 8. Initial Load & Startup Execution
   // =========================================================================
-  renderMemberTable();
   setWeekOffset(0); // 현재 시점 기준 이번 주 토·일 계산 및 자유 도서 공지 적용
 });
 
