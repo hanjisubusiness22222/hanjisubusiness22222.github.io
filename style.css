@@ -2550,3 +2550,386 @@ button, input, select, textarea {
   align-items: center;
   gap: 6px;
 }
+
+/* ==========================================================================
+   WEEKLY WEEKEND (SAT/SUN) MASTER SCHEDULER BAR
+   ========================================================================== */
+.weekend-master-bar {
+  background: linear-gradient(135deg, #1e1b4b 0%, #1e3a8a 50%, #0f172a 100%);
+  color: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: 22px 28px;
+  box-shadow: 0 10px 25px -5px rgba(30, 27, 75, 0.35);
+  margin-bottom: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.weekend-master-bar::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.25), transparent 70%);
+  pointer-events: none;
+}
+
+.master-bar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.master-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.master-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  letter-spacing: 0.8px;
+  color: #93c5fd;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #22c55e;
+  animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+.master-title-box h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 2px;
+  color: #ffffff;
+}
+
+.master-title-box p {
+  font-size: 0.84rem;
+  color: #cbd5e1;
+}
+
+.master-bar-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  backdrop-filter: blur(8px);
+}
+
+.quick-weekend-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.control-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #93c5fd;
+}
+
+.btn-quick-week {
+  background: rgba(255, 255, 255, 0.12);
+  color: #f1f5f9;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-quick-week:hover {
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.btn-quick-week.active {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #60a5fa;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+}
+
+.master-inputs-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.master-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.master-field label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+
+.master-field input,
+.master-field select {
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.master-field input:focus,
+.master-field select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.btn-apply-all {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-apply-all:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   NAVER CAFE SMART EDITOR PREVIEW STYLES
+   ========================================================================== */
+.naver-cafe-view-container {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.naver-post-box {
+  background: #f8fafc;
+  border-left: 4px solid #03c75a;
+  border-radius: 4px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.naver-post-box strong {
+  color: #047857;
+}
+
+.naver-schedule-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 14px 0;
+}
+
+.naver-schedule-card {
+  background: #ffffff;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.naver-schedule-card.sat {
+  border-top: 3px solid #2563eb;
+}
+
+.naver-schedule-card.sun {
+  border-top: 3px solid #dc2626;
+}
+
+.naver-schedule-card h4 {
+  font-size: 0.92rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.naver-schedule-card.sat h4 { color: #1d4ed8; }
+.naver-schedule-card.sun h4 { color: #b91c1c; }
+
+.naver-questions-box {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 14px 0;
+}
+
+.naver-questions-box h4 {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #14532d;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.naver-questions-box ol {
+  padding-left: 20px;
+  margin: 0;
+  font-size: 0.88rem;
+  color: #166534;
+  line-height: 1.6;
+}
+
+.naver-questions-box ol li {
+  margin-bottom: 6px;
+}
+
+/* ==========================================================================
+   WEEKLY CURRICULUM CARDS GRID
+   ========================================================================== */
+.curriculum-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.curriculum-card:hover {
+  transform: translateY(-2px);
+  border-color: #3b82f6;
+  box-shadow: var(--shadow-md);
+}
+
+.curriculum-card.current-active {
+  border: 2px solid #2563eb;
+  background: #f8faff;
+}
+
+.curriculum-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cur-week-badge {
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: #eff6ff;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+}
+
+.cur-active-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #059669;
+  background: #ecfdf5;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.cur-book-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 8px 0 2px;
+}
+
+.cur-book-author {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.cur-theme-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 0.82rem;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.cur-questions-list {
+  font-size: 0.78rem;
+  color: #475569;
+  padding-left: 18px;
+  margin: 8px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.btn-apply-curriculum {
+  width: 100%;
+  padding: 9px;
+  background: #ffffff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-apply-curriculum:hover {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}

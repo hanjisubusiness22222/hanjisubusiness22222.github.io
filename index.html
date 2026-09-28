@@ -34,17 +34,20 @@
 
     <!-- 빠른 바로가기 탭 네비게이션 -->
     <nav class="console-nav" aria-label="관리자 기능 메뉴">
-      <a href="#section-credentials" class="nav-tab active" data-tab="credentials">
-        <span class="tab-icon">🔐</span> 1. API &amp; 계정 연동
-      </a>
-      <a href="#section-kakao" class="nav-tab" data-tab="kakao">
-        <span class="tab-icon">💬</span> 2. 카카오톡 공지
+      <a href="#section-kakao" class="nav-tab active" data-tab="kakao">
+        <span class="tab-icon">💬</span> 1. 카카오톡 공지 (토·일)
       </a>
       <a href="#section-board" class="nav-tab" data-tab="board">
-        <span class="tab-icon">📝</span> 3. 커뮤니티 공지
+        <span class="tab-icon">📝</span> 2. 네이버 카페 공지
+      </a>
+      <a href="#section-curriculum" class="nav-tab" data-tab="curriculum">
+        <span class="tab-icon">🗓️</span> 3. 주차별 도서·일정
       </a>
       <a href="#section-sheet" class="nav-tab" data-tab="sheet">
         <span class="tab-icon">📊</span> 4. 회원 명단 관리
+      </a>
+      <a href="#section-credentials" class="nav-tab" data-tab="credentials">
+        <span class="tab-icon">🔐</span> 5. 계정 &amp; 카페 설정
       </a>
     </nav>
 
@@ -59,18 +62,89 @@
     </div>
   </header>
 
-  <main class=
+  <main class="console-main">
 
     <!-- ===================================================================
-         STEP 1) 🔐 플랫폼별 자동 로그인 & API 인증 계정 설정
+         🗓️ MASTER SCHEDULER: 매주 바뀌는 토·일 주말 정기모임 스케줄러 컨트롤 바
          =================================================================== -->
-    <section id="section-credentials" class="console-section active-section">
+    <section class="weekend-master-bar" id="weekendMasterBar">
+      <div class="master-bar-container">
+        <div class="master-bar-left">
+          <div class="master-badge">
+            <span class="pulse-dot"></span>
+            <strong>WEEKLY SCHEDULE ENGINE</strong>
+          </div>
+          <div class="master-title-box">
+            <h3>🗓️ 매주 토·일 정기모임 주차 설정</h3>
+            <p>날짜와 도서를 선택하면 <strong>카카오톡 단톡방 공지</strong>와 <strong>네이버 카페 스마트에디터 공지</strong>가 동시에 자동 생성됩니다.</p>
+          </div>
+        </div>
+
+        <div class="master-bar-controls">
+          <!-- 퀵 주차 이동 버튼 -->
+          <div class="quick-weekend-buttons">
+            <span class="control-label">주말 자동 계산:</span>
+            <button type="button" class="btn-quick-week active" id="btnWeekThis" data-offset="0">⚡ 이번 주말 (토·일)</button>
+            <button type="button" class="btn-quick-week" id="btnWeekNext" data-offset="1">📅 다음 주말 (토·일)</button>
+            <button type="button" class="btn-quick-week" id="btnWeekAfterNext" data-offset="2">🗓️ 다다음 주말</button>
+          </div>
+
+          <!-- 세부 선택 셀렉터 그룹 -->
+          <div class="master-inputs-row">
+            <div class="master-field">
+              <label for="masterRound">회차</label>
+              <input type="text" id="masterRound" value="제15회" style="width:75px; text-align:center; font-weight:700;">
+            </div>
+
+            <div class="master-field">
+              <label for="masterDateRange">토·일 날짜</label>
+              <div class="input-with-icon">
+                <input type="text" id="masterDateRange" value="10/03, 04" placeholder="예: 10/03, 04" style="width:125px; font-weight:700; color:#1d4ed8;">
+              </div>
+            </div>
+
+            <div class="master-field">
+              <label for="masterSessionType">개설 세션</label>
+              <select id="masterSessionType" style="font-weight:600;">
+                <option value="both" selected>토·일 양일 진행 (토 14:00 / 일 14:00)</option>
+                <option value="sat">토요일 세션만 (토 14:00)</option>
+                <option value="sun">일요일 세션만 (일 14:00)</option>
+              </select>
+            </div>
+
+            <div class="master-field" style="flex:1; min-width:240px;">
+              <label for="masterCurriculumSelect">이번 주 도서 (주차별 프리셋)</label>
+              <select id="masterCurriculumSelect" style="font-weight:600; color:#0f172a;">
+                <option value="1">1주차: 도둑맞은 집중력 (요한 하리)</option>
+                <option value="2">2주차: 물고기는 존재하지 않는다 (룰루 밀러)</option>
+                <option value="3">3주차: 원씽 - The ONE Thing (게리 켈러)</option>
+                <option value="4">4주차: 클린 코드 - 애자일 소프트웨어 장인 정신 (로버트 C. 마틴)</option>
+                <option value="5">5주차: 돈의 심리학 (모건 하우절)</option>
+                <option value="6">6주차: 데미안 (헤르만 헤세)</option>
+              </select>
+            </div>
+
+            <div class="master-field">
+              <label>&nbsp;</label>
+              <button type="button" class="btn-apply-all" id="btnApplyAllNotices" title="카카오톡 & 네이버 카페 공지 동시 업데이트">
+                <span>⚡ 공지 일괄 갱신</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         STEP 5) 🔐 플랫폼별 자동 로그인 & API 인증 계정 설정
+         =================================================================== -->
+    <section id="section-credentials" class="console-section">
       <div class="credentials-card">
         <div class="credentials-header">
           <div class="cred-title-box">
-            <span class="cred-badge">STEP 1 · AUTO-LOGIN BOT CREDENTIALS</span>
-            <h2>🔐 플랫폼별 자동 로그인 &amp; API 인증 계정 설정</h2>
-            <p>원클릭 공지 자동 전송을 위해 각 플랫폼의 <strong>아이디와 패스워드</strong>를 안전하게 연동합니다. <span class="text-hint">메신저(카카오톡)와 게시판 플랫폼으로 분리되어 인증 관리됩니다.</span></p>
+            <span class="cred-badge">STEP 5 · BOT CREDENTIALS &amp; URL SETTINGS</span>
+            <h2>🔐 카카오톡 &amp; 네이버 카페 연동 계정 설정</h2>
+            <p>원클릭 공지 자동 전송을 위해 <strong>카카오톡 오픈채팅방 링크</strong>와 <strong>네이버 카페 주소 및 계정</strong>을 안전하게 연동합니다.</p>
           </div>
           <div class="cred-header-actions">
             <button type="button" id="btnTestAllAccounts" class="btn-secondary-sm">
@@ -82,14 +156,14 @@
           </div>
         </div>
 
-        <!-- 메신저(카톡) vs 게시글(5대 플랫폼) 분리 그리드 -->
+        <!-- 메신저(카톡) vs 게시글(네이버 카페 중심) 분리 그리드 -->
         <div class="credentials-split-grid">
           <!-- [좌측: 메신저 부문 - 카카오톡] -->
           <div class="cred-column cred-messenger-col">
             <div class="col-head messenger-head">
               <span class="head-icon">💬</span>
               <div>
-                <h3>메신저 채널 (실시간 알림 및 대화방)</h3>
+                <h3>카카오톡 메신저 채널 (단톡방 3곳)</h3>
                 <span class="head-sub">카카오톡 오픈채팅방 / 단체방 / 알림톡 봇 연동</span>
               </div>
               <span class="session-badge badge-active" id="badgeKakaoStatus">🟢 세션 정상</span>
@@ -140,95 +214,49 @@
             </div>
           </div>
 
-          <!-- [우측: 게시글 부문 - 커뮤니티 및 SNS 플랫폼] -->
+          <!-- [우측: 게시글 부문 - 네이버 카페] -->
           <div class="cred-column cred-board-col">
-            <div class="col-head board-head">
-              <span class="head-icon">📝</span>
+            <div class="col-head board-head" style="background:#f0fdf4; border-color:#bbf7d0;">
+              <span class="head-icon">☕</span>
               <div>
-                <h3>게시글 채널 (커뮤니티 모집글 및 피드 포스팅)</h3>
-                <span class="head-sub">소모임, 네이버 카페, 에브리타임, 당근, 인스타그램</span>
+                <h3 style="color:#14532d;">네이버 카페 스마트에디터 연동</h3>
+                <span class="head-sub" style="color:#166534;">공식 네이버 카페 글쓰기 창 및 스마트에디터 브리지</span>
               </div>
-              <span class="session-badge badge-active" id="badgeBoardStatus">🟢 5개 플랫폼 연결</span>
+              <span class="session-badge badge-active" id="badgeBoardStatus" style="background:#dcfce7; color:#15803d; border-color:#86efac;">🟢 네이버 카페 연결</span>
             </div>
 
             <div class="cred-board-list">
-              <!-- 소모임 -->
-              <div class="cred-board-item">
+              <!-- 네이버 카페 상세 연동 -->
+              <div class="cred-board-item" style="border:1px solid #86efac; background:#ffffff;">
                 <div class="board-item-header">
-                  <span class="badge-board somoim">소모임 앱</span>
-                  <span class="board-session-state">연결됨</span>
+                  <span class="badge-board naver" style="background:#03c75a; color:#fff;">네이버 카페 설정</span>
+                  <span class="board-session-state" style="color:#059669; font-weight:700;">원클릭 브리지 활성</span>
                 </div>
-                <div class="cred-row-inputs">
-                  <input type="text" id="credSomoimId" placeholder="소모임 ID" value="bookhost_kr">
-                  <div class="pw-input-wrap">
-                    <input type="password" id="credSomoimPw" placeholder="비밀번호" value="••••••••">
-                    <button type="button" class="btn-toggle-pw">👁️</button>
+                <div class="cred-form-grid" style="margin-top:10px;">
+                  <div class="cred-field">
+                    <label for="credNaverId">네이버 아이디</label>
+                    <input type="text" id="credNaverId" placeholder="네이버 아이디" value="bookleader26">
                   </div>
-                  <input type="text" id="credSomoimClubId" placeholder="모임 고유번호" value="CLUB_92819">
-                </div>
-              </div>
-
-              <!-- 네이버 카페 -->
-              <div class="cred-board-item">
-                <div class="board-item-header">
-                  <span class="badge-board naver">네이버 카페/블로그</span>
-                  <span class="board-session-state">연결됨</span>
-                </div>
-                <div class="cred-row-inputs">
-                  <input type="text" id="credNaverId" placeholder="네이버 아이디" value="bookleader26">
-                  <div class="pw-input-wrap">
-                    <input type="password" id="credNaverPw" placeholder="비밀번호" value="••••••••">
-                    <button type="button" class="btn-toggle-pw">👁️</button>
+                  <div class="cred-field">
+                    <label for="credNaverPw">비밀번호</label>
+                    <div class="pw-input-wrap">
+                      <input type="password" id="credNaverPw" placeholder="비밀번호" value="••••••••">
+                      <button type="button" class="btn-toggle-pw">👁️</button>
+                    </div>
                   </div>
-                  <input type="text" id="credNaverBoard" placeholder="게시판 카테고리 ID" value="정기모임_공지게시판">
-                </div>
-              </div>
-
-              <!-- 당근마켓 모임 -->
-              <div class="cred-board-item">
-                <div class="board-item-header">
-                  <span class="badge-board daangn">당근마켓 모임</span>
-                  <span class="board-session-state">연결됨</span>
-                </div>
-                <div class="cred-row-inputs">
-                  <input type="text" id="credDaangnId" placeholder="당근 계정 ID" value="daangn_book_master">
-                  <div class="pw-input-wrap">
-                    <input type="password" id="credDaangnPw" placeholder="비밀번호" value="••••••••">
-                    <button type="button" class="btn-toggle-pw">👁️</button>
+                  <div class="cred-field full-span">
+                    <label for="credNaverUrl">네이버 카페 URL 또는 카페 고유 ID</label>
+                    <input type="text" id="credNaverUrl" placeholder="예: https://cafe.naver.com/ca-fe/cafes/31415926" value="https://cafe.naver.com/ca-fe/cafes/31415926">
                   </div>
-                  <input type="text" id="credDaangnDong" placeholder="지역 동네 설정" value="역삼1동/강남구">
-                </div>
-              </div>
-
-              <!-- 에브리타임 -->
-              <div class="cred-board-item">
-                <div class="board-item-header">
-                  <span class="badge-board everytime">에브리타임</span>
-                  <span class="board-session-state">연결됨</span>
-                </div>
-                <div class="cred-row-inputs">
-                  <input type="text" id="credEtaId" placeholder="에타 아이디" value="univ_reader26">
-                  <div class="pw-input-wrap">
-                    <input type="password" id="credEtaPw" placeholder="비밀번호" value="••••••••">
-                    <button type="button" class="btn-toggle-pw">👁️</button>
+                  <div class="cred-field">
+                    <label for="credNaverBoard">게시판 번호 (Menu ID)</label>
+                    <input type="text" id="credNaverBoard" placeholder="예: 1" value="1">
                   </div>
-                  <input type="text" id="credEtaBoard" placeholder="게시판" value="동아리/소모임 게시판">
-                </div>
-              </div>
-
-              <!-- 인스타그램 -->
-              <div class="cred-board-item">
-                <div class="board-item-header">
-                  <span class="badge-board instagram">인스타그램 피드</span>
-                  <span class="board-session-state">연결됨</span>
-                </div>
-                <div class="cred-row-inputs">
-                  <input type="text" id="credInstaId" placeholder="인스타그램 ID (@)" value="@bookclub_transparent">
-                  <div class="pw-input-wrap">
-                    <input type="password" id="credInstaPw" placeholder="비밀번호" value="••••••••">
-                    <button type="button" class="btn-toggle-pw">👁️</button>
+                  <div class="cred-field" style="display:flex; align-items:flex-end;">
+                    <button type="button" class="btn-auth-test" id="btnTestNaverUrl" style="width:100%; padding:10px; font-size:0.82rem; background:#03c75a; color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:700;">
+                      ☕ 카페 글쓰기창 테스트 열기
+                    </button>
                   </div>
-                  <input type="text" id="credInstaType" placeholder="포스팅 형식" value="피드 카드뉴스 캡션">
                 </div>
               </div>
             </div>
@@ -238,13 +266,13 @@
     </section>
 
     <!-- ===================================================================
-         STEP 2) 💬 카카오톡 단톡방 / 오픈채팅방 공지 자동화
+         STEP 1) 💬 카카오톡 단톡방 / 오픈채팅방 공지 자동화 (토·일 정기모임)
          =================================================================== -->
-    <section id="section-kakao" class="console-section">
+    <section id="section-kakao" class="console-section active-section">
       <div class="section-title-bar">
-        <span class="cred-badge kakao-badge">STEP 2 · KAKAO MESSENGER BOT</span>
-        <h2>💬 카카오톡 공지 전송</h2>
-        <p>카카오톡 단톡방 및 오픈채팅방에 최적화된 모바일 요약 알림을 즉시 발송하고 투표 폼과 상단 핀을 자동 설정합니다.</p>
+        <span class="cred-badge kakao-badge">STEP 1 · KAKAO MESSENGER BOT</span>
+        <h2>💬 카카오톡 공지 자동화 (매주 토·일 정기모임)</h2>
+        <p>매주 바뀌는 토·일 모임 일정과 도서에 맞추어 단톡방 전용 공지를 생성하고, 원클릭 복사 및 단톡방 3곳 일괄 전송을 지원합니다.</p>
       </div>
 
       <div class="broadcast-main-grid">
@@ -256,44 +284,33 @@
               <h3>💬 카카오톡 공지 작성기</h3>
             </div>
             <div class="editor-head-actions">
-              <button type="button" id="btnDateThisWeek" class="btn-sample-tag">이번주 [09/19, 20]</button>
-              <button type="button" id="btnDateNextWeek" class="btn-sample-tag">다음주 [09/26, 27]</button>
+              <button type="button" id="btnDateThisWeek" class="btn-sample-tag">이번주 토·일</button>
+              <button type="button" id="btnDateNextWeek" class="btn-sample-tag">다음주 토·일</button>
               <button type="button" id="btnResetKakaoTpl" class="btn-sample-tag" title="기본 공지 서식 복원">양식 복원</button>
             </div>
           </div>
 
           <form id="kakaoNoticeForm" class="notice-admin-form" onsubmit="return false;">
-            <!-- 날짜만 변경되는 핵심 입력부 -->
+            <!-- 날짜 & 회차 입력부 -->
             <div class="form-group" style="background:#fefce8; border:1px solid #fef08a; padding:14px 16px; border-radius:8px;">
               <label for="kakaoDate" style="color:#854d0e; font-weight:700; display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                <span>📅 모임 일정 / 날짜 입력 (맨 윗줄 자동 반영)</span>
-                <span style="font-size:0.75rem; color:#a16207; font-weight:normal;">날짜 수정 시 공지 첫 줄이 즉시 변경됩니다</span>
+                <span>📅 토·일 모임 날짜 (공지 첫 줄 자동 연동)</span>
+                <span style="font-size:0.75rem; color:#a16207; font-weight:normal;">상단 주말 스케줄러와 실시간 연동됩니다</span>
               </label>
               <div style="display:flex; align-items:center; gap:8px;">
                 <span style="font-weight:800; font-size:1.1rem; color:#1e293b;">[</span>
-                <input type="text" id="kakaoDate" value="09/19, 20" placeholder="예: 09/19, 20" style="font-weight:700; font-size:1.05rem; color:#1e40af; flex:1; padding:8px 12px; border:1px solid #cbd5e1; border-radius:6px; background:#ffffff;" required>
+                <input type="text" id="kakaoDate" value="10/03, 04" placeholder="예: 10/03, 04" style="font-weight:700; font-size:1.05rem; color:#1e40af; flex:1; padding:8px 12px; border:1px solid #cbd5e1; border-radius:6px; background:#ffffff;" required>
                 <span style="font-weight:800; font-size:1.1rem; color:#1e293b;">] 모임신청 안내</span>
               </div>
             </div>
 
-            <!-- 실제 카카오톡 공지 전문 템플릿 (직접 수정도 가능) -->
+            <!-- 실제 카카오톡 공지 전문 템플릿 -->
             <div class="form-group">
               <label for="kakaoNoticeText" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                <span>📝 카카오톡 공지 전문 (실제 운영 양식)</span>
-                <span style="font-size:0.75rem; color:#64748b;">필요시 본문 문구나 링크를 직접 수정할 수 있습니다</span>
+                <span>📝 카카오톡 단톡방 발송 전문 (토·일 맞춤 서식)</span>
+                <span style="font-size:0.75rem; color:#64748b;">수정 시 우측 스마트폰 화면에 즉시 반영됩니다</span>
               </label>
-              <textarea id="kakaoNoticeText" rows="12" style="font-family: 'Pretendard', sans-serif; font-size: 0.88rem; line-height: 1.65; white-space: pre-wrap; padding:12px; border:1px solid #cbd5e1; border-radius:6px; width:100%; box-sizing:border-box;" required>[09/19, 20] 모임신청 안내
- 
-①가입한 플랫폼에서 &lt;참석&gt; 표시 
- 
-②모임 신청 &lt;플래닛 신청 페이지&gt;
-https://bookclubplanet26.streamlit.app/
-미 응답시 참석이 제한될 수 있습니다.
-
-* 미등록은 아래로 연락
-https://open.kakao.com/o/sWLBJTue
-
-💫신청 방식 변경으로 인해, 기존 회원분들도 새롭게 등록해야하니 꼭 확인해 주세요💫</textarea>
+              <textarea id="kakaoNoticeText" rows="13" style="font-family: 'Pretendard', sans-serif; font-size: 0.88rem; line-height: 1.65; white-space: pre-wrap; padding:12px; border:1px solid #cbd5e1; border-radius:6px; width:100%; box-sizing:border-box;" required></textarea>
             </div>
 
             <!-- 발송 & 복사 퀵 액션 버튼 그룹 -->
@@ -303,11 +320,16 @@ https://open.kakao.com/o/sWLBJTue
                   <span>📋</span> <span>공지 전문 복사 (단톡방 붙여넣기)</span>
                 </button>
                 <button type="button" id="btnOpenKakaoApp" class="btn-sheet-tool" style="padding:14px; font-weight:700; font-size:0.95rem; justify-content:center; display:flex; align-items:center; gap:8px; border:1px solid #fde047; background:#fee500; color:#1e1b4b; border-radius:6px; cursor:pointer;">
-                  <span>💬</span> <span>카카오톡 앱 열기 / 공유</span>
+                  <span>💬</span> <span>카카오톡 바로 열기 / 공유</span>
                 </button>
               </div>
+              <button type="button" id="btnSendKakaoAll" class="btn-execute-broadcast" style="background:linear-gradient(135deg,#fee500,#facc15); color:#1e1b4b; border:1px solid #eab308; box-shadow:0 4px 12px rgba(250,204,21,0.25);">
+                <span class="btn-rocket">⚡</span>
+                <span class="btn-main-txt">카카오톡 등록 단톡방 3곳 일괄 전송</span>
+                <span class="btn-sub-txt">단톡방 1·2·3 순차 발송 시뮬레이션</span>
+              </button>
               <div style="font-size:0.83rem; color:#475569; background:#f8fafc; padding:10px 14px; border-radius:6px; border:1px solid #e2e8f0; display:flex; align-items:center; gap:8px;">
-                <span style="font-size:1.1rem;">💡</span> <span><strong>단톡방 3곳 발송 팁:</strong> <code>[공지 전문 복사]</code> 클릭 후, 카카오톡 3개 단톡방에 각각 <code>Ctrl + V</code> (붙여넣기) 하시면 가장 빠르고 안전하게 발송됩니다.</span>
+                <span style="font-size:1.1rem;">💡</span> <span><strong>단톡방 발송 팁:</strong> <code>[공지 전문 복사]</code> 클릭 후, 카카오톡 3개 단톡방에 각각 <code>Ctrl + V</code> 하시면 가장 정확하고 서식이 유지되어 발송됩니다.</span>
               </div>
             </div>
           </form>
@@ -317,7 +339,7 @@ https://open.kakao.com/o/sWLBJTue
         <div class="preview-panel-card">
           <div class="preview-mode-switch">
             <div class="mode-buttons">
-              <span class="preview-fixed-tag">💬 카카오톡 스마트폰 모바일 실시간 프리뷰</span>
+              <span class="preview-fixed-tag">💬 카카오톡 단톡방 실시간 모바일 프리뷰</span>
             </div>
             <span class="preview-sync-tag">⚡ 실시간 반영</span>
           </div>
@@ -330,8 +352,8 @@ https://open.kakao.com/o/sWLBJTue
               </div>
               <div class="kt-chat-header">
                 <div class="kt-chat-info">
-                  <strong>📖 [정기] 2026 주말 독서모임 단톡방</strong>
-                  <span class="kt-chat-members">18명 참여 중</span>
+                  <strong>📖 [정기] 주말 토·일 독서모임 단톡방</strong>
+                  <span class="kt-chat-members">24명 참여 중</span>
                 </div>
                 <div class="kt-header-icons">🔍 ≡</div>
               </div>
@@ -340,12 +362,12 @@ https://open.kakao.com/o/sWLBJTue
                 <span class="pin-icon">📌</span>
                 <div class="pin-text">
                   <span class="pin-label">공지</span>
-                  <strong id="ktPinTitle">[09/19, 20] 모임신청 안내</strong>
+                  <strong id="ktPinTitle">[10/03, 04] 모임신청 안내</strong>
                 </div>
               </div>
 
               <div class="kt-messages-area">
-                <div class="kt-msg-date">2026년 9월 16일 수요일</div>
+                <div class="kt-msg-date" id="ktMsgDateText">2026년 주말 정기모임</div>
                 <div class="kt-msg-bubble-group">
                   <div class="kt-profile-avatar">📚</div>
                   <div class="kt-msg-content-box">
@@ -355,9 +377,9 @@ https://open.kakao.com/o/sWLBJTue
                     </div>
                     <div class="kt-action-buttons">
                       <a href="https://bookclubplanet26.streamlit.app/" target="_blank" rel="noopener noreferrer" class="kt-btn-action" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">🪐 플래닛 신청 페이지 바로가기</a>
-                      <a href="https://open.kakao.com/o/sWLBJTue" target="_blank" rel="noopener noreferrer" class="kt-btn-action" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">💬 오픈카톡 문의하기</a>
+                      <a href="https://open.kakao.com/o/sWLBJTue" target="_blank" rel="noopener noreferrer" class="kt-btn-action" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">💬 호스트 오픈카톡 1:1 문의</a>
                     </div>
-                    <span class="kt-time-stamp" id="ktTimeStamp">오후 2:05</span>
+                    <span class="kt-time-stamp" id="ktTimeStamp">오후 2:00</span>
                   </div>
                 </div>
               </div>
@@ -365,51 +387,50 @@ https://open.kakao.com/o/sWLBJTue
           </div>
 
           <div class="preview-footer-meta">
-            <span id="kakaoCharStats">글자 수: 320자</span>
+            <span id="kakaoCharStats">글자 수: 380자</span>
             <span class="preview-spec-badge">카카오톡 메시지 규격 준수 (최대 1,000자)</span>
           </div>
         </div>
       </div>
-
     </section>
 
     <!-- ===================================================================
-         기능 3) 📝 커뮤니티 게시글 공지 자동화 (소모임/네이버/당근/에타/인스타)
+         STEP 2) 📝 네이버 카페 스마트에디터 공지 자동화 (토·일 주말 모임)
          =================================================================== -->
     <section id="section-board" class="console-section">
       <div class="section-title-bar">
-        <span class="cred-badge board-badge">COMMUNITY NOTICE</span>
-        <h2>📝 커뮤니티 게시글 공지 전송</h2>
-        <p>소모임 정모, 네이버 카페, 당근 동네생활, 에브리타임, 인스타그램에 맞춘 상세 포스팅을 플랫폼 규격에 맞추어 일괄 등록합니다.</p>
+        <span class="cred-badge naver-top-badge" style="background:#dcfce7; color:#15803d; border:1px solid #86efac;">STEP 2 · NAVER CAFE SMART EDITOR</span>
+        <h2>📝 네이버 카페 공지 자동화 (매주 토·일 정기모임)</h2>
+        <p>네이버 카페 스마트에디터에 최적화된 <strong>서식(제목, 모임 개요 박스, 토·일 일정표, 발제 질문, 신청 가이드)</strong>을 원클릭으로 복사하고 카페 글쓰기 창에 바로 등록합니다.</p>
       </div>
 
       <div class="broadcast-main-grid">
-        <!-- [좌측: 커뮤니티 게시글 작성기] -->
+        <!-- [좌측: 네이버 카페 공지 작성기] -->
         <div class="editor-panel-card">
           <div class="editor-head">
             <div>
-              <span class="section-badge-blue">BOARD COMPOSER</span>
-              <h3>📝 커뮤니티 게시글 작성기</h3>
+              <span class="section-badge-naver" style="background:#03c75a; color:#ffffff; font-weight:800; font-size:0.75rem; padding:3px 8px; border-radius:4px;">NAVER CAFE COMPOSER</span>
+              <h3>📝 네이버 카페 스마트에디터 작성기</h3>
             </div>
             <div class="editor-head-actions">
-              <button type="button" id="btnSampleBoard1" class="btn-sample-tag">샘플 (정기모임 게시글)</button>
+              <button type="button" id="btnSyncFromCurriculum" class="btn-sample-tag">🗓️ 이번 주 도서 불러오기</button>
             </div>
           </div>
 
-          <form id="boardNoticeForm" class="notice-admin-form">
+          <form id="boardNoticeForm" class="notice-admin-form" onsubmit="return false;">
             <div class="form-group">
-              <label for="boardTitle">게시글 제목</label>
-              <input type="text" id="boardTitle" value="[제14회 북클럽] '도둑맞은 집중력' 함께 읽고 대화하기" required>
+              <label for="boardTitle">게시글 제목 (카페 목록 노출용)</label>
+              <input type="text" id="boardTitle" value="[제15회 북클럽] 10/03(토)~10/04(일) '도둑맞은 집중력' 주말 정기독서모임 모집" required>
             </div>
 
             <div class="form-grid-2">
               <div class="form-group">
-                <label for="boardBook">선정 도서</label>
+                <label for="boardBook">선정 도서 &amp; 저자</label>
                 <input type="text" id="boardBook" value="도둑맞은 집중력 (요한 하리)" required>
               </div>
               <div class="form-group">
-                <label for="boardDateTime">모임 일시</label>
-                <input type="text" id="boardDateTime" value="2026년 9월 19일 (토) 오후 2:00 ~ 4:30" required>
+                <label for="boardDateTime">모임 일정 (토·일 주말 시간표)</label>
+                <input type="text" id="boardDateTime" value="토요반: 10/03(토) 14:00~16:30 | 일요반: 10/04(일) 14:00~16:30" required>
               </div>
             </div>
 
@@ -419,111 +440,100 @@ https://open.kakao.com/o/sWLBJTue
                 <input type="text" id="boardPlace" value="강남역 북카페 '생각의 숲' 3번 룸 (스터디룸 B)" required>
               </div>
               <div class="form-group">
-                <label for="boardFee">참가비 / 준비물</label>
+                <label for="boardFee">참가비 / 포함 사항</label>
                 <input type="text" id="boardFee" value="10,000원 (대관료 및 음료 1잔 포함, 영수증 100% 공개)" required>
               </div>
             </div>
 
             <div class="form-group">
-              <label for="boardBody">상세 발제문 및 모임 소개글 (게시글 본문)</label>
-              <textarea id="boardBody" rows="5">스마트폰과 알고리즘의 유혹 속에서 우리의 집중력은 왜 흐려졌을까요?
-가장 인상 깊었던 챕터 1곳과 함께 나누고 싶은 질문 1개를 준비해 와주세요!
-
-모임 진행 순서:
-1. 아이스브레이킹 및 도서 한줄평 (20분)
-2. 발제 질문 중심 자유 토론 (80분)
-3. 다음 모임 도서 추천 및 마무리 (20분)
-
-* 모임 후 출석 및 회계 내역은 구글 시트를 통해 회원 전원에게 투명하게 공개됩니다.</textarea>
+              <label for="boardTopicQuestions" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <span>💡 매주 바뀌는 핵심 발제 토론 질문 (3가지)</span>
+                <span style="font-size:0.75rem; color:#15803d; font-weight:600;">도서별 맞춤 토론 질문</span>
+              </label>
+              <textarea id="boardTopicQuestions" rows="4" style="background:#f0fdf4; border:1px solid #bbf7d0; font-family:'Pretendard',sans-serif; font-size:0.85rem; line-height:1.6; padding:10px; border-radius:6px; width:100%; box-sizing:border-box;">Q1. 스마트폰과 알고리즘 속에서 최근 나의 집중력이 가장 크게 흔들렸던 순간은 언제였나요?
+Q2. 저자가 지적한 12가지 원인 중 가장 공감되거나 새롭게 다가온 지점은 무엇인가요?
+Q3. 온전한 나만의 집중력을 되찾기 위해 이번 주부터 실천해보고 싶은 작은 습관 1가지는?</textarea>
             </div>
 
-            <div class="form-section-divider"></div>
-            <div class="form-section-title board-title">
-              <span>📝 배포할 커뮤니티 채널 선택</span>
+            <div class="form-group">
+              <label for="boardBody">상세 안내 및 진행 순서 (게시글 본문)</label>
+              <textarea id="boardBody" rows="5">안녕하세요! 매주 주말(토·일) 함께 책을 읽고 생각을 나누는 독서모임입니다 :)
+이번 주말에도 좋은 책과 함께 일상의 쉼표를 찍어보세요!
+
+■ 모임 진행 타임테이블 (총 150분):
+1. 아이스브레이킹 & 도서 첫인상 한줄 나눔 (20분)
+2. 3가지 발제 질문 중심 깊이 있는 자유 토론 (90분)
+3. 이번 주 실천 목표 나눔 & 다음 모임 안내 (20분)
+4. 자유 네트워킹 & 정리 (20분)
+
+■ 준비물: 이번 주 선정 도서 (완독하지 못하셨더라도 부담 없이 참석 가능합니다!)
+* 모임 후 출석 및 회계 내역은 구글 시트를 통해 투명하게 공개됩니다.</textarea>
             </div>
-            <div class="channel-select-box board-box">
-              <div class="board-checkbox-grid">
-                <label class="channel-checkbox-label">
-                  <input type="checkbox" id="chkSomoim" name="sendBoardChannels" value="somoim" checked>
-                  <span class="custom-checkbox"></span>
-                  <span class="chk-text">소모임 정모 등록</span>
-                </label>
-                <label class="channel-checkbox-label">
-                  <input type="checkbox" id="chkNaver" name="sendBoardChannels" value="naver" checked>
-                  <span class="custom-checkbox"></span>
-                  <span class="chk-text">네이버 카페 글쓰기</span>
-                </label>
-                <label class="channel-checkbox-label">
-                  <input type="checkbox" id="chkDaangn" name="sendBoardChannels" value="daangn" checked>
-                  <span class="custom-checkbox"></span>
-                  <span class="chk-text">당근 동네모임 공지</span>
-                </label>
-                <label class="channel-checkbox-label">
-                  <input type="checkbox" id="chkEta" name="sendBoardChannels" value="everytime" checked>
-                  <span class="custom-checkbox"></span>
-                  <span class="chk-text">에브리타임 게시글</span>
-                </label>
-                <label class="channel-checkbox-label">
-                  <input type="checkbox" id="chkInsta" name="sendBoardChannels" value="instagram" checked>
-                  <span class="custom-checkbox"></span>
-                  <span class="chk-text">인스타그램 피드 캡션</span>
-                </label>
+
+            <div class="naver-smart-actions" style="margin-top:16px; padding:16px; background:#f0fdf4; border:1px solid #86efac; border-radius:10px; display:flex; flex-direction:column; gap:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span style="background:#03c75a; color:#ffffff; font-size:0.72rem; font-weight:800; padding:3px 8px; border-radius:4px; letter-spacing:0.5px;">NAVER BRIDGE</span>
+                  <span style="font-size:0.9rem; font-weight:700; color:#14532d;">네이버 카페 스마트에디터 원클릭 글쓰기 솔루션</span>
+                </div>
+                <span style="font-size:0.75rem; color:#15803d;">서식 자동 클립보드 복사 ➔ 카페 글쓰기 새창 연결</span>
               </div>
-              <div class="sub-options-box">
-                <label class="sub-option"><input type="checkbox" id="optBoardMarkdown" checked> 마크다운 서식 자동 변환 및 가독성 최적화</label>
-                <label class="sub-option"><input type="checkbox" id="optBoardHashtags" checked> 북클럽 핵심 해시태그 자동 부여</label>
-                <label class="sub-option"><input type="checkbox" id="optBoardSheetLink" checked> 구글 시트 투명 공개 링크 첨부</label>
+              <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap:10px;">
+                <button type="button" id="btnCopyNaverRich" class="btn-sheet-tool" style="padding:12px; font-size:0.9rem; background:#ffffff; color:#15803d; border:1px solid #86efac; border-radius:6px; cursor:pointer; font-weight:700; display:flex; align-items:center; justify-content:center; gap:6px;">
+                  <span>📋</span> <span>네이버 서식 복사 (Ctrl+V용)</span>
+                </button>
+                <button type="button" id="btnOpenNaverWriteDirect" class="btn-sheet-primary" style="padding:12px; font-size:0.9rem; background:#03c75a; color:#ffffff; border:none; border-radius:6px; cursor:pointer; font-weight:700; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow: 0 2px 6px rgba(3, 199, 90, 0.25);">
+                  <span>✍️</span> <span>복사 후 카페 글쓰기 창 열기</span>
+                </button>
               </div>
-            </div>
-
-            <div class="form-action-wrap">
-              <button type="button" id="btnSendBoard" class="btn-execute-broadcast">
-                <span class="btn-rocket">📝</span>
-                <span class="btn-main-txt">선택 커뮤니티 게시판 일괄 등록 실행</span>
-                <span class="btn-sub-txt">5대 플랫폼 규격 변환 ➔ 봇 자동 포스팅</span>
+              <button type="button" id="btnSendBoard" class="btn-execute-broadcast" style="background:linear-gradient(135deg,#059669,#03c75a); color:#ffffff; border:none; margin:0;">
+                <span class="btn-rocket">🚀</span>
+                <span class="btn-main-txt">네이버 카페 게시글 자동 포스팅 실행</span>
+                <span class="btn-sub-txt">스마트에디터 규격 파싱 ➔ 네이버 카페 API 등록</span>
               </button>
             </div>
           </form>
         </div>
 
-        <!-- [우측: 커뮤니티 플랫폼별 탭 프리뷰] -->
+        <!-- [우측: 네이버 카페 실제 게시글 스타일 프리뷰] -->
         <div class="preview-panel-card">
           <div class="preview-mode-switch">
             <div class="mode-buttons">
-              <span class="preview-fixed-tag">📝 커뮤니티 플랫폼별 실시간 미리보기</span>
+              <span class="preview-fixed-tag">📝 네이버 카페 스마트에디터 실제 뷰어 미리보기</span>
             </div>
-            <span class="preview-sync-tag">⚡ 서식 최적화</span>
+            <span class="preview-sync-tag" style="background:#dcfce7; color:#15803d; border-color:#86efac;">🟢 네이버 맞춤 서식</span>
           </div>
 
-          <div class="preview-screen-wrap" id="previewScreenBoard">
-            <div class="board-preview-container">
-              <div class="board-subtabs" id="boardSubtabGroup">
-                <button type="button" class="board-subtab active" data-board="somoim">소모임 정모</button>
-                <button type="button" class="board-subtab" data-board="naver">네이버 카페</button>
-                <button type="button" class="board-subtab" data-board="daangn">당근 동네모임</button>
-                <button type="button" class="board-subtab" data-board="everytime">에브리타임</button>
-                <button type="button" class="board-subtab" data-board="instagram">인스타그램 피드</button>
+          <div class="preview-screen-wrap" id="previewScreenBoard" style="background:#f8fafc; padding:12px;">
+            <div class="naver-cafe-view-container" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+              <!-- 네이버 카페 게시글 상단 헤더 -->
+              <div class="naver-cafe-header-bar" style="background:#03c75a; color:#ffffff; padding:10px 16px; display:flex; justify-content:space-between; align-items:center;">
+                <div style="font-size:0.85rem; font-weight:800; display:flex; align-items:center; gap:6px;">
+                  <span>☕</span> <span>주말 독서모임 공식 네이버 카페</span>
+                </div>
+                <span style="font-size:0.75rem; opacity:0.9;">정기모임 공지게시판</span>
               </div>
 
-              <div class="board-article-viewport" id="boardArticleContent">
+              <!-- 네이버 카페 글 본문 렌더링 뷰포트 -->
+              <div class="board-article-viewport" id="boardArticleContent" style="padding:20px; font-family:'Pretendard',sans-serif;">
                 <!-- JS 렌더링 -->
               </div>
             </div>
           </div>
 
           <div class="preview-footer-meta">
-            <span id="boardCharStats">글자 수: 540자</span>
-            <span class="preview-spec-badge" id="boardSpecBadge">소모임 규격 준수</span>
+            <span id="boardCharStats">글자 수: 620자</span>
+            <span class="preview-spec-badge" id="boardSpecBadge">네이버 카페 스마트에디터 규격 준수</span>
           </div>
         </div>
       </div>
 
-      <!-- 커뮤니티 배포 터미널 콘솔 로그 -->
-      <div class="terminal-card" id="boardTerminalCard">
+      <!-- 네이버 카페 배포 터미널 콘솔 로그 -->
+      <div class="terminal-card" id="boardTerminalCard" style="margin-top:20px;">
         <div class="terminal-header">
           <div class="terminal-title">
             <span class="terminal-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></span>
-            <span class="terminal-name">community-bot@booklink: ~ /board/dispatch</span>
+            <span class="terminal-name">naver-cafe-bot@booklink: ~ /notice/publish</span>
           </div>
           <div class="terminal-actions">
             <span class="term-status-tag" id="boardTermStatusTag">대기 상태 (IDLE)</span>
@@ -531,9 +541,24 @@ https://open.kakao.com/o/sWLBJTue
           </div>
         </div>
         <div class="terminal-body" id="boardTerminalLogBody">
-          <div class="term-line info">[SYSTEM] 커뮤니티 게시판 포스팅 봇 모듈 준비완료.</div>
-          <div class="term-line info">[READY] 5개 플랫폼(소모임, 네이버, 당근, 에타, 인스타) 인증 세션 정상 연결됨.</div>
+          <div class="term-line info">[SYSTEM] 네이버 카페 스마트에디터 자동화 봇 모듈 준비완료.</div>
+          <div class="term-line info">[AUTH] 네이버 아이디 & 카페 게시판(정기모임_공지게시판) 세션 연결 대기 중.</div>
         </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         STEP 3) 🗓️ 매주 바뀌는 주차별 도서 & 토·일 커리큘럼 라이브러리
+         =================================================================== -->
+    <section id="section-curriculum" class="console-section">
+      <div class="section-title-bar">
+        <span class="cred-badge" style="background:#e0e7ff; color:#3730a3; border:1px solid #c7d2fe;">STEP 3 · WEEKLY CURRICULUM PRESETS</span>
+        <h2>🗓️ 매주 바뀌는 주차별 도서 &amp; 토·일 일정 관리</h2>
+        <p>우리 모임의 주차별 선정 도서와 매주 달라지는 발제 질문을 등록하고, <strong>[⚡ 이 주차로 공지 적용]</strong> 버튼을 누르면 카톡과 네이버 카페 공지가 즉시 자동 갱신됩니다.</p>
+      </div>
+
+      <div class="curriculum-cards-grid" id="curriculumCardsGrid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:16px; margin-top:18px;">
+        <!-- JS로 1주차~6주차 카드 렌더링 -->
       </div>
     </section>
 
