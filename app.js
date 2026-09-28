@@ -727,9 +727,21 @@ ${contactUrl}
     if (kakaoCharStats) {
       kakaoCharStats.textContent = `글자 수: ${text.length}자`;
     }
-    if (ktMsgDateText && kakaoDate) {
-      ktMsgDateText.textContent = `2026년 [${kakaoDate.value}] 주말 정기모임`;
+    if (ktMsgDateText) {
+      const now = new Date();
+      const days = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+      ktMsgDateText.textContent = `${now.getFullYear()}년 ${now.getMonth() + 1}월 ${now.getDate()}일 ${days[now.getDay()]}`;
     }
+
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const ampms = hours >= 12 ? "오후" : "오전";
+    const displayHour = hours % 12 || 12;
+    const ktLiveTime = document.getElementById("ktLiveTime");
+    const ktTimeStamp = document.getElementById("ktTimeStamp");
+    if (ktLiveTime) ktLiveTime.textContent = `${String(hours).padStart(2, "0")}:${minutes}`;
+    if (ktTimeStamp) ktTimeStamp.textContent = `${ampms} ${displayHour}:${minutes}`;
 
     // 미리보기 버튼 링크 연동
     const applyUrl = (kakaoApplyUrl && kakaoApplyUrl.value.trim()) || "https://bookclub-apply-demo.streamlit.app";
