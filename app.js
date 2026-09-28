@@ -674,12 +674,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnResetNaverTpl = document.getElementById("btnResetNaverTpl");
   const btnCopyNaverRich = document.getElementById("btnCopyNaverRich");
   const btnOpenNaverWriteDirect = document.getElementById("btnOpenNaverWriteDirect");
-  const btnSendBoard = document.getElementById("btnSendBoard");
 
-  const boardTerminalCard = document.getElementById("boardTerminalCard");
-  const boardTerminalLogBody = document.getElementById("boardTerminalLogBody");
-  const boardTermStatusTag = document.getElementById("boardTermStatusTag");
-  const btnClearBoardTerminal = document.getElementById("btnClearBoardTerminal");
 
   // 네이버 계정 및 URL
   const credNaverUrl = document.getElementById("credNaverUrl");
@@ -1117,7 +1112,6 @@ ${htmlWithLinks}
         data.richHtml,
         "📋 네이버 카페용 공지문 본문이 클립보드에 복사되었습니다!\n\n네이버 카페 글쓰기 창에서 본문에 바로 'Ctrl + V'를 누르시면 서식이 그대로 붙여넣어집니다."
       );
-      appendBoardLog(`[CLIPBOARD] 네이버 카페 본문 서식 복사 완료 (${data.plainText.length}자)`, "success");
     });
   }
 
@@ -1127,51 +1121,9 @@ ${htmlWithLinks}
       await copyRichContentToClipboard(data.plainText, data.richHtml, "");
       const writeUrl = getNaverCafeWriteUrl();
 
-      appendBoardLog(`\n>>> [NAVER] 🟢 네이버 카페 스마트에디터 원클릭 브리지 실행`, "warn");
-      appendBoardLog(`  ✔ 게시글 제목 및 본문 리치 서식 클립보드 복사 완료 (${data.plainText.length}자)`, "success");
-      appendBoardLog(`  ✔ 네이버 카페 글쓰기 창 연결: ${writeUrl}`, "info");
-
       window.open(writeUrl, "_blank");
 
       alert(`✅ 네이버 카페용 공지 본문이 클립보드에 복사되었습니다!\n\n새로 열린 네이버 카페 글쓰기 창에서:\n1. 제목 입력창에 상단 '📋 제목 복사' 버튼으로 복사한 제목 붙여넣기\n2. 본문 에디터에 'Ctrl + V (붙여넣기)'를 누르시면 됩니다.`);
-    });
-  }
-
-  if (btnSendBoard) {
-    btnSendBoard.addEventListener("click", async () => {
-      if (boardTerminalCard) {
-        boardTerminalCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      }
-
-      if (boardTermStatusTag) {
-        boardTermStatusTag.textContent = "포스팅 실행 중 (POSTING...)";
-        boardTermStatusTag.style.color = "#facc15";
-      }
-
-      appendBoardLog(`\n>>> [START] 네이버 카페 게시글 자동 포스팅 시작 (${new Date().toLocaleTimeString()})`, "warn");
-      await sleep(350);
-      appendBoardLog("[AUTH] 네이버 아이디 & 카페 게시판 세션 검증 중...", "info");
-      await sleep(300);
-      appendBoardLog("  ✔ 네이버 카페 스마트에디터 API 인증 성공 (200 OK)", "success");
-      await sleep(300);
-      const title = boardTitle ? boardTitle.value : "주말 자유 도서 독서모임 공지";
-      appendBoardLog(`[POST] 게시글 등록: "${title}"`, "info");
-      await sleep(350);
-      appendBoardLog(`  ✔ 게시글 등록 완료 (Article Doc #9425)`, "success");
-      appendBoardLog(`[COMPLETE] 🎉 네이버 카페 [정기모임 공지게시판]에 성공적으로 게시되었습니다!\n`, "success");
-
-      if (boardTermStatusTag) {
-        boardTermStatusTag.textContent = "등록 완료 (COMPLETED)";
-        boardTermStatusTag.style.color = "#4ade80";
-      }
-
-      alert("🎉 네이버 카페 정기모임 게시판에 자유 도서 공지글이 성공적으로 자동 등록되었습니다!");
-    });
-  }
-
-  if (btnClearBoardTerminal && boardTerminalLogBody) {
-    btnClearBoardTerminal.addEventListener("click", () => {
-      boardTerminalLogBody.innerHTML = `<div class="term-line info">[SYSTEM] 네이버 카페 터미널 콘솔이 초기화되었습니다.</div>`;
     });
   }
 
