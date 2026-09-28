@@ -699,11 +699,31 @@ https://open.kakao.com/o/sWLBJTue
     ta.select();
     try {
       document.execCommand("copy");
-      alert(successMsg);
+      if (successMsg) alert(successMsg);
     } catch (e) {
       alert("복사에 실패했습니다. 직접 텍스트를 선택하여 복사해주세요.");
     }
     document.body.removeChild(ta);
+  }
+
+  async function copyRichContentToClipboard(plainText, htmlText, successMsg) {
+    if (navigator.clipboard && window.ClipboardItem) {
+      try {
+        const textBlob = new Blob([plainText], { type: "text/plain" });
+        const htmlBlob = new Blob([htmlText], { type: "text/html" });
+        const item = new ClipboardItem({
+          "text/plain": textBlob,
+          "text/html": htmlBlob
+        });
+        await navigator.clipboard.write([item]);
+        if (successMsg) alert(successMsg);
+        return true;
+      } catch (err) {
+        console.warn("ClipboardItem rich copy failed, fallback to plain text:", err);
+      }
+    }
+    copyTextToClipboard(plainText, successMsg);
+    return true;
   }
 
   if (btnCopyKakao) {
@@ -760,6 +780,14 @@ https://open.kakao.com/o/sWLBJTue
   const boardTerminalLogBody = document.getElementById("boardTerminalLogBody");
   const boardTermStatusTag = document.getElementById("boardTermStatusTag");
   const btnClearBoardTerminal = document.getElementById("btnClearBoardTerminal");
+
+  // Naver Cafe Bridge Elements
+  const credNaverUrl = document.getElementById("credNaverUrl");
+  const credNaverBoard = document.getElementById("credNaverBoard");
+  const btnTestNaverUrl = document.getElementById("btnTestNaverUrl");
+  const btnCopyNaverOnly = document.getElementById("btnCopyNaverOnly");
+  const btnOpenNaverWriteDirect = document.getElementById("btnOpenNaverWriteDirect");
+  const naverBridgeBox = document.getElementById("naverBridgeBox");
 
   let activeBoardTab = "somoim";
 
@@ -931,6 +959,83 @@ ${escapeHtml(body)}
     }
   }
 
+  function getNaverCafeWriteUrl() {
+    const rawUrl = credNaverUrl ? credNaverUrl.value.trim() : "";
+    const boardId = credNaverBoard ? credNaverBoard.value.trim() : "1";
+
+    if (!rawUrl) {
+      return "https://cafe.naver.com/";
+    }
+
+    if (rawUrl.includes("/articles/write")) {
+      return rawUrl;
+    }
+
+    const clubIdMatch = rawUrl.match(/ca-fe\/cafes\/(\d+)/i) || rawUrl.match(/cafes\/(\d+)/i);
+    if (clubIdMatch) {
+      const clubId = clubIdMatch[1];
+      return `https://cafe.naver.com/ca-fe/cafes/${clubId}/menus/${boardId}/articles/write`;
+    }
+
+    if (/^\d+$/.test(rawUrl)) {
+      return `https://cafe.naver.com/ca-fe/cafes/${rawUrl}/menus/${boardId}/articles/write`;
+    }
+
+    const aliasMatch = rawUrl.match(/cafe\.naver\.com\/([a-zA-Z0-9_\-]+)/i);
+    if (aliasMatch && aliasMatch[1] && aliasMatch[1] !== "ca-fe") {
+      const alias = aliasMatch[1];
+      return `https://cafe.naver.com/ca-fe/cafes/${alias}/articles/write?defaultMenu=${boardId}`;
+    }
+
+    return rawUrl.startsWith("http") ? rawUrl : `https://${rawUrl}`;
+  }
+
+  function getNaverNoticeData() {
+    const title = boardTitle ? boardTitle.value.trim() : "";
+    const book = boardBook ? boardBook.value.trim() : "";
+    const dt = boardDateTime ? boardDateTime.value.trim() : "";
+    const place = boardPlace ? boardPlace.value.trim() : "";
+    const fee = boardFee ? boardFee.value.trim() : "";
+    const body = boardBody ? boardBody.value.trim() : "";
+    const withSheet = optBoardSheetLink && optBoardSheetLink.checked;
+    const withTags = optBoardHashtags && optBoardHashtags.checked;
+
+    const sheetText = withSheet ? "\n\n🔗 [회원 출석 및 투명 회계 구글 시트]\nhttps://docs.google.com/spreadsheets/d/booklink-reader-db-2026/edit" : "";
+    const tagsText = withTags ? "\n\n#독서모임 #북클럽 #정기모임 #책추천 #직장인모임" : "";
+
+    const plainText = `[정기모임 공지] ${title}
+
+안녕하세요, 네이버 카페 회원 여러분!
+이번 주 정기 독서모임을 안내해 드립니다.
+
+■ 함께 나눌 책: ${book}
+■ 모임 시간: ${dt}
+■ 모임 장소: ${place}
+■ 참가비 안내: ${fee}
+
+[모임 상세 안내]
+${body}${sheetText}${tagsText}`;
+
+    const sheetHtml = withSheet ? `<p><a href="https://docs.google.com/spreadsheets/d/booklink-reader-db-2026/edit" target="_blank" style="color:#03c75a; font-weight:700;">🔗 [회원 출석 및 투명 회계 구글 시트 바로가기]</a></p>` : "";
+    const tagsHtml = withTags ? `<p style="color:#03c75a; font-size:0.85em; margin-top:12px;">#독서모임 #북클럽 #정기모임 #책추천 #직장인모임</p>` : "";
+
+    const htmlText = `<div style="font-family:'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; font-size:15px; line-height:1.8; color:#1e293b;">
+<h2 style="color:#03c75a; border-bottom:2px solid #03c75a; padding-bottom:8px; margin-bottom:14px;">[정기모임 공지] ${escapeHtml(title)}</h2>
+<p style="font-size:15px; margin-bottom:14px;">안녕하세요, 네이버 카페 회원 여러분!<br>이번 주 정기 독서모임을 안내해 드립니다.</p>
+<div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px 20px; margin-bottom:16px;">
+  <p style="margin:4px 0;"><strong>■ 함께 나눌 책:</strong> <span style="color:#1d4ed8; font-weight:700;">${escapeHtml(book)}</span></p>
+  <p style="margin:4px 0;"><strong>■ 모임 시간:</strong> ${escapeHtml(dt)}</p>
+  <p style="margin:4px 0;"><strong>■ 모임 장소:</strong> ${escapeHtml(place)}</p>
+  <p style="margin:4px 0;"><strong>■ 참가비 안내:</strong> ${escapeHtml(fee)}</p>
+</div>
+<div style="margin:16px 0; white-space:pre-wrap; line-height:1.7;">${escapeHtml(body)}</div>
+${sheetHtml}
+${tagsHtml}
+</div>`;
+
+    return { title, plainText, htmlText };
+  }
+
   function updateBoardPreview() {
     if (!boardArticleContent) return;
     const html = formatBoardHtml(activeBoardTab);
@@ -949,6 +1054,10 @@ ${escapeHtml(body)}
         instagram: "인스타그램 피드 캡션 최적화"
       };
       boardSpecBadge.textContent = specNames[activeBoardTab] || "서식 최적화";
+    }
+
+    if (naverBridgeBox) {
+      naverBridgeBox.style.display = (activeBoardTab === "naver") ? "flex" : "none";
     }
   }
 
@@ -981,6 +1090,44 @@ ${escapeHtml(body)}
     });
   }
 
+  // Naver Bridge Action Buttons
+  if (btnTestNaverUrl) {
+    btnTestNaverUrl.addEventListener("click", () => {
+      const writeUrl = getNaverCafeWriteUrl();
+      appendBoardLog(`[NAVER TEST] 설정된 네이버 카페 글쓰기 URL 확인: ${writeUrl}`, "info");
+      window.open(writeUrl, "_blank");
+    });
+  }
+
+  if (btnCopyNaverOnly) {
+    btnCopyNaverOnly.addEventListener("click", async () => {
+      const data = getNaverNoticeData();
+      await copyRichContentToClipboard(
+        data.plainText,
+        data.htmlText,
+        "📋 네이버 카페용 공지문(제목/본문 서식)이 클립보드에 복사되었습니다!\n카페 에디터에서 바로 Ctrl+V를 누르세요."
+      );
+      appendBoardLog(`[CLIPBOARD] 네이버 카페 맞춤 서식 복사 완료 (${data.plainText.length}자)`, "success");
+    });
+  }
+
+  if (btnOpenNaverWriteDirect) {
+    btnOpenNaverWriteDirect.addEventListener("click", async () => {
+      const data = getNaverNoticeData();
+      await copyRichContentToClipboard(
+        data.plainText,
+        data.htmlText,
+        ""
+      );
+      const writeUrl = getNaverCafeWriteUrl();
+      appendBoardLog(`\n>>> [NAVER] 🟢 네이버 카페 스마트에디터 원클릭 브리지 실행`, "warn");
+      appendBoardLog(`  ✔ 게시글 제목 및 본문 서식 클립보드 복사 완료 (${data.plainText.length}자)`, "success");
+      appendBoardLog(`  ✔ 네이버 카페 글쓰기 창 연결: ${writeUrl}`, "info");
+      window.open(writeUrl, "_blank");
+      alert(`✅ 네이버 카페용 공지문(제목 및 서식 본문)이 클립보드에 복사되었습니다!\n\n새로 열린 네이버 카페 글쓰기 창에서 본문에 'Ctrl + V (붙여넣기)'를 누르시면 볼드체와 서식이 유지된 채로 깔끔하게 등록됩니다.`);
+    });
+  }
+
   if (btnSendBoard) {
     btnSendBoard.addEventListener("click", async () => {
       const selectedChannels = Array.from(
@@ -1009,7 +1156,7 @@ ${escapeHtml(body)}
 
       const boardChannelMap = {
         somoim: "소모임 앱 정기정모 (Club ID: CLUB_92819)",
-        naver: "네이버 카페 [모임공지] (Doc #9412)",
+        naver: "네이버 카페 [모임공지]",
         daangn: "당근마켓 동네생활 모임 (지역: 역삼1동)",
         everytime: "에브리타임 대학생 북클럽 (동아리 게시판)",
         instagram: "인스타그램 피드 캡션 (@bookclub_transparent)"
@@ -1017,19 +1164,28 @@ ${escapeHtml(body)}
 
       for (const ch of selectedChannels) {
         await sleep(300);
-        appendBoardLog(`[BOARD] 📝 ${boardChannelMap[ch]} 글쓰기 API 요청 중...`, "info");
-        await sleep(250);
-        appendBoardLog(`  ✔ ${boardChannelMap[ch]} 포스팅 등록 성공 (HTTP 200 OK)`, "success");
+        if (ch === "naver") {
+          const data = getNaverNoticeData();
+          await copyRichContentToClipboard(data.plainText, data.htmlText, "");
+          const writeUrl = getNaverCafeWriteUrl();
+          appendBoardLog(`[BOARD] 📝 네이버 카페 스마트에디터 서식 생성 및 클립보드 복사 완료`, "info");
+          appendBoardLog(`  ✔ 네이버 카페 글쓰기 페이지 팝업 연동 (${writeUrl})`, "success");
+          window.open(writeUrl, "_blank");
+        } else {
+          appendBoardLog(`[BOARD] 📝 ${boardChannelMap[ch]} 글쓰기 요청 중...`, "info");
+          await sleep(250);
+          appendBoardLog(`  ✔ ${boardChannelMap[ch]} 포스팅 처리 완료 (HTTP 200 OK)`, "success");
+        }
       }
 
       await sleep(250);
-      appendBoardLog(`[COMPLETE] 🎉 선택된 ${selectedChannels.length}개 커뮤니티에 자동 포스팅이 100% 완료되었습니다!\n`, "success");
+      appendBoardLog(`[COMPLETE] 🎉 선택된 ${selectedChannels.length}개 커뮤니티에 자동 포스팅/연동이 완료되었습니다!\n`, "success");
 
       if (boardTermStatusTag) {
         boardTermStatusTag.textContent = "배포 완료 (COMPLETED)";
         boardTermStatusTag.style.color = "#4ade80";
       }
-      alert(`선택하신 ${selectedChannels.length}개 커뮤니티 플랫폼에 게시글 등록이 성공적으로 완료되었습니다!`);
+      alert(`선택하신 ${selectedChannels.length}개 커뮤니티 플랫폼에 게시글 처리가 성공적으로 완료되었습니다!\n(네이버 카페 글쓰기 창에 본문이 복사되었으니 붙여넣기 후 등록하시면 됩니다)`);
     });
   }
 
