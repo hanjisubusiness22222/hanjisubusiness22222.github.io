@@ -588,86 +588,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========================================================================
-  // 3. Weekly Weekend (Sat/Sun) Master Scheduler & Curriculum Presets
+  // 3. Weekly Weekend (Sat/Sun) Master Scheduler (자유 도서 모임)
   // =========================================================================
-
-  // 매주 바뀌는 주차별 선정 도서 및 발제 질문 프리셋 라이브러리
-  const weeklyCurriculum = [
-    {
-      week: 1,
-      round: "제14회",
-      book: "도둑맞은 집중력 (요한 하리)",
-      author: "요한 하리",
-      theme: "스마트폰과 알고리즘 사회 속 도둑맞은 집중력을 되찾는 방법",
-      questions: [
-        "Q1. 스마트폰과 알고리즘 속에서 최근 나의 집중력이 가장 크게 흔들렸던 순간은 언제였나요?",
-        "Q2. 저자가 지적한 12가지 원인 중 가장 공감되거나 새롭게 다가온 지점은 무엇인가요?",
-        "Q3. 온전한 나만의 집중력을 되찾기 위해 이번 주부터 실천해보고 싶은 작은 습관 1가지는?"
-      ]
-    },
-    {
-      week: 2,
-      round: "제15회",
-      book: "물고기는 존재하지 않는다 (룰루 밀러)",
-      author: "룰루 밀러",
-      theme: "혼돈과 상실의 세상 속에서 삶의 의미와 질서를 찾아가는 여정",
-      questions: [
-        "Q1. 데이비드 스타 조던의 불굴의 집념을 보며 느낀 감정은 존경이었나요, 아니면 광기였나요?",
-        "Q2. '물고기는 존재하지 않는다'는 과학적 사실이 내 삶의 고정관념을 어떻게 흔들었나요?",
-        "Q3. 삶이 무너져 내릴 때 나를 지탱해 주는 나만의 '민들레 법칙'은 무엇인가요?"
-      ]
-    },
-    {
-      week: 3,
-      round: "제16회",
-      book: "원씽 - The ONE Thing (게리 켈러)",
-      author: "게리 켈러, 제이 파파산",
-      theme: "복잡한 일상을 단순하게 만들고 최고의 성과를 내는 단 하나의 원리",
-      questions: [
-        "Q1. 지금 내 인생과 커리어에서 다른 모든 것을 쉽게 만들 '단 하나의 일(The ONE Thing)'은 무엇인가요?",
-        "Q2. '모든 일이 다 중요하다'는 거짓말에서 벗어나기 위해 내가 버려야 할 우선순위는?",
-        "Q3. 나만의 단 하나의 목표를 위해 하루 중 단절된 온전한 몰입 시간(블록 타임)을 어떻게 확보할 것인가요?"
-      ]
-    },
-    {
-      week: 4,
-      round: "제17회",
-      book: "클린 코드 - 애자일 소프트웨어 장인 정신 (로버트 C. 마틴)",
-      author: "로버트 C. 마틴",
-      theme: "읽기 쉽고 유지보수하기 좋은 품격 있는 설계와 협업의 미학",
-      questions: [
-        "Q1. 내가 경험한 '나쁜 코드(또는 비효율적인 업무 시스템)'로 인해 겪었던 가장 큰 고통은?",
-        "Q2. '보이스카우트 규칙(캠프장을 떠날 때 처음보다 더 깨끗하게)'을 우리 일상/개발에 어떻게 적용할 수 있을까요?",
-        "Q3. 남을 배려하는 코드와 커뮤니케이션이란 구체적으로 어떤 태도에서 시작될까요?"
-      ]
-    },
-    {
-      week: 5,
-      round: "제18회",
-      book: "돈의 심리학 (모건 하우절)",
-      author: "모건 하우절",
-      theme: "부와 투자, 행복에 대한 인간의 비합리적 심리와 현명한 태도",
-      questions: [
-        "Q1. 나에게 '충분한 부'의 기준은 어디까지이며, 비교와 탐욕을 멈추는 기준점은 무엇인가요?",
-        "Q2. 금융 지식보다 '심리적 절제력'이 부의 축적에 더 결정적이라는 저자의 생각에 동의하시나요?",
-        "Q3. 돈이 나에게 줄 수 있는 최고의 가치가 '시간에 대한 통제권'이라면, 나는 현재 그것을 누리고 있나요?"
-      ]
-    },
-    {
-      week: 6,
-      round: "제19회",
-      book: "데미안 (헤르만 헤세)",
-      author: "헤르만 헤세",
-      theme: "알을 깨고 나오는 진정한 자아의 발견과 성장의 고통",
-      questions: [
-        "Q1. 싱클레어가 겪었던 '두 개의 세계(밝은 세계와 어두운 세계)'의 충돌을 나 역시 겪어본 적이 있나요?",
-        "Q2. 나를 알에서 깨어나오게 도와준 인생의 '데미안' 같은 존재가 있었나요?",
-        "Q3. '새는 알을 깨고 나온다. 알은 세계다.' - 현재 내가 깨뜨려야 할 내 안의 알(한계/두려움)은 무엇인가요?"
-      ]
-    }
-  ];
-
-  let currentSelectedWeek = 1;
 
   // 실시간 토·일 주말 날짜 계산 유틸
   function getWeekendDates(offsetWeeks = 0) {
@@ -675,12 +597,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const day = today.getDay(); // 0: 일요일, 6: 토요일
     
     // 다가오는 토요일 계산
-    // 오늘이 일요일(0)이면 이번 주 토요일은 -1일 전 또는 다음 주 토요일(+6일)
-    // 오늘이 월(1)~금(5)이면 다가오는 토요일은 (6 - day)일 후
-    // 오늘이 토요일(6)이면 오늘이 토요일
     let daysUntilSat = 6 - day;
     if (day === 0) {
-      daysUntilSat = 6; // 다음 주 토요일 기준
+      daysUntilSat = 6;
     }
 
     const sat = new Date(today);
@@ -715,10 +634,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 상단 마스터 컨트롤 요소
-  const masterRound = document.getElementById("masterRound");
   const masterDateRange = document.getElementById("masterDateRange");
-  const masterSessionType = document.getElementById("masterSessionType");
-  const masterCurriculumSelect = document.getElementById("masterCurriculumSelect");
   const btnApplyAllNotices = document.getElementById("btnApplyAllNotices");
 
   const btnWeekThis = document.getElementById("btnWeekThis");
@@ -733,6 +649,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const ktPinnedNotice = document.getElementById("ktPinnedNotice");
   const kakaoCharStats = document.getElementById("kakaoCharStats");
   const ktMsgDateText = document.getElementById("ktMsgDateText");
+  const btnDateThisWeek = document.getElementById("btnDateThisWeek");
+  const btnDateNextWeek = document.getElementById("btnDateNextWeek");
+  const btnResetKakaoTpl = document.getElementById("btnResetKakaoTpl");
   const btnCopyKakao = document.getElementById("btnCopyKakao");
   const btnOpenKakaoApp = document.getElementById("btnOpenKakaoApp");
   const btnSendKakaoAll = document.getElementById("btnSendKakaoAll");
@@ -748,10 +667,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const boardArticleContent = document.getElementById("boardArticleContent");
   const boardCharStats = document.getElementById("boardCharStats");
+  const btnResetNaverTpl = document.getElementById("btnResetNaverTpl");
   const btnCopyNaverRich = document.getElementById("btnCopyNaverRich");
   const btnOpenNaverWriteDirect = document.getElementById("btnOpenNaverWriteDirect");
   const btnSendBoard = document.getElementById("btnSendBoard");
-  const btnSyncFromCurriculum = document.getElementById("btnSyncFromCurriculum");
 
   const boardTerminalCard = document.getElementById("boardTerminalCard");
   const boardTerminalLogBody = document.getElementById("boardTerminalLogBody");
@@ -764,26 +683,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnTestNaverUrl = document.getElementById("btnTestNaverUrl");
 
   // =========================================================================
-  // 4. Kakao Notice Composer Logic
+  // 4. Kakao Notice Composer Logic (자유 도서 모임)
   // =========================================================================
 
-  function buildKakaoNoticeText(dateStr, roundStr, bookStr, sessionType) {
-    let sessionText = "";
-    if (sessionType === "sat") {
-      sessionText = "• 토요반: 토요일 오후 2:00 ~ 4:30";
-    } else if (sessionType === "sun") {
-      sessionText = "• 일요반: 일요일 오후 2:00 ~ 4:30";
-    } else {
-      sessionText = "• 토요반: 토요일 오후 2:00 ~ 4:30\n  • 일요반: 일요일 오후 2:00 ~ 4:30";
-    }
+  function buildKakaoNoticeText(dateStr) {
+    return `[${dateStr}] 주말 정기독서모임 신청 안내
 
-    return `[${dateStr}] ${roundStr} 주말 정기모임 신청 안내
-
-📖 이번 주 함께 읽는 책:
-${bookStr}
-
-🗓 정기모임 일정:
-  ${sessionText}
+📖 모임 형식: 자유 도서 (각자 읽고 싶은 책 1권 자유 지참)
+🗓 정기모임 일정 (토·일 양일 진행):
+  • 토요반: 토요일 오후 2:00 ~ 4:30
+  • 일요반: 일요일 오후 2:00 ~ 4:30
 📍 장소: 강남역 북카페 '생각의 숲' 3번 룸
 💰 회비: 10,000원 (대관료 및 음료 1잔 포함)
 
@@ -796,7 +705,7 @@ ${bookStr}
 💬 문의 및 미등록자 연락:
 https://open.kakao.com/o/sWLBJTue
 
-💫 이번 주말도 따뜻한 대화와 책으로 힐링해요! 💫`;
+💫 이번 주말도 편안하게 각자의 책 이야기를 나누어요! 💫`;
   }
 
   function updateKakaoPreview() {
@@ -824,12 +733,12 @@ https://open.kakao.com/o/sWLBJTue
   }
 
   // =========================================================================
-  // 5. Naver Cafe SmartEditor Composer & Bridge Logic
+  // 5. Naver Cafe SmartEditor Composer & Bridge Logic (자유 도서 모임)
   // =========================================================================
 
   function getNaverNoticeData() {
     const title = boardTitle ? boardTitle.value.trim() : "";
-    const book = boardBook ? boardBook.value.trim() : "";
+    const book = boardBook ? boardBook.value.trim() : "자유 도서 (각자 읽고 싶은 책 1권 지참)";
     const dt = boardDateTime ? boardDateTime.value.trim() : "";
     const place = boardPlace ? boardPlace.value.trim() : "";
     const fee = boardFee ? boardFee.value.trim() : "";
@@ -845,9 +754,9 @@ https://open.kakao.com/o/sWLBJTue
       .map((q) => `<li style="margin-bottom:8px; font-weight:600; color:#14532d;">${escapeHtml(q)}</li>`)
       .join("");
 
-    const plainQuestions = questionsList.map((q, i) => `${q}`).join("\n");
+    const plainQuestions = questionsList.map((q) => `${q}`).join("\n");
 
-    // 네이버 카페 스마트에디터에 복사될 고품질 HTML 서식
+    // 네이버 카페 스마트에디터에 복사될 고품질 리치 HTML 서식
     const richHtml = `
       <div style="font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif; color:#1e293b; line-height:1.75; font-size:15px; max-width:720px;">
         <h2 style="font-size:22px; font-weight:800; color:#03c75a; border-bottom:2px solid #03c75a; padding-bottom:10px; margin-bottom:18px;">
@@ -856,8 +765,8 @@ https://open.kakao.com/o/sWLBJTue
 
         <!-- 모임 요약 안내 박스 -->
         <div style="background:#f0fdf4; border:1px solid #86efac; border-left:5px solid #03c75a; border-radius:8px; padding:16px 20px; margin-bottom:22px;">
-          <p style="margin:0 0 8px 0; font-size:16px;"><strong>📖 함께 나눌 책:</strong> <span style="color:#15803d; font-weight:bold;">${escapeHtml(book)}</span></p>
-          <p style="margin:0 0 8px 0; font-size:15px;"><strong>🗓 모임 일시:</strong> ${escapeHtml(dt)}</p>
+          <p style="margin:0 0 8px 0; font-size:16px;"><strong>📖 모임 형식:</strong> <span style="color:#15803d; font-weight:bold;">${escapeHtml(book)}</span></p>
+          <p style="margin:0 0 8px 0; font-size:15px;"><strong>🗓 모임 일시:</strong> ${escapeHtml(dt)} (토·일 양일 진행)</p>
           <p style="margin:0 0 8px 0; font-size:15px;"><strong>📍 모임 장소:</strong> ${escapeHtml(place)}</p>
           <p style="margin:0; font-size:15px;"><strong>💰 참가비 안내:</strong> ${escapeHtml(fee)}</p>
         </div>
@@ -867,12 +776,12 @@ https://open.kakao.com/o/sWLBJTue
 ${escapeHtml(body)}
         </div>
 
-        <!-- 매주 바뀌는 발제 질문 3선 -->
+        <!-- 자유 도서 토론 질문 3선 -->
         <div style="background:#ffffff; border:2px dashed #03c75a; border-radius:10px; padding:18px 22px; margin-bottom:24px;">
           <h3 style="margin:0 0 12px 0; font-size:17px; font-weight:800; color:#047857; display:flex; align-items:center; gap:8px;">
-            💡 이번 주 선정도서 토론 발제 질문 (3가지)
+            💡 자유 도서 토론 및 나눔 가이드 (3가지 질문)
           </h3>
-          <p style="margin:0 0 12px 0; font-size:13px; color:#64748b;">* 정답이 없는 열린 질문입니다. 인상 깊었던 부분을 자유롭게 이야기 나눠요!</p>
+          <p style="margin:0 0 12px 0; font-size:13px; color:#64748b;">* 정답이 없는 열린 질문입니다. 가져오신 책에 대해 편안하게 이야기 나눠요!</p>
           <ol style="padding-left:22px; margin:0; font-size:15px; line-height:1.7;">
             ${questionsHtml}
           </ol>
@@ -888,14 +797,14 @@ ${escapeHtml(body)}
 
         <!-- 해시태그 -->
         <div style="color:#03c75a; font-weight:bold; font-size:14px; margin-top:20px;">
-          #독서모임 #주말독서모임 #네이버카페 #독서토론 #${book.replace(/[\s\(\)]+/g, "")} #강남북클럽 #투명한소통
+          #독서모임 #주말독서모임 #자유도서 #자유독서모임 #네이버카페 #독서토론 #강남북클럽 #투명한소통
         </div>
       </div>
     `;
 
     const plainText = `[${title}]
 
-■ 이번 주 함께 읽는 책: ${book}
+■ 모임 형식: ${book}
 ■ 모임 일시: ${dt}
 ■ 모임 장소: ${place}
 ■ 참가비: ${fee}
@@ -903,13 +812,13 @@ ${escapeHtml(body)}
 [모임 안내 및 진행 순서]
 ${body}
 
-[💡 이번 주 토론 발제 질문 3선]
+[💡 자유 도서 토론 가이드 3선]
 ${plainQuestions}
 
 [참가 신청]
 플래닛 신청 페이지: https://bookclubplanet26.streamlit.app/
 문의 오픈카톡: https://open.kakao.com/o/sWLBJTue
-#독서모임 #주말독서모임 #독서토론 #${book.replace(/[\s\(\)]+/g, "")}`;
+#독서모임 #주말독서모임 #자유도서 #독서토론`;
 
     return { title, richHtml, plainText };
   }
@@ -952,7 +861,6 @@ ${plainQuestions}
     let rawUrl = (credNaverUrl && credNaverUrl.value.trim()) || "https://cafe.naver.com/ca-fe/cafes/31415926";
     const menuId = (credNaverBoard && credNaverBoard.value.trim()) || "1";
 
-    // cafes/{id} 추출
     const match = rawUrl.match(/cafes\/(\d+)/i);
     if (match) {
       const cafeId = match[1];
@@ -963,64 +871,40 @@ ${plainQuestions}
       return rawUrl;
     }
 
-    // 기본 안전 URL
     return `https://cafe.naver.com/ca-fe/cafes/31415926/articles/write?boardType=L&menuId=${menuId}`;
   }
 
   // =========================================================================
-  // 6. Master Controller Sync Engine
+  // 6. Master Controller Sync Engine (자유책 양일 모임 전용)
   // =========================================================================
 
-  function applyCurriculumWeek(weekNum) {
-    const cur = weeklyCurriculum.find((c) => c.week === Number(weekNum)) || weeklyCurriculum[0];
-    currentSelectedWeek = cur.week;
-
-    const round = cur.round;
-    const dateRange = masterDateRange ? masterDateRange.value.trim() : "10/03, 04";
-    const sessionType = masterSessionType ? masterSessionType.value : "both";
-
-    if (masterRound) masterRound.value = round;
-    if (masterCurriculumSelect) masterCurriculumSelect.value = String(cur.week);
+  function applyDateRange(dateRange) {
+    if (masterDateRange) masterDateRange.value = dateRange;
+    if (kakaoDate) kakaoDate.value = dateRange;
 
     // 1. 카카오톡 양식 동기화
-    if (kakaoDate) kakaoDate.value = dateRange;
     if (kakaoNoticeText) {
-      kakaoNoticeText.value = buildKakaoNoticeText(dateRange, round, cur.book, sessionType);
+      kakaoNoticeText.value = buildKakaoNoticeText(dateRange);
     }
     updateKakaoPreview();
 
     // 2. 네이버 카페 양식 동기화
     if (boardTitle) {
-      boardTitle.value = `[${round} 북클럽] ${dateRange} '${cur.book.split(" (")[0]}' 주말 정기독서모임 모집`;
+      boardTitle.value = `[주말 독서모임] ${dateRange} 자유 도서 정기모임 모집 (토요반/일요반)`;
     }
-    if (boardBook) boardBook.value = cur.book;
-
-    let dtStr = "";
-    if (sessionType === "sat") {
-      dtStr = `토요반: ${dateRange.split(",")[0].trim()}(토) 14:00~16:30`;
-    } else if (sessionType === "sun") {
-      dtStr = `일요반: ${dateRange}(일) 14:00~16:30`;
-    } else {
-      dtStr = `토요반: ${dateRange.split(",")[0].trim()}(토) 14:00~16:30 | 일요반: ${dateRange}(일) 14:00~16:30`;
+    if (boardBook) {
+      boardBook.value = "자유 도서 (각자 읽고 싶은 책 1권 자유 지참)";
     }
-    if (boardDateTime) boardDateTime.value = dtStr;
-
-    if (boardTopicQuestions) {
-      boardTopicQuestions.value = cur.questions.join("\n");
+    if (boardDateTime) {
+      const satPart = dateRange.split(",")[0].trim();
+      boardDateTime.value = `토요반: ${satPart}(토) 14:00~16:30 | 일요반: ${dateRange}(일) 14:00~16:30`;
     }
-
     updateBoardPreview();
-    highlightActiveCurriculumCard(cur.week);
   }
 
   function setWeekOffset(offset) {
     const dates = getWeekendDates(offset);
-    if (masterDateRange) {
-      masterDateRange.value = dates.shortRange;
-    }
-    if (kakaoDate) {
-      kakaoDate.value = dates.shortRange;
-    }
+    applyDateRange(dates.shortRange);
 
     // 퀵 버튼 active 상태 표시
     [btnWeekThis, btnWeekNext, btnWeekAfterNext].forEach((btn) => {
@@ -1029,8 +913,6 @@ ${plainQuestions}
     if (offset === 0 && btnWeekThis) btnWeekThis.classList.add("active");
     if (offset === 1 && btnWeekNext) btnWeekNext.classList.add("active");
     if (offset === 2 && btnWeekAfterNext) btnWeekAfterNext.classList.add("active");
-
-    applyCurriculumWeek(currentSelectedWeek);
   }
 
   // 퀵 주차 버튼 이벤트
@@ -1039,52 +921,32 @@ ${plainQuestions}
   if (btnWeekAfterNext) btnWeekAfterNext.addEventListener("click", () => setWeekOffset(2));
 
   // 카카오 내부 날짜 버튼
-  const btnDateThisWeek = document.getElementById("btnDateThisWeek");
-  const btnDateNextWeek = document.getElementById("btnDateNextWeek");
   if (btnDateThisWeek) btnDateThisWeek.addEventListener("click", () => setWeekOffset(0));
   if (btnDateNextWeek) btnDateNextWeek.addEventListener("click", () => setWeekOffset(1));
 
-  // 마스터 컨트롤 변경 감지
-  if (masterCurriculumSelect) {
-    masterCurriculumSelect.addEventListener("change", (e) => {
-      applyCurriculumWeek(e.target.value);
-    });
-  }
-
-  if (masterSessionType) {
-    masterSessionType.addEventListener("change", () => {
-      applyCurriculumWeek(currentSelectedWeek);
-    });
-  }
-
+  // 마스터 날짜 직접 입력 이벤트
   if (masterDateRange) {
     masterDateRange.addEventListener("input", () => {
-      if (kakaoDate) kakaoDate.value = masterDateRange.value;
-      applyCurriculumWeek(currentSelectedWeek);
-    });
-  }
-
-  if (masterRound) {
-    masterRound.addEventListener("input", () => {
-      applyCurriculumWeek(currentSelectedWeek);
+      applyDateRange(masterDateRange.value);
     });
   }
 
   if (btnApplyAllNotices) {
     btnApplyAllNotices.addEventListener("click", () => {
-      applyCurriculumWeek(currentSelectedWeek);
-      alert("✅ 상단 스케줄에 맞춰 카카오톡 공지와 네이버 카페 공지가 동시에 최신 내용으로 갱신되었습니다!");
+      const curDate = masterDateRange ? masterDateRange.value.trim() : "10/03, 04";
+      applyDateRange(curDate);
+      alert("✅ 상단 주말 일정에 맞춰 카카오톡과 네이버 카페 공지가 동시에 최신 내용으로 갱신되었습니다!");
     });
   }
 
-  // 카카오 입력 변경 이벤트
+  // 카카오 날짜 직접 입력 이벤트
   if (kakaoDate) {
     kakaoDate.addEventListener("input", () => {
       const rawDate = kakaoDate.value.trim() || "10/03, 04";
+      if (masterDateRange) masterDateRange.value = rawDate;
       if (kakaoNoticeText) {
         const lines = kakaoNoticeText.value.split("\n");
-        const round = masterRound ? masterRound.value.trim() : "제15회";
-        lines[0] = `[${rawDate}] ${round} 주말 정기모임 신청 안내`;
+        lines[0] = `[${rawDate}] 주말 정기독서모임 신청 안내`;
         kakaoNoticeText.value = lines.join("\n");
       }
       updateKakaoPreview();
@@ -1095,10 +957,10 @@ ${plainQuestions}
     kakaoNoticeText.addEventListener("input", updateKakaoPreview);
   }
 
-  const btnResetKakaoTpl = document.getElementById("btnResetKakaoTpl");
   if (btnResetKakaoTpl) {
     btnResetKakaoTpl.addEventListener("click", () => {
-      applyCurriculumWeek(currentSelectedWeek);
+      const curDate = kakaoDate ? kakaoDate.value.trim() : "10/03, 04";
+      applyDateRange(curDate);
     });
   }
 
@@ -1131,7 +993,7 @@ ${plainQuestions}
       btnSendKakaoAll.textContent = "⏳ 단톡방 3곳 순차 발송 중...";
       btnSendKakaoAll.style.opacity = "0.8";
       await sleep(400);
-      alert("🚀 카카오톡 봇이 등록된 단톡방 3곳(단톡방 1, 2, 3)에 주말 정기모임 공지를 100% 정상 발송 완료했습니다!");
+      alert("🚀 카카오톡 봇이 등록된 단톡방 3곳(단톡방 1, 2, 3)에 주말 정기모임(자유 도서) 공지를 100% 정상 발송 완료했습니다!");
       btnSendKakaoAll.innerHTML = `
         <span class="btn-rocket">⚡</span>
         <span class="btn-main-txt">카카오톡 등록 단톡방 3곳 일괄 전송</span>
@@ -1148,10 +1010,10 @@ ${plainQuestions}
     }
   });
 
-  if (btnSyncFromCurriculum) {
-    btnSyncFromCurriculum.addEventListener("click", () => {
-      applyCurriculumWeek(currentSelectedWeek);
-      alert("이 주의 선정 도서와 발제 질문이 네이버 카페 공지 작성기로 불러와졌습니다.");
+  if (btnResetNaverTpl) {
+    btnResetNaverTpl.addEventListener("click", () => {
+      const curDate = masterDateRange ? masterDateRange.value.trim() : "10/03, 04";
+      applyDateRange(curDate);
     });
   }
 
@@ -1162,7 +1024,7 @@ ${plainQuestions}
       await copyRichContentToClipboard(
         data.plainText,
         data.richHtml,
-        "📋 네이버 카페용 공지문(제목/본문/발제질문/서식)이 클립보드에 복사되었습니다!\n\n네이버 카페 글쓰기 창에서 본문에 바로 'Ctrl + V'를 누르시면 깔끔한 녹색 박스와 서식이 그대로 붙여넣어집니다."
+        "📋 네이버 카페용 공지문(제목/본문/자유책 토론질문/서식)이 클립보드에 복사되었습니다!\n\n네이버 카페 글쓰기 창에서 본문에 바로 'Ctrl + V'를 누르시면 깔끔한 녹색 박스와 서식이 그대로 붙여넣어집니다."
       );
       appendBoardLog(`[CLIPBOARD] 네이버 카페 맞춤 스마트에디터 서식 복사 완료 (${data.plainText.length}자)`, "success");
     });
@@ -1201,10 +1063,10 @@ ${plainQuestions}
       await sleep(300);
       appendBoardLog("  ✔ 네이버 카페 스마트에디터 API 인증 성공 (200 OK)", "success");
       await sleep(300);
-      const title = boardTitle ? boardTitle.value : "주말 독서모임 공지";
+      const title = boardTitle ? boardTitle.value : "주말 자유 도서 독서모임 공지";
       appendBoardLog(`[POST] 게시글 등록: "${title}"`, "info");
       await sleep(350);
-      appendBoardLog(`  ✔ 게시글 등록 완료 (Article Doc #9418)`, "success");
+      appendBoardLog(`  ✔ 게시글 등록 완료 (Article Doc #9425)`, "success");
       appendBoardLog(`[COMPLETE] 🎉 네이버 카페 [정기모임 공지게시판]에 성공적으로 게시되었습니다!\n`, "success");
 
       if (boardTermStatusTag) {
@@ -1212,7 +1074,7 @@ ${plainQuestions}
         boardTermStatusTag.style.color = "#4ade80";
       }
 
-      alert("🎉 네이버 카페 정기모임 게시판에 공지글이 성공적으로 자동 등록되었습니다!");
+      alert("🎉 네이버 카페 정기모임 게시판에 자유 도서 공지글이 성공적으로 자동 등록되었습니다!");
     });
   }
 
@@ -1231,81 +1093,7 @@ ${plainQuestions}
   }
 
   // =========================================================================
-  // 7. Weekly Curriculum Card Grid Renderer
-  // =========================================================================
-
-  const curriculumCardsGrid = document.getElementById("curriculumCardsGrid");
-
-  function renderCurriculumCards() {
-    if (!curriculumCardsGrid) return;
-    curriculumCardsGrid.innerHTML = "";
-
-    weeklyCurriculum.forEach((c) => {
-      const card = document.createElement("div");
-      card.className = `curriculum-card ${c.week === currentSelectedWeek ? "current-active" : ""}`;
-      card.id = `curCard_${c.week}`;
-
-      const qItems = c.questions.map((q) => `<li>${escapeHtml(q)}</li>`).join("");
-
-      card.innerHTML = `
-        <div>
-          <div class="curriculum-card-head">
-            <span class="cur-week-badge">${c.week}주차 · ${escapeHtml(c.round)}</span>
-            ${c.week === currentSelectedWeek ? '<span class="cur-active-badge">● 현재 적용 중</span>' : ""}
-          </div>
-          <h3 class="cur-book-title">${escapeHtml(c.book)}</h3>
-          <div class="cur-book-author">저자: ${escapeHtml(c.author)}</div>
-          <div class="cur-theme-box">
-            <strong>🎯 주제:</strong> ${escapeHtml(c.theme)}
-          </div>
-          <div style="margin-top:10px;">
-            <strong style="font-size:0.78rem; color:#15803d;">💡 발제 토론 질문 (3가지):</strong>
-            <ul class="cur-questions-list">
-              ${qItems}
-            </ul>
-          </div>
-        </div>
-        <button type="button" class="btn-apply-curriculum" data-week="${c.week}">
-          <span>⚡ 이 주차로 카톡 &amp; 네이버 공지 적용</span>
-        </button>
-      `;
-
-      curriculumCardsGrid.appendChild(card);
-    });
-
-    // 버튼 이벤트 연결
-    document.querySelectorAll(".btn-apply-curriculum").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const week = btn.getAttribute("data-week");
-        applyCurriculumWeek(week);
-        // 부드럽게 상단 카카오톡 공지 섹션으로 스크롤 이동
-        const kakaoSec = document.getElementById("section-kakao");
-        if (kakaoSec) kakaoSec.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-    });
-  }
-
-  function highlightActiveCurriculumCard(weekNum) {
-    weeklyCurriculum.forEach((c) => {
-      const card = document.getElementById(`curCard_${c.week}`);
-      if (card) {
-        if (c.week === Number(weekNum)) {
-          card.classList.add("current-active");
-          const head = card.querySelector(".curriculum-card-head");
-          if (head && !head.querySelector(".cur-active-badge")) {
-            head.insertAdjacentHTML("beforeend", '<span class="cur-active-badge">● 현재 적용 중</span>');
-          }
-        } else {
-          card.classList.remove("current-active");
-          const badge = card.querySelector(".cur-active-badge");
-          if (badge) badge.remove();
-        }
-      }
-    });
-  }
-
-  // =========================================================================
-  // 8. Nav Tabs Smooth Scroll & Active Handling
+  // 7. Nav Tabs Smooth Scroll & Active Handling
   // =========================================================================
   const navTabs = document.querySelectorAll(".console-nav .nav-tab");
   navTabs.forEach((tab) => {
@@ -1324,10 +1112,9 @@ ${plainQuestions}
   });
 
   // =========================================================================
-  // 9. Initial Load & Startup Execution
+  // 8. Initial Load & Startup Execution
   // =========================================================================
   renderMemberTable();
-  renderCurriculumCards();
-  setWeekOffset(0); // 현재 시점 기준 이번 주 토·일 계산 및 기본 1주차 적용
+  setWeekOffset(0); // 현재 시점 기준 이번 주 토·일 계산 및 자유 도서 공지 적용
 });
 

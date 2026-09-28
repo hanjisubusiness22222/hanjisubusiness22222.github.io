@@ -40,14 +40,11 @@
       <a href="#section-board" class="nav-tab" data-tab="board">
         <span class="tab-icon">📝</span> 2. 네이버 카페 공지
       </a>
-      <a href="#section-curriculum" class="nav-tab" data-tab="curriculum">
-        <span class="tab-icon">🗓️</span> 3. 주차별 도서·일정
-      </a>
       <a href="#section-sheet" class="nav-tab" data-tab="sheet">
-        <span class="tab-icon">📊</span> 4. 회원 명단 관리
+        <span class="tab-icon">📊</span> 3. 회원 명단 관리
       </a>
       <a href="#section-credentials" class="nav-tab" data-tab="credentials">
-        <span class="tab-icon">🔐</span> 5. 계정 &amp; 카페 설정
+        <span class="tab-icon">🔐</span> 4. 계정 &amp; 카페 설정
       </a>
     </nav>
 
@@ -65,18 +62,18 @@
   <main class="console-main">
 
     <!-- ===================================================================
-         🗓️ MASTER SCHEDULER: 매주 바뀌는 토·일 주말 정기모임 스케줄러 컨트롤 바
+         🗓️ MASTER SCHEDULER: 매주 토·일 주말 정기모임(자유 도서) 스케줄러 컨트롤 바
          =================================================================== -->
     <section class="weekend-master-bar" id="weekendMasterBar">
       <div class="master-bar-container">
         <div class="master-bar-left">
           <div class="master-badge">
             <span class="pulse-dot"></span>
-            <strong>WEEKLY SCHEDULE ENGINE</strong>
+            <strong>WEEKEND SCHEDULE ENGINE · 자유 도서 모임</strong>
           </div>
           <div class="master-title-box">
-            <h3>🗓️ 매주 토·일 정기모임 주차 설정</h3>
-            <p>날짜와 도서를 선택하면 <strong>카카오톡 단톡방 공지</strong>와 <strong>네이버 카페 스마트에디터 공지</strong>가 동시에 자동 생성됩니다.</p>
+            <h3>🗓️ 매주 토·일 주말 정기모임 일정 설정</h3>
+            <p>우리 모임은 <strong>토·일 양일 진행되는 자유 도서 모임</strong>입니다. 주말 날짜를 선택하시면 카톡 및 네이버 카페 공지가 즉시 자동 생성됩니다.</p>
           </div>
         </div>
 
@@ -89,45 +86,30 @@
             <button type="button" class="btn-quick-week" id="btnWeekAfterNext" data-offset="2">🗓️ 다다음 주말</button>
           </div>
 
-          <!-- 세부 선택 셀렉터 그룹 -->
-          <div class="master-inputs-row">
+          <!-- 토·일 날짜 입력 및 공지 갱신 버튼 -->
+          <div class="master-inputs-row" style="align-items:center;">
             <div class="master-field">
-              <label for="masterRound">회차</label>
-              <input type="text" id="masterRound" value="제15회" style="width:75px; text-align:center; font-weight:700;">
-            </div>
-
-            <div class="master-field">
-              <label for="masterDateRange">토·일 날짜</label>
+              <label for="masterDateRange">토·일 날짜 (자동 계산)</label>
               <div class="input-with-icon">
-                <input type="text" id="masterDateRange" value="10/03, 04" placeholder="예: 10/03, 04" style="width:125px; font-weight:700; color:#1d4ed8;">
+                <input type="text" id="masterDateRange" value="10/03, 04" placeholder="예: 10/03, 04" style="width:160px; font-weight:800; font-size:1.05rem; color:#1d4ed8; text-align:center;">
               </div>
             </div>
 
-            <div class="master-field">
-              <label for="masterSessionType">개설 세션</label>
-              <select id="masterSessionType" style="font-weight:600;">
-                <option value="both" selected>토·일 양일 진행 (토 14:00 / 일 14:00)</option>
-                <option value="sat">토요일 세션만 (토 14:00)</option>
-                <option value="sun">일요일 세션만 (일 14:00)</option>
-              </select>
-            </div>
-
-            <div class="master-field" style="flex:1; min-width:240px;">
-              <label for="masterCurriculumSelect">이번 주 도서 (주차별 프리셋)</label>
-              <select id="masterCurriculumSelect" style="font-weight:600; color:#0f172a;">
-                <option value="1">1주차: 도둑맞은 집중력 (요한 하리)</option>
-                <option value="2">2주차: 물고기는 존재하지 않는다 (룰루 밀러)</option>
-                <option value="3">3주차: 원씽 - The ONE Thing (게리 켈러)</option>
-                <option value="4">4주차: 클린 코드 - 애자일 소프트웨어 장인 정신 (로버트 C. 마틴)</option>
-                <option value="5">5주차: 돈의 심리학 (모건 하우절)</option>
-                <option value="6">6주차: 데미안 (헤르만 헤세)</option>
-              </select>
+            <div class="master-field" style="flex:1;">
+              <label>진행 세션 &amp; 도서 형식</label>
+              <div style="background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); padding:8px 14px; border-radius:6px; font-size:0.88rem; color:#f1f5f9; display:flex; align-items:center; gap:8px;">
+                <span style="color:#22c55e; font-weight:700;">✔ 토·일 양일 진행</span>
+                <span style="opacity:0.6;">|</span>
+                <span>토요반 14:00 / 일요반 14:00</span>
+                <span style="opacity:0.6;">|</span>
+                <span style="color:#93c5fd; font-weight:600;">📖 자유 도서 (각자 읽고 싶은 책 1권 지참)</span>
+              </div>
             </div>
 
             <div class="master-field">
               <label>&nbsp;</label>
               <button type="button" class="btn-apply-all" id="btnApplyAllNotices" title="카카오톡 & 네이버 카페 공지 동시 업데이트">
-                <span>⚡ 공지 일괄 갱신</span>
+                <span>⚡ 토·일 공지 일괄 갱신</span>
               </button>
             </div>
           </div>
@@ -401,7 +383,7 @@
       <div class="section-title-bar">
         <span class="cred-badge naver-top-badge" style="background:#dcfce7; color:#15803d; border:1px solid #86efac;">STEP 2 · NAVER CAFE SMART EDITOR</span>
         <h2>📝 네이버 카페 공지 자동화 (매주 토·일 정기모임)</h2>
-        <p>네이버 카페 스마트에디터에 최적화된 <strong>서식(제목, 모임 개요 박스, 토·일 일정표, 발제 질문, 신청 가이드)</strong>을 원클릭으로 복사하고 카페 글쓰기 창에 바로 등록합니다.</p>
+        <p>네이버 카페 스마트에디터에 최적화된 <strong>서식(제목, 모임 개요 박스, 토·일 일정표, 자유책 토론 가이드, 신청 가이드)</strong>을 원클릭으로 복사하고 카페 글쓰기 창에 바로 등록합니다.</p>
       </div>
 
       <div class="broadcast-main-grid">
@@ -413,23 +395,23 @@
               <h3>📝 네이버 카페 스마트에디터 작성기</h3>
             </div>
             <div class="editor-head-actions">
-              <button type="button" id="btnSyncFromCurriculum" class="btn-sample-tag">🗓️ 이번 주 도서 불러오기</button>
+              <button type="button" id="btnResetNaverTpl" class="btn-sample-tag" title="기본 공지 서식 복원">양식 복원</button>
             </div>
           </div>
 
           <form id="boardNoticeForm" class="notice-admin-form" onsubmit="return false;">
             <div class="form-group">
               <label for="boardTitle">게시글 제목 (카페 목록 노출용)</label>
-              <input type="text" id="boardTitle" value="[제15회 북클럽] 10/03(토)~10/04(일) '도둑맞은 집중력' 주말 정기독서모임 모집" required>
+              <input type="text" id="boardTitle" value="[주말 독서모임] 10/03(토)~10/04(일) 자유 도서 정기모임 모집 (토요반/일요반)" required>
             </div>
 
             <div class="form-grid-2">
               <div class="form-group">
-                <label for="boardBook">선정 도서 &amp; 저자</label>
-                <input type="text" id="boardBook" value="도둑맞은 집중력 (요한 하리)" required>
+                <label for="boardBook">모임 형식 &amp; 도서</label>
+                <input type="text" id="boardBook" value="자유 도서 (각자 읽고 싶은 책 1권 자유 지참)" required>
               </div>
               <div class="form-group">
-                <label for="boardDateTime">모임 일정 (토·일 주말 시간표)</label>
+                <label for="boardDateTime">모임 일정 (토·일 양일 진행)</label>
                 <input type="text" id="boardDateTime" value="토요반: 10/03(토) 14:00~16:30 | 일요반: 10/04(일) 14:00~16:30" required>
               </div>
             </div>
@@ -447,26 +429,26 @@
 
             <div class="form-group">
               <label for="boardTopicQuestions" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                <span>💡 매주 바뀌는 핵심 발제 토론 질문 (3가지)</span>
-                <span style="font-size:0.75rem; color:#15803d; font-weight:600;">도서별 맞춤 토론 질문</span>
+                <span>💡 자유 도서 토론 및 나눔 가이드 (3가지 질문)</span>
+                <span style="font-size:0.75rem; color:#15803d; font-weight:600;">자유책 맞춤 대화 질문</span>
               </label>
-              <textarea id="boardTopicQuestions" rows="4" style="background:#f0fdf4; border:1px solid #bbf7d0; font-family:'Pretendard',sans-serif; font-size:0.85rem; line-height:1.6; padding:10px; border-radius:6px; width:100%; box-sizing:border-box;">Q1. 스마트폰과 알고리즘 속에서 최근 나의 집중력이 가장 크게 흔들렸던 순간은 언제였나요?
-Q2. 저자가 지적한 12가지 원인 중 가장 공감되거나 새롭게 다가온 지점은 무엇인가요?
-Q3. 온전한 나만의 집중력을 되찾기 위해 이번 주부터 실천해보고 싶은 작은 습관 1가지는?</textarea>
+              <textarea id="boardTopicQuestions" rows="4" style="background:#f0fdf4; border:1px solid #bbf7d0; font-family:'Pretendard',sans-serif; font-size:0.85rem; line-height:1.6; padding:10px; border-radius:6px; width:100%; box-sizing:border-box;">Q1. 오늘 가져오신 책을 선택하게 된 계기나 첫인상은 어떠셨나요?
+Q2. 이 책에서 가장 마음에 와닿았던 문장이나 나누고 싶은 핵심 인사이트는 무엇인가요?
+Q3. 이 책을 우리 모임 멤버 중 어떤 분에게 추천하고 싶으신가요?</textarea>
             </div>
 
             <div class="form-group">
               <label for="boardBody">상세 안내 및 진행 순서 (게시글 본문)</label>
-              <textarea id="boardBody" rows="5">안녕하세요! 매주 주말(토·일) 함께 책을 읽고 생각을 나누는 독서모임입니다 :)
-이번 주말에도 좋은 책과 함께 일상의 쉼표를 찍어보세요!
+              <textarea id="boardBody" rows="5">안녕하세요! 매주 주말(토·일) 함께 책을 읽고 생각을 나누는 자유 도서 북클럽입니다 :)
+우리 모임은 정해진 지정 도서 없이, 각자 최근 감명 깊게 읽었거나 나누고 싶은 책 1권을 자유롭게 가져와 편안하게 대화하는 모임입니다.
 
 ■ 모임 진행 타임테이블 (총 150분):
-1. 아이스브레이킹 & 도서 첫인상 한줄 나눔 (20분)
-2. 3가지 발제 질문 중심 깊이 있는 자유 토론 (90분)
-3. 이번 주 실천 목표 나눔 & 다음 모임 안내 (20분)
+1. 아이스브레이킹 & 각자 가져온 책 한 줄 소개 (20분)
+2. 멤버별 책 소개 및 인상 깊은 구절 깊이 있는 나눔 (90분)
+3. 서로의 책 추천 & 다음 주말 모임 안내 (20분)
 4. 자유 네트워킹 & 정리 (20분)
 
-■ 준비물: 이번 주 선정 도서 (완독하지 못하셨더라도 부담 없이 참석 가능합니다!)
+■ 준비물: 내가 읽고 싶은 책 1권 (완독하지 못하셨더라도 부담 없이 가져오세요!)
 * 모임 후 출석 및 회계 내역은 구글 시트를 통해 투명하게 공개됩니다.</textarea>
             </div>
 
@@ -548,26 +530,11 @@ Q3. 온전한 나만의 집중력을 되찾기 위해 이번 주부터 실천해
     </section>
 
     <!-- ===================================================================
-         STEP 3) 🗓️ 매주 바뀌는 주차별 도서 & 토·일 커리큘럼 라이브러리
-         =================================================================== -->
-    <section id="section-curriculum" class="console-section">
-      <div class="section-title-bar">
-        <span class="cred-badge" style="background:#e0e7ff; color:#3730a3; border:1px solid #c7d2fe;">STEP 3 · WEEKLY CURRICULUM PRESETS</span>
-        <h2>🗓️ 매주 바뀌는 주차별 도서 &amp; 토·일 일정 관리</h2>
-        <p>우리 모임의 주차별 선정 도서와 매주 달라지는 발제 질문을 등록하고, <strong>[⚡ 이 주차로 공지 적용]</strong> 버튼을 누르면 카톡과 네이버 카페 공지가 즉시 자동 갱신됩니다.</p>
-      </div>
-
-      <div class="curriculum-cards-grid" id="curriculumCardsGrid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:16px; margin-top:18px;">
-        <!-- JS로 1주차~6주차 카드 렌더링 -->
-      </div>
-    </section>
-
-    <!-- ===================================================================
-         STEP 4) 📊 독서모임 회원 명단 & 출석·회비 관리 DB (Google Sheets)
+         STEP 3) 📊 독서모임 회원 명단 & 출석·회비 관리 DB (Google Sheets)
          =================================================================== -->
     <section id="section-sheet" class="console-section">
       <div class="section-title-bar">
-        <span class="badge-role sheet-badge" style="background:#dcfce7; color:#166534; border:1px solid #bbf7d0; display:inline-block; align-self:flex-start;">STEP 4 · MEMBER DATABASE</span>
+        <span class="badge-role sheet-badge" style="background:#dcfce7; color:#166534; border:1px solid #bbf7d0; display:inline-block; align-self:flex-start;">STEP 3 · MEMBER DATABASE</span>
         <h2>📊 독서모임 회원 명단 &amp; 출석·회비 관리 DB (Google Sheets 연동)</h2>
         <p>공지 발송 시 투명한 소통 링크로 연동되는 회원 출석 및 회비 납부 데이터베이스입니다. 실시간 동기화 및 편집이 가능합니다.</p>
       </div>
