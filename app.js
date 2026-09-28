@@ -413,7 +413,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       setTimeout(() => {
         btnSyncGoogleNow.classList.remove("syncing");
-        if (textSpan) textSpan.textContent = "즉시 동기화";
+        if (textSpan) textSpan.textContent = "구글 시트 즉시 동기화";
         const now = new Date();
         const timeStr = `${now.getHours()}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}`;
         if (sheetSaveIndicator) {
