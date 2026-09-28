@@ -34,17 +34,17 @@
 
     <!-- 빠른 바로가기 탭 네비게이션 -->
     <nav class="console-nav" aria-label="관리자 기능 메뉴">
-      <a href="#section-kakao" class="nav-tab active" data-tab="kakao">
-        <span class="tab-icon">💬</span> 1. 카카오톡 공지 (토·일)
+      <a href="#section-credentials" class="nav-tab active" data-tab="credentials">
+        <span class="tab-icon">🔐</span> 1. 계정 및 연동 설정
+      </a>
+      <a href="#section-kakao" class="nav-tab" data-tab="kakao">
+        <span class="tab-icon">💬</span> 2. 카카오톡 공지 (토·일)
       </a>
       <a href="#section-board" class="nav-tab" data-tab="board">
-        <span class="tab-icon">📝</span> 2. 네이버 카페 공지
+        <span class="tab-icon">📝</span> 3. 네이버 카페 공지
       </a>
       <a href="#section-sheet" class="nav-tab" data-tab="sheet">
-        <span class="tab-icon">📊</span> 3. 회원 명단 관리
-      </a>
-      <a href="#section-credentials" class="nav-tab" data-tab="credentials">
-        <span class="tab-icon">🔐</span> 4. 계정 &amp; 카페 설정
+        <span class="tab-icon">📊</span> 4. 회원 명단 관리
       </a>
     </nav>
 
@@ -118,15 +118,15 @@
     </section>
 
     <!-- ===================================================================
-         STEP 5) 🔐 플랫폼별 자동 로그인 & API 인증 계정 설정
+         STEP 1) 🔐 카카오톡 & 네이버 카페 연동 계정 설정
          =================================================================== -->
-    <section id="section-credentials" class="console-section">
+    <section id="section-credentials" class="console-section active-section">
       <div class="credentials-card">
         <div class="credentials-header">
           <div class="cred-title-box">
-            <span class="cred-badge">STEP 5 · BOT CREDENTIALS &amp; URL SETTINGS</span>
+            <span class="cred-badge">STEP 1 · BOT CREDENTIALS &amp; URL SETTINGS</span>
             <h2>🔐 카카오톡 &amp; 네이버 카페 연동 계정 설정</h2>
-            <p>원클릭 공지 자동 전송을 위해 <strong>카카오톡 오픈채팅방 링크</strong>와 <strong>네이버 카페 주소 및 계정</strong>을 안전하게 연동합니다.</p>
+            <p>원클릭 공지 자동 전송을 위해 <strong>관리자 카카오톡 계정</strong>과 <strong>네이버 카페 주소 및 계정</strong>을 안전하게 연동합니다.</p>
           </div>
           <div class="cred-header-actions">
             <button type="button" id="btnTestAllAccounts" class="btn-secondary-sm">
@@ -138,17 +138,17 @@
           </div>
         </div>
 
-        <!-- 메신저(카톡) vs 게시글(네이버 카페 중심) 분리 그리드 -->
+        <!-- 메신저(카톡 관리자) vs 게시글(네이버 카페) 분리 그리드 -->
         <div class="credentials-split-grid">
-          <!-- [좌측: 메신저 부문 - 카카오톡] -->
+          <!-- [좌측: 메신저 부문 - 카카오톡 관리자 계정] -->
           <div class="cred-column cred-messenger-col">
             <div class="col-head messenger-head">
               <span class="head-icon">💬</span>
               <div>
-                <h3>카카오톡 메신저 채널 (단톡방 3곳)</h3>
-                <span class="head-sub">카카오톡 오픈채팅방 / 단체방 / 알림톡 봇 연동</span>
+                <h3>카카오톡 관리자 계정 연동</h3>
+                <span class="head-sub">관리자 본인 카카오톡('나와의 채팅')으로 즉시 자동 전송</span>
               </div>
-              <span class="session-badge badge-active" id="badgeKakaoStatus">🟢 세션 정상</span>
+              <span class="session-badge badge-active" id="badgeKakaoStatus">🟢 관리자 세션 정상</span>
             </div>
 
             <div class="cred-account-box kakao-cred-box">
@@ -158,7 +158,7 @@
               </div>
               <div class="cred-form-grid">
                 <div class="cred-field">
-                  <label for="credKakaoId">카카오 계정 ID (이메일/전화번호)</label>
+                  <label for="credKakaoId">관리자 카카오 계정 ID (이메일/전화번호)</label>
                   <input type="text" id="credKakaoId" value="bookclub_master@kakao.com" placeholder="카카오 계정 이메일">
                 </div>
                 <div class="cred-field">
@@ -169,28 +169,21 @@
                   </div>
                 </div>
                 <div class="cred-field full-span">
-                  <label style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                    <span>연동 대상 단톡방 / 오픈채팅방 링크 코드 (총 3개)</span>
-                    <span style="font-size:0.75rem; color:#64748b; font-weight:normal;">운영 단톡방 3곳 개별 링크 등록</span>
-                  </label>
-                  <div style="display:flex; flex-direction:column; gap:8px;">
-                    <div style="display:flex; align-items:center; gap:8px;">
-                      <span style="font-size:0.78rem; font-weight:700; color:#1e40af; background:#eff6ff; border:1px solid #bfdbfe; padding:6px 10px; border-radius:6px; min-width:70px; text-align:center;">단톡방 1</span>
-                      <input type="text" id="credKakaoRoom1" value="https://open.kakao.com/o/gBookClub2026_Room1" placeholder="단톡방 1 오픈채팅방 URL 또는 참여 코드" style="flex:1;">
+                  <label>수신 대상 (관리자 계정 전송 방식)</label>
+                  <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between;">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                      <span style="font-size:1.3rem;">👤</span>
+                      <div>
+                        <strong style="font-size:0.9rem; color:#1e293b;">관리자 카카오톡 '나와의 채팅' (나에게 보내기)</strong>
+                        <p style="font-size:0.77rem; color:#64748b; margin:2px 0 0 0;">단톡방이 아닌 관리자 개인 카카오톡 계정으로 주말 공지가 안전하게 전송됩니다.</p>
+                      </div>
                     </div>
-                    <div style="display:flex; align-items:center; gap:8px;">
-                      <span style="font-size:0.78rem; font-weight:700; color:#1e40af; background:#eff6ff; border:1px solid #bfdbfe; padding:6px 10px; border-radius:6px; min-width:70px; text-align:center;">단톡방 2</span>
-                      <input type="text" id="credKakaoRoom2" value="https://open.kakao.com/o/gBookClub2026_Room2" placeholder="단톡방 2 오픈채팅방 URL 또는 참여 코드" style="flex:1;">
-                    </div>
-                    <div style="display:flex; align-items:center; gap:8px;">
-                      <span style="font-size:0.78rem; font-weight:700; color:#1e40af; background:#eff6ff; border:1px solid #bfdbfe; padding:6px 10px; border-radius:6px; min-width:70px; text-align:center;">단톡방 3</span>
-                      <input type="text" id="credKakaoRoom3" value="https://open.kakao.com/o/gBookClub2026_Room3" placeholder="단톡방 3 오픈채팅방 URL 또는 참여 코드" style="flex:1;">
-                    </div>
+                    <span style="font-size:0.78rem; font-weight:700; color:#15803d; background:#dcfce7; border:1px solid #bbf7d0; padding:4px 10px; border-radius:4px; white-space:nowrap;">관리자 단독 수신</span>
                   </div>
                 </div>
               </div>
               <div class="channel-auth-actions">
-                <button type="button" class="btn-auth-test" data-platform="kakao">카톡 봇 세션 테스트</button>
+                <button type="button" class="btn-auth-test" data-platform="kakao">관리자 카톡 세션 테스트</button>
                 <span class="auth-result-msg" id="msgKakaoTest">동기화 대기 중</span>
               </div>
             </div>
@@ -248,13 +241,13 @@
     </section>
 
     <!-- ===================================================================
-         STEP 1) 💬 카카오톡 단톡방 / 오픈채팅방 공지 자동화 (토·일 정기모임)
+         STEP 2) 💬 카카오톡 공지 자동화 (관리자 나와의 채팅 전송)
          =================================================================== -->
-    <section id="section-kakao" class="console-section active-section">
+    <section id="section-kakao" class="console-section">
       <div class="section-title-bar">
-        <span class="cred-badge kakao-badge">STEP 1 · KAKAO MESSENGER BOT</span>
+        <span class="cred-badge kakao-badge">STEP 2 · KAKAO MESSENGER BOT</span>
         <h2>💬 카카오톡 공지 자동화 (매주 토·일 정기모임)</h2>
-        <p>매주 바뀌는 토·일 모임 일정과 도서에 맞추어 단톡방 전용 공지를 생성하고, 원클릭 복사 및 단톡방 3곳 일괄 전송을 지원합니다.</p>
+        <p>매주 바뀌는 토·일 자유 도서 모임 일정을 확인하고, <strong>관리자 카카오톡 계정(나와의 채팅)</strong>으로 즉시 자동 발송하거나 원클릭 복사합니다.</p>
       </div>
 
       <div class="broadcast-main-grid">
@@ -289,7 +282,7 @@
             <!-- 실제 카카오톡 공지 전문 템플릿 -->
             <div class="form-group">
               <label for="kakaoNoticeText" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                <span>📝 카카오톡 단톡방 발송 전문 (토·일 맞춤 서식)</span>
+                <span>📝 카카오톡 발송 전문 (토·일 맞춤 서식)</span>
                 <span style="font-size:0.75rem; color:#64748b;">수정 시 우측 스마트폰 화면에 즉시 반영됩니다</span>
               </label>
               <textarea id="kakaoNoticeText" rows="13" style="font-family: 'Pretendard', sans-serif; font-size: 0.88rem; line-height: 1.65; white-space: pre-wrap; padding:12px; border:1px solid #cbd5e1; border-radius:6px; width:100%; box-sizing:border-box;" required></textarea>
@@ -299,19 +292,19 @@
             <div class="form-action-wrap" style="display:flex; flex-direction:column; gap:12px; margin-top:16px;">
               <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
                 <button type="button" id="btnCopyKakao" class="btn-sheet-primary" style="padding:14px; font-weight:700; font-size:0.95rem; justify-content:center; display:flex; align-items:center; gap:8px; cursor:pointer; background:#2563eb; color:#ffffff; border:none; border-radius:6px;">
-                  <span>📋</span> <span>공지 전문 복사 (단톡방 붙여넣기)</span>
+                  <span>📋</span> <span>공지 전문 복사</span>
                 </button>
                 <button type="button" id="btnOpenKakaoApp" class="btn-sheet-tool" style="padding:14px; font-weight:700; font-size:0.95rem; justify-content:center; display:flex; align-items:center; gap:8px; border:1px solid #fde047; background:#fee500; color:#1e1b4b; border-radius:6px; cursor:pointer;">
-                  <span>💬</span> <span>카카오톡 바로 열기 / 공유</span>
+                  <span>💬</span> <span>카카오톡 나와의 채팅 열기 / 공유</span>
                 </button>
               </div>
               <button type="button" id="btnSendKakaoAll" class="btn-execute-broadcast" style="background:linear-gradient(135deg,#fee500,#facc15); color:#1e1b4b; border:1px solid #eab308; box-shadow:0 4px 12px rgba(250,204,21,0.25);">
                 <span class="btn-rocket">⚡</span>
-                <span class="btn-main-txt">카카오톡 등록 단톡방 3곳 일괄 전송</span>
-                <span class="btn-sub-txt">단톡방 1·2·3 순차 발송 시뮬레이션</span>
+                <span class="btn-main-txt">관리자 카카오톡 계정으로 즉시 발송</span>
+                <span class="btn-sub-txt">관리자 계정 '나와의 채팅'으로 자동 전송</span>
               </button>
               <div style="font-size:0.83rem; color:#475569; background:#f8fafc; padding:10px 14px; border-radius:6px; border:1px solid #e2e8f0; display:flex; align-items:center; gap:8px;">
-                <span style="font-size:1.1rem;">💡</span> <span><strong>단톡방 발송 팁:</strong> <code>[공지 전문 복사]</code> 클릭 후, 카카오톡 3개 단톡방에 각각 <code>Ctrl + V</code> 하시면 가장 정확하고 서식이 유지되어 발송됩니다.</span>
+                <span style="font-size:1.1rem;">💡</span> <span><strong>관리자 발송 안내:</strong> <code>[관리자 카카오톡 계정으로 즉시 발송]</code>을 누르면 관리자의 카카오톡 '나와의 채팅'으로 자동 전송되며, 필요 시 <code>[공지 전문 복사]</code>로 어디든 쉽게 붙여넣으실 수 있습니다.</span>
               </div>
             </div>
           </form>
@@ -321,7 +314,7 @@
         <div class="preview-panel-card">
           <div class="preview-mode-switch">
             <div class="mode-buttons">
-              <span class="preview-fixed-tag">💬 카카오톡 단톡방 실시간 모바일 프리뷰</span>
+              <span class="preview-fixed-tag">💬 관리자 카카오톡(나와의 채팅) 실시간 모바일 프리뷰</span>
             </div>
             <span class="preview-sync-tag">⚡ 실시간 반영</span>
           </div>
@@ -334,8 +327,8 @@
               </div>
               <div class="kt-chat-header">
                 <div class="kt-chat-info">
-                  <strong>📖 [정기] 주말 토·일 독서모임 단톡방</strong>
-                  <span class="kt-chat-members">24명 참여 중</span>
+                  <strong>👤 관리자 나와의 채팅 (나에게 보내기)</strong>
+                  <span class="kt-chat-members">독서모임 운영자 (나)</span>
                 </div>
                 <div class="kt-header-icons">🔍 ≡</div>
               </div>
@@ -377,11 +370,11 @@
     </section>
 
     <!-- ===================================================================
-         STEP 2) 📝 네이버 카페 스마트에디터 공지 자동화 (토·일 주말 모임)
+         STEP 3) 📝 네이버 카페 스마트에디터 공지 자동화 (토·일 주말 모임)
          =================================================================== -->
     <section id="section-board" class="console-section">
       <div class="section-title-bar">
-        <span class="cred-badge naver-top-badge" style="background:#dcfce7; color:#15803d; border:1px solid #86efac;">STEP 2 · NAVER CAFE SMART EDITOR</span>
+        <span class="cred-badge naver-top-badge" style="background:#dcfce7; color:#15803d; border:1px solid #86efac;">STEP 3 · NAVER CAFE SMART EDITOR</span>
         <h2>📝 네이버 카페 공지 자동화 (매주 토·일 정기모임)</h2>
         <p>네이버 카페 스마트에디터에 최적화된 <strong>서식(제목, 모임 개요 박스, 토·일 일정표, 자유책 토론 가이드, 신청 가이드)</strong>을 원클릭으로 복사하고 카페 글쓰기 창에 바로 등록합니다.</p>
       </div>
@@ -530,11 +523,11 @@ Q3. 이 책을 우리 모임 멤버 중 어떤 분에게 추천하고 싶으신�
     </section>
 
     <!-- ===================================================================
-         STEP 3) 📊 독서모임 회원 명단 & 출석·회비 관리 DB (Google Sheets)
+         STEP 4) 📊 독서모임 회원 명단 & 출석·회비 관리 DB (Google Sheets)
          =================================================================== -->
     <section id="section-sheet" class="console-section">
       <div class="section-title-bar">
-        <span class="badge-role sheet-badge" style="background:#dcfce7; color:#166534; border:1px solid #bbf7d0; display:inline-block; align-self:flex-start;">STEP 3 · MEMBER DATABASE</span>
+        <span class="badge-role sheet-badge" style="background:#dcfce7; color:#166534; border:1px solid #bbf7d0; display:inline-block; align-self:flex-start;">STEP 4 · MEMBER DATABASE</span>
         <h2>📊 독서모임 회원 명단 &amp; 출석·회비 관리 DB (Google Sheets 연동)</h2>
         <p>공지 발송 시 투명한 소통 링크로 연동되는 회원 출석 및 회비 납부 데이터베이스입니다. 실시간 동기화 및 편집이 가능합니다.</p>
       </div>
@@ -812,14 +805,14 @@ Q3. 이 책을 우리 모임 멤버 중 어떤 분에게 추천하고 싶으신�
           <div class="report-icon">🚀</div>
           <div>
             <strong>모든 타겟 채널에 공지가 100% 동일하게 배포되었습니다.</strong>
-            <p>ID/PW 계정 세션 인증을 통해 메신저 단톡방과 각 커뮤니티 게시판에 자동 등록 완료되었습니다.</p>
+            <p>ID/PW 계정 세션 인증을 통해 관리자 카카오톡과 네이버 카페 게시판에 자동 등록 완료되었습니다.</p>
           </div>
         </div>
 
         <div class="report-section-sub">
           <h4>💬 메신저 전송 결과</h4>
           <div class="report-channel-row" id="reportMessengerRow">
-            <span class="rep-channel">🟡 카카오톡 단톡방 / 알림톡</span>
+            <span class="rep-channel">🟡 관리자 카카오톡 (나와의 채팅)</span>
             <span class="rep-status badge-success">발송 완료 & 톡게시판 핀 고정</span>
             <span class="rep-time">방금 전</span>
           </div>

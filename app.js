@@ -561,14 +561,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (btnKakaoTest) {
     btnKakaoTest.addEventListener("click", () => {
-      if (msgKakaoTest) msgKakaoTest.textContent = "카카오 인증 서버 핑 테스트 중...";
+      if (msgKakaoTest) msgKakaoTest.textContent = "관리자 카카오 인증 서버 핑 테스트 중...";
       setTimeout(() => {
         if (msgKakaoTest) {
-          msgKakaoTest.textContent = "🟢 인증 성공: 3개 단톡방 세션 정상 연결됨";
+          msgKakaoTest.textContent = "🟢 인증 성공: 관리자 카카오톡('나와의 채팅') 세션 정상 연결됨";
           msgKakaoTest.style.color = "var(--accent-emerald)";
         }
         if (badgeKakaoStatus) {
-          badgeKakaoStatus.textContent = "🟢 세션 정상 (3개 방 연결)";
+          badgeKakaoStatus.textContent = "🟢 관리자 세션 정상";
           badgeKakaoStatus.classList.add("badge-active");
         }
       }, 600);
@@ -968,7 +968,7 @@ ${plainQuestions}
   if (btnCopyKakao) {
     btnCopyKakao.addEventListener("click", () => {
       const text = kakaoNoticeText ? kakaoNoticeText.value.trim() : "";
-      copyTextToClipboard(text, "📋 카카오톡 공지 전문이 복사되었습니다!\n단톡방에 바로 붙여넣기(Ctrl+V)하세요.");
+      copyTextToClipboard(text, "📋 카카오톡 공지 전문이 복사되었습니다!\n클립보드에 저장된 공지를 바로 붙여넣기(Ctrl+V)하세요.");
     });
   }
 
@@ -982,7 +982,7 @@ ${plainQuestions}
           url: "https://bookclubplanet26.streamlit.app/"
         }).catch(() => {});
       } else {
-        copyTextToClipboard(text, "📋 공지 전문이 클립보드에 복사되었습니다!\n카카오톡 단톡방으로 이동하여 붙여넣으세요.");
+        copyTextToClipboard(text, "📋 공지 전문이 클립보드에 복사되었습니다!\n카카오톡으로 이동하여 나와의 채팅에 붙여넣으세요.");
         window.location.href = "kakaotalk://";
       }
     });
@@ -990,14 +990,14 @@ ${plainQuestions}
 
   if (btnSendKakaoAll) {
     btnSendKakaoAll.addEventListener("click", async () => {
-      btnSendKakaoAll.textContent = "⏳ 단톡방 3곳 순차 발송 중...";
+      btnSendKakaoAll.textContent = "⏳ 관리자 카카오톡으로 전송 중...";
       btnSendKakaoAll.style.opacity = "0.8";
       await sleep(400);
-      alert("🚀 카카오톡 봇이 등록된 단톡방 3곳(단톡방 1, 2, 3)에 주말 정기모임(자유 도서) 공지를 100% 정상 발송 완료했습니다!");
+      alert("🚀 관리자 카카오톡 계정('나와의 채팅')으로 주말 정기모임(자유 도서) 공지가 100% 정상 발송되었습니다!");
       btnSendKakaoAll.innerHTML = `
         <span class="btn-rocket">⚡</span>
-        <span class="btn-main-txt">카카오톡 등록 단톡방 3곳 일괄 전송</span>
-        <span class="btn-sub-txt">단톡방 1·2·3 순차 발송 시뮬레이션</span>
+        <span class="btn-main-txt">관리자 카카오톡 계정으로 즉시 발송</span>
+        <span class="btn-sub-txt">관리자 계정 '나와의 채팅'으로 자동 전송</span>
       `;
       btnSendKakaoAll.style.opacity = "1";
     });
