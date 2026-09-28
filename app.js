@@ -691,8 +691,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================================================================
 
   function buildKakaoNoticeText(dateStr) {
-    const applyUrl = (kakaoApplyUrl && kakaoApplyUrl.value.trim()) || "https://bookclubplanet26.streamlit.app/";
-    const contactUrl = (kakaoContactUrl && kakaoContactUrl.value.trim()) || "https://open.kakao.com/o/sWLBJTue";
+    const applyUrl = (kakaoApplyUrl && kakaoApplyUrl.value.trim()) || "https://bookclub-apply-demo.streamlit.app";
+    const contactUrl = (kakaoContactUrl && kakaoContactUrl.value.trim()) || "https://open.kakao.com/o/sample_contact";
 
     return `[${dateStr}] 모임신청 안내
  
@@ -732,8 +732,8 @@ ${contactUrl}
     }
 
     // 미리보기 버튼 링크 연동
-    const applyUrl = (kakaoApplyUrl && kakaoApplyUrl.value.trim()) || "https://bookclubplanet26.streamlit.app/";
-    const contactUrl = (kakaoContactUrl && kakaoContactUrl.value.trim()) || "https://open.kakao.com/o/sWLBJTue";
+    const applyUrl = (kakaoApplyUrl && kakaoApplyUrl.value.trim()) || "https://bookclub-apply-demo.streamlit.app";
+    const contactUrl = (kakaoContactUrl && kakaoContactUrl.value.trim()) || "https://open.kakao.com/o/sample_contact";
     if (ktBtnPreviewApply) ktBtnPreviewApply.href = applyUrl;
     if (ktBtnPreviewContact) ktBtnPreviewContact.href = contactUrl;
   }
@@ -795,10 +795,10 @@ ${escapeHtml(body)}
 
         <!-- 신청 링크 및 구글 시트 투명 공개 -->
         <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:16px 20px; margin-bottom:20px;">
-          <p style="margin:0 0 8px 0; font-weight:bold; color:#1e40af; font-size:15px;">🪐 모임 참가 신청 (플래닛 전용 폼):</p>
-          <p style="margin:0 0 12px 0;"><a href="https://bookclubplanet26.streamlit.app/" target="_blank" style="color:#2563eb; font-weight:bold; text-decoration:underline;">https://bookclubplanet26.streamlit.app/</a></p>
+          <p style="margin:0 0 8px 0; font-weight:bold; color:#1e40af; font-size:15px;">🪐 모임 참가 신청 (독서모임 신청 페이지):</p>
+          <p style="margin:0 0 12px 0;"><a href="https://bookclub-apply-demo.streamlit.app" target="_blank" style="color:#2563eb; font-weight:bold; text-decoration:underline;">https://bookclub-apply-demo.streamlit.app</a></p>
           <p style="margin:0 0 6px 0; font-size:13px; color:#1e3a8a;">* 출석부 및 회비 장부는 회원 전원에게 실시간 구글 시트로 투명하게 공개됩니다.</p>
-          <p style="margin:0; font-size:13px; color:#64748b;">* 1:1 오픈카톡 문의: <a href="https://open.kakao.com/o/sWLBJTue" target="_blank" style="color:#2563eb;">https://open.kakao.com/o/sWLBJTue</a></p>
+          <p style="margin:0; font-size:13px; color:#64748b;">* 1:1 오픈카톡 문의: <a href="https://open.kakao.com/o/sample_contact" target="_blank" style="color:#2563eb;">https://open.kakao.com/o/sample_contact</a></p>
         </div>
 
         <!-- 해시태그 -->
@@ -822,8 +822,8 @@ ${body}
 ${plainQuestions}
 
 [참가 신청]
-플래닛 신청 페이지: https://bookclubplanet26.streamlit.app/
-문의 오픈카톡: https://open.kakao.com/o/sWLBJTue
+독서모임 신청 페이지: https://bookclub-apply-demo.streamlit.app
+문의 오픈카톡: https://open.kakao.com/o/sample_contact
 #독서모임 #주말독서모임 #자유도서 #독서토론`;
 
     return { title, richHtml, plainText };
@@ -998,7 +998,7 @@ ${plainQuestions}
         navigator.share({
           title: "주말 독서모임 신청 안내",
           text: text,
-          url: "https://bookclubplanet26.streamlit.app/"
+          url: "https://bookclub-apply-demo.streamlit.app"
         }).catch(() => {});
       } else {
         copyTextToClipboard(text, "📋 공지 전문이 클립보드에 복사되었습니다!\n카카오톡으로 이동하여 나와의 채팅에 붙여넣으세요.");
