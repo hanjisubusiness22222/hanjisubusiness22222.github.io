@@ -643,10 +643,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 카카오톡 공지 작성기 요소
   const kakaoDate = document.getElementById("kakaoDate");
+  const kakaoApplyUrl = document.getElementById("kakaoApplyUrl");
+  const kakaoContactUrl = document.getElementById("kakaoContactUrl");
   const kakaoNoticeText = document.getElementById("kakaoNoticeText");
   const ktBubbleText = document.getElementById("ktBubbleText");
   const ktPinTitle = document.getElementById("ktPinTitle");
   const ktPinnedNotice = document.getElementById("ktPinnedNotice");
+  const ktBtnPreviewApply = document.getElementById("ktBtnPreviewApply");
+  const ktBtnPreviewContact = document.getElementById("ktBtnPreviewContact");
   const kakaoCharStats = document.getElementById("kakaoCharStats");
   const ktMsgDateText = document.getElementById("ktMsgDateText");
   const btnDateThisWeek = document.getElementById("btnDateThisWeek");
@@ -683,29 +687,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnTestNaverUrl = document.getElementById("btnTestNaverUrl");
 
   // =========================================================================
-  // 4. Kakao Notice Composer Logic (자유 도서 모임)
+  // 4. Kakao Notice Composer Logic (사용자 지정 서식)
   // =========================================================================
 
   function buildKakaoNoticeText(dateStr) {
-    return `[${dateStr}] 주말 정기독서모임 신청 안내
+    const applyUrl = (kakaoApplyUrl && kakaoApplyUrl.value.trim()) || "https://bookclubplanet26.streamlit.app/";
+    const contactUrl = (kakaoContactUrl && kakaoContactUrl.value.trim()) || "https://open.kakao.com/o/sWLBJTue";
 
-📖 모임 형식: 자유 도서 (각자 읽고 싶은 책 1권 자유 지참)
-🗓 정기모임 일정 (토·일 양일 진행):
-  • 토요반: 토요일 오후 2:00 ~ 4:30
-  • 일요반: 일요일 오후 2:00 ~ 4:30
-📍 장소: 강남역 북카페 '생각의 숲' 3번 룸
-💰 회비: 10,000원 (대관료 및 음료 1잔 포함)
+    return `[${dateStr}] 모임신청 안내
+ 
+①가입한 플랫폼에서 <참석> 표시 
+ 
+②모임 신청 <독서모임 신청 페이지>
+${applyUrl}
+미 응답시 참석이 제한될 수 있습니다.
 
-[참석 신청 방법]
-① 네이버 카페 공지글에서 <참석> 덧글 작성
-② 모임 신청 <플래닛 신청 페이지> 등록
-👉 https://bookclubplanet26.streamlit.app/
-(좌석 한정으로 미등록 시 참석이 제한될 수 있습니다)
+* 미등록은 아래로 연락
+${contactUrl}
 
-💬 문의 및 미등록자 연락:
-https://open.kakao.com/o/sWLBJTue
-
-💫 이번 주말도 편안하게 각자의 책 이야기를 나누어요! 💫`;
+💫신청 방식 변경으로 인해, 기존 회원분들도 새롭게 등록해야하니 꼭 확인해 주세요💫`;
   }
 
   function updateKakaoPreview() {
@@ -730,6 +730,12 @@ https://open.kakao.com/o/sWLBJTue
     if (ktMsgDateText && kakaoDate) {
       ktMsgDateText.textContent = `2026년 [${kakaoDate.value}] 주말 정기모임`;
     }
+
+    // 미리보기 버튼 링크 연동
+    const applyUrl = (kakaoApplyUrl && kakaoApplyUrl.value.trim()) || "https://bookclubplanet26.streamlit.app/";
+    const contactUrl = (kakaoContactUrl && kakaoContactUrl.value.trim()) || "https://open.kakao.com/o/sWLBJTue";
+    if (ktBtnPreviewApply) ktBtnPreviewApply.href = applyUrl;
+    if (ktBtnPreviewContact) ktBtnPreviewContact.href = contactUrl;
   }
 
   // =========================================================================
@@ -946,12 +952,25 @@ ${plainQuestions}
       if (masterDateRange) masterDateRange.value = rawDate;
       if (kakaoNoticeText) {
         const lines = kakaoNoticeText.value.split("\n");
-        lines[0] = `[${rawDate}] 주말 정기독서모임 신청 안내`;
+        lines[0] = `[${rawDate}] 모임신청 안내`;
         kakaoNoticeText.value = lines.join("\n");
       }
       updateKakaoPreview();
     });
   }
+
+  // 카카오 신청 및 문의 URL 변경 이벤트
+  [kakaoApplyUrl, kakaoContactUrl].forEach((inp) => {
+    if (inp) {
+      inp.addEventListener("input", () => {
+        const curDate = kakaoDate ? kakaoDate.value.trim() : "10/03, 04";
+        if (kakaoNoticeText) {
+          kakaoNoticeText.value = buildKakaoNoticeText(curDate);
+        }
+        updateKakaoPreview();
+      });
+    }
+  });
 
   if (kakaoNoticeText) {
     kakaoNoticeText.addEventListener("input", updateKakaoPreview);
