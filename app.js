@@ -756,12 +756,26 @@ ${contactUrl}
 
   let currentNaverDay = "sat"; // "sat" or "sun"
 
-  function getNaverCurrentShortDate() {
+  // 토요일(강남) / 일요일(종각)별 기본 모임 설정
+  const naverSettings = {
+    sat: {
+      locationName: "강남",
+      place: "강남역 인근 카페",
+      round: "436회"
+    },
+    sun: {
+      locationName: "종각",
+      place: "종각역 인근 카페",
+      round: "437회"
+    }
+  };
+
+  function getNaverCurrentShortDate(dayType = currentNaverDay) {
     const raw = masterDateRange ? masterDateRange.value.trim() : "10/03, 04";
     const parts = raw.split(",");
     const satPart = parts[0] ? parts[0].trim() : "10/03";
     const sunPart = parts[1] ? parts[1].trim() : "04";
-    if (currentNaverDay === "sat") {
+    if (dayType === "sat") {
       return satPart;
     }
     if (sunPart.includes("/")) {
@@ -774,15 +788,18 @@ ${contactUrl}
   function buildNaverNoticeTitle(dayType = currentNaverDay) {
     const isSat = dayType === "sat";
     const dayTag = isSat ? "토" : "일";
-    const dateStr = getNaverCurrentShortDate();
-    const round = (boardRound && boardRound.value.trim()) || "436회";
-    return `[${dateStr}/${dayTag}]강남 독서모임 ${round} 공지`;
+    const dateStr = getNaverCurrentShortDate(dayType);
+    const cfg = naverSettings[dayType];
+    const loc = cfg.locationName;
+    const round = cfg.round;
+    return `[${dateStr}/${dayTag}]${loc} 독서모임 ${round} 공지`;
   }
 
   function buildNaverNoticeText(dayType = currentNaverDay) {
     const isSat = dayType === "sat";
     const dayName = isSat ? "토요일" : "일요일";
-    const place = (boardPlace && boardPlace.value.trim()) || "강남역 인근 카페";
+    const cfg = naverSettings[dayType];
+    const place = cfg.place;
     const applyUrl = (kakaoApplyUrl && kakaoApplyUrl.value.trim()) || "https://bookclub-apply-demo.streamlit.app";
     const contactUrl = (kakaoContactUrl && kakaoContactUrl.value.trim()) || "https://open.kakao.com/o/sample_contact";
 
@@ -897,6 +914,12 @@ ${htmlWithLinks}
     updateKakaoPreview();
 
     // 2. 네이버 카페 양식 동기화
+    if (boardRound) {
+      boardRound.value = naverSettings[currentNaverDay].round;
+    }
+    if (boardPlace) {
+      boardPlace.value = naverSettings[currentNaverDay].place;
+    }
     if (boardTitle) {
       boardTitle.value = buildNaverNoticeTitle(currentNaverDay);
     }
@@ -1030,6 +1053,7 @@ ${htmlWithLinks}
 
   if (boardRound) {
     boardRound.addEventListener("input", () => {
+      naverSettings[currentNaverDay].round = boardRound.value.trim() || "";
       if (boardTitle) boardTitle.value = buildNaverNoticeTitle(currentNaverDay);
       updateBoardPreview();
     });
@@ -1037,6 +1061,7 @@ ${htmlWithLinks}
 
   if (boardPlace) {
     boardPlace.addEventListener("input", () => {
+      naverSettings[currentNaverDay].place = boardPlace.value.trim() || "";
       if (boardBody) boardBody.value = buildNaverNoticeText(currentNaverDay);
       updateBoardPreview();
     });
@@ -1054,6 +1079,8 @@ ${htmlWithLinks}
       currentNaverDay = "sat";
       btnNaverDaySat.classList.add("active");
       if (btnNaverDaySun) btnNaverDaySun.classList.remove("active");
+      if (boardRound) boardRound.value = naverSettings.sat.round;
+      if (boardPlace) boardPlace.value = naverSettings.sat.place;
       if (boardTitle) boardTitle.value = buildNaverNoticeTitle("sat");
       if (boardBody) boardBody.value = buildNaverNoticeText("sat");
       updateBoardPreview();
@@ -1065,6 +1092,8 @@ ${htmlWithLinks}
       currentNaverDay = "sun";
       btnNaverDaySun.classList.add("active");
       if (btnNaverDaySat) btnNaverDaySat.classList.remove("active");
+      if (boardRound) boardRound.value = naverSettings.sun.round;
+      if (boardPlace) boardPlace.value = naverSettings.sun.place;
       if (boardTitle) boardTitle.value = buildNaverNoticeTitle("sun");
       if (boardBody) boardBody.value = buildNaverNoticeText("sun");
       updateBoardPreview();
