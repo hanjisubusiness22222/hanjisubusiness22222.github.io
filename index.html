@@ -34,17 +34,14 @@
 
     <!-- 빠른 바로가기 탭 네비게이션 -->
     <nav class="console-nav" aria-label="관리자 기능 메뉴">
-      <a href="#section-credentials" class="nav-tab active" data-tab="credentials">
-        <span class="tab-icon">🔐</span> 1. 계정 설정
-      </a>
-      <a href="#section-kakao" class="nav-tab" data-tab="kakao">
-        <span class="tab-icon">💬</span> 2. 카카오톡 공지 (토·일)
+      <a href="#section-kakao" class="nav-tab active" data-tab="kakao">
+        <span class="tab-icon">💬</span> 1. 카카오톡 공지 (토·일)
       </a>
       <a href="#section-board" class="nav-tab" data-tab="board">
-        <span class="tab-icon">📝</span> 3. 네이버 카페 공지
+        <span class="tab-icon">📝</span> 2. 네이버 카페 공지
       </a>
       <a href="#section-sheet" class="nav-tab" data-tab="sheet">
-        <span class="tab-icon">📊</span> 4. 회원 명단 관리
+        <span class="tab-icon">📊</span> 3. 회원 명단 관리
       </a>
     </nav>
 
@@ -114,134 +111,11 @@
     </section>
 
     <!-- ===================================================================
-         STEP 1) 🔐 카카오톡 & 네이버 카페 연동 계정 설정
+         STEP 1) 💬 카카오톡 공지 자동화 (관리자 나와의 채팅 전송)
          =================================================================== -->
-    <section id="section-credentials" class="console-section active-section">
-      <div class="credentials-card">
-        <div class="credentials-header">
-          <div class="cred-title-box">
-            <span class="cred-badge">STEP 1 · BOT CREDENTIALS &amp; URL SETTINGS</span>
-            <h2>🔐 카카오톡 &amp; 네이버 카페 연동 계정 설정</h2>
-            <p>원클릭 공지 자동 전송을 위해 <strong>관리자 카카오톡 계정</strong>과 <strong>네이버 카페 주소 및 계정</strong>을 안전하게 연동합니다.</p>
-          </div>
-          <div class="cred-header-actions">
-            <button type="button" id="btnTestAllAccounts" class="btn-secondary-sm">
-              <span>⚡ 전체 계정 세션 유효성 검사</span>
-            </button>
-            <button type="button" id="btnSaveCredentials" class="btn-primary-sm">
-              <span>💾 계정 정보 안전 저장</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- 메신저(카톡 관리자) vs 게시글(네이버 카페) 분리 그리드 -->
-        <div class="credentials-split-grid">
-          <!-- [좌측: 메신저 부문 - 카카오톡 관리자 계정] -->
-          <div class="cred-column cred-messenger-col">
-            <div class="col-head messenger-head">
-              <span class="head-icon">💬</span>
-              <div>
-                <h3>카카오톡 관리자 계정 연동</h3>
-                <span class="head-sub">관리자 본인 카카오톡('나와의 채팅')으로 즉시 자동 전송</span>
-              </div>
-              <span class="session-badge badge-active" id="badgeKakaoStatus">🟢 관리자 세션 정상</span>
-            </div>
-
-            <div class="cred-account-box kakao-cred-box">
-              <div class="platform-title-row">
-                <span class="platform-name kakao-name">🟡 카카오톡 (KakaoTalk Bot)</span>
-                <span class="api-tag">Kakao Open API &amp; Bot</span>
-              </div>
-              <div class="cred-form-grid">
-                <div class="cred-field">
-                  <label for="credKakaoId">관리자 카카오 계정 ID (이메일/전화번호)</label>
-                  <input type="text" id="credKakaoId" value="bookclub_master@kakao.com" placeholder="카카오 계정 이메일">
-                </div>
-                <div class="cred-field">
-                  <label for="credKakaoPw">비밀번호 / API Secret Key</label>
-                  <div class="pw-input-wrap">
-                    <input type="password" id="credKakaoPw" value="••••••••••••" placeholder="계정 비밀번호 또는 REST 키">
-                    <button type="button" class="btn-toggle-pw" title="비밀번호 보기">👁️</button>
-                  </div>
-                </div>
-                <div class="cred-field full-span">
-                  <label>수신 대상 (관리자 계정 전송 방식)</label>
-                  <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between;">
-                    <div style="display:flex; align-items:center; gap:10px;">
-                      <span style="font-size:1.3rem;">👤</span>
-                      <div>
-                        <strong style="font-size:0.9rem; color:#1e293b;">관리자 카카오톡 '나와의 채팅' (나에게 보내기)</strong>
-                        <p style="font-size:0.77rem; color:#64748b; margin:2px 0 0 0;">단톡방이 아닌 관리자 개인 카카오톡 계정으로 주말 공지가 안전하게 전송됩니다.</p>
-                      </div>
-                    </div>
-                    <span style="font-size:0.78rem; font-weight:700; color:#15803d; background:#dcfce7; border:1px solid #bbf7d0; padding:4px 10px; border-radius:4px; white-space:nowrap;">관리자 단독 수신</span>
-                  </div>
-                </div>
-              </div>
-              <div class="channel-auth-actions">
-                <button type="button" class="btn-auth-test" data-platform="kakao">관리자 카톡 세션 테스트</button>
-                <span class="auth-result-msg" id="msgKakaoTest">동기화 대기 중</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- [우측: 게시글 부문 - 네이버 카페] -->
-          <div class="cred-column cred-board-col">
-            <div class="col-head board-head" style="background:#f0fdf4; border-color:#bbf7d0;">
-              <span class="head-icon">☕</span>
-              <div>
-                <h3 style="color:#14532d;">네이버 카페 스마트에디터 연동</h3>
-                <span class="head-sub" style="color:#166534;">공식 네이버 카페 글쓰기 창 및 스마트에디터 브리지</span>
-              </div>
-              <span class="session-badge badge-active" id="badgeBoardStatus" style="background:#dcfce7; color:#15803d; border-color:#86efac;">🟢 네이버 카페 연결</span>
-            </div>
-
-            <div class="cred-board-list">
-              <!-- 네이버 카페 상세 연동 -->
-              <div class="cred-board-item" style="border:1px solid #86efac; background:#ffffff;">
-                <div class="board-item-header">
-                  <span class="badge-board naver" style="background:#03c75a; color:#fff;">네이버 카페 설정</span>
-                  <span class="board-session-state" style="color:#059669; font-weight:700;">원클릭 브리지 활성</span>
-                </div>
-                <div class="cred-form-grid" style="margin-top:10px;">
-                  <div class="cred-field">
-                    <label for="credNaverId">네이버 아이디</label>
-                    <input type="text" id="credNaverId" placeholder="네이버 아이디" value="bookleader26">
-                  </div>
-                  <div class="cred-field">
-                    <label for="credNaverPw">비밀번호</label>
-                    <div class="pw-input-wrap">
-                      <input type="password" id="credNaverPw" placeholder="비밀번호" value="••••••••">
-                      <button type="button" class="btn-toggle-pw">👁️</button>
-                    </div>
-                  </div>
-                  <div class="cred-field full-span">
-                    <label for="credNaverUrl">네이버 카페 URL 또는 카페 고유 ID</label>
-                    <input type="text" id="credNaverUrl" placeholder="예: https://cafe.naver.com/ca-fe/cafes/31415926" value="https://cafe.naver.com/ca-fe/cafes/31415926">
-                  </div>
-                  <div class="cred-field">
-                    <label for="credNaverBoard">게시판 번호 (Menu ID)</label>
-                    <input type="text" id="credNaverBoard" placeholder="예: 1" value="1">
-                  </div>
-                  <div class="cred-field" style="display:flex; align-items:flex-end;">
-                    <button type="button" class="btn-auth-test" id="btnTestNaverUrl" style="width:100%; padding:10px; font-size:0.82rem; background:#03c75a; color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:700;">
-                      ☕ 카페 글쓰기창 테스트 열기
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================================================================
-         STEP 2) 💬 카카오톡 공지 자동화 (관리자 나와의 채팅 전송)
-         =================================================================== -->
-    <section id="section-kakao" class="console-section">
+    <section id="section-kakao" class="console-section active-section">
       <div class="section-title-bar">
-        <span class="cred-badge kakao-badge">STEP 2 · KAKAO MESSENGER BOT</span>
+        <span class="cred-badge kakao-badge">STEP 1 · KAKAO MESSENGER BOT</span>
         <h2>💬 카카오톡 공지 자동화 (매주 토·일 정기모임)</h2>
         <p>매주 바뀌는 토·일 자유 도서 모임 일정을 확인하고, <strong>관리자 카카오톡 계정(나와의 채팅)</strong>으로 즉시 자동 발송하거나 원클릭 복사합니다.</p>
       </div>
@@ -378,11 +252,11 @@
     </section>
 
     <!-- ===================================================================
-         STEP 3) 📝 네이버 카페 스마트에디터 공지 자동화 (토·일 주말 모임)
+         STEP 2) 📝 네이버 카페 스마트에디터 공지 자동화 (토·일 주말 모임)
          =================================================================== -->
     <section id="section-board" class="console-section">
       <div class="section-title-bar">
-        <span class="cred-badge naver-top-badge" style="background:#dcfce7; color:#15803d; border:1px solid #86efac;">STEP 3 · NAVER CAFE SMART EDITOR</span>
+        <span class="cred-badge naver-top-badge" style="background:#dcfce7; color:#15803d; border:1px solid #86efac;">STEP 2 · NAVER CAFE SMART EDITOR</span>
         <h2>📝 네이버 카페 공지 자동화 (매주 토·일 정기모임)</h2>
         <p>네이버 카페 스마트에디터에 최적화된 <strong>서식(제목, 모임 개요 박스, 토·일 일정표, 자유책 토론 가이드, 신청 가이드)</strong>을 원클릭으로 복사하고 카페 글쓰기 창에 바로 등록합니다.</p>
       </div>
@@ -488,11 +362,11 @@
     </section>
 
     <!-- ===================================================================
-         STEP 4) 📊 독서모임 회원 명단 & 출석·회비 관리 DB (Google Sheets)
+         STEP 3) 📊 독서모임 회원 명단 & 출석·회비 관리 DB (Google Sheets)
          =================================================================== -->
     <section id="section-sheet" class="console-section">
       <div class="section-title-bar">
-        <span class="badge-role sheet-badge" style="background:#dcfce7; color:#166534; border:1px solid #bbf7d0; display:inline-block; align-self:flex-start;">STEP 4 · MEMBER DATABASE</span>
+        <span class="badge-role sheet-badge" style="background:#dcfce7; color:#166534; border:1px solid #bbf7d0; display:inline-block; align-self:flex-start;">STEP 3 · MEMBER DATABASE</span>
         <h2>📊 독서모임 회원 명단 &amp; 출석·회비 관리 DB (Google Sheets 연동)</h2>
         <p>공지 발송 시 투명한 소통 링크로 연동되는 회원 출석 및 회비 납부 데이터베이스입니다. 실시간 동기화 및 편집이 가능합니다.</p>
       </div>

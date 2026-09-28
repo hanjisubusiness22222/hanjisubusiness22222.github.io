@@ -522,72 +522,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========================================================================
-  // 2. Credentials Manager (ID / PW Settings for Messenger & Boards)
-  // =========================================================================
-
-  // Password visibility toggle
-  document.querySelectorAll(".btn-toggle-pw").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const input = btn.previousElementSibling;
-      if (input) {
-        if (input.type === "password") {
-          input.type = "text";
-          btn.textContent = "🙈";
-        } else {
-          input.type = "password";
-          btn.textContent = "👁️";
-        }
-      }
-    });
-  });
-
-  // Save credentials
-  const btnSaveCredentials = document.getElementById("btnSaveCredentials");
-  if (btnSaveCredentials) {
-    btnSaveCredentials.addEventListener("click", () => {
-      btnSaveCredentials.textContent = "✔ 저장 완료!";
-      btnSaveCredentials.style.background = "var(--sheet-green)";
-      setTimeout(() => {
-        btnSaveCredentials.textContent = "💾 계정 정보 안전 저장";
-        btnSaveCredentials.style.background = "";
-      }, 1500);
-    });
-  }
-
-  // Kakao Bot Session Test
-  const btnKakaoTest = document.querySelector(".btn-auth-test[data-platform='kakao']");
-  const msgKakaoTest = document.getElementById("msgKakaoTest");
-  const badgeKakaoStatus = document.getElementById("badgeKakaoStatus");
-
-  if (btnKakaoTest) {
-    btnKakaoTest.addEventListener("click", () => {
-      if (msgKakaoTest) msgKakaoTest.textContent = "관리자 카카오 인증 서버 핑 테스트 중...";
-      setTimeout(() => {
-        if (msgKakaoTest) {
-          msgKakaoTest.textContent = "🟢 인증 성공: 관리자 카카오톡('나와의 채팅') 세션 정상 연결됨";
-          msgKakaoTest.style.color = "var(--accent-emerald)";
-        }
-        if (badgeKakaoStatus) {
-          badgeKakaoStatus.textContent = "🟢 관리자 세션 정상";
-          badgeKakaoStatus.classList.add("badge-active");
-        }
-      }, 600);
-    });
-  }
-
-  // Test All Accounts
-  const btnTestAllAccounts = document.getElementById("btnTestAllAccounts");
-  if (btnTestAllAccounts) {
-    btnTestAllAccounts.addEventListener("click", () => {
-      btnTestAllAccounts.textContent = "🔄 6개 플랫폼 세션 검증 중...";
-      setTimeout(() => {
-        btnTestAllAccounts.textContent = "✔ 전체 계정 정상 연결됨";
-        alert("카카오톡 메신저 및 5개 게시판 플랫폼의 ID/PW 자격증명 인증이 모두 정상 확인되었습니다.");
-      }, 800);
-    });
-  }
-
-  // =========================================================================
   // 3. Weekly Weekend (Sat/Sun) Master Scheduler (자유 도서 모임)
   // =========================================================================
 
@@ -674,12 +608,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnResetNaverTpl = document.getElementById("btnResetNaverTpl");
   const btnCopyNaverRich = document.getElementById("btnCopyNaverRich");
   const btnOpenNaverWriteDirect = document.getElementById("btnOpenNaverWriteDirect");
-
-
-  // 네이버 계정 및 URL
-  const credNaverUrl = document.getElementById("credNaverUrl");
-  const credNaverBoard = document.getElementById("credNaverBoard");
-  const btnTestNaverUrl = document.getElementById("btnTestNaverUrl");
 
   // =========================================================================
   // 4. Kakao Notice Composer Logic (사용자 지정 서식)
@@ -878,20 +806,7 @@ ${htmlWithLinks}
   }
 
   function getNaverCafeWriteUrl() {
-    let rawUrl = (credNaverUrl && credNaverUrl.value.trim()) || "https://cafe.naver.com/ca-fe/cafes/31415926";
-    const menuId = (credNaverBoard && credNaverBoard.value.trim()) || "1";
-
-    const match = rawUrl.match(/cafes\/(\d+)/i);
-    if (match) {
-      const cafeId = match[1];
-      return `https://cafe.naver.com/ca-fe/cafes/${cafeId}/articles/write?boardType=L&menuId=${menuId}`;
-    }
-
-    if (rawUrl.includes("articles/write")) {
-      return rawUrl;
-    }
-
-    return `https://cafe.naver.com/ca-fe/cafes/31415926/articles/write?boardType=L&menuId=${menuId}`;
+    return "https://cafe.naver.com";
   }
 
   // =========================================================================
@@ -1124,14 +1039,6 @@ ${htmlWithLinks}
       window.open(writeUrl, "_blank");
 
       alert(`✅ 네이버 카페용 공지 본문이 클립보드에 복사되었습니다!\n\n새로 열린 네이버 카페 글쓰기 창에서:\n1. 제목 입력창에 상단 '📋 제목 복사' 버튼으로 복사한 제목 붙여넣기\n2. 본문 에디터에 'Ctrl + V (붙여넣기)'를 누르시면 됩니다.`);
-    });
-  }
-
-  // 네이버 카페 설정 글쓰기창 테스트
-  if (btnTestNaverUrl) {
-    btnTestNaverUrl.addEventListener("click", () => {
-      const url = getNaverCafeWriteUrl();
-      window.open(url, "_blank");
     });
   }
 
