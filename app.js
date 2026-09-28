@@ -662,12 +662,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 네이버 카페 공지 작성기 요소
   const boardTitle = document.getElementById("boardTitle");
-  const boardBook = document.getElementById("boardBook");
-  const boardDateTime = document.getElementById("boardDateTime");
+  const boardRound = document.getElementById("boardRound");
   const boardPlace = document.getElementById("boardPlace");
-  const boardFee = document.getElementById("boardFee");
-  const boardTopicQuestions = document.getElementById("boardTopicQuestions");
   const boardBody = document.getElementById("boardBody");
+  const btnCopyBoardTitle = document.getElementById("btnCopyBoardTitle");
+  const btnNaverDaySat = document.getElementById("btnNaverDaySat");
+  const btnNaverDaySun = document.getElementById("btnNaverDaySun");
 
   const boardArticleContent = document.getElementById("boardArticleContent");
   const boardCharStats = document.getElementById("boardCharStats");
@@ -751,94 +751,85 @@ ${contactUrl}
   }
 
   // =========================================================================
-  // 5. Naver Cafe SmartEditor Composer & Bridge Logic (자유 도서 모임)
+  // 5. Naver Cafe SmartEditor Composer & Bridge Logic (강남 독서모임 사용자 서식)
   // =========================================================================
+
+  let currentNaverDay = "sat"; // "sat" or "sun"
+
+  function getNaverCurrentShortDate() {
+    const raw = masterDateRange ? masterDateRange.value.trim() : "10/03, 04";
+    const parts = raw.split(",");
+    const satPart = parts[0] ? parts[0].trim() : "10/03";
+    const sunPart = parts[1] ? parts[1].trim() : "04";
+    if (currentNaverDay === "sat") {
+      return satPart;
+    }
+    if (sunPart.includes("/")) {
+      return sunPart;
+    }
+    const month = satPart.split("/")[0] || "10";
+    return `${month}/${sunPart}`;
+  }
+
+  function buildNaverNoticeTitle(dayType = currentNaverDay) {
+    const isSat = dayType === "sat";
+    const dayTag = isSat ? "토" : "일";
+    const dateStr = getNaverCurrentShortDate();
+    const round = (boardRound && boardRound.value.trim()) || "436회";
+    return `[${dateStr}/${dayTag}]강남 독서모임 ${round} 공지`;
+  }
+
+  function buildNaverNoticeText(dayType = currentNaverDay) {
+    const isSat = dayType === "sat";
+    const dayName = isSat ? "토요일" : "일요일";
+    const place = (boardPlace && boardPlace.value.trim()) || "강남역 인근 카페";
+    const applyUrl = (kakaoApplyUrl && kakaoApplyUrl.value.trim()) || "https://bookclub-apply-demo.streamlit.app";
+    const contactUrl = (kakaoContactUrl && kakaoContactUrl.value.trim()) || "https://open.kakao.com/o/sample_contact";
+
+    return `${dayName} 독서모임
+
+
+일시 : ${dayName} 오후 2:00~4:30
+준비 : 책소개, 자기소개
+장소 : ${place}
+
+
+강남 독서모임은 자유책으로 진행합니다.
+자유책은 각자 선택한 책을 "미리" 읽어온 뒤,
+모임에서 그 책을 소개하는 방식입니다.
+
+
+${applyUrl}
+
+신청 방법 : 상단 링크 클릭->모임 일정&신청->자유책 신청
+신청기간 : 모임날 10분 전까지 언제든 :)
+
+* 미등록은 아래 프로필로 연락 부탁드립니다.
+${contactUrl}`;
+  }
 
   function getNaverNoticeData() {
     const title = boardTitle ? boardTitle.value.trim() : "";
-    const book = boardBook ? boardBook.value.trim() : "자유 도서 (각자 읽고 싶은 책 1권 지참)";
-    const dt = boardDateTime ? boardDateTime.value.trim() : "";
-    const place = boardPlace ? boardPlace.value.trim() : "";
-    const fee = boardFee ? boardFee.value.trim() : "";
-    const questionsRaw = boardTopicQuestions ? boardTopicQuestions.value.trim() : "";
     const body = boardBody ? boardBody.value.trim() : "";
 
-    const questionsList = questionsRaw
-      .split("\n")
-      .map((q) => q.trim())
-      .filter((q) => q.length > 0);
+    const escapedBody = escapeHtml(body);
+    const htmlWithLinks = escapedBody.replace(
+      /(https?:\/\/[^\s]+)/g,
+      '<a href="$1" target="_blank" rel="noopener noreferrer" style="color:#2563eb; text-decoration:underline; font-weight:bold; word-break:break-all;">$1</a>'
+    );
 
-    const questionsHtml = questionsList
-      .map((q) => `<li style="margin-bottom:8px; font-weight:600; color:#14532d;">${escapeHtml(q)}</li>`)
-      .join("");
-
-    const plainQuestions = questionsList.map((q) => `${q}`).join("\n");
-
-    // 네이버 카페 스마트에디터에 복사될 고품질 리치 HTML 서식
     const richHtml = `
-      <div style="font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif; color:#1e293b; line-height:1.75; font-size:15px; max-width:720px;">
-        <h2 style="font-size:22px; font-weight:800; color:#03c75a; border-bottom:2px solid #03c75a; padding-bottom:10px; margin-bottom:18px;">
+      <div style="font-family:'Apple SD Gothic Neo','Malgun Gothic','Pretendard',sans-serif; color:#1e293b; line-height:1.8; font-size:15px; max-width:720px;">
+        <h2 style="font-size:20px; font-weight:800; color:#0f172a; border-bottom:2px solid #03c75a; padding-bottom:12px; margin:0 0 20px 0;">
           ${escapeHtml(title)}
         </h2>
-
-        <!-- 모임 요약 안내 박스 -->
-        <div style="background:#f0fdf4; border:1px solid #86efac; border-left:5px solid #03c75a; border-radius:8px; padding:16px 20px; margin-bottom:22px;">
-          <p style="margin:0 0 8px 0; font-size:16px;"><strong>📖 모임 형식:</strong> <span style="color:#15803d; font-weight:bold;">${escapeHtml(book)}</span></p>
-          <p style="margin:0 0 8px 0; font-size:15px;"><strong>🗓 모임 일시:</strong> ${escapeHtml(dt)} (토·일 양일 진행)</p>
-          <p style="margin:0 0 8px 0; font-size:15px;"><strong>📍 모임 장소:</strong> ${escapeHtml(place)}</p>
-          <p style="margin:0; font-size:15px;"><strong>💰 참가비 안내:</strong> ${escapeHtml(fee)}</p>
-        </div>
-
-        <!-- 인사말 및 본문 -->
-        <div style="margin-bottom:24px; white-space:pre-wrap; font-size:15px; color:#334155;">
-${escapeHtml(body)}
-        </div>
-
-        <!-- 자유 도서 토론 질문 3선 -->
-        <div style="background:#ffffff; border:2px dashed #03c75a; border-radius:10px; padding:18px 22px; margin-bottom:24px;">
-          <h3 style="margin:0 0 12px 0; font-size:17px; font-weight:800; color:#047857; display:flex; align-items:center; gap:8px;">
-            💡 자유 도서 토론 및 나눔 가이드 (3가지 질문)
-          </h3>
-          <p style="margin:0 0 12px 0; font-size:13px; color:#64748b;">* 정답이 없는 열린 질문입니다. 가져오신 책에 대해 편안하게 이야기 나눠요!</p>
-          <ol style="padding-left:22px; margin:0; font-size:15px; line-height:1.7;">
-            ${questionsHtml}
-          </ol>
-        </div>
-
-        <!-- 신청 링크 및 구글 시트 투명 공개 -->
-        <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:16px 20px; margin-bottom:20px;">
-          <p style="margin:0 0 8px 0; font-weight:bold; color:#1e40af; font-size:15px;">🪐 모임 참가 신청 (독서모임 신청 페이지):</p>
-          <p style="margin:0 0 12px 0;"><a href="https://bookclub-apply-demo.streamlit.app" target="_blank" style="color:#2563eb; font-weight:bold; text-decoration:underline;">https://bookclub-apply-demo.streamlit.app</a></p>
-          <p style="margin:0 0 6px 0; font-size:13px; color:#1e3a8a;">* 출석부 및 회비 장부는 회원 전원에게 실시간 구글 시트로 투명하게 공개됩니다.</p>
-          <p style="margin:0; font-size:13px; color:#64748b;">* 1:1 오픈카톡 문의: <a href="https://open.kakao.com/o/sample_contact" target="_blank" style="color:#2563eb;">https://open.kakao.com/o/sample_contact</a></p>
-        </div>
-
-        <!-- 해시태그 -->
-        <div style="color:#03c75a; font-weight:bold; font-size:14px; margin-top:20px;">
-          #독서모임 #주말독서모임 #자유도서 #자유독서모임 #네이버카페 #독서토론 #강남북클럽 #투명한소통
+        <div style="white-space:pre-wrap; font-size:15px; color:#1e293b;">
+${htmlWithLinks}
         </div>
       </div>
     `;
 
-    const plainText = `[${title}]
-
-■ 모임 형식: ${book}
-■ 모임 일시: ${dt}
-■ 모임 장소: ${place}
-■ 참가비: ${fee}
-
-[모임 안내 및 진행 순서]
-${body}
-
-[💡 자유 도서 토론 가이드 3선]
-${plainQuestions}
-
-[참가 신청]
-독서모임 신청 페이지: https://bookclub-apply-demo.streamlit.app
-문의 오픈카톡: https://open.kakao.com/o/sample_contact
-#독서모임 #주말독서모임 #자유도서 #독서토론`;
-
-    return { title, richHtml, plainText };
+    return { title, richHtml, plainText: body };
   }
 
   function updateBoardPreview() {
@@ -846,9 +837,8 @@ ${plainQuestions}
     const data = getNaverNoticeData();
     boardArticleContent.innerHTML = data.richHtml;
 
-    const pureText = boardArticleContent.textContent || "";
     if (boardCharStats) {
-      boardCharStats.textContent = `글자 수: ${pureText.trim().length}자`;
+      boardCharStats.textContent = `글자 수: ${data.plainText.length}자`;
     }
   }
 
@@ -908,14 +898,10 @@ ${plainQuestions}
 
     // 2. 네이버 카페 양식 동기화
     if (boardTitle) {
-      boardTitle.value = `[주말 독서모임] ${dateRange} 자유 도서 정기모임 모집 (토요반/일요반)`;
+      boardTitle.value = buildNaverNoticeTitle(currentNaverDay);
     }
-    if (boardBook) {
-      boardBook.value = "자유 도서 (각자 읽고 싶은 책 1권 자유 지참)";
-    }
-    if (boardDateTime) {
-      const satPart = dateRange.split(",")[0].trim();
-      boardDateTime.value = `토요반: ${satPart}(토) 14:00~16:30 | 일요반: ${dateRange}(일) 14:00~16:30`;
+    if (boardBody) {
+      boardBody.value = buildNaverNoticeText(currentNaverDay);
     }
     updateBoardPreview();
   }
@@ -1035,16 +1021,61 @@ ${plainQuestions}
   }
 
   // 네이버 카페 입력 변경 이벤트
-  [boardTitle, boardBook, boardDateTime, boardPlace, boardFee, boardTopicQuestions, boardBody].forEach((input) => {
-    if (input) {
-      input.addEventListener("input", updateBoardPreview);
-    }
-  });
+  if (boardTitle) {
+    boardTitle.addEventListener("input", updateBoardPreview);
+  }
+  if (boardBody) {
+    boardBody.addEventListener("input", updateBoardPreview);
+  }
+
+  if (boardRound) {
+    boardRound.addEventListener("input", () => {
+      if (boardTitle) boardTitle.value = buildNaverNoticeTitle(currentNaverDay);
+      updateBoardPreview();
+    });
+  }
+
+  if (boardPlace) {
+    boardPlace.addEventListener("input", () => {
+      if (boardBody) boardBody.value = buildNaverNoticeText(currentNaverDay);
+      updateBoardPreview();
+    });
+  }
+
+  if (btnCopyBoardTitle) {
+    btnCopyBoardTitle.addEventListener("click", () => {
+      const title = boardTitle ? boardTitle.value.trim() : "";
+      copyTextToClipboard(title, "📋 게시글 제목이 복사되었습니다!\n네이버 카페 글쓰기 창 제목 칸에 바로 붙여넣기(Ctrl+V)하세요.");
+    });
+  }
+
+  if (btnNaverDaySat) {
+    btnNaverDaySat.addEventListener("click", () => {
+      currentNaverDay = "sat";
+      btnNaverDaySat.classList.add("active");
+      if (btnNaverDaySun) btnNaverDaySun.classList.remove("active");
+      if (boardTitle) boardTitle.value = buildNaverNoticeTitle("sat");
+      if (boardBody) boardBody.value = buildNaverNoticeText("sat");
+      updateBoardPreview();
+    });
+  }
+
+  if (btnNaverDaySun) {
+    btnNaverDaySun.addEventListener("click", () => {
+      currentNaverDay = "sun";
+      btnNaverDaySun.classList.add("active");
+      if (btnNaverDaySat) btnNaverDaySat.classList.remove("active");
+      if (boardTitle) boardTitle.value = buildNaverNoticeTitle("sun");
+      if (boardBody) boardBody.value = buildNaverNoticeText("sun");
+      updateBoardPreview();
+    });
+  }
 
   if (btnResetNaverTpl) {
     btnResetNaverTpl.addEventListener("click", () => {
-      const curDate = masterDateRange ? masterDateRange.value.trim() : "10/03, 04";
-      applyDateRange(curDate);
+      if (boardTitle) boardTitle.value = buildNaverNoticeTitle(currentNaverDay);
+      if (boardBody) boardBody.value = buildNaverNoticeText(currentNaverDay);
+      updateBoardPreview();
     });
   }
 
@@ -1055,9 +1086,9 @@ ${plainQuestions}
       await copyRichContentToClipboard(
         data.plainText,
         data.richHtml,
-        "📋 네이버 카페용 공지문(제목/본문/자유책 토론질문/서식)이 클립보드에 복사되었습니다!\n\n네이버 카페 글쓰기 창에서 본문에 바로 'Ctrl + V'를 누르시면 깔끔한 녹색 박스와 서식이 그대로 붙여넣어집니다."
+        "📋 네이버 카페용 공지문 본문이 클립보드에 복사되었습니다!\n\n네이버 카페 글쓰기 창에서 본문에 바로 'Ctrl + V'를 누르시면 서식이 그대로 붙여넣어집니다."
       );
-      appendBoardLog(`[CLIPBOARD] 네이버 카페 맞춤 스마트에디터 서식 복사 완료 (${data.plainText.length}자)`, "success");
+      appendBoardLog(`[CLIPBOARD] 네이버 카페 본문 서식 복사 완료 (${data.plainText.length}자)`, "success");
     });
   }
 
@@ -1073,7 +1104,7 @@ ${plainQuestions}
 
       window.open(writeUrl, "_blank");
 
-      alert(`✅ 네이버 카페용 공지문(제목 및 스마트에디터 서식 본문)이 클립보드에 복사되었습니다!\n\n새로 열린 네이버 카페 글쓰기 창에서:\n1. 제목 입력창에 게시글 제목 붙여넣기\n2. 본문 에디터에 'Ctrl + V (붙여넣기)'를 누르시면 볼드체와 서식이 유지된 채로 등록됩니다.`);
+      alert(`✅ 네이버 카페용 공지 본문이 클립보드에 복사되었습니다!\n\n새로 열린 네이버 카페 글쓰기 창에서:\n1. 제목 입력창에 상단 '📋 제목 복사' 버튼으로 복사한 제목 붙여넣기\n2. 본문 에디터에 'Ctrl + V (붙여넣기)'를 누르시면 됩니다.`);
     });
   }
 
