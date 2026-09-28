@@ -171,13 +171,16 @@
               <!-- 네이버 카페 -->
               <div class="cred-board-item">
                 <div class="board-item-header">
-                  <span class="badge-board naver">네이버 카페</span>
-                  <span class="board-session-state">연동 활성</span>
+                  <span class="badge-board naver">네이버 카페/블로그</span>
+                  <span class="board-session-state">연결됨</span>
                 </div>
                 <div class="cred-row-inputs">
-                  <input type="text" id="credNaverUrl" placeholder="카페 주소 또는 ID (예: https://cafe.naver.com/ca-fe/cafes/31415926)" value="https://cafe.naver.com/ca-fe/cafes/31415926">
-                  <input type="text" id="credNaverBoard" placeholder="게시판 번호 (Menu ID, 예: 1)" value="1">
-                  <button type="button" class="btn-auth-test" id="btnTestNaverUrl" style="padding:4px 8px; font-size:0.75rem; background:#03c75a; color:#fff; border:none; border-radius:4px; cursor:pointer;">글쓰기창 테스트</button>
+                  <input type="text" id="credNaverId" placeholder="네이버 아이디" value="bookleader26">
+                  <div class="pw-input-wrap">
+                    <input type="password" id="credNaverPw" placeholder="비밀번호" value="••••••••">
+                    <button type="button" class="btn-toggle-pw">👁️</button>
+                  </div>
+                  <input type="text" id="credNaverBoard" placeholder="게시판 카테고리 ID" value="정기모임_공지게시판">
                 </div>
               </div>
 
@@ -511,25 +514,6 @@ https://open.kakao.com/o/sWLBJTue
           <div class="preview-footer-meta">
             <span id="boardCharStats">글자 수: 540자</span>
             <span class="preview-spec-badge" id="boardSpecBadge">소모임 규격 준수</span>
-          </div>
-
-          <!-- 네이버 카페 전용 원클릭 브리지 툴바 -->
-          <div class="naver-bridge-box" id="naverBridgeBox" style="margin-top:14px; padding:14px 16px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; display:flex; flex-direction:column; gap:10px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-              <div style="display:flex; align-items:center; gap:8px;">
-                <span style="background:#03c75a; color:#ffffff; font-size:0.72rem; font-weight:800; padding:3px 8px; border-radius:4px; letter-spacing:0.5px;">NAVER BRIDGE</span>
-                <span style="font-size:0.85rem; font-weight:700; color:#14532d;">네이버 카페 스마트에디터 원클릭 글쓰기</span>
-              </div>
-              <span style="font-size:0.75rem; color:#15803d;">서식 자동 클립보드 복사 ➔ 카페 글쓰기 새창 연결</span>
-            </div>
-            <div style="display:flex; gap:10px; flex-wrap:wrap;">
-              <button type="button" id="btnCopyNaverOnly" class="btn-copy-tag" style="flex:1; padding:9px 14px; font-size:0.85rem; background:#ffffff; color:#15803d; border:1px solid #86efac; border-radius:6px; cursor:pointer; font-weight:700; display:flex; align-items:center; justify-content:center; gap:6px;">
-                <span>📋</span> <span>네이버 서식 복사</span>
-              </button>
-              <button type="button" id="btnOpenNaverWriteDirect" class="btn-sample-tag" style="flex:1.4; padding:9px 14px; font-size:0.85rem; background:#03c75a; color:#ffffff; border:none; border-radius:6px; cursor:pointer; font-weight:700; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow: 0 2px 6px rgba(3, 199, 90, 0.25);">
-                <span>✍️</span> <span>복사 후 카페 글쓰기 창 열기</span>
-              </button>
-            </div>
           </div>
         </div>
       </div>
