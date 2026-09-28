@@ -591,7 +591,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnResetKakaoTpl = document.getElementById("btnResetKakaoTpl");
   const btnCopyKakao = document.getElementById("btnCopyKakao");
   const btnOpenKakaoApp = document.getElementById("btnOpenKakaoApp");
-  const btnSendKakaoAll = document.getElementById("btnSendKakaoAll");
 
   // 네이버 카페 공지 작성기 요소
   const boardTitle = document.getElementById("boardTitle");
@@ -932,21 +931,6 @@ ${htmlWithLinks}
         copyTextToClipboard(text, "📋 공지 전문이 클립보드에 복사되었습니다!\n카카오톡으로 이동하여 나와의 채팅에 붙여넣으세요.");
         window.location.href = "kakaotalk://";
       }
-    });
-  }
-
-  if (btnSendKakaoAll) {
-    btnSendKakaoAll.addEventListener("click", async () => {
-      btnSendKakaoAll.textContent = "⏳ 관리자 카카오톡으로 전송 중...";
-      btnSendKakaoAll.style.opacity = "0.8";
-      await sleep(400);
-      alert("🚀 관리자 카카오톡 계정('나와의 채팅')으로 주말 정기모임(자유 도서) 공지가 100% 정상 발송되었습니다!");
-      btnSendKakaoAll.innerHTML = `
-        <span class="btn-rocket">⚡</span>
-        <span class="btn-main-txt">관리자 카카오톡 계정으로 즉시 발송</span>
-        <span class="btn-sub-txt">관리자 계정 '나와의 채팅'으로 자동 전송</span>
-      `;
-      btnSendKakaoAll.style.opacity = "1";
     });
   }
 
