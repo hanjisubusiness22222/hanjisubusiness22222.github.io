@@ -7,7 +7,7 @@
   <title>BookLink Admin - 독서모임 통합 관리 콘솔</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="style.css?v=20260930_02">
+  <link rel="stylesheet" href="style.css?v=20260916_09">
   <script>
     try {
       ['booklink_members_v1', 'booklink_members_v2', 'booklink_members_v3', 'booklink_members_v4', 'booklink_members_v5'].forEach(function(k){ localStorage.removeItem(k); });
@@ -145,28 +145,15 @@
               </div>
             </div>
 
-            <!-- 오픈 카톡방 링크 설정부 (단톡방 3곳) -->
-            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px 14px; margin-top:12px; margin-bottom:12px;">
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                <span style="font-size:0.83rem; font-weight:700; color:#1e40af;">💬 연동 대상 오픈 카톡방 링크 (단톡방 3곳)</span>
-                <span style="font-size:0.75rem; color:#64748b;">공지 본문 자동 연동 및 단톡방 바로 열기</span>
+            <!-- 신청 URL & 연락 URL 설정부 (수업/데모용 가명 URL) -->
+            <div class="form-grid-2" style="margin-top:12px; margin-bottom:12px;">
+              <div class="form-group">
+                <label for="kakaoApplyUrl" style="font-size:0.83rem; font-weight:700; color:#334155;">🔗 ② 모임 신청 &lt;독서모임 신청 페이지&gt; URL</label>
+                <input type="text" id="kakaoApplyUrl" value="https://bookclub-apply-demo.streamlit.app" placeholder="예: https://bookclub-apply-demo.streamlit.app" style="font-size:0.85rem; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; background:#ffffff;">
               </div>
-              <div style="display:flex; flex-direction:column; gap:8px;">
-                <div style="display:flex; align-items:center; gap:8px;">
-                  <span style="font-size:0.78rem; font-weight:700; color:#1e40af; background:#eff6ff; border:1px solid #bfdbfe; padding:6px 10px; border-radius:6px; min-width:75px; text-align:center;">단톡방 1</span>
-                  <input type="text" id="kakaoRoom1" value="https://open.kakao.com/o/sWLBJTue" placeholder="예: https://open.kakao.com/o/..." style="flex:1; font-size:0.85rem; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; background:#ffffff;">
-                  <a href="https://open.kakao.com/o/sWLBJTue" target="_blank" rel="noopener noreferrer" id="btnOpenRoom1" class="btn-sheet-tool" style="padding:6px 12px; font-size:0.78rem; text-decoration:none; display:inline-flex; align-items:center; gap:4px; white-space:nowrap;">🔗 열기</a>
-                </div>
-                <div style="display:flex; align-items:center; gap:8px;">
-                  <span style="font-size:0.78rem; font-weight:700; color:#1e40af; background:#eff6ff; border:1px solid #bfdbfe; padding:6px 10px; border-radius:6px; min-width:75px; text-align:center;">단톡방 2</span>
-                  <input type="text" id="kakaoRoom2" value="https://open.kakao.com/o/sWLBJTue_room2" placeholder="예: https://open.kakao.com/o/..." style="flex:1; font-size:0.85rem; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; background:#ffffff;">
-                  <a href="https://open.kakao.com/o/sWLBJTue_room2" target="_blank" rel="noopener noreferrer" id="btnOpenRoom2" class="btn-sheet-tool" style="padding:6px 12px; font-size:0.78rem; text-decoration:none; display:inline-flex; align-items:center; gap:4px; white-space:nowrap;">🔗 열기</a>
-                </div>
-                <div style="display:flex; align-items:center; gap:8px;">
-                  <span style="font-size:0.78rem; font-weight:700; color:#1e40af; background:#eff6ff; border:1px solid #bfdbfe; padding:6px 10px; border-radius:6px; min-width:75px; text-align:center;">단톡방 3</span>
-                  <input type="text" id="kakaoRoom3" value="https://open.kakao.com/o/sWLBJTue_room3" placeholder="예: https://open.kakao.com/o/..." style="flex:1; font-size:0.85rem; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; background:#ffffff;">
-                  <a href="https://open.kakao.com/o/sWLBJTue_room3" target="_blank" rel="noopener noreferrer" id="btnOpenRoom3" class="btn-sheet-tool" style="padding:6px 12px; font-size:0.78rem; text-decoration:none; display:inline-flex; align-items:center; gap:4px; white-space:nowrap;">🔗 열기</a>
-                </div>
+              <div class="form-group">
+                <label for="kakaoContactUrl" style="font-size:0.83rem; font-weight:700; color:#334155;">💬 * 미등록 연락 문의 URL</label>
+                <input type="text" id="kakaoContactUrl" value="https://open.kakao.com/o/sample_contact" placeholder="예: https://open.kakao.com/o/sample_contact" style="font-size:0.85rem; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; background:#ffffff;">
               </div>
             </div>
 
@@ -189,22 +176,8 @@
                   <span>💬</span> <span>카카오톡 열기 / 나와의 채팅 공유</span>
                 </button>
               </div>
-
-              <!-- 단톡방 3곳 순차 발송 퀵 버튼 -->
-              <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px;">
-                <button type="button" id="btnSendToRoom1" class="btn-sheet-tool" style="padding:10px; font-weight:700; font-size:0.84rem; justify-content:center; border:1px solid #cbd5e1; background:#ffffff; border-radius:6px; cursor:pointer;">
-                  <span>💬</span> <span>단톡방 1 열기</span>
-                </button>
-                <button type="button" id="btnSendToRoom2" class="btn-sheet-tool" style="padding:10px; font-weight:700; font-size:0.84rem; justify-content:center; border:1px solid #cbd5e1; background:#ffffff; border-radius:6px; cursor:pointer;">
-                  <span>💬</span> <span>단톡방 2 열기</span>
-                </button>
-                <button type="button" id="btnSendToRoom3" class="btn-sheet-tool" style="padding:10px; font-weight:700; font-size:0.84rem; justify-content:center; border:1px solid #cbd5e1; background:#ffffff; border-radius:6px; cursor:pointer;">
-                  <span>💬</span> <span>단톡방 3 열기</span>
-                </button>
-              </div>
-
               <div style="font-size:0.83rem; color:#475569; background:#f8fafc; padding:10px 14px; border-radius:6px; border:1px solid #e2e8f0; display:flex; align-items:center; gap:8px;">
-                <span style="font-size:1.1rem;">💡</span> <span><strong>단톡방 3곳 발송 순서:</strong> <code>[공지 전문 복사]</code>를 누르신 후, <code>[단톡방 1~3 열기]</code> 버튼을 차례로 눌러 각 방에 붙여넣기(<code>Ctrl+V</code>)하시면 10초 만에 3개 단톡방 공지 완료!</span>
+                <span style="font-size:1.1rem;">💡</span> <span><strong>공지 전달 안내:</strong> <code>[공지 전문 복사]</code>를 누르시면 클립보드에 전문이 복사되며, <code>[카카오톡 열기 / 나와의 채팅 공유]</code>를 통해 단톡방이나 나와의 채팅으로 손쉽게 공유하실 수 있습니다.</span>
               </div>
             </div>
           </form>
@@ -251,9 +224,8 @@
                       <!-- JS 렌더링 -->
                     </div>
                     <div class="kt-action-buttons">
-                      <a href="https://open.kakao.com/o/sWLBJTue" target="_blank" rel="noopener noreferrer" class="kt-btn-action" id="ktBtnPreviewRoom1" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">💬 단톡방 1 오픈카톡 바로가기</a>
-                      <a href="https://open.kakao.com/o/sWLBJTue_room2" target="_blank" rel="noopener noreferrer" class="kt-btn-action" id="ktBtnPreviewRoom2" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">💬 단톡방 2 오픈카톡 바로가기</a>
-                      <a href="https://open.kakao.com/o/sWLBJTue_room3" target="_blank" rel="noopener noreferrer" class="kt-btn-action" id="ktBtnPreviewRoom3" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">💬 단톡방 3 오픈카톡 바로가기</a>
+                      <a href="https://bookclub-apply-demo.streamlit.app" target="_blank" rel="noopener noreferrer" class="kt-btn-action" id="ktBtnPreviewApply" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">🪐 독서모임 신청 페이지 바로가기</a>
+                      <a href="https://open.kakao.com/o/sample_contact" target="_blank" rel="noopener noreferrer" class="kt-btn-action" id="ktBtnPreviewContact" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">💬 호스트 오픈카톡 1:1 문의</a>
                     </div>
                     <span class="kt-time-stamp" id="ktTimeStamp">오후 2:00</span>
                   </div>
@@ -450,6 +422,6 @@
     </div>
   </footer>
 
-  <script src="app.js?v=20260930_02"></script>
+  <script src="app.js?v=20260916_09"></script>
 </body>
 </html>

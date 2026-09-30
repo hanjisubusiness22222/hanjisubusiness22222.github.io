@@ -151,22 +151,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 카카오톡 공지 작성기 요소
   const kakaoDate = document.getElementById("kakaoDate");
-  const kakaoRoom1 = document.getElementById("kakaoRoom1");
-  const kakaoRoom2 = document.getElementById("kakaoRoom2");
-  const kakaoRoom3 = document.getElementById("kakaoRoom3");
-  const btnOpenRoom1 = document.getElementById("btnOpenRoom1");
-  const btnOpenRoom2 = document.getElementById("btnOpenRoom2");
-  const btnOpenRoom3 = document.getElementById("btnOpenRoom3");
-  const btnSendToRoom1 = document.getElementById("btnSendToRoom1");
-  const btnSendToRoom2 = document.getElementById("btnSendToRoom2");
-  const btnSendToRoom3 = document.getElementById("btnSendToRoom3");
+  const kakaoApplyUrl = document.getElementById("kakaoApplyUrl");
+  const kakaoContactUrl = document.getElementById("kakaoContactUrl");
   const kakaoNoticeText = document.getElementById("kakaoNoticeText");
   const ktBubbleText = document.getElementById("ktBubbleText");
   const ktPinTitle = document.getElementById("ktPinTitle");
   const ktPinnedNotice = document.getElementById("ktPinnedNotice");
-  const ktBtnPreviewRoom1 = document.getElementById("ktBtnPreviewRoom1");
-  const ktBtnPreviewRoom2 = document.getElementById("ktBtnPreviewRoom2");
-  const ktBtnPreviewRoom3 = document.getElementById("ktBtnPreviewRoom3");
+  const ktBtnPreviewApply = document.getElementById("ktBtnPreviewApply");
+  const ktBtnPreviewContact = document.getElementById("ktBtnPreviewContact");
   const kakaoCharStats = document.getElementById("kakaoCharStats");
   const ktMsgDateText = document.getElementById("ktMsgDateText");
   const btnDateThisWeek = document.getElementById("btnDateThisWeek");
@@ -195,27 +187,19 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================================================================
 
   function buildKakaoNoticeText(dateStr) {
-    const r1 = (kakaoRoom1 && kakaoRoom1.value.trim()) || "https://open.kakao.com/o/sWLBJTue";
-    const r2 = (kakaoRoom2 && kakaoRoom2.value.trim()) || "https://open.kakao.com/o/sWLBJTue_room2";
-    const r3 = (kakaoRoom3 && kakaoRoom3.value.trim()) || "https://open.kakao.com/o/sWLBJTue_room3";
-
-    let roomLines = [];
-    if (r1) roomLines.push(`• 단톡방 1: ${r1}`);
-    if (r2) roomLines.push(`• 단톡방 2: ${r2}`);
-    if (r3) roomLines.push(`• 단톡방 3: ${r3}`);
-    if (roomLines.length === 0) {
-      roomLines.push("https://open.kakao.com/o/sWLBJTue");
-    }
+    const applyUrl = (kakaoApplyUrl && kakaoApplyUrl.value.trim()) || "https://bookclub-apply-demo.streamlit.app";
+    const contactUrl = (kakaoContactUrl && kakaoContactUrl.value.trim()) || "https://open.kakao.com/o/sample_contact";
 
     return `[${dateStr}] 모임신청 안내
  
 ①가입한 플랫폼에서 <참석> 표시 
  
-②모임 신청 <오픈 카톡방>
-${roomLines.join("\n")}
+②모임 신청 <독서모임 신청 페이지>
+${applyUrl}
 미 응답시 참석이 제한될 수 있습니다.
 
-* 미등록은 해당 오픈 카톡방으로 연락 부탁드립니다.
+* 미등록은 아래로 연락
+${contactUrl}
 
 💫신청 방식 변경으로 인해, 기존 회원분들도 새롭게 등록해야하니 꼭 확인해 주세요💫`;
   }
@@ -255,18 +239,11 @@ ${roomLines.join("\n")}
     if (ktLiveTime) ktLiveTime.textContent = `${String(hours).padStart(2, "0")}:${minutes}`;
     if (ktTimeStamp) ktTimeStamp.textContent = `${ampms} ${displayHour}:${minutes}`;
 
-    // 오픈 카톡방 링크 및 미리보기 버튼 연동
-    const r1 = (kakaoRoom1 && kakaoRoom1.value.trim()) || "https://open.kakao.com/o/sWLBJTue";
-    const r2 = (kakaoRoom2 && kakaoRoom2.value.trim()) || "https://open.kakao.com/o/sWLBJTue_room2";
-    const r3 = (kakaoRoom3 && kakaoRoom3.value.trim()) || "https://open.kakao.com/o/sWLBJTue_room3";
-
-    if (btnOpenRoom1) btnOpenRoom1.href = r1;
-    if (btnOpenRoom2) btnOpenRoom2.href = r2;
-    if (btnOpenRoom3) btnOpenRoom3.href = r3;
-
-    if (ktBtnPreviewRoom1) ktBtnPreviewRoom1.href = r1;
-    if (ktBtnPreviewRoom2) ktBtnPreviewRoom2.href = r2;
-    if (ktBtnPreviewRoom3) ktBtnPreviewRoom3.href = r3;
+    // 미리보기 버튼 링크 연동
+    const applyUrl = (kakaoApplyUrl && kakaoApplyUrl.value.trim()) || "https://bookclub-apply-demo.streamlit.app";
+    const contactUrl = (kakaoContactUrl && kakaoContactUrl.value.trim()) || "https://open.kakao.com/o/sample_contact";
+    if (ktBtnPreviewApply) ktBtnPreviewApply.href = applyUrl;
+    if (ktBtnPreviewContact) ktBtnPreviewContact.href = contactUrl;
   }
 
   // =========================================================================
@@ -319,14 +296,8 @@ ${roomLines.join("\n")}
     const dayName = isSat ? "토요일" : "일요일";
     const cfg = naverSettings[dayType];
     const place = cfg.place;
-    const r1 = (kakaoRoom1 && kakaoRoom1.value.trim()) || "https://open.kakao.com/o/sWLBJTue";
-    const r2 = (kakaoRoom2 && kakaoRoom2.value.trim()) || "https://open.kakao.com/o/sWLBJTue_room2";
-    const r3 = (kakaoRoom3 && kakaoRoom3.value.trim()) || "https://open.kakao.com/o/sWLBJTue_room3";
-
-    let roomLines = [];
-    if (r1) roomLines.push(`• 단톡방 1: ${r1}`);
-    if (r2) roomLines.push(`• 단톡방 2: ${r2}`);
-    if (r3) roomLines.push(`• 단톡방 3: ${r3}`);
+    const applyUrl = (kakaoApplyUrl && kakaoApplyUrl.value.trim()) || "https://bookclub-apply-demo.streamlit.app";
+    const contactUrl = (kakaoContactUrl && kakaoContactUrl.value.trim()) || "https://open.kakao.com/o/sample_contact";
 
     return `${dayName} 독서모임
 
@@ -341,13 +312,13 @@ ${roomLines.join("\n")}
 모임에서 그 책을 소개하는 방식입니다.
 
 
-모임 신청 <오픈 카톡방> :
-${roomLines.join("\n")}
+${applyUrl}
 
-신청 방법 : 희망하시는 단톡방 링크 접속 후 참석 신청
+신청 방법 : 상단 링크 클릭->모임 일정&신청->자유책 신청
 신청기간 : 모임날 10분 전까지 언제든 :)
 
-* 미등록은 해당 오픈 카톡방으로 연락 부탁드립니다.`;
+* 미등록은 아래 프로필로 연락 부탁드립니다.
+${contactUrl}`;
   }
 
   function getNaverNoticeData() {
@@ -490,19 +461,15 @@ ${htmlWithLinks}
     });
   }
 
-  // 오픈 카톡방 링크 변경 이벤트
-  [kakaoRoom1, kakaoRoom2, kakaoRoom3].forEach((inp) => {
+  // 카카오 신청 및 문의 URL 변경 이벤트
+  [kakaoApplyUrl, kakaoContactUrl].forEach((inp) => {
     if (inp) {
       inp.addEventListener("input", () => {
         const curDate = kakaoDate ? kakaoDate.value.trim() : "10/03, 04";
         if (kakaoNoticeText) {
           kakaoNoticeText.value = buildKakaoNoticeText(curDate);
         }
-        if (boardBody) {
-          boardBody.value = buildNaverNoticeText(currentNaverDay);
-        }
         updateKakaoPreview();
-        updateBoardPreview();
       });
     }
   });
@@ -518,24 +485,22 @@ ${htmlWithLinks}
     });
   }
 
-  // 카카오 액션: 공지 전문 복사
+  // 카카오 액션
   if (btnCopyKakao) {
     btnCopyKakao.addEventListener("click", () => {
       const text = kakaoNoticeText ? kakaoNoticeText.value.trim() : "";
-      copyTextToClipboard(text, "📋 카카오톡 공지 전문이 복사되었습니다!\n클립보드에 저장된 공지를 각 단톡방에 바로 붙여넣기(Ctrl+V)하세요.");
+      copyTextToClipboard(text, "📋 카카오톡 공지 전문이 복사되었습니다!\n클립보드에 저장된 공지를 바로 붙여넣기(Ctrl+V)하세요.");
     });
   }
 
-  // 카카오 앱 열기 / 나와의 채팅 공유
   if (btnOpenKakaoApp) {
     btnOpenKakaoApp.addEventListener("click", () => {
       const text = kakaoNoticeText ? kakaoNoticeText.value.trim() : "";
-      const r1 = (kakaoRoom1 && kakaoRoom1.value.trim()) || "https://open.kakao.com/o/sWLBJTue";
       if (navigator.share) {
         navigator.share({
           title: "주말 독서모임 신청 안내",
           text: text,
-          url: r1
+          url: "https://bookclub-apply-demo.streamlit.app"
         }).catch(() => {});
       } else {
         copyTextToClipboard(text, "📋 공지 전문이 클립보드에 복사되었습니다!\n카카오톡으로 이동하여 나와의 채팅에 붙여넣으세요.");
@@ -543,28 +508,6 @@ ${htmlWithLinks}
       }
     });
   }
-
-  // 단톡방 1, 2, 3 순차 발송 퀵 버튼 (복사 + 새 탭 열기)
-  const roomButtons = [
-    { btn: btnSendToRoom1, input: kakaoRoom1, name: "단톡방 1" },
-    { btn: btnSendToRoom2, input: kakaoRoom2, name: "단톡방 2" },
-    { btn: btnSendToRoom3, input: kakaoRoom3, name: "단톡방 3" }
-  ];
-
-  roomButtons.forEach(({ btn, input, name }) => {
-    if (btn) {
-      btn.addEventListener("click", () => {
-        const text = kakaoNoticeText ? kakaoNoticeText.value.trim() : "";
-        const url = input ? input.value.trim() : "";
-        if (!url) {
-          alert(`⚠️ [${name}] 링크가 입력되어 있지 않습니다.`);
-          return;
-        }
-        copyTextToClipboard(text, `📋 공지 전문이 복사되었습니다!\n열린 [${name}]에 바로 붙여넣기(Ctrl+V)하여 전송하세요.`);
-        window.open(url, "_blank");
-      });
-    }
-  });
 
   // 네이버 카페 입력 변경 이벤트
   if (boardTitle) {
