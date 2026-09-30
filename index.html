@@ -7,7 +7,7 @@
   <title>BookLink Admin - 독서모임 통합 관리 콘솔</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="style.css?v=20260930_04">
+  <link rel="stylesheet" href="style.css?v=20260930_05">
   <script>
     try {
       ['booklink_members_v1', 'booklink_members_v2', 'booklink_members_v3', 'booklink_members_v4', 'booklink_members_v5'].forEach(function(k){ localStorage.removeItem(k); });
@@ -173,33 +173,36 @@
                 <span>📋</span> <span>공지 전문 복사 (클립보드 저장)</span>
               </button>
 
-              <!-- 2) 오픈 카톡방 주소 입력 및 바로 열기 -->
+              <!-- 2) 발송 대상 오픈 카톡방 목록 (아래로 추가/삭제 가능한 동적 구조) -->
               <div style="background:#fefce8; border:1px solid #fef08a; border-radius:8px; padding:12px 14px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                  <label for="openKakaoUrl" style="font-size:0.83rem; font-weight:700; color:#854d0e; margin:0; display:flex; align-items:center; gap:6px;">
-                    <span>💬</span> <span>발송 대상 오픈 카톡방 주소</span>
-                  </label>
-                  <span style="font-size:0.75rem; color:#a16207;">[열기] 클릭 시 채팅방으로 바로 이동</span>
-                </div>
-                <div style="display:flex; gap:8px; align-items:center;">
-                  <input type="text" id="openKakaoUrl" value="https://open.kakao.com/o/sample_openchat" placeholder="예: https://open.kakao.com/o/sample_openchat" style="flex:1; font-size:0.85rem; padding:9px 12px; border:1px solid #cbd5e1; border-radius:6px; background:#ffffff;">
-                  <button type="button" id="btnOpenKakaoRoom" class="btn-sheet-tool" style="padding:9px 16px; font-weight:700; font-size:0.88rem; justify-content:center; display:inline-flex; align-items:center; gap:6px; border:1px solid #fde047; background:#fee500; color:#1e1b4b; border-radius:6px; cursor:pointer; white-space:nowrap;">
-                    <span>🔗</span> <span>채팅방 열기</span>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                  <div style="display:flex; align-items:center; gap:6px;">
+                    <span style="font-size:0.95rem;">💬</span>
+                    <strong style="font-size:0.86rem; color:#854d0e;">발송 대상 오픈 카톡방 주소 목록</strong>
+                    <span id="kakaoRoomCountBadge" style="font-size:0.75rem; background:#fef08a; color:#854d0e; padding:2px 7px; border-radius:10px; font-weight:700;">3개</span>
+                  </div>
+                  <button type="button" id="btnAddKakaoRoom" class="btn-sample-tag" style="background:#2563eb; color:#ffffff; border:none; padding:4px 10px; font-size:0.78rem; font-weight:700; border-radius:5px; cursor:pointer; display:inline-flex; align-items:center; gap:4px;">
+                    <span>➕</span> <span>단톡방 추가</span>
                   </button>
                 </div>
 
-                <!-- 단톡방 3곳 샘플 프리셋 선택 -->
-                <div style="display:flex; gap:6px; margin-top:8px; align-items:center; flex-wrap:wrap;">
-                  <span style="font-size:0.75rem; color:#78350f; font-weight:600;">샘플 주소 선택:</span>
-                  <button type="button" class="btn-sample-tag btn-room-preset" data-url="https://open.kakao.com/o/sample_room1" style="font-size:0.75rem; padding:3px 8px; cursor:pointer;">단톡방 1</button>
-                  <button type="button" class="btn-sample-tag btn-room-preset" data-url="https://open.kakao.com/o/sample_room2" style="font-size:0.75rem; padding:3px 8px; cursor:pointer;">단톡방 2</button>
-                  <button type="button" class="btn-sample-tag btn-room-preset" data-url="https://open.kakao.com/o/sample_room3" style="font-size:0.75rem; padding:3px 8px; cursor:pointer;">단톡방 3</button>
+                <!-- 오픈 카톡방 리스트 컨테이너 -->
+                <div id="kakaoRoomListContainer" style="display:flex; flex-direction:column; gap:8px;">
+                  <!-- JS에서 동적으로 렌더링 -->
+                </div>
+
+                <!-- 전체 단톡방 순차 열기 퀵 액션 바 -->
+                <div style="margin-top:10px; padding-top:10px; border-top:1px dashed #fef08a; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                  <span style="font-size:0.75rem; color:#a16207;">각 방의 <code>[열기]</code>를 누르거나, 한 번에 모든 방을 열 수 있습니다.</span>
+                  <button type="button" id="btnOpenAllRooms" class="btn-sheet-tool" style="padding:6px 12px; font-size:0.78rem; font-weight:700; border:1px solid #fde047; background:#fee500; color:#1e1b4b; border-radius:5px; cursor:pointer; display:inline-flex; align-items:center; gap:4px;">
+                    <span>🚀</span> <span>전체 단톡방 일괄 열기</span>
+                  </button>
                 </div>
               </div>
 
               <!-- 안내 가이드 -->
               <div style="font-size:0.83rem; color:#475569; background:#f8fafc; padding:10px 14px; border-radius:6px; border:1px solid #e2e8f0; display:flex; align-items:center; gap:8px;">
-                <span style="font-size:1.1rem;">💡</span> <span><strong>공지 발송 방법:</strong> <code>[공지 전문 복사]</code> 후 <code>[채팅방 열기]</code>를 누르면 해당 오픈 카톡방이 열리며, 바로 붙여넣기(<code>Ctrl+V</code>)하여 공지를 전송할 수 있습니다.</span>
+                <span style="font-size:1.1rem;">💡</span> <span><strong>단톡방 발송 안내:</strong> <code>[➕ 단톡방 추가]</code>로 방을 계속 늘리거나 <code>[🗑️]</code>로 뺄 수 있으며, <code>[열기]</code>를 누르면 공지가 복사되어 해당 방에 바로 붙여넣기(<code>Ctrl+V</code>)할 수 있습니다.</span>
               </div>
             </div>
           </form>
@@ -444,6 +447,6 @@
     </div>
   </footer>
 
-  <script src="app.js?v=20260930_04"></script>
+  <script src="app.js?v=20260930_05"></script>
 </body>
 </html>

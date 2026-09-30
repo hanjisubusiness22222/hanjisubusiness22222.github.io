@@ -165,9 +165,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnDateNextWeek = document.getElementById("btnDateNextWeek");
   const btnResetKakaoTpl = document.getElementById("btnResetKakaoTpl");
   const btnCopyKakao = document.getElementById("btnCopyKakao");
-  const openKakaoUrl = document.getElementById("openKakaoUrl");
-  const btnOpenKakaoRoom = document.getElementById("btnOpenKakaoRoom");
-  const btnRoomPresets = document.querySelectorAll(".btn-room-preset");
+  const kakaoRoomListContainer = document.getElementById("kakaoRoomListContainer");
+  const btnAddKakaoRoom = document.getElementById("btnAddKakaoRoom");
+  const kakaoRoomCountBadge = document.getElementById("kakaoRoomCountBadge");
+  const btnOpenAllRooms = document.getElementById("btnOpenAllRooms");
 
   // 네이버 카페 공지 작성기 요소
   const boardTitle = document.getElementById("boardTitle");
@@ -495,29 +496,117 @@ ${htmlWithLinks}
     });
   }
 
-  // 오픈 카톡방 샘플 프리셋 선택 이벤트
-  btnRoomPresets.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const url = btn.getAttribute("data-url");
-      if (openKakaoUrl && url) {
-        openKakaoUrl.value = url;
-      }
-    });
-  });
+  // =========================================================================
+  // 오픈 카톡방 동적 목록 관리 (추가, 삭제, 개별/일괄 열기)
+  // =========================================================================
+  let kakaoChatRooms = [
+    { id: 1, url: "https://open.kakao.com/o/sample_room1" },
+    { id: 2, url: "https://open.kakao.com/o/sample_room2" },
+    { id: 3, url: "https://open.kakao.com/o/sample_room3" }
+  ];
+  let nextKakaoRoomId = 4;
 
-  // 오픈 카톡방 열기 (공지 복사 + 채팅방 새 탭 열기)
-  if (btnOpenKakaoRoom) {
-    btnOpenKakaoRoom.addEventListener("click", () => {
-      const targetUrl = openKakaoUrl ? openKakaoUrl.value.trim() : "";
-      if (!targetUrl) {
-        alert("⚠️ 오픈 카톡방 주소를 입력해주세요.");
+  function renderKakaoRoomList() {
+    if (!kakaoRoomListContainer) return;
+    kakaoRoomListContainer.innerHTML = "";
+
+    if (kakaoRoomCountBadge) {
+      kakaoRoomCountBadge.textContent = `${kakaoChatRooms.length}개`;
+    }
+
+    kakaoChatRooms.forEach((room, index) => {
+      const row = document.createElement("div");
+      row.className = "kakao-room-row";
+      row.style.cssText = "display:flex; align-items:center; gap:8px; background:#ffffff; border:1px solid #e2e8f0; border-radius:6px; padding:8px 10px;";
+
+      // 방 라벨
+      const label = document.createElement("span");
+      label.style.cssText = "font-size:0.78rem; font-weight:700; color:#1e40af; background:#eff6ff; border:1px solid #bfdbfe; padding:6px 10px; border-radius:4px; min-width:60px; text-align:center; white-space:nowrap;";
+      label.textContent = `단톡방 ${index + 1}`;
+
+      // URL 입력창
+      const input = document.createElement("input");
+      input.type = "text";
+      input.className = "room-url-input";
+      input.value = room.url;
+      input.placeholder = `예: https://open.kakao.com/o/sample_room${index + 1}`;
+      input.style.cssText = "flex:1; font-size:0.85rem; padding:8px 10px; border:1px solid #cbd5e1; border-radius:5px; background:#ffffff;";
+      input.addEventListener("input", () => {
+        room.url = input.value.trim();
+      });
+
+      // 개별 열기 버튼
+      const btnOpen = document.createElement("button");
+      btnOpen.type = "button";
+      btnOpen.className = "btn-sheet-tool";
+      btnOpen.title = `공지 복사 후 단톡방 ${index + 1} 열기`;
+      btnOpen.style.cssText = "padding:7px 12px; font-size:0.78rem; font-weight:700; border:1px solid #fde047; background:#fee500; color:#1e1b4b; border-radius:5px; cursor:pointer; display:inline-flex; align-items:center; gap:4px; white-space:nowrap;";
+      btnOpen.innerHTML = "<span>🔗</span> <span>열기</span>";
+      btnOpen.addEventListener("click", () => {
+        const url = input.value.trim();
+        if (!url) {
+          alert(`⚠️ [단톡방 ${index + 1}] 주소를 입력해주세요.`);
+          return;
+        }
+        const text = kakaoNoticeText ? kakaoNoticeText.value.trim() : "";
+        copyTextToClipboard(text, `📋 공지 전문이 복사되었습니다!\n열린 [단톡방 ${index + 1}]에 바로 붙여넣기(Ctrl+V)하세요.`);
+        window.open(url, "_blank");
+      });
+
+      // 삭제 버튼
+      const btnDelete = document.createElement("button");
+      btnDelete.type = "button";
+      btnDelete.title = `단톡방 ${index + 1} 삭제`;
+      btnDelete.style.cssText = "padding:7px 10px; font-size:0.8rem; font-weight:700; border:1px solid #fca5a5; background:#fee2e2; color:#b91c1c; border-radius:5px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; white-space:nowrap;";
+      btnDelete.innerHTML = "<span>🗑️</span>";
+      btnDelete.addEventListener("click", () => {
+        if (kakaoChatRooms.length <= 1) {
+          alert("⚠️ 최소 1개 이상의 발송 대상 단톡방 주소가 유지되어야 합니다.");
+          return;
+        }
+        kakaoChatRooms = kakaoChatRooms.filter((r) => r.id !== room.id);
+        renderKakaoRoomList();
+      });
+
+      row.appendChild(label);
+      row.appendChild(input);
+      row.appendChild(btnOpen);
+      row.appendChild(btnDelete);
+      kakaoRoomListContainer.appendChild(row);
+    });
+  }
+
+  // 단톡방 추가 버튼
+  if (btnAddKakaoRoom) {
+    btnAddKakaoRoom.addEventListener("click", () => {
+      const nextNum = kakaoChatRooms.length + 1;
+      kakaoChatRooms.push({
+        id: nextKakaoRoomId++,
+        url: `https://open.kakao.com/o/sample_room${nextNum}`
+      });
+      renderKakaoRoomList();
+    });
+  }
+
+  // 전체 단톡방 일괄 열기 버튼
+  if (btnOpenAllRooms) {
+    btnOpenAllRooms.addEventListener("click", () => {
+      if (kakaoChatRooms.length === 0) {
+        alert("⚠️ 등록된 단톡방이 없습니다.");
         return;
       }
       const text = kakaoNoticeText ? kakaoNoticeText.value.trim() : "";
-      copyTextToClipboard(text, "📋 공지 전문이 복사되었습니다!\n열린 오픈 카톡방에 바로 붙여넣기(Ctrl+V)하세요.");
-      window.open(targetUrl, "_blank");
+      copyTextToClipboard(text, `📋 공지 전문이 복사되었습니다!\n열린 ${kakaoChatRooms.length}개 단톡방에 순서대로 붙여넣기(Ctrl+V)하세요.`);
+      kakaoChatRooms.forEach((r) => {
+        if (r.url) {
+          window.open(r.url, "_blank");
+        }
+      });
     });
   }
+
+  // 초기 렌더링 호출
+  renderKakaoRoomList();
 
   // 네이버 카페 입력 변경 이벤트
   if (boardTitle) {
