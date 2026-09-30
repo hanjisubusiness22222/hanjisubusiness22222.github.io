@@ -165,7 +165,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnDateNextWeek = document.getElementById("btnDateNextWeek");
   const btnResetKakaoTpl = document.getElementById("btnResetKakaoTpl");
   const btnCopyKakao = document.getElementById("btnCopyKakao");
-  const btnOpenKakaoApp = document.getElementById("btnOpenKakaoApp");
+  const openKakaoUrl = document.getElementById("openKakaoUrl");
+  const btnOpenKakaoRoom = document.getElementById("btnOpenKakaoRoom");
+  const btnRoomPresets = document.querySelectorAll(".btn-room-preset");
 
   // 네이버 카페 공지 작성기 요소
   const boardTitle = document.getElementById("boardTitle");
@@ -493,19 +495,27 @@ ${htmlWithLinks}
     });
   }
 
-  if (btnOpenKakaoApp) {
-    btnOpenKakaoApp.addEventListener("click", () => {
-      const text = kakaoNoticeText ? kakaoNoticeText.value.trim() : "";
-      if (navigator.share) {
-        navigator.share({
-          title: "주말 독서모임 신청 안내",
-          text: text,
-          url: "https://bookclub-apply-demo.streamlit.app"
-        }).catch(() => {});
-      } else {
-        copyTextToClipboard(text, "📋 공지 전문이 클립보드에 복사되었습니다!\n카카오톡으로 이동하여 나와의 채팅에 붙여넣으세요.");
-        window.location.href = "kakaotalk://";
+  // 오픈 카톡방 샘플 프리셋 선택 이벤트
+  btnRoomPresets.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const url = btn.getAttribute("data-url");
+      if (openKakaoUrl && url) {
+        openKakaoUrl.value = url;
       }
+    });
+  });
+
+  // 오픈 카톡방 열기 (공지 복사 + 채팅방 새 탭 열기)
+  if (btnOpenKakaoRoom) {
+    btnOpenKakaoRoom.addEventListener("click", () => {
+      const targetUrl = openKakaoUrl ? openKakaoUrl.value.trim() : "";
+      if (!targetUrl) {
+        alert("⚠️ 오픈 카톡방 주소를 입력해주세요.");
+        return;
+      }
+      const text = kakaoNoticeText ? kakaoNoticeText.value.trim() : "";
+      copyTextToClipboard(text, "📋 공지 전문이 복사되었습니다!\n열린 오픈 카톡방에 바로 붙여넣기(Ctrl+V)하세요.");
+      window.open(targetUrl, "_blank");
     });
   }
 

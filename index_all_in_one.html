@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
@@ -2561,6 +2561,389 @@ button, input, select, textarea {
   gap: 6px;
 }
 
+/* ==========================================================================
+   WEEKLY WEEKEND (SAT/SUN) MASTER SCHEDULER BAR
+   ========================================================================== */
+.weekend-master-bar {
+  background: linear-gradient(135deg, #1e1b4b 0%, #1e3a8a 50%, #0f172a 100%);
+  color: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: 22px 28px;
+  box-shadow: 0 10px 25px -5px rgba(30, 27, 75, 0.35);
+  margin-bottom: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.weekend-master-bar::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.25), transparent 70%);
+  pointer-events: none;
+}
+
+.master-bar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.master-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.master-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  letter-spacing: 0.8px;
+  color: #93c5fd;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #22c55e;
+  animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+.master-title-box h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 2px;
+  color: #ffffff;
+}
+
+.master-title-box p {
+  font-size: 0.84rem;
+  color: #cbd5e1;
+}
+
+.master-bar-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  backdrop-filter: blur(8px);
+}
+
+.quick-weekend-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.control-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #93c5fd;
+}
+
+.btn-quick-week {
+  background: rgba(255, 255, 255, 0.12);
+  color: #f1f5f9;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-quick-week:hover {
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.btn-quick-week.active {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #60a5fa;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+}
+
+.master-inputs-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.master-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.master-field label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+
+.master-field input,
+.master-field select {
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.master-field input:focus,
+.master-field select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.btn-apply-all {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-apply-all:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   NAVER CAFE SMART EDITOR PREVIEW STYLES
+   ========================================================================== */
+.naver-cafe-view-container {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.naver-post-box {
+  background: #f8fafc;
+  border-left: 4px solid #03c75a;
+  border-radius: 4px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.naver-post-box strong {
+  color: #047857;
+}
+
+.naver-schedule-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 14px 0;
+}
+
+.naver-schedule-card {
+  background: #ffffff;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.naver-schedule-card.sat {
+  border-top: 3px solid #2563eb;
+}
+
+.naver-schedule-card.sun {
+  border-top: 3px solid #dc2626;
+}
+
+.naver-schedule-card h4 {
+  font-size: 0.92rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.naver-schedule-card.sat h4 { color: #1d4ed8; }
+.naver-schedule-card.sun h4 { color: #b91c1c; }
+
+.naver-questions-box {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 14px 0;
+}
+
+.naver-questions-box h4 {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #14532d;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.naver-questions-box ol {
+  padding-left: 20px;
+  margin: 0;
+  font-size: 0.88rem;
+  color: #166534;
+  line-height: 1.6;
+}
+
+.naver-questions-box ol li {
+  margin-bottom: 6px;
+}
+
+/* ==========================================================================
+   WEEKLY CURRICULUM CARDS GRID
+   ========================================================================== */
+.curriculum-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.curriculum-card:hover {
+  transform: translateY(-2px);
+  border-color: #3b82f6;
+  box-shadow: var(--shadow-md);
+}
+
+.curriculum-card.current-active {
+  border: 2px solid #2563eb;
+  background: #f8faff;
+}
+
+.curriculum-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cur-week-badge {
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: #eff6ff;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+}
+
+.cur-active-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #059669;
+  background: #ecfdf5;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.cur-book-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 8px 0 2px;
+}
+
+.cur-book-author {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.cur-theme-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 0.82rem;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.cur-questions-list {
+  font-size: 0.78rem;
+  color: #475569;
+  padding-left: 18px;
+  margin: 8px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.btn-apply-curriculum {
+  width: 100%;
+  padding: 9px;
+  background: #ffffff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-apply-curriculum:hover {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
 </style>
   <script>
     try {
@@ -2580,211 +2963,80 @@ button, input, select, textarea {
         <span class="status-pill status-online" id="cloudSyncStatus">
           <span class="status-dot"></span> Google Drive 동기화 활성
         </span>
-        <span class="status-pill status-ready" id="botSessionStatus">
-          <span class="status-dot"></span> 자동화 봇 세션 준비완료
-        </span>
       </div>
     </div>
 
     <!-- 빠른 바로가기 탭 네비게이션 -->
     <nav class="console-nav" aria-label="관리자 기능 메뉴">
-      <a href="#section-credentials" class="nav-tab active" data-tab="credentials">
-        <span class="tab-icon">🔐</span> 1. API &amp; 계정 연동
-      </a>
-      <a href="#section-kakao" class="nav-tab" data-tab="kakao">
-        <span class="tab-icon">💬</span> 2. 카카오톡 공지
+      <a href="#section-kakao" class="nav-tab active" data-tab="kakao">
+        <span class="tab-icon">💬</span> 1. 카카오톡 공지 (토·일)
       </a>
       <a href="#section-board" class="nav-tab" data-tab="board">
-        <span class="tab-icon">📝</span> 3. 커뮤니티 공지
+        <span class="tab-icon">📝</span> 2. 네이버 카페 공지
       </a>
       <a href="#section-sheet" class="nav-tab" data-tab="sheet">
-        <span class="tab-icon">📊</span> 4. 회원 명단 관리
+        <span class="tab-icon">📊</span> 3. 회원 목록 관리
       </a>
     </nav>
 
     <div class="header-right">
-      <button type="button" class="btn-header-action" id="btnSyncGoogleNow" title="구글 드라이브와 즉시 동기화">
-        <span class="sync-icon">🔄</span> <span class="sync-text">즉시 동기화</span>
+      <button type="button" class="btn-header-action" id="btnSyncGoogleNow" title="구글 시트 회원 DB 즉시 동기화">
+        <span class="sync-icon">🔄</span> <span class="sync-text">구글 시트 즉시 동기화</span>
       </button>
-      <div class="admin-profile">
-        <span class="admin-avatar">호스트</span>
-        <span class="admin-name">운영자 모드</span>
-      </div>
     </div>
   </header>
 
-  <main class=
+  <main class="console-main">
 
     <!-- ===================================================================
-         STEP 1) 🔐 플랫폼별 자동 로그인 & API 인증 계정 설정
+         🗓️ MASTER SCHEDULER: 매주 토·일 주말 정기모임(자유 도서) 스케줄러 컨트롤 바
          =================================================================== -->
-    <section id="section-credentials" class="console-section active-section">
-      <div class="credentials-card">
-        <div class="credentials-header">
-          <div class="cred-title-box">
-            <span class="cred-badge">STEP 1 · AUTO-LOGIN BOT CREDENTIALS</span>
-            <h2>🔐 플랫폼별 자동 로그인 &amp; API 인증 계정 설정</h2>
-            <p>원클릭 공지 자동 전송을 위해 각 플랫폼의 <strong>아이디와 패스워드</strong>를 안전하게 연동합니다. <span class="text-hint">메신저(카카오톡)와 게시판 플랫폼으로 분리되어 인증 관리됩니다.</span></p>
+    <section class="weekend-master-bar" id="weekendMasterBar">
+      <div class="master-bar-container">
+        <div class="master-bar-left">
+          <div class="master-badge">
+            <span class="pulse-dot"></span>
+            <strong>WEEKEND SCHEDULE ENGINE · 자유 도서 모임</strong>
           </div>
-          <div class="cred-header-actions">
-            <button type="button" id="btnTestAllAccounts" class="btn-secondary-sm">
-              <span>⚡ 전체 계정 세션 유효성 검사</span>
-            </button>
-            <button type="button" id="btnSaveCredentials" class="btn-primary-sm">
-              <span>💾 계정 정보 안전 저장</span>
-            </button>
+          <div class="master-title-box">
+            <h3>🗓️ 매주 토·일 주말 정기모임 일정 설정</h3>
+            <p>우리 모임은 <strong>토·일 양일 진행되는 자유 도서 모임</strong>입니다. 주말 날짜를 선택하시면 카톡 및 네이버 카페 공지가 즉시 자동 생성됩니다.</p>
           </div>
         </div>
 
-        <!-- 메신저(카톡) vs 게시글(5대 플랫폼) 분리 그리드 -->
-        <div class="credentials-split-grid">
-          <!-- [좌측: 메신저 부문 - 카카오톡] -->
-          <div class="cred-column cred-messenger-col">
-            <div class="col-head messenger-head">
-              <span class="head-icon">💬</span>
-              <div>
-                <h3>메신저 채널 (실시간 알림 및 대화방)</h3>
-                <span class="head-sub">카카오톡 오픈채팅방 / 단체방 / 알림톡 봇 연동</span>
-              </div>
-              <span class="session-badge badge-active" id="badgeKakaoStatus">🟢 세션 정상</span>
-            </div>
-
-            <div class="cred-account-box kakao-cred-box">
-              <div class="platform-title-row">
-                <span class="platform-name kakao-name">🟡 카카오톡 (KakaoTalk Bot)</span>
-                <span class="api-tag">Kakao Open API &amp; Bot</span>
-              </div>
-              <div class="cred-form-grid">
-                <div class="cred-field">
-                  <label for="credKakaoId">카카오 계정 ID (이메일/전화번호)</label>
-                  <input type="text" id="credKakaoId" value="bookclub_master@kakao.com" placeholder="카카오 계정 이메일">
-                </div>
-                <div class="cred-field">
-                  <label for="credKakaoPw">비밀번호 / API Secret Key</label>
-                  <div class="pw-input-wrap">
-                    <input type="password" id="credKakaoPw" value="••••••••••••" placeholder="계정 비밀번호 또는 REST 키">
-                    <button type="button" class="btn-toggle-pw" title="비밀번호 보기">👁️</button>
-                  </div>
-                </div>
-                <div class="cred-field full-span">
-                  <label style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                    <span>연동 대상 단톡방 / 오픈채팅방 링크 코드 (총 3개)</span>
-                    <span style="font-size:0.75rem; color:#64748b; font-weight:normal;">운영 단톡방 3곳 개별 링크 등록</span>
-                  </label>
-                  <div style="display:flex; flex-direction:column; gap:8px;">
-                    <div style="display:flex; align-items:center; gap:8px;">
-                      <span style="font-size:0.78rem; font-weight:700; color:#1e40af; background:#eff6ff; border:1px solid #bfdbfe; padding:6px 10px; border-radius:6px; min-width:70px; text-align:center;">단톡방 1</span>
-                      <input type="text" id="credKakaoRoom1" value="https://open.kakao.com/o/gBookClub2026_Room1" placeholder="단톡방 1 오픈채팅방 URL 또는 참여 코드" style="flex:1;">
-                    </div>
-                    <div style="display:flex; align-items:center; gap:8px;">
-                      <span style="font-size:0.78rem; font-weight:700; color:#1e40af; background:#eff6ff; border:1px solid #bfdbfe; padding:6px 10px; border-radius:6px; min-width:70px; text-align:center;">단톡방 2</span>
-                      <input type="text" id="credKakaoRoom2" value="https://open.kakao.com/o/gBookClub2026_Room2" placeholder="단톡방 2 오픈채팅방 URL 또는 참여 코드" style="flex:1;">
-                    </div>
-                    <div style="display:flex; align-items:center; gap:8px;">
-                      <span style="font-size:0.78rem; font-weight:700; color:#1e40af; background:#eff6ff; border:1px solid #bfdbfe; padding:6px 10px; border-radius:6px; min-width:70px; text-align:center;">단톡방 3</span>
-                      <input type="text" id="credKakaoRoom3" value="https://open.kakao.com/o/gBookClub2026_Room3" placeholder="단톡방 3 오픈채팅방 URL 또는 참여 코드" style="flex:1;">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="channel-auth-actions">
-                <button type="button" class="btn-auth-test" data-platform="kakao">카톡 봇 세션 테스트</button>
-                <span class="auth-result-msg" id="msgKakaoTest">동기화 대기 중</span>
-              </div>
-            </div>
+        <div class="master-bar-controls">
+          <!-- 퀵 주차 이동 버튼 -->
+          <div class="quick-weekend-buttons">
+            <span class="control-label">주말 자동 계산:</span>
+            <button type="button" class="btn-quick-week active" id="btnWeekThis" data-offset="0">⚡ 이번 주말 (토·일)</button>
+            <button type="button" class="btn-quick-week" id="btnWeekNext" data-offset="1">📅 다음 주말 (토·일)</button>
           </div>
 
-          <!-- [우측: 게시글 부문 - 커뮤니티 및 SNS 플랫폼] -->
-          <div class="cred-column cred-board-col">
-            <div class="col-head board-head">
-              <span class="head-icon">📝</span>
-              <div>
-                <h3>게시글 채널 (커뮤니티 모집글 및 피드 포스팅)</h3>
-                <span class="head-sub">소모임, 네이버 카페, 에브리타임, 당근, 인스타그램</span>
+          <!-- 토·일 날짜 입력 및 공지 갱신 버튼 -->
+          <div class="master-inputs-row" style="align-items:center;">
+            <div class="master-field">
+              <label for="masterDateRange">토·일 날짜 (자동 계산)</label>
+              <div class="input-with-icon">
+                <input type="text" id="masterDateRange" value="10/03, 04" placeholder="예: 10/03, 04" style="width:160px; font-weight:800; font-size:1.05rem; color:#1d4ed8; text-align:center;">
               </div>
-              <span class="session-badge badge-active" id="badgeBoardStatus">🟢 5개 플랫폼 연결</span>
             </div>
 
-            <div class="cred-board-list">
-              <!-- 소모임 -->
-              <div class="cred-board-item">
-                <div class="board-item-header">
-                  <span class="badge-board somoim">소모임 앱</span>
-                  <span class="board-session-state">연결됨</span>
-                </div>
-                <div class="cred-row-inputs">
-                  <input type="text" id="credSomoimId" placeholder="소모임 ID" value="bookhost_kr">
-                  <div class="pw-input-wrap">
-                    <input type="password" id="credSomoimPw" placeholder="비밀번호" value="••••••••">
-                    <button type="button" class="btn-toggle-pw">👁️</button>
-                  </div>
-                  <input type="text" id="credSomoimClubId" placeholder="모임 고유번호" value="CLUB_92819">
-                </div>
+            <div class="master-field" style="flex:1;">
+              <label>진행 세션 &amp; 도서 형식</label>
+              <div style="background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); padding:8px 14px; border-radius:6px; font-size:0.88rem; color:#f1f5f9; display:flex; align-items:center; gap:8px;">
+                <span style="color:#22c55e; font-weight:700;">✔ 토·일 양일 진행</span>
+                <span style="opacity:0.6;">|</span>
+                <span>토요일 / 일요일</span>
+                <span style="opacity:0.6;">|</span>
+                <span style="color:#93c5fd; font-weight:600;">📖 자유 도서 (각자 읽고 싶은 책 1권 지참)</span>
               </div>
+            </div>
 
-              <!-- 네이버 카페 -->
-              <div class="cred-board-item">
-                <div class="board-item-header">
-                  <span class="badge-board naver">네이버 카페/블로그</span>
-                  <span class="board-session-state">연결됨</span>
-                </div>
-                <div class="cred-row-inputs">
-                  <input type="text" id="credNaverId" placeholder="네이버 아이디" value="bookleader26">
-                  <div class="pw-input-wrap">
-                    <input type="password" id="credNaverPw" placeholder="비밀번호" value="••••••••">
-                    <button type="button" class="btn-toggle-pw">👁️</button>
-                  </div>
-                  <input type="text" id="credNaverBoard" placeholder="게시판 카테고리 ID" value="정기모임_공지게시판">
-                </div>
-              </div>
-
-              <!-- 당근마켓 모임 -->
-              <div class="cred-board-item">
-                <div class="board-item-header">
-                  <span class="badge-board daangn">당근마켓 모임</span>
-                  <span class="board-session-state">연결됨</span>
-                </div>
-                <div class="cred-row-inputs">
-                  <input type="text" id="credDaangnId" placeholder="당근 계정 ID" value="daangn_book_master">
-                  <div class="pw-input-wrap">
-                    <input type="password" id="credDaangnPw" placeholder="비밀번호" value="••••••••">
-                    <button type="button" class="btn-toggle-pw">👁️</button>
-                  </div>
-                  <input type="text" id="credDaangnDong" placeholder="지역 동네 설정" value="역삼1동/강남구">
-                </div>
-              </div>
-
-              <!-- 에브리타임 -->
-              <div class="cred-board-item">
-                <div class="board-item-header">
-                  <span class="badge-board everytime">에브리타임</span>
-                  <span class="board-session-state">연결됨</span>
-                </div>
-                <div class="cred-row-inputs">
-                  <input type="text" id="credEtaId" placeholder="에타 아이디" value="univ_reader26">
-                  <div class="pw-input-wrap">
-                    <input type="password" id="credEtaPw" placeholder="비밀번호" value="••••••••">
-                    <button type="button" class="btn-toggle-pw">👁️</button>
-                  </div>
-                  <input type="text" id="credEtaBoard" placeholder="게시판" value="동아리/소모임 게시판">
-                </div>
-              </div>
-
-              <!-- 인스타그램 -->
-              <div class="cred-board-item">
-                <div class="board-item-header">
-                  <span class="badge-board instagram">인스타그램 피드</span>
-                  <span class="board-session-state">연결됨</span>
-                </div>
-                <div class="cred-row-inputs">
-                  <input type="text" id="credInstaId" placeholder="인스타그램 ID (@)" value="@bookclub_transparent">
-                  <div class="pw-input-wrap">
-                    <input type="password" id="credInstaPw" placeholder="비밀번호" value="••••••••">
-                    <button type="button" class="btn-toggle-pw">👁️</button>
-                  </div>
-                  <input type="text" id="credInstaType" placeholder="포스팅 형식" value="피드 카드뉴스 캡션">
-                </div>
-              </div>
+            <div class="master-field">
+              <label>&nbsp;</label>
+              <button type="button" class="btn-apply-all" id="btnApplyAllNotices" title="카카오톡 & 네이버 카페 공지 동시 업데이트">
+                <span>⚡ 토·일 공지 일괄 갱신</span>
+              </button>
             </div>
           </div>
         </div>
@@ -2792,13 +3044,13 @@ button, input, select, textarea {
     </section>
 
     <!-- ===================================================================
-         STEP 2) 💬 카카오톡 단톡방 / 오픈채팅방 공지 자동화
+         STEP 1) 💬 카카오톡 공지 자동화 (관리자 나와의 채팅 전송)
          =================================================================== -->
-    <section id="section-kakao" class="console-section">
+    <section id="section-kakao" class="console-section active-section">
       <div class="section-title-bar">
-        <span class="cred-badge kakao-badge">STEP 2 · KAKAO MESSENGER BOT</span>
-        <h2>💬 카카오톡 공지 전송</h2>
-        <p>카카오톡 단톡방 및 오픈채팅방에 최적화된 모바일 요약 알림을 즉시 발송하고 투표 폼과 상단 핀을 자동 설정합니다.</p>
+        <span class="cred-badge kakao-badge">STEP 1 · KAKAO MESSENGER BOT</span>
+        <h2>💬 카카오톡 공지 자동화 (매주 토·일 정기모임)</h2>
+        <p>매주 바뀌는 토·일 자유 도서 모임 일정을 확인하고, <strong>관리자 카카오톡 계정(나와의 채팅)</strong>으로 즉시 자동 발송하거나 원클릭 복사합니다.</p>
       </div>
 
       <div class="broadcast-main-grid">
@@ -2810,58 +3062,81 @@ button, input, select, textarea {
               <h3>💬 카카오톡 공지 작성기</h3>
             </div>
             <div class="editor-head-actions">
-              <button type="button" id="btnDateThisWeek" class="btn-sample-tag">이번주 [09/19, 20]</button>
-              <button type="button" id="btnDateNextWeek" class="btn-sample-tag">다음주 [09/26, 27]</button>
+              <button type="button" id="btnDateThisWeek" class="btn-sample-tag">이번주 토·일</button>
+              <button type="button" id="btnDateNextWeek" class="btn-sample-tag">다음주 토·일</button>
               <button type="button" id="btnResetKakaoTpl" class="btn-sample-tag" title="기본 공지 서식 복원">양식 복원</button>
             </div>
           </div>
 
           <form id="kakaoNoticeForm" class="notice-admin-form" onsubmit="return false;">
-            <!-- 날짜만 변경되는 핵심 입력부 -->
+            <!-- 날짜 & 회차 입력부 -->
             <div class="form-group" style="background:#fefce8; border:1px solid #fef08a; padding:14px 16px; border-radius:8px;">
               <label for="kakaoDate" style="color:#854d0e; font-weight:700; display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                <span>📅 모임 일정 / 날짜 입력 (맨 윗줄 자동 반영)</span>
-                <span style="font-size:0.75rem; color:#a16207; font-weight:normal;">날짜 수정 시 공지 첫 줄이 즉시 변경됩니다</span>
+                <span>📅 토·일 모임 날짜 (공지 첫 줄 자동 연동)</span>
+                <span style="font-size:0.75rem; color:#a16207; font-weight:normal;">상단 주말 스케줄러와 실시간 연동됩니다</span>
               </label>
               <div style="display:flex; align-items:center; gap:8px;">
                 <span style="font-weight:800; font-size:1.1rem; color:#1e293b;">[</span>
-                <input type="text" id="kakaoDate" value="09/19, 20" placeholder="예: 09/19, 20" style="font-weight:700; font-size:1.05rem; color:#1e40af; flex:1; padding:8px 12px; border:1px solid #cbd5e1; border-radius:6px; background:#ffffff;" required>
+                <input type="text" id="kakaoDate" value="10/03, 04" placeholder="예: 10/03, 04" style="font-weight:700; font-size:1.05rem; color:#1e40af; flex:1; padding:8px 12px; border:1px solid #cbd5e1; border-radius:6px; background:#ffffff;" required>
                 <span style="font-weight:800; font-size:1.1rem; color:#1e293b;">] 모임신청 안내</span>
               </div>
             </div>
 
-            <!-- 실제 카카오톡 공지 전문 템플릿 (직접 수정도 가능) -->
-            <div class="form-group">
-              <label for="kakaoNoticeText" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                <span>📝 카카오톡 공지 전문 (실제 운영 양식)</span>
-                <span style="font-size:0.75rem; color:#64748b;">필요시 본문 문구나 링크를 직접 수정할 수 있습니다</span>
-              </label>
-              <textarea id="kakaoNoticeText" rows="12" style="font-family: 'Pretendard', sans-serif; font-size: 0.88rem; line-height: 1.65; white-space: pre-wrap; padding:12px; border:1px solid #cbd5e1; border-radius:6px; width:100%; box-sizing:border-box;" required>[09/19, 20] 모임신청 안내
- 
-①가입한 플랫폼에서 &lt;참석&gt; 표시 
- 
-②모임 신청 &lt;플래닛 신청 페이지&gt;
-https://bookclubplanet26.streamlit.app/
-미 응답시 참석이 제한될 수 있습니다.
-
-* 미등록은 아래로 연락
-https://open.kakao.com/o/sWLBJTue
-
-💫신청 방식 변경으로 인해, 기존 회원분들도 새롭게 등록해야하니 꼭 확인해 주세요💫</textarea>
+            <!-- 신청 URL & 연락 URL 설정부 (수업/데모용 가명 URL) -->
+            <div class="form-grid-2" style="margin-top:12px; margin-bottom:12px;">
+              <div class="form-group">
+                <label for="kakaoApplyUrl" style="font-size:0.83rem; font-weight:700; color:#334155;">🔗 ② 모임 신청 &lt;독서모임 신청 페이지&gt; URL</label>
+                <input type="text" id="kakaoApplyUrl" value="https://bookclub-apply-demo.streamlit.app" placeholder="예: https://bookclub-apply-demo.streamlit.app" style="font-size:0.85rem; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; background:#ffffff;">
+              </div>
+              <div class="form-group">
+                <label for="kakaoContactUrl" style="font-size:0.83rem; font-weight:700; color:#334155;">💬 * 미등록 연락 문의 URL</label>
+                <input type="text" id="kakaoContactUrl" value="https://open.kakao.com/o/sample_contact" placeholder="예: https://open.kakao.com/o/sample_contact" style="font-size:0.85rem; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; background:#ffffff;">
+              </div>
             </div>
 
-            <!-- 발송 & 복사 퀵 액션 버튼 그룹 -->
+            <!-- 실제 카카오톡 공지 전문 템플릿 -->
+            <div class="form-group">
+              <label for="kakaoNoticeText" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <span>📝 카카오톡 발송 전문 (토·일 맞춤 서식)</span>
+                <span style="font-size:0.75rem; color:#64748b;">수정 시 우측 스마트폰 화면에 즉시 반영됩니다</span>
+              </label>
+              <textarea id="kakaoNoticeText" rows="12" style="font-family: 'Pretendard', sans-serif; font-size: 0.88rem; line-height: 1.65; white-space: pre-wrap; padding:12px; border:1px solid #cbd5e1; border-radius:6px; width:100%; box-sizing:border-box;" required></textarea>
+            </div>
+
+            <!-- 발송 & 복사 퀵 액션 영역 -->
             <div class="form-action-wrap" style="display:flex; flex-direction:column; gap:12px; margin-top:16px;">
-              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
-                <button type="button" id="btnCopyKakao" class="btn-sheet-primary" style="padding:14px; font-weight:700; font-size:0.95rem; justify-content:center; display:flex; align-items:center; gap:8px; cursor:pointer; background:#2563eb; color:#ffffff; border:none; border-radius:6px;">
-                  <span>📋</span> <span>공지 전문 복사 (단톡방 붙여넣기)</span>
-                </button>
-                <button type="button" id="btnOpenKakaoApp" class="btn-sheet-tool" style="padding:14px; font-weight:700; font-size:0.95rem; justify-content:center; display:flex; align-items:center; gap:8px; border:1px solid #fde047; background:#fee500; color:#1e1b4b; border-radius:6px; cursor:pointer;">
-                  <span>💬</span> <span>카카오톡 앱 열기 / 공유</span>
-                </button>
+              <!-- 1) 공지 전문 복사 버튼 -->
+              <button type="button" id="btnCopyKakao" class="btn-sheet-primary" style="padding:13px; font-weight:700; font-size:0.95rem; justify-content:center; display:flex; align-items:center; gap:8px; cursor:pointer; background:#2563eb; color:#ffffff; border:none; border-radius:6px; width:100%;">
+                <span>📋</span> <span>공지 전문 복사 (클립보드 저장)</span>
+              </button>
+
+              <!-- 2) 오픈 카톡방 주소 입력 및 바로 열기 -->
+              <div style="background:#fefce8; border:1px solid #fef08a; border-radius:8px; padding:12px 14px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                  <label for="openKakaoUrl" style="font-size:0.83rem; font-weight:700; color:#854d0e; margin:0; display:flex; align-items:center; gap:6px;">
+                    <span>💬</span> <span>발송 대상 오픈 카톡방 주소</span>
+                  </label>
+                  <span style="font-size:0.75rem; color:#a16207;">[열기] 클릭 시 채팅방으로 바로 이동</span>
+                </div>
+                <div style="display:flex; gap:8px; align-items:center;">
+                  <input type="text" id="openKakaoUrl" value="https://open.kakao.com/o/sample_openchat" placeholder="예: https://open.kakao.com/o/sample_openchat" style="flex:1; font-size:0.85rem; padding:9px 12px; border:1px solid #cbd5e1; border-radius:6px; background:#ffffff;">
+                  <button type="button" id="btnOpenKakaoRoom" class="btn-sheet-tool" style="padding:9px 16px; font-weight:700; font-size:0.88rem; justify-content:center; display:inline-flex; align-items:center; gap:6px; border:1px solid #fde047; background:#fee500; color:#1e1b4b; border-radius:6px; cursor:pointer; white-space:nowrap;">
+                    <span>🔗</span> <span>채팅방 열기</span>
+                  </button>
+                </div>
+
+                <!-- 단톡방 3곳 샘플 프리셋 선택 -->
+                <div style="display:flex; gap:6px; margin-top:8px; align-items:center; flex-wrap:wrap;">
+                  <span style="font-size:0.75rem; color:#78350f; font-weight:600;">샘플 주소 선택:</span>
+                  <button type="button" class="btn-sample-tag btn-room-preset" data-url="https://open.kakao.com/o/sample_room1" style="font-size:0.75rem; padding:3px 8px; cursor:pointer;">단톡방 1</button>
+                  <button type="button" class="btn-sample-tag btn-room-preset" data-url="https://open.kakao.com/o/sample_room2" style="font-size:0.75rem; padding:3px 8px; cursor:pointer;">단톡방 2</button>
+                  <button type="button" class="btn-sample-tag btn-room-preset" data-url="https://open.kakao.com/o/sample_room3" style="font-size:0.75rem; padding:3px 8px; cursor:pointer;">단톡방 3</button>
+                </div>
               </div>
+
+              <!-- 안내 가이드 -->
               <div style="font-size:0.83rem; color:#475569; background:#f8fafc; padding:10px 14px; border-radius:6px; border:1px solid #e2e8f0; display:flex; align-items:center; gap:8px;">
-                <span style="font-size:1.1rem;">💡</span> <span><strong>단톡방 3곳 발송 팁:</strong> <code>[공지 전문 복사]</code> 클릭 후, 카카오톡 3개 단톡방에 각각 <code>Ctrl + V</code> (붙여넣기) 하시면 가장 빠르고 안전하게 발송됩니다.</span>
+                <span style="font-size:1.1rem;">💡</span> <span><strong>공지 발송 방법:</strong> <code>[공지 전문 복사]</code> 후 <code>[채팅방 열기]</code>를 누르면 해당 오픈 카톡방이 열리며, 바로 붙여넣기(<code>Ctrl+V</code>)하여 공지를 전송할 수 있습니다.</span>
               </div>
             </div>
           </form>
@@ -2871,7 +3146,7 @@ https://open.kakao.com/o/sWLBJTue
         <div class="preview-panel-card">
           <div class="preview-mode-switch">
             <div class="mode-buttons">
-              <span class="preview-fixed-tag">💬 카카오톡 스마트폰 모바일 실시간 프리뷰</span>
+              <span class="preview-fixed-tag">💬 관리자 카카오톡(나와의 채팅) 실시간 모바일 프리뷰</span>
             </div>
             <span class="preview-sync-tag">⚡ 실시간 반영</span>
           </div>
@@ -2884,8 +3159,8 @@ https://open.kakao.com/o/sWLBJTue
               </div>
               <div class="kt-chat-header">
                 <div class="kt-chat-info">
-                  <strong>📖 [정기] 2026 주말 독서모임 단톡방</strong>
-                  <span class="kt-chat-members">18명 참여 중</span>
+                  <strong>👤 관리자 나와의 채팅 (나에게 보내기)</strong>
+                  <span class="kt-chat-members">독서모임 운영자 (나)</span>
                 </div>
                 <div class="kt-header-icons">🔍 ≡</div>
               </div>
@@ -2894,12 +3169,12 @@ https://open.kakao.com/o/sWLBJTue
                 <span class="pin-icon">📌</span>
                 <div class="pin-text">
                   <span class="pin-label">공지</span>
-                  <strong id="ktPinTitle">[09/19, 20] 모임신청 안내</strong>
+                  <strong id="ktPinTitle">[10/03, 04] 모임신청 안내</strong>
                 </div>
               </div>
 
               <div class="kt-messages-area">
-                <div class="kt-msg-date">2026년 9월 16일 수요일</div>
+                <div class="kt-msg-date" id="ktMsgDateText">오늘 날짜 (월요일)</div>
                 <div class="kt-msg-bubble-group">
                   <div class="kt-profile-avatar">📚</div>
                   <div class="kt-msg-content-box">
@@ -2908,10 +3183,10 @@ https://open.kakao.com/o/sWLBJTue
                       <!-- JS 렌더링 -->
                     </div>
                     <div class="kt-action-buttons">
-                      <a href="https://bookclubplanet26.streamlit.app/" target="_blank" rel="noopener noreferrer" class="kt-btn-action" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">🪐 플래닛 신청 페이지 바로가기</a>
-                      <a href="https://open.kakao.com/o/sWLBJTue" target="_blank" rel="noopener noreferrer" class="kt-btn-action" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">💬 오픈카톡 문의하기</a>
+                      <a href="https://bookclub-apply-demo.streamlit.app" target="_blank" rel="noopener noreferrer" class="kt-btn-action" id="ktBtnPreviewApply" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">🪐 독서모임 신청 페이지 바로가기</a>
+                      <a href="https://open.kakao.com/o/sample_contact" target="_blank" rel="noopener noreferrer" class="kt-btn-action" id="ktBtnPreviewContact" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">💬 호스트 오픈카톡 1:1 문의</a>
                     </div>
-                    <span class="kt-time-stamp" id="ktTimeStamp">오후 2:05</span>
+                    <span class="kt-time-stamp" id="ktTimeStamp">오후 2:00</span>
                   </div>
                 </div>
               </div>
@@ -2919,491 +3194,180 @@ https://open.kakao.com/o/sWLBJTue
           </div>
 
           <div class="preview-footer-meta">
-            <span id="kakaoCharStats">글자 수: 320자</span>
+            <span id="kakaoCharStats">글자 수: 380자</span>
             <span class="preview-spec-badge">카카오톡 메시지 규격 준수 (최대 1,000자)</span>
           </div>
         </div>
       </div>
-
     </section>
 
     <!-- ===================================================================
-         기능 3) 📝 커뮤니티 게시글 공지 자동화 (소모임/네이버/당근/에타/인스타)
+         STEP 2) 📝 네이버 카페 스마트에디터 공지 자동화 (토·일 주말 모임)
          =================================================================== -->
     <section id="section-board" class="console-section">
       <div class="section-title-bar">
-        <span class="cred-badge board-badge">COMMUNITY NOTICE</span>
-        <h2>📝 커뮤니티 게시글 공지 전송</h2>
-        <p>소모임 정모, 네이버 카페, 당근 동네생활, 에브리타임, 인스타그램에 맞춘 상세 포스팅을 플랫폼 규격에 맞추어 일괄 등록합니다.</p>
+        <span class="cred-badge naver-top-badge" style="background:#dcfce7; color:#15803d; border:1px solid #86efac;">STEP 2 · NAVER CAFE SMART EDITOR</span>
+        <h2>📝 네이버 카페 공지 자동화 (매주 토·일 정기모임)</h2>
+        <p>네이버 카페 스마트에디터에 최적화된 <strong>서식(제목, 모임 개요 박스, 토·일 일정표, 자유책 토론 가이드, 신청 가이드)</strong>을 원클릭으로 복사하고 카페 글쓰기 창에 바로 등록합니다.</p>
       </div>
 
       <div class="broadcast-main-grid">
-        <!-- [좌측: 커뮤니티 게시글 작성기] -->
+        <!-- [좌측: 네이버 카페 공지 작성기] -->
         <div class="editor-panel-card">
           <div class="editor-head">
             <div>
-              <span class="section-badge-blue">BOARD COMPOSER</span>
-              <h3>📝 커뮤니티 게시글 작성기</h3>
+              <span class="section-badge-naver" style="background:#03c75a; color:#ffffff; font-weight:800; font-size:0.75rem; padding:3px 8px; border-radius:4px;">NAVER CAFE COMPOSER</span>
+              <h3>📝 네이버 카페 스마트에디터 작성기</h3>
             </div>
             <div class="editor-head-actions">
-              <button type="button" id="btnSampleBoard1" class="btn-sample-tag">샘플 (정기모임 게시글)</button>
+              <button type="button" id="btnNaverDaySat" class="btn-sample-tag active" style="font-weight:700;">토요모임 (강남)</button>
+              <button type="button" id="btnNaverDaySun" class="btn-sample-tag" style="font-weight:700;">일요모임 (종각)</button>
+              <button type="button" id="btnResetNaverTpl" class="btn-sample-tag" title="기본 공지 서식 복원">양식 복원</button>
             </div>
           </div>
 
-          <form id="boardNoticeForm" class="notice-admin-form">
+          <form id="boardNoticeForm" class="notice-admin-form" onsubmit="return false;">
+            <!-- 제목 입력 & 제목 복사 -->
             <div class="form-group">
-              <label for="boardTitle">게시글 제목</label>
-              <input type="text" id="boardTitle" value="[제14회 북클럽] '도둑맞은 집중력' 함께 읽고 대화하기" required>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <label for="boardTitle" style="font-weight:700; color:#14532d; margin:0;">게시글 제목</label>
+                <button type="button" id="btnCopyBoardTitle" class="btn-sample-tag" style="color:#03c75a; border-color:#86efac; background:#f0fdf4; cursor:pointer;">📋 제목 복사</button>
+              </div>
+              <input type="text" id="boardTitle" value="[10/03/토]강남 독서모임 436회 공지" style="font-weight:700; font-size:1.02rem; color:#14532d;" required>
             </div>
 
+            <!-- 회차 & 장소 간편 설정 -->
             <div class="form-grid-2">
               <div class="form-group">
-                <label for="boardBook">선정 도서</label>
-                <input type="text" id="boardBook" value="도둑맞은 집중력 (요한 하리)" required>
+                <label for="boardRound">회차 번호</label>
+                <input type="text" id="boardRound" value="436회" placeholder="예: 436회" style="font-weight:700;">
               </div>
-              <div class="form-group">
-                <label for="boardDateTime">모임 일시</label>
-                <input type="text" id="boardDateTime" value="2026년 9월 19일 (토) 오후 2:00 ~ 4:30" required>
-              </div>
-            </div>
-
-            <div class="form-grid-2">
               <div class="form-group">
                 <label for="boardPlace">모임 장소</label>
-                <input type="text" id="boardPlace" value="강남역 북카페 '생각의 숲' 3번 룸 (스터디룸 B)" required>
-              </div>
-              <div class="form-group">
-                <label for="boardFee">참가비 / 준비물</label>
-                <input type="text" id="boardFee" value="10,000원 (대관료 및 음료 1잔 포함, 영수증 100% 공개)" required>
+                <input type="text" id="boardPlace" value="강남역 인근 카페" placeholder="예: 강남역 인근 카페">
               </div>
             </div>
 
+            <!-- 게시글 본문 (직접 편집 가능) -->
             <div class="form-group">
-              <label for="boardBody">상세 발제문 및 모임 소개글 (게시글 본문)</label>
-              <textarea id="boardBody" rows="5">스마트폰과 알고리즘의 유혹 속에서 우리의 집중력은 왜 흐려졌을까요?
-가장 인상 깊었던 챕터 1곳과 함께 나누고 싶은 질문 1개를 준비해 와주세요!
-
-모임 진행 순서:
-1. 아이스브레이킹 및 도서 한줄평 (20분)
-2. 발제 질문 중심 자유 토론 (80분)
-3. 다음 모임 도서 추천 및 마무리 (20분)
-
-* 모임 후 출석 및 회계 내역은 구글 시트를 통해 회원 전원에게 투명하게 공개됩니다.</textarea>
+              <label for="boardBody" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <span style="font-weight:700; color:#1e293b;">📝 게시글 본문 (네이버 카페 복사용 전문)</span>
+                <span style="font-size:0.75rem; color:#64748b;">수정 시 우측 실제 카페 뷰어 화면에 실시간 반영됩니다</span>
+              </label>
+              <textarea id="boardBody" rows="15" style="font-family:'Pretendard',sans-serif; font-size:0.9rem; line-height:1.75; white-space:pre-wrap; padding:12px; border:1px solid #cbd5e1; border-radius:6px; width:100%; box-sizing:border-box;" required></textarea>
             </div>
 
-            <div class="form-section-divider"></div>
-            <div class="form-section-title board-title">
-              <span>📝 배포할 커뮤니티 채널 선택</span>
-            </div>
-            <div class="channel-select-box board-box">
-              <div class="board-checkbox-grid">
-                <label class="channel-checkbox-label">
-                  <input type="checkbox" id="chkSomoim" name="sendBoardChannels" value="somoim" checked>
-                  <span class="custom-checkbox"></span>
-                  <span class="chk-text">소모임 정모 등록</span>
-                </label>
-                <label class="channel-checkbox-label">
-                  <input type="checkbox" id="chkNaver" name="sendBoardChannels" value="naver" checked>
-                  <span class="custom-checkbox"></span>
-                  <span class="chk-text">네이버 카페 글쓰기</span>
-                </label>
-                <label class="channel-checkbox-label">
-                  <input type="checkbox" id="chkDaangn" name="sendBoardChannels" value="daangn" checked>
-                  <span class="custom-checkbox"></span>
-                  <span class="chk-text">당근 동네모임 공지</span>
-                </label>
-                <label class="channel-checkbox-label">
-                  <input type="checkbox" id="chkEta" name="sendBoardChannels" value="everytime" checked>
-                  <span class="custom-checkbox"></span>
-                  <span class="chk-text">에브리타임 게시글</span>
-                </label>
-                <label class="channel-checkbox-label">
-                  <input type="checkbox" id="chkInsta" name="sendBoardChannels" value="instagram" checked>
-                  <span class="custom-checkbox"></span>
-                  <span class="chk-text">인스타그램 피드 캡션</span>
-                </label>
+            <div class="naver-smart-actions" style="margin-top:16px; padding:16px; background:#f0fdf4; border:1px solid #86efac; border-radius:10px; display:flex; flex-direction:column; gap:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span style="background:#03c75a; color:#ffffff; font-size:0.72rem; font-weight:800; padding:3px 8px; border-radius:4px; letter-spacing:0.5px;">NAVER BRIDGE</span>
+                  <span style="font-size:0.9rem; font-weight:700; color:#14532d;">네이버 카페 스마트에디터 원클릭 글쓰기 솔루션</span>
+                </div>
+                <span style="font-size:0.75rem; color:#15803d;">서식 자동 클립보드 복사 ➔ 카페 글쓰기 새창 연결</span>
               </div>
-              <div class="sub-options-box">
-                <label class="sub-option"><input type="checkbox" id="optBoardMarkdown" checked> 마크다운 서식 자동 변환 및 가독성 최적화</label>
-                <label class="sub-option"><input type="checkbox" id="optBoardHashtags" checked> 북클럽 핵심 해시태그 자동 부여</label>
-                <label class="sub-option"><input type="checkbox" id="optBoardSheetLink" checked> 구글 시트 투명 공개 링크 첨부</label>
+              <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap:10px;">
+                <button type="button" id="btnCopyNaverRich" class="btn-sheet-tool" style="padding:12px; font-size:0.9rem; background:#ffffff; color:#15803d; border:1px solid #86efac; border-radius:6px; cursor:pointer; font-weight:700; display:flex; align-items:center; justify-content:center; gap:6px;">
+                  <span>📋</span> <span>네이버 본문 복사 (Ctrl+V용)</span>
+                </button>
+                <button type="button" id="btnOpenNaverWriteDirect" class="btn-sheet-primary" style="padding:12px; font-size:0.9rem; background:#03c75a; color:#ffffff; border:none; border-radius:6px; cursor:pointer; font-weight:700; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow: 0 2px 6px rgba(3, 199, 90, 0.25);">
+                  <span>✍️</span> <span>복사 후 카페 글쓰기 창 열기</span>
+                </button>
               </div>
-            </div>
-
-            <div class="form-action-wrap">
-              <button type="button" id="btnSendBoard" class="btn-execute-broadcast">
-                <span class="btn-rocket">📝</span>
-                <span class="btn-main-txt">선택 커뮤니티 게시판 일괄 등록 실행</span>
-                <span class="btn-sub-txt">5대 플랫폼 규격 변환 ➔ 봇 자동 포스팅</span>
-              </button>
             </div>
           </form>
         </div>
 
-        <!-- [우측: 커뮤니티 플랫폼별 탭 프리뷰] -->
+        <!-- [우측: 네이버 카페 실제 게시글 스타일 프리뷰] -->
         <div class="preview-panel-card">
           <div class="preview-mode-switch">
             <div class="mode-buttons">
-              <span class="preview-fixed-tag">📝 커뮤니티 플랫폼별 실시간 미리보기</span>
+              <span class="preview-fixed-tag">📝 네이버 카페 스마트에디터 실제 뷰어 미리보기</span>
             </div>
-            <span class="preview-sync-tag">⚡ 서식 최적화</span>
+            <span class="preview-sync-tag" style="background:#dcfce7; color:#15803d; border-color:#86efac;">🟢 네이버 맞춤 서식</span>
           </div>
 
-          <div class="preview-screen-wrap" id="previewScreenBoard">
-            <div class="board-preview-container">
-              <div class="board-subtabs" id="boardSubtabGroup">
-                <button type="button" class="board-subtab active" data-board="somoim">소모임 정모</button>
-                <button type="button" class="board-subtab" data-board="naver">네이버 카페</button>
-                <button type="button" class="board-subtab" data-board="daangn">당근 동네모임</button>
-                <button type="button" class="board-subtab" data-board="everytime">에브리타임</button>
-                <button type="button" class="board-subtab" data-board="instagram">인스타그램 피드</button>
+          <div class="preview-screen-wrap" id="previewScreenBoard" style="background:#f8fafc; padding:12px;">
+            <div class="naver-cafe-view-container" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+              <!-- 네이버 카페 게시글 상단 헤더 -->
+              <div class="naver-cafe-header-bar" style="background:#03c75a; color:#ffffff; padding:10px 16px; display:flex; justify-content:space-between; align-items:center;">
+                <div style="font-size:0.85rem; font-weight:800; display:flex; align-items:center; gap:6px;">
+                  <span>☕</span> <span>주말 독서모임 공식 네이버 카페</span>
+                </div>
+                <span style="font-size:0.75rem; opacity:0.9;">정기모임 공지게시판</span>
               </div>
 
-              <div class="board-article-viewport" id="boardArticleContent">
+              <!-- 네이버 카페 글 본문 렌더링 뷰포트 -->
+              <div class="board-article-viewport" id="boardArticleContent" style="padding:20px; font-family:'Pretendard',sans-serif;">
                 <!-- JS 렌더링 -->
               </div>
             </div>
           </div>
 
           <div class="preview-footer-meta">
-            <span id="boardCharStats">글자 수: 540자</span>
-            <span class="preview-spec-badge" id="boardSpecBadge">소모임 규격 준수</span>
+            <span id="boardCharStats">글자 수: 620자</span>
+            <span class="preview-spec-badge" id="boardSpecBadge">네이버 카페 스마트에디터 규격 준수</span>
           </div>
-        </div>
-      </div>
-
-      <!-- 커뮤니티 배포 터미널 콘솔 로그 -->
-      <div class="terminal-card" id="boardTerminalCard">
-        <div class="terminal-header">
-          <div class="terminal-title">
-            <span class="terminal-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></span>
-            <span class="terminal-name">community-bot@booklink: ~ /board/dispatch</span>
-          </div>
-          <div class="terminal-actions">
-            <span class="term-status-tag" id="boardTermStatusTag">대기 상태 (IDLE)</span>
-            <button type="button" class="btn-term-clear" id="btnClearBoardTerminal">콘솔 비우기</button>
-          </div>
-        </div>
-        <div class="terminal-body" id="boardTerminalLogBody">
-          <div class="term-line info">[SYSTEM] 커뮤니티 게시판 포스팅 봇 모듈 준비완료.</div>
-          <div class="term-line info">[READY] 5개 플랫폼(소모임, 네이버, 당근, 에타, 인스타) 인증 세션 정상 연결됨.</div>
         </div>
       </div>
     </section>
 
     <!-- ===================================================================
-         STEP 4) 📊 독서모임 회원 명단 & 출석·회비 관리 DB (Google Sheets)
+         STEP 3) 📊 독서모임 회원 명단 & 출석·회비 관리 DB (Google Sheets)
          =================================================================== -->
     <section id="section-sheet" class="console-section">
       <div class="section-title-bar">
-        <span class="badge-role sheet-badge" style="background:#dcfce7; color:#166534; border:1px solid #bbf7d0; display:inline-block; align-self:flex-start;">STEP 4 · MEMBER DATABASE</span>
-        <h2>📊 독서모임 회원 명단 &amp; 출석·회비 관리 DB (Google Sheets 연동)</h2>
-        <p>공지 발송 시 투명한 소통 링크로 연동되는 회원 출석 및 회비 납부 데이터베이스입니다. 실시간 동기화 및 편집이 가능합니다.</p>
+        <span class="badge-role sheet-badge" style="background:#dcfce7; color:#166534; border:1px solid #bbf7d0; display:inline-block; align-self:flex-start;">STEP 3 · MEMBER LIST</span>
+        <h2>📊 독서모임 회원 목록 &amp; 출석·회비 관리 DB (Google Sheets 연동)</h2>
+        <p>공지 발송 시 투명한 소통 링크로 연동되는 회원 목록 데이터베이스입니다. 실시간 동기화 및 편집이 가능합니다.</p>
       </div>
 
-      <!-- 구글 시트 문서 메인 헤더 & 메뉴바 -->
-      <div class="sheet-app-container">
-        <!-- 1-1. 구글 시트 상단 타이틀 & 메뉴 영역 -->
-        <div class="sheet-doc-header">
-          <div class="sheet-doc-meta">
-            <div class="sheet-icon-google">
-              <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor">
-                <path fill="#0F9D58" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+      <!-- 실제 구글 스프레드시트 연동 카드 -->
+      <div class="sheet-real-container" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,0.06); margin-top:16px;">
+        <!-- 상단 헤더 & 컨트롤 바 -->
+        <div style="background:#f8fafc; border-bottom:1px solid #e2e8f0; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="display:flex; align-items:center; justify-content:center; width:38px; height:38px; background:#dcfce7; border-radius:8px; border:1px solid #bbf7d0;">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="#0F9D58">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
                 <path fill="#ffffff" d="M14 17H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
               </svg>
             </div>
-            <div class="sheet-title-edit-group">
-              <input type="text" id="sheetDocTitle" class="sheet-doc-title-input" value="2026_독서클럽_정기모임_회원명단_v2.4" aria-label="시트 문서 이름">
-              <div class="sheet-doc-actions-row">
-                <button type="button" class="sheet-star-btn" id="btnStarSheet" title="별표 표시">⭐</button>
-                <span class="sheet-save-indicator" id="sheetSaveIndicator">☁ 모든 변경사항이 Google Drive에 실시간 저장됨</span>
+            <div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <strong style="font-size:1.02rem; color:#0f172a;">독서모임 회원 목록 (Google Sheets)</strong>
+                <span style="background:#dcfce7; color:#15803d; border:1px solid #86efac; font-size:0.75rem; padding:2px 8px; border-radius:12px; font-weight:700;">🟢 실시간 연동 활성</span>
               </div>
+              <span style="font-size:0.78rem; color:#64748b;">Google Drive 클라우드 자동 동기화</span>
             </div>
           </div>
 
-          <!-- 구글 시트 상단 통계 요약 위젯 -->
-          <div class="sheet-kpi-summary">
-            <div class="kpi-item">
-              <span class="kpi-label">전체 회원</span>
-              <span class="kpi-val" id="kpiTotalMembers">8명</span>
-            </div>
-            <div class="kpi-divider"></div>
-            <div class="kpi-item">
-              <span class="kpi-label">회비 납부율</span>
-              <span class="kpi-val text-success" id="kpiFeeRatio">87.5%</span>
-            </div>
-            <div class="kpi-divider"></div>
-            <div class="kpi-item">
-              <span class="kpi-label">평균 출석</span>
-              <span class="kpi-val" id="kpiAvgAttendance">6.2회</span>
-            </div>
-            <div class="kpi-divider"></div>
-            <div class="kpi-item">
-              <span class="kpi-label">발제문 제출</span>
-              <span class="kpi-val text-primary" id="kpiNoteRatio">75%</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- 1-2. 구글 시트 메뉴바 (File, Edit, View, Data 등) -->
-        <div class="sheet-menubar">
-          <button type="button" class="menu-item" id="menuFile">파일(F)</button>
-          <button type="button" class="menu-item" id="menuEdit">수정(E)</button>
-          <button type="button" class="menu-item" id="menuView">보기(V)</button>
-          <button type="button" class="menu-item" id="menuInsert">삽입(I)</button>
-          <button type="button" class="menu-item" id="menuFormat">서식(O)</button>
-          <button type="button" class="menu-item" id="menuData">데이터(D)</button>
-          <button type="button" class="menu-item" id="menuTools">도구(T)</button>
-          <button type="button" class="menu-item" id="menuExtensions">확장프로그램(E)</button>
-        </div>
-
-        <!-- 1-3. 구글 시트 서식 툴바 (Undo, Redo, B, I, U, Color, Align, Filter) -->
-        <div class="sheet-toolbar">
-          <div class="toolbar-group">
-            <button type="button" class="t-btn" id="tbUndo" title="실행취소 (Ctrl+Z)">↶</button>
-            <button type="button" class="t-btn" id="tbRedo" title="다시실행 (Ctrl+Y)">↷</button>
-            <button type="button" class="t-btn" id="tbPrint" title="인쇄 (Ctrl+P)">🖨️</button>
-          </div>
-          <div class="t-divider"></div>
-          <div class="toolbar-group">
-            <select class="t-select" id="tbZoom" title="화면 배율">
-              <option value="100%">100%</option>
-              <option value="90%">90%</option>
-              <option value="125%">125%</option>
-            </select>
-          </div>
-          <div class="t-divider"></div>
-          <div class="toolbar-group">
-            <button type="button" class="t-btn t-bold" id="tbBold" title="굵게 (Ctrl+B)">B</button>
-            <button type="button" class="t-btn t-italic" id="tbItalic" title="기울임꼴 (Ctrl+I)">I</button>
-            <button type="button" class="t-btn t-strike" id="tbStrike" title="취소선">S</button>
-            <button type="button" class="t-btn t-color" id="tbTextColor" title="텍스트 색상">A<span class="color-bar"></span></button>
-            <button type="button" class="t-btn t-fill" id="tbFillColor" title="채우기 색상">🪣</button>
-          </div>
-          <div class="t-divider"></div>
-          <div class="toolbar-group">
-            <button type="button" class="t-btn active" title="왼쪽 정렬">⇤</button>
-            <button type="button" class="t-btn" title="가운데 정렬">⇥⇤</button>
-            <button type="button" class="t-btn" title="오른쪽 정렬">⇥</button>
-          </div>
-          <div class="t-divider"></div>
-          <div class="toolbar-group">
-            <button type="button" class="t-btn" id="tbFilterToggle" title="필터 토글">🔻</button>
-            <button type="button" class="t-btn" id="tbFunctions" title="함수 삽입(SUM/AVERAGE)">Σ</button>
-          </div>
-        </div>
-
-        <!-- 1-4. 구글 시트 수식 입력줄 (Formula Bar: 셀 좌표 및 값/수식) -->
-        <div class="sheet-formula-bar">
-          <div class="formula-cell-coord" id="currentCellCoord">A1</div>
-          <div class="formula-fx-symbol">fx</div>
-          <input type="text" id="formulaInput" class="formula-input" placeholder="셀을 클릭하거나 수식을 입력하세요 (=SUM, =AVERAGE)" aria-label="수식 입력창">
-        </div>
-
-        <!-- 1-5. 빠른 컨트롤 바 (검색, 플랫폼 필터, 일괄 액션) -->
-        <div class="sheet-control-bar">
-          <div class="filter-controls-left">
-            <span class="control-label">플랫폼 필터:</span>
-            <div class="filter-pills-wrap" id="channelFilterGroup">
-              <button type="button" class="filter-pill active" data-channel="all">전체 (<span id="countAll">8</span>)</button>
-              <button type="button" class="filter-pill" data-channel="소모임">소모임</button>
-              <button type="button" class="filter-pill" data-channel="당근">당근</button>
-              <button type="button" class="filter-pill" data-channel="인스타">인스타</button>
-              <button type="button" class="filter-pill" data-channel="에타">에타</button>
-              <button type="button" class="filter-pill" data-channel="카카오톡">카카오톡</button>
-              <button type="button" class="filter-pill" data-channel="네이버">네이버 카페</button>
-            </div>
-          </div>
-
-          <div class="filter-controls-right">
-            <div class="sheet-search-box">
-              <span class="search-icon">🔍</span>
-              <input type="text" id="sheetSearchInput" placeholder="회원명, 책이름, 연락처 검색..." aria-label="회원 검색">
-            </div>
-            <button type="button" id="btnAddMember" class="btn-sheet-primary">
-              <span>➕ 신규 회원 등록</span>
+          <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+            <button type="button" id="btnCopySheetLink" class="btn-sheet-tool" style="padding:10px 14px; font-size:0.85rem; font-weight:700; background:#ffffff; color:#334155; border:1px solid #cbd5e1; border-radius:6px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+              <span>📋</span> <span>시트 주소 복사</span>
             </button>
-          </div>
-        </div>
-
-        <!-- 일괄 액션 바 (선택된 항목 있을 때 활성화) -->
-        <div class="batch-action-bar" id="batchActionBar" style="display: none;">
-          <span class="batch-count"><strong id="selectedCount">0</strong>명 선택됨</span>
-          <div class="batch-buttons">
-            <button type="button" class="btn-batch" id="btnBatchPaid">✔ 일괄 회비 납부완료 처리</button>
-            <button type="button" class="btn-batch" id="btnBatchNoteSubmitted">📝 일괄 발제문 제출완료 처리</button>
-            <button type="button" class="btn-batch btn-batch-danger" id="btnBatchDelete">🗑 선택 삭제</button>
-          </div>
-        </div>
-
-        <!-- 1-6. 스프레드시트 본체 그리드 테이블 -->
-        <div class="sheet-grid-wrapper" tabindex="0" aria-label="구글 시트형 독서모임 회원 명단 그리드">
-          <table class="sheet-grid-table" id="memberTable">
-            <thead>
-              <tr class="sheet-header-row">
-                <th class="col-select"><input type="checkbox" id="checkAllMembers" aria-label="전체 회원 선택"></th>
-                <th class="col-num">No</th>
-                <th class="col-name" data-sort="name">회원명 (익명) <span class="sort-arrow">↕</span></th>
-                <th class="col-phone">연락처 (익명화)</th>
-                <th class="col-channel" data-sort="channel">유입 채널 <span class="sort-arrow">↕</span></th>
-                <th class="col-attendance" data-sort="attendance">누적 출석 <span class="sort-arrow">↕</span></th>
-                <th class="col-fee" data-sort="fee">회비 납부 (10,000원) <span class="sort-arrow">↕</span></th>
-                <th class="col-book">지정 도서</th>
-                <th class="col-role">등급 / 역할</th>
-                <th class="col-note">발제문/독서노트</th>
-                <th class="col-action">관리</th>
-              </tr>
-            </thead>
-            <tbody id="memberTableBody">
-              <!-- JS에서 실시간 렌더링 -->
-            </tbody>
-          </table>
-        </div>
-
-        <!-- 1-7. 구글 시트 하단 탭 및 데이터 내보내기 풋터 바 -->
-        <div class="sheet-footer">
-          <div class="sheet-tabs-container">
-            <button type="button" class="sheet-tab active" data-sheet="regular">
-              <span>📑 [Sheet 1] 2026_정기모임_회원명단</span>
+            <button type="button" id="btnRefreshSheetIframe" class="btn-sheet-tool" style="padding:10px 14px; font-size:0.85rem; font-weight:700; background:#ffffff; color:#15803d; border:1px solid #86efac; border-radius:6px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+              <span>🔄</span> <span>시트 새로고침</span>
             </button>
-            <button type="button" class="sheet-tab" data-sheet="accounting">
-              <span>💰 [Sheet 2] 회비_입출금_정산장부</span>
-            </button>
-            <button type="button" class="sheet-tab-add" id="btnAddNewSheetTab" title="새 시트 탭 추가">➕</button>
+            <a href="https://docs.google.com/spreadsheets/d/1i6zZuk5ii6VotMiYPdHSQOFzpht2JTUgOuDrRoXcZh8/edit?gid=0#gid=0" target="_blank" rel="noopener noreferrer" style="text-decoration:none; padding:10px 18px; font-size:0.9rem; font-weight:800; background:#0f9d58; color:#ffffff; border-radius:6px; display:flex; align-items:center; gap:8px; box-shadow:0 2px 8px rgba(15,157,88,0.25);">
+              <span>📊</span> <span>회원 목록 원본 새 창에서 열기 / 편집 ↗</span>
+            </a>
           </div>
+        </div>
 
-          <div class="sheet-footer-actions">
-            <span class="sheet-status-text" id="footerSyncStatus">구글 시트 API 연동 규격 100% 일치 (Cloud Auto-syncing)</span>
-            <button type="button" id="btnExportCsv" class="btn-sheet-tool">📥 CSV 다운로드</button>
-            <button type="button" id="btnExportJson" class="btn-sheet-tool">📄 JSON 백업</button>
-            <button type="button" id="btnResetData" class="btn-sheet-tool">🔄 초기 데이터 복원</button>
-          </div>
+        <!-- 실제 구글 스프레드시트 임베드 뷰어 -->
+        <div style="width:100%; height:620px; background:#ffffff; position:relative; overflow:hidden;">
+          <iframe id="googleSheetIframe" src="https://docs.google.com/spreadsheets/d/1i6zZuk5ii6VotMiYPdHSQOFzpht2JTUgOuDrRoXcZh8/htmlembed?gid=0&amp;widget=true" style="width:100%; height:100%; border:none; display:block;" title="독서모임 회원 목록 (구글 스프레드시트)"></iframe>
+        </div>
+
+        <!-- 하단 실시간 안내 바 -->
+        <div style="padding:12px 20px; background:#f8fafc; border-top:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; font-size:0.82rem; color:#64748b; flex-wrap:wrap; gap:8px;">
+          <span>💡 <strong>실시간 편집 안내:</strong> 본 화면에서 시트가 바로 조회되며, 내용 수정 및 신규 등록은 상단의 <code>[구글 시트 원본 새 창에서 열기 / 편집]</code>을 눌러 직접 작업하실 수 있습니다.</span>
+          <span style="font-weight:700; color:#0f9d58;">Google Sheets v4 Cloud Sync</span>
         </div>
       </div>
     </section>
 
-   </section>
-
   </main>
-
-  <!-- ===================================================================
-       모달 1: 신규 독서모임 회원 등록 모달
-       =================================================================== -->
-  <div class="modal-backdrop" id="addMemberModal" aria-hidden="true" role="dialog" aria-labelledby="addMemberTitle">
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <h3 id="addMemberTitle">➕ 신규 독서모임 회원 등록</h3>
-        <button type="button" class="btn-modal-close" id="btnCloseAddMember" aria-label="닫기">✕</button>
-      </div>
-      <div class="modal-body">
-        <form id="addMemberForm">
-          <div class="form-grid-2">
-            <div class="form-group">
-              <label for="newMemberName">회원 이름 (자동 익명화)</label>
-              <input type="text" id="newMemberName" placeholder="***" required>
-            </div>
-            <div class="form-group">
-              <label for="newMemberPhone">연락처 (자동 익명화)</label>
-              <input type="text" id="newMemberPhone" placeholder="010-0000-0000" required>
-            </div>
-          </div>
-
-          <div class="form-grid-2">
-            <div class="form-group">
-              <label for="newMemberChannel">유입 채널</label>
-              <select id="newMemberChannel" required>
-                <option value="소모임">소모임</option>
-                <option value="당근">당근</option>
-                <option value="인스타">인스타</option>
-                <option value="에타">에타</option>
-                <option value="카카오톡">카카오톡</option>
-                <option value="네이버">네이버 카페</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="newMemberRole">회원 등급</label>
-              <select id="newMemberRole">
-                <option value="신규회원">신규회원</option>
-                <option value="일반회원">일반회원</option>
-                <option value="정회원">정회원</option>
-                <option value="운영진">운영진</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="newMemberBook">지정 도서</label>
-            <input type="text" id="newMemberBook" value="도둑맞은 집중력" required>
-          </div>
-
-          <div class="form-grid-2">
-            <div class="form-group">
-              <label for="newMemberFee">회비 납부 상태</label>
-              <select id="newMemberFee">
-                <option value="완료">납부 완료 (10,000원)</option>
-                <option value="대기">입금 대기</option>
-                <option value="면제">면제 (운영진)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="newMemberNote">발제문/독서노트</label>
-              <select id="newMemberNote">
-                <option value="제출">제출 완료</option>
-                <option value="미제출">미제출</option>
-              </select>
-            </div>
-          </div>
-
-          <button type="submit" class="btn-sheet-primary btn-block">구글 스프레드시트에 행 추가</button>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===================================================================
-       모달 2: 원클릭 배포 완료 종합 리포트 모달
-       =================================================================== -->
-  <div class="modal-backdrop" id="broadcastReportModal" aria-hidden="true" role="dialog" aria-labelledby="reportModalTitle">
-    <div class="modal-dialog modal-dialog-lg">
-      <div class="modal-header">
-        <h3 id="reportModalTitle">🎉 멀티플랫폼 원클릭 공지 배포 성공!</h3>
-        <button type="button" class="btn-modal-close" id="btnCloseReportModal" aria-label="닫기">✕</button>
-      </div>
-      <div class="modal-body">
-        <div class="report-summary-card">
-          <div class="report-icon">🚀</div>
-          <div>
-            <strong>모든 타겟 채널에 공지가 100% 동일하게 배포되었습니다.</strong>
-            <p>ID/PW 계정 세션 인증을 통해 메신저 단톡방과 각 커뮤니티 게시판에 자동 등록 완료되었습니다.</p>
-          </div>
-        </div>
-
-        <div class="report-section-sub">
-          <h4>💬 메신저 전송 결과</h4>
-          <div class="report-channel-row" id="reportMessengerRow">
-            <span class="rep-channel">🟡 카카오톡 단톡방 / 알림톡</span>
-            <span class="rep-status badge-success">발송 완료 & 톡게시판 핀 고정</span>
-            <span class="rep-time">방금 전</span>
-          </div>
-        </div>
-
-        <div class="report-section-sub">
-          <h4>📝 커뮤니티 및 SNS 게시판 등록 결과</h4>
-          <div class="report-board-list" id="reportBoardList">
-            <!-- JS 렌더링 -->
-          </div>
-        </div>
-
-        <div class="report-transparent-box">
-          <strong>🔒 투명한 소통 및 신뢰 원칙 적용</strong>
-          <p>공지 본문에 구글 시트 투명 출석/회계 링크가 자동으로 삽입되어, 채널 간 정보 비대칭이 완벽하게 해소되었습니다.</p>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-sheet-primary" id="btnConfirmReport">확인 완료</button>
-      </div>
-    </div>
-  </div>
 
   <!-- 콘솔 푸터 바 -->
   <footer class="console-footer">
@@ -3425,685 +3389,24 @@ https://open.kakao.com/o/sWLBJTue
 
 document.addEventListener("DOMContentLoaded", () => {
   // =========================================================================
-  // 1. Google Sheets Style Member DB Engine
+  // 1. Official Google Spreadsheet Integration
   // =========================================================================
 
-  // 개인정보 보호 익명화(마스킹) 유틸
-  function maskName(name) {
-    if (!name) return "***";
-    return "***";
-  }
+  const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1i6zZuk5ii6VotMiYPdHSQOFzpht2JTUgOuDrRoXcZh8/edit?gid=0#gid=0";
+  const GOOGLE_SHEET_EMBED_URL = "https://docs.google.com/spreadsheets/d/1i6zZuk5ii6VotMiYPdHSQOFzpht2JTUgOuDrRoXcZh8/htmlembed?gid=0&widget=true";
 
-  function maskPhone(phone) {
-    return "010-0000-0000";
-  }
-
-  const initialMembers = [
-    { id: 1, name: "***", phone: "010-0000-0000", channel: "소모임", attendance: 8, fee: "완료", book: "도둑맞은 집중력", role: "정회원", note: "제출" },
-    { id: 2, name: "***", phone: "010-0000-0000", channel: "당근", attendance: 3, fee: "완료", book: "도둑맞은 집중력", role: "일반회원", note: "제출" },
-    { id: 3, name: "***", phone: "010-0000-0000", channel: "인스타", attendance: 12, fee: "완료", book: "물고기는 존재하지 않는다", role: "운영진", note: "제출" },
-    { id: 4, name: "***", phone: "010-0000-0000", channel: "에타", attendance: 2, fee: "대기", book: "도둑맞은 집중력", role: "신규회원", note: "미제출" },
-    { id: 5, name: "***", phone: "010-0000-0000", channel: "카카오톡", attendance: 6, fee: "완료", book: "원씽 (The ONE Thing)", role: "정회원", note: "제출" },
-    { id: 6, name: "***", phone: "010-0000-0000", channel: "네이버", attendance: 4, fee: "대기", book: "도둑맞은 집중력", role: "일반회원", note: "미제출" },
-    { id: 7, name: "***", phone: "010-0000-0000", channel: "소모임", attendance: 9, fee: "완료", book: "클린 코드", role: "호스트", note: "제출" },
-    { id: 8, name: "***", phone: "010-0000-0000", channel: "당근", attendance: 5, fee: "면제", book: "도둑맞은 집중력", role: "운영진", note: "제출" }
-  ];
-
-  // 이전 버전 로컬 스토리지 캐시 완전 정리 (개인정보 보호)
-  ["booklink_members_v1", "booklink_members_v2", "booklink_members_v3", "booklink_members_v4", "booklink_members_v5"].forEach((k) => localStorage.removeItem(k));
-
-  let rawStored = JSON.parse(localStorage.getItem("booklink_members_v6"));
-  let members = (rawStored && rawStored.length > 0) ? rawStored : [...initialMembers];
-  // 기존 저장 데이터도 이름(***)과 연락처(010-0000-0000) 익명화 적용
-  members = members.map((m) => ({
-    ...m,
-    name: maskName(m.name),
-    phone: maskPhone(m.phone)
-  }));
-  localStorage.setItem("booklink_members_v6", JSON.stringify(members));
-  let selectedMemberIds = new Set();
-  let currentFilter = "all";
-  let searchQuery = "";
-  let currentActiveCell = null;
-
-  // DOM Elements - Sheet
-  const tableBody = document.getElementById("memberTableBody");
-  const searchInput = document.getElementById("sheetSearchInput");
-  const filterPills = document.querySelectorAll("#channelFilterGroup .filter-pill");
-  const countAll = document.getElementById("countAll");
-  const checkAllMembers = document.getElementById("checkAllMembers");
-  const batchActionBar = document.getElementById("batchActionBar");
-  const selectedCount = document.getElementById("selectedCount");
-
-  // KPI Elements
-  const kpiTotalMembers = document.getElementById("kpiTotalMembers");
-  const kpiFeeRatio = document.getElementById("kpiFeeRatio");
-  const kpiAvgAttendance = document.getElementById("kpiAvgAttendance");
-  const kpiNoteRatio = document.getElementById("kpiNoteRatio");
-
-  // Formula Bar Elements
-  const currentCellCoord = document.getElementById("currentCellCoord");
-  const formulaInput = document.getElementById("formulaInput");
-
-  // Sync Elements
+  const googleSheetIframe = document.getElementById("googleSheetIframe");
+  const btnCopySheetLink = document.getElementById("btnCopySheetLink");
+  const btnRefreshSheetIframe = document.getElementById("btnRefreshSheetIframe");
   const btnSyncGoogleNow = document.getElementById("btnSyncGoogleNow");
-  const sheetSaveIndicator = document.getElementById("sheetSaveIndicator");
-  const cloudSyncStatus = document.getElementById("cloudSyncStatus");
 
-  // XSS 방지 유틸
-  function escapeHtml(str) {
-    if (!str && str !== 0) return "";
-    return String(str)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
-
-  // 1-1. Table Rendering
-  function renderMemberTable() {
-    if (!tableBody) return;
-
-    const filtered = members.filter((m) => {
-      const matchChannel = currentFilter === "all" || m.channel === currentFilter;
-      const q = searchQuery.toLowerCase().trim();
-      const matchSearch = !q ||
-        m.name.toLowerCase().includes(q) ||
-        m.channel.toLowerCase().includes(q) ||
-        m.book.toLowerCase().includes(q) ||
-        m.role.toLowerCase().includes(q) ||
-        m.phone.includes(q);
-      return matchChannel && matchSearch;
-    });
-
-    tableBody.innerHTML = "";
-
-    if (filtered.length === 0) {
-      tableBody.innerHTML = `
-        <tr>
-          <td colspan="11" style="text-align: center; padding: 40px; color: var(--text-dim);">
-            일치하는 회원 데이터가 없습니다. (필터 또는 검색어를 확인하세요)
-          </td>
-        </tr>
-      `;
-    } else {
-      filtered.forEach((m, idx) => {
-        const tr = document.createElement("tr");
-        const isSelected = selectedMemberIds.has(m.id);
-        if (isSelected) tr.classList.add("row-selected");
-
-        // Channel Chip Class
-        const chipMap = {
-          "카카오톡": "chip-kakao",
-          "소모임": "chip-somoim",
-          "네이버": "chip-naver",
-          "당근": "chip-daangn",
-          "에타": "chip-everytime",
-          "인스타": "chip-instagram"
-        };
-        const chipClass = chipMap[m.channel] || "chip-somoim";
-
-        // Fee Badge Class
-        let feeClass = "fee-paid";
-        let feeText = "✔ 납부 완료";
-        if (m.fee === "대기") {
-          feeClass = "fee-pending";
-          feeText = "⏳ 입금 대기";
-        } else if (m.fee === "면제") {
-          feeClass = "fee-exempt";
-          feeText = "🏷️ 회비 면제";
-        }
-
-        // Note Badge
-        const noteClass = m.note === "제출" ? "note-submitted" : "note-pending";
-        const noteText = m.note === "제출" ? "✔ 제출 완료" : "⏳ 미제출";
-
-        // Role Class
-        const isHost = m.role === "호스트";
-        const roleClass = isHost ? "role-tag role-host" : "role-tag";
-
-        tr.innerHTML = `
-          <td class="col-select">
-            <input type="checkbox" class="row-checkbox" data-id="${m.id}" ${isSelected ? "checked" : ""}>
-          </td>
-          <td class="col-num" data-coord="A${idx + 2}">${idx + 1}</td>
-          <td class="col-name" data-coord="B${idx + 2}" data-val="${escapeHtml(maskName(m.name))}">
-            <strong>${escapeHtml(maskName(m.name))}</strong>
-          </td>
-          <td class="col-phone" data-coord="C${idx + 2}" data-val="${escapeHtml(maskPhone(m.phone))}">${escapeHtml(maskPhone(m.phone))}</td>
-          <td class="col-channel" data-coord="D${idx + 2}" data-val="${escapeHtml(m.channel)}">
-            <span class="channel-chip ${chipClass}">${escapeHtml(m.channel)}</span>
-          </td>
-          <td class="col-attendance" data-coord="E${idx + 2}" data-val="${m.attendance}">
-            <div class="attendance-cell">
-              <button type="button" class="btn-counter btn-att-minus" data-id="${m.id}">-</button>
-              <span class="count-number">${m.attendance}회</span>
-              <button type="button" class="btn-counter btn-att-plus" data-id="${m.id}">+</button>
-            </div>
-          </td>
-          <td class="col-fee" data-coord="F${idx + 2}" data-val="${m.fee}">
-            <span class="fee-badge ${feeClass}" data-id="${m.id}" title="클릭 시 상태 전환 (완료/대기/면제)">
-              ${feeText}
-            </span>
-          </td>
-          <td class="col-book" data-coord="G${idx + 2}" data-val="${escapeHtml(m.book)}">📖 ${escapeHtml(m.book)}</td>
-          <td class="col-role" data-coord="H${idx + 2}" data-val="${escapeHtml(m.role)}">
-            <span class="${roleClass}">${escapeHtml(m.role)}</span>
-          </td>
-          <td class="col-note" data-coord="I${idx + 2}" data-val="${m.note}">
-            <span class="note-badge ${noteClass}" data-id="${m.id}" title="클릭 시 발제문 제출여부 토글">
-              ${noteText}
-            </span>
-          </td>
-          <td class="col-action">
-            <button type="button" class="btn-delete-row" data-id="${m.id}" title="명단에서 삭제">✕</button>
-          </td>
-        `;
-        tableBody.appendChild(tr);
-      });
-    }
-
-    updateMetrics();
-    updateBatchBar();
-  }
-
-  // 1-2. Update KPI Metrics
-  function updateMetrics() {
-    if (!members.length) {
-      if (kpiTotalMembers) kpiTotalMembers.textContent = "0명";
-      if (kpiFeeRatio) kpiFeeRatio.textContent = "0%";
-      if (kpiAvgAttendance) kpiAvgAttendance.textContent = "0회";
-      if (kpiNoteRatio) kpiNoteRatio.textContent = "0%";
-      if (countAll) countAll.textContent = "0";
-      return;
-    }
-
-    const total = members.length;
-    if (kpiTotalMembers) kpiTotalMembers.textContent = `${total}명`;
-    if (countAll) countAll.textContent = total;
-
-    // Fee Paid Ratio (완료 or 면제)
-    const paidCount = members.filter((m) => m.fee === "완료" || m.fee === "면제").length;
-    const feeRatio = Math.round((paidCount / total) * 100);
-    if (kpiFeeRatio) kpiFeeRatio.textContent = `${feeRatio}% (${paidCount}/${total})`;
-
-    // Avg Attendance
-    const totalAtt = members.reduce((sum, m) => sum + (Number(m.attendance) || 0), 0);
-    const avgAtt = (totalAtt / total).toFixed(1);
-    if (kpiAvgAttendance) kpiAvgAttendance.textContent = `${avgAtt}회`;
-
-    // Note Ratio
-    const noteCount = members.filter((m) => m.note === "제출").length;
-    const noteRatio = Math.round((noteCount / total) * 100);
-    if (kpiNoteRatio) kpiNoteRatio.textContent = `${noteRatio}% (${noteCount}/${total})`;
-  }
-
-  // 1-3. Batch Selection Bar
-  function updateBatchBar() {
-    if (!batchActionBar) return;
-    const count = selectedMemberIds.size;
-    if (selectedCount) selectedCount.textContent = count;
-
-    if (count > 0) {
-      batchActionBar.style.display = "flex";
-    } else {
-      batchActionBar.style.display = "none";
-    }
-
-    if (checkAllMembers) {
-      checkAllMembers.checked = members.length > 0 && selectedMemberIds.size === members.length;
-    }
-  }
-
-  // 1-4. Search & Filter Listeners
-  if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
-      searchQuery = e.target.value;
-      renderMemberTable();
-    });
-  }
-
-  filterPills.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      filterPills.forEach((p) => p.classList.remove("active"));
-      btn.classList.add("active");
-      currentFilter = btn.getAttribute("data-channel");
-      renderMemberTable();
-    });
-  });
-
-  // Check all
-  if (checkAllMembers) {
-    checkAllMembers.addEventListener("change", (e) => {
-      if (e.target.checked) {
-        selectedMemberIds = new Set(members.map((m) => m.id));
-      } else {
-        selectedMemberIds.clear();
-      }
-      renderMemberTable();
-    });
-  }
-
-  // Table Body Delegation
-  if (tableBody) {
-    tableBody.addEventListener("click", (e) => {
-      // Row Checkbox
-      const chk = e.target.closest(".row-checkbox");
-      if (chk) {
-        const id = parseInt(chk.getAttribute("data-id"), 10);
-        if (chk.checked) selectedMemberIds.add(id);
-        else selectedMemberIds.delete(id);
-        renderMemberTable();
-        return;
-      }
-
-      // Attendance Minus
-      const btnMinus = e.target.closest(".btn-att-minus");
-      if (btnMinus) {
-        const id = parseInt(btnMinus.getAttribute("data-id"), 10);
-        const target = members.find((m) => m.id === id);
-        if (target && target.attendance > 0) {
-          target.attendance -= 1;
-          saveAndRefresh();
-        }
-        return;
-      }
-
-      // Attendance Plus
-      const btnPlus = e.target.closest(".btn-att-plus");
-      if (btnPlus) {
-        const id = parseInt(btnPlus.getAttribute("data-id"), 10);
-        const target = members.find((m) => m.id === id);
-        if (target) {
-          target.attendance += 1;
-          saveAndRefresh();
-        }
-        return;
-      }
-
-      // Fee Toggle (완료 -> 대기 -> 면제 -> 완료)
-      const feeBadge = e.target.closest(".fee-badge");
-      if (feeBadge) {
-        const id = parseInt(feeBadge.getAttribute("data-id"), 10);
-        const target = members.find((m) => m.id === id);
-        if (target) {
-          if (target.fee === "완료") target.fee = "대기";
-          else if (target.fee === "대기") target.fee = "면제";
-          else target.fee = "완료";
-          saveAndRefresh();
-        }
-        return;
-      }
-
-      // Note Toggle (제출 <-> 미제출)
-      const noteBadge = e.target.closest(".note-badge");
-      if (noteBadge) {
-        const id = parseInt(noteBadge.getAttribute("data-id"), 10);
-        const target = members.find((m) => m.id === id);
-        if (target) {
-          target.note = target.note === "제출" ? "미제출" : "제출";
-          saveAndRefresh();
-        }
-        return;
-      }
-
-      // Delete Row
-      const delBtn = e.target.closest(".btn-delete-row");
-      if (delBtn) {
-        const id = parseInt(delBtn.getAttribute("data-id"), 10);
-        const target = members.find((m) => m.id === id);
-        if (target && confirm(`'${target.name}' 회원을 명단에서 삭제하시겠습니까?`)) {
-          members = members.filter((m) => m.id !== id);
-          selectedMemberIds.delete(id);
-          saveAndRefresh();
-        }
-        return;
-      }
-
-      // Cell Select for Formula Bar
-      const cell = e.target.closest("td");
-      if (cell) {
-        document.querySelectorAll(".sheet-grid-table td").forEach((td) => td.classList.remove("cell-active"));
-        cell.classList.add("cell-active");
-        currentActiveCell = cell;
-
-        const coord = cell.getAttribute("data-coord") || "B2";
-        const val = cell.getAttribute("data-val") || cell.textContent.trim();
-        if (currentCellCoord) currentCellCoord.textContent = coord;
-        if (formulaInput) formulaInput.value = val;
-      }
-    });
-  }
-
-  // Formula Input Enter
-  if (formulaInput) {
-    formulaInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && currentActiveCell) {
-        currentActiveCell.textContent = formulaInput.value;
-        currentActiveCell.setAttribute("data-val", formulaInput.value);
-        formulaInput.blur();
-      }
-    });
-  }
-
-  // Batch Buttons
-  const btnBatchPaid = document.getElementById("btnBatchPaid");
-  if (btnBatchPaid) {
-    btnBatchPaid.addEventListener("click", () => {
-      members.forEach((m) => {
-        if (selectedMemberIds.has(m.id)) m.fee = "완료";
-      });
-      saveAndRefresh();
-    });
-  }
-
-  const btnBatchNoteSubmitted = document.getElementById("btnBatchNoteSubmitted");
-  if (btnBatchNoteSubmitted) {
-    btnBatchNoteSubmitted.addEventListener("click", () => {
-      members.forEach((m) => {
-        if (selectedMemberIds.has(m.id)) m.note = "제출";
-      });
-      saveAndRefresh();
-    });
-  }
-
-  const btnBatchDelete = document.getElementById("btnBatchDelete");
-  if (btnBatchDelete) {
-    btnBatchDelete.addEventListener("click", () => {
-      if (confirm(`선택한 ${selectedMemberIds.size}명의 회원을 일괄 삭제하시겠습니까?`)) {
-        members = members.filter((m) => !selectedMemberIds.has(m.id));
-        selectedMemberIds.clear();
-        saveAndRefresh();
-      }
-    });
-  }
-
-  // Instant Cloud Sync Animation
-  if (btnSyncGoogleNow) {
-    btnSyncGoogleNow.addEventListener("click", () => {
-      btnSyncGoogleNow.classList.add("syncing");
-      const textSpan = btnSyncGoogleNow.querySelector(".sync-text");
-      if (textSpan) textSpan.textContent = "동기화 중...";
-
-      if (sheetSaveIndicator) {
-        sheetSaveIndicator.textContent = "🔄 Google Cloud 저장소와 패킷 교환 중...";
-        sheetSaveIndicator.style.color = "var(--primary)";
-      }
-
-      setTimeout(() => {
-        btnSyncGoogleNow.classList.remove("syncing");
-        if (textSpan) textSpan.textContent = "즉시 동기화";
-        const now = new Date();
-        const timeStr = `${now.getHours()}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}`;
-        if (sheetSaveIndicator) {
-          sheetSaveIndicator.textContent = `☁ 모든 변경사항이 Google Drive에 저장됨 (${timeStr})`;
-          sheetSaveIndicator.style.color = "var(--sheet-green)";
-        }
-      }, 700);
-    });
-  }
-
-  // Add Member Modal
-  const btnAddMember = document.getElementById("btnAddMember");
-  const addMemberModal = document.getElementById("addMemberModal");
-  const btnCloseAddMember = document.getElementById("btnCloseAddMember");
-  const addMemberForm = document.getElementById("addMemberForm");
-
-  if (btnAddMember && addMemberModal) {
-    btnAddMember.addEventListener("click", () => addMemberModal.classList.add("active"));
-  }
-  if (btnCloseAddMember && addMemberModal) {
-    btnCloseAddMember.addEventListener("click", () => addMemberModal.classList.remove("active"));
-  }
-  if (addMemberModal) {
-    addMemberModal.addEventListener("click", (e) => {
-      if (e.target === addMemberModal) addMemberModal.classList.remove("active");
-    });
-  }
-
-  if (addMemberForm) {
-    addMemberForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const name = document.getElementById("newMemberName").value.trim();
-      const phone = document.getElementById("newMemberPhone").value.trim();
-      const channel = document.getElementById("newMemberChannel").value;
-      const role = document.getElementById("newMemberRole").value;
-      const book = document.getElementById("newMemberBook").value.trim();
-      const fee = document.getElementById("newMemberFee").value;
-      const note = document.getElementById("newMemberNote").value;
-
-      if (!name) return;
-
-      const newId = members.length > 0 ? Math.max(...members.map((m) => m.id)) + 1 : 1;
-      members.push({
-        id: newId,
-        name: maskName(name),
-        phone: maskPhone(phone || "010-0000-0000"),
-        channel,
-        attendance: 1,
-        fee,
-        book,
-        role,
-        note
-      });
-
-      saveAndRefresh();
-      addMemberForm.reset();
-      addMemberModal.classList.remove("active");
-    });
-  }
-
-  // CSV Export
-  const btnExportCsv = document.getElementById("btnExportCsv");
-  if (btnExportCsv) {
-    btnExportCsv.addEventListener("click", () => {
-      let csv = "번호,회원명,연락처,유입플랫폼,누적출석,회비납부,지정도서,등급,독서노트제출\n";
-      members.forEach((m, idx) => {
-        csv += `${idx + 1},"${m.name}","${m.phone}","${m.channel}",${m.attendance},"${m.fee}","${m.book}","${m.role}","${m.note}"\n`;
-      });
-      const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "2026_독서모임_회원명단_시트.csv";
-      a.click();
-      URL.revokeObjectURL(url);
-    });
-  }
-
-  // JSON Export
-  const btnExportJson = document.getElementById("btnExportJson");
-  if (btnExportJson) {
-    btnExportJson.addEventListener("click", () => {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(members, null, 2));
-      const a = document.createElement("a");
-      a.href = dataStr;
-      a.download = "2026_독서모임_회원데이터.json";
-      a.click();
-    });
-  }
-
-  // Reset Data
-  const btnResetData = document.getElementById("btnResetData");
-  if (btnResetData) {
-    btnResetData.addEventListener("click", () => {
-      if (confirm("초기 샘플 데이터 8명 명단으로 복원하시겠습니까?")) {
-        members = [...initialMembers];
-        selectedMemberIds.clear();
-        saveAndRefresh();
-      }
-    });
-  }
-
-  function saveAndRefresh() {
-    localStorage.setItem("booklink_members_v6", JSON.stringify(members));
-    renderMemberTable();
-  }
-
-  // =========================================================================
-  // 2. Credentials Manager (ID / PW Settings for Messenger & Boards)
-  // =========================================================================
-
-  // Password visibility toggle
-  document.querySelectorAll(".btn-toggle-pw").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const input = btn.previousElementSibling;
-      if (input) {
-        if (input.type === "password") {
-          input.type = "text";
-          btn.textContent = "🙈";
-        } else {
-          input.type = "password";
-          btn.textContent = "👁️";
-        }
-      }
-    });
-  });
-
-  // Save credentials
-  const btnSaveCredentials = document.getElementById("btnSaveCredentials");
-  if (btnSaveCredentials) {
-    btnSaveCredentials.addEventListener("click", () => {
-      btnSaveCredentials.textContent = "✔ 저장 완료!";
-      btnSaveCredentials.style.background = "var(--sheet-green)";
-      setTimeout(() => {
-        btnSaveCredentials.textContent = "💾 계정 정보 안전 저장";
-        btnSaveCredentials.style.background = "";
-      }, 1500);
-    });
-  }
-
-  // Kakao Bot Session Test
-  const btnKakaoTest = document.querySelector(".btn-auth-test[data-platform='kakao']");
-  const msgKakaoTest = document.getElementById("msgKakaoTest");
-  const badgeKakaoStatus = document.getElementById("badgeKakaoStatus");
-
-  if (btnKakaoTest) {
-    btnKakaoTest.addEventListener("click", () => {
-      if (msgKakaoTest) msgKakaoTest.textContent = "카카오 인증 서버 핑 테스트 중...";
-      setTimeout(() => {
-        if (msgKakaoTest) {
-          msgKakaoTest.textContent = "🟢 인증 성공: 3개 단톡방 세션 정상 연결됨";
-          msgKakaoTest.style.color = "var(--accent-emerald)";
-        }
-        if (badgeKakaoStatus) {
-          badgeKakaoStatus.textContent = "🟢 세션 정상 (3개 방 연결)";
-          badgeKakaoStatus.classList.add("badge-active");
-        }
-      }, 600);
-    });
-  }
-
-  // Test All Accounts
-  const btnTestAllAccounts = document.getElementById("btnTestAllAccounts");
-  if (btnTestAllAccounts) {
-    btnTestAllAccounts.addEventListener("click", () => {
-      btnTestAllAccounts.textContent = "🔄 6개 플랫폼 세션 검증 중...";
-      setTimeout(() => {
-        btnTestAllAccounts.textContent = "✔ 전체 계정 정상 연결됨";
-        alert("카카오톡 메신저 및 5개 게시판 플랫폼의 ID/PW 자격증명 인증이 모두 정상 확인되었습니다.");
-      }, 800);
-    });
-  }
-
-  // =========================================================================
-  // 3. KakaoTalk Notice Composer & Real Mobile Mockup Preview
-  // =========================================================================
-
-  const kakaoDate = document.getElementById("kakaoDate");
-  const kakaoNoticeText = document.getElementById("kakaoNoticeText");
-
-  const ktBubbleText = document.getElementById("ktBubbleText");
-  const ktPinTitle = document.getElementById("ktPinTitle");
-  const ktPinnedNotice = document.getElementById("ktPinnedNotice");
-  const kakaoCharStats = document.getElementById("kakaoCharStats");
-
-  const btnDateThisWeek = document.getElementById("btnDateThisWeek");
-  const btnDateNextWeek = document.getElementById("btnDateNextWeek");
-  const btnResetKakaoTpl = document.getElementById("btnResetKakaoTpl");
-  const btnCopyKakao = document.getElementById("btnCopyKakao");
-  const btnOpenKakaoApp = document.getElementById("btnOpenKakaoApp");
-
-  function buildKakaoNotice(date) {
-    return `[${date}] 모임신청 안내
- 
-①가입한 플랫폼에서 <참석> 표시 
- 
-②모임 신청 <플래닛 신청 페이지>
-https://bookclubplanet26.streamlit.app/
-미 응답시 참석이 제한될 수 있습니다.
-
-* 미등록은 아래로 연락
-https://open.kakao.com/o/sWLBJTue
-
-💫신청 방식 변경으로 인해, 기존 회원분들도 새롭게 등록해야하니 꼭 확인해 주세요💫`;
-  }
-
-  function updateKakaoPreview() {
-    if (!ktBubbleText) return;
-    const text = kakaoNoticeText ? kakaoNoticeText.value.trim() : "";
-    
-    // Render links as clickable styled anchors in phone bubble
-    const escaped = escapeHtml(text);
-    const htmlWithLinks = escaped.replace(
-      /(https?:\/\/[^\s]+)/g,
-      '<a href="$1" target="_blank" rel="noopener noreferrer" style="color:#2563eb; text-decoration:underline; font-weight:600; word-break:break-all;">$1</a>'
-    );
-    ktBubbleText.innerHTML = htmlWithLinks;
-
-    const firstLine = text.split("\n")[0] || "[09/19, 20] 모임신청 안내";
-    if (ktPinTitle) {
-      ktPinTitle.textContent = firstLine;
-    }
-    if (kakaoCharStats) {
-      kakaoCharStats.textContent = `글자 수: ${text.length}자`;
-    }
-  }
-
-  function onDateChange() {
-    const rawDate = kakaoDate ? kakaoDate.value.trim() : "09/19, 20";
-    if (kakaoNoticeText) {
-      const lines = kakaoNoticeText.value.split("\n");
-      lines[0] = `[${rawDate}] 모임신청 안내`;
-      kakaoNoticeText.value = lines.join("\n");
-    }
-    updateKakaoPreview();
-  }
-
-  if (kakaoDate) {
-    kakaoDate.addEventListener("input", onDateChange);
-  }
-  if (kakaoNoticeText) {
-    kakaoNoticeText.addEventListener("input", updateKakaoPreview);
-  }
-
-  if (btnDateThisWeek && kakaoDate) {
-    btnDateThisWeek.addEventListener("click", () => {
-      kakaoDate.value = "09/19, 20";
-      onDateChange();
-    });
-  }
-
-  if (btnDateNextWeek && kakaoDate) {
-    btnDateNextWeek.addEventListener("click", () => {
-      kakaoDate.value = "09/26, 27";
-      onDateChange();
-    });
-  }
-
-  if (btnResetKakaoTpl && kakaoNoticeText) {
-    btnResetKakaoTpl.addEventListener("click", () => {
-      const curDate = kakaoDate ? kakaoDate.value.trim() : "09/19, 20";
-      kakaoNoticeText.value = buildKakaoNotice(curDate);
-      updateKakaoPreview();
-    });
-  }
-
+  // 클립보드 텍스트 복사 유틸
   function copyTextToClipboard(str, successMsg) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(str)
-        .then(() => alert(successMsg))
+        .then(() => {
+          if (successMsg) alert(successMsg);
+        })
         .catch(() => fallbackCopy(str, successMsg));
     } else {
       fallbackCopy(str, successMsg);
@@ -4119,342 +3422,578 @@ https://open.kakao.com/o/sWLBJTue
     ta.select();
     try {
       document.execCommand("copy");
-      alert(successMsg);
+      if (successMsg) alert(successMsg);
     } catch (e) {
       alert("복사에 실패했습니다. 직접 텍스트를 선택하여 복사해주세요.");
     }
     document.body.removeChild(ta);
   }
 
-  if (btnCopyKakao) {
-    btnCopyKakao.addEventListener("click", () => {
-      const text = kakaoNoticeText ? kakaoNoticeText.value.trim() : "";
-      copyTextToClipboard(text, "📋 카카오톡 공지 전문이 복사되었습니다!\n단톡방에 바로 붙여넣기(Ctrl+V)하세요.");
+  // XSS 방지 유틸
+  function escapeHtml(str) {
+    if (!str && str !== 0) return "";
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  // 1-1. 시트 주소 복사
+  if (btnCopySheetLink) {
+    btnCopySheetLink.addEventListener("click", () => {
+      copyTextToClipboard(GOOGLE_SHEET_URL, "📋 구글 스프레드시트 링크가 클립보드에 복사되었습니다!\n" + GOOGLE_SHEET_URL);
     });
   }
 
-  if (btnOpenKakaoApp) {
-    btnOpenKakaoApp.addEventListener("click", () => {
-      const text = kakaoNoticeText ? kakaoNoticeText.value.trim() : "";
-      if (navigator.share) {
-        navigator.share({
-          title: "독서모임 신청 안내",
-          text: text,
-          url: "https://bookclubplanet26.streamlit.app/"
-        }).catch(() => {});
-      } else {
-        copyTextToClipboard(text, "📋 공지 전문이 클립보드에 복사되었습니다!\n카카오톡 단톡방으로 이동하여 붙여넣으세요.");
-        window.location.href = "kakaotalk://";
-      }
+  // 1-2. 시트 Iframe 새로고침
+  function reloadSheetIframe() {
+    if (googleSheetIframe) {
+      googleSheetIframe.src = GOOGLE_SHEET_EMBED_URL + "&t=" + Date.now();
+    }
+  }
+
+  if (btnRefreshSheetIframe) {
+    btnRefreshSheetIframe.addEventListener("click", () => {
+      reloadSheetIframe();
+      btnRefreshSheetIframe.textContent = "✔ 새로고침 완료!";
+      setTimeout(() => {
+        btnRefreshSheetIframe.innerHTML = "<span>🔄</span> <span>시트 새로고침</span>";
+      }, 1000);
     });
   }
 
-  function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+  // 1-3. 상단 헤더 '구글 시트 즉시 동기화' 버튼
+  if (btnSyncGoogleNow) {
+    btnSyncGoogleNow.addEventListener("click", () => {
+      btnSyncGoogleNow.classList.add("syncing");
+      const textSpan = btnSyncGoogleNow.querySelector(".sync-text");
+      if (textSpan) textSpan.textContent = "동기화 중...";
+
+      reloadSheetIframe();
+
+      setTimeout(() => {
+        btnSyncGoogleNow.classList.remove("syncing");
+        if (textSpan) textSpan.textContent = "구글 시트 즉시 동기화";
+        alert("✔ Google Drive 클라우드와 스프레드시트 화면이 실시간 동기화되었습니다!");
+      }, 700);
+    });
+  }
+  // =========================================================================
+  // 3. Weekly Weekend (Sat/Sun) Master Scheduler (자유 도서 모임)
+  // =========================================================================
+
+  // 실시간 토·일 주말 날짜 계산 유틸
+  function getWeekendDates(offsetWeeks = 0) {
+    const today = new Date();
+    const day = today.getDay(); // 0: 일요일, 6: 토요일
+    
+    // 다가오는 토요일 계산
+    let daysUntilSat = 6 - day;
+    if (day === 0) {
+      daysUntilSat = 6;
+    }
+
+    const sat = new Date(today);
+    sat.setDate(today.getDate() + daysUntilSat + (offsetWeeks * 7));
+
+    const sun = new Date(sat);
+    sun.setDate(sat.getDate() + 1);
+
+    const pad = (n) => String(n).padStart(2, "0");
+    const satM = pad(sat.getMonth() + 1);
+    const satD = pad(sat.getDate());
+    const sunM = pad(sun.getMonth() + 1);
+    const sunD = pad(sun.getDate());
+
+    const isSameMonth = satM === sunM;
+    const shortRange = isSameMonth ? `${satM}/${satD}, ${sunD}` : `${satM}/${satD}, ${sunM}/${sunD}`;
+    const fullSat = `${sat.getFullYear()}년 ${sat.getMonth() + 1}월 ${sat.getDate()}일 (토)`;
+    const fullSun = `${sun.getFullYear()}년 ${sun.getMonth() + 1}월 ${sun.getDate()}일 (일)`;
+
+    return {
+      sat,
+      sun,
+      satShort: `${satM}/${satD}`,
+      sunShort: `${sunM}/${sunD}`,
+      shortRange,
+      fullSat,
+      fullSun,
+      satDetailed: `토요반: ${satM}/${satD}(토) 14:00~16:30`,
+      sunDetailed: `일요반: ${sunM}/${sunD}(일) 14:00~16:30`,
+      bothDetailed: `토요반: ${satM}/${satD}(토) 14:00~16:30 | 일요반: ${sunM}/${sunD}(일) 14:00~16:30`
+    };
   }
 
-  // =========================================================================
-  // 4. Community Board Notice Composer & Multi-Platform Preview
-  // =========================================================================
+  // 상단 마스터 컨트롤 요소
+  const masterDateRange = document.getElementById("masterDateRange");
+  const btnApplyAllNotices = document.getElementById("btnApplyAllNotices");
 
+  const btnWeekThis = document.getElementById("btnWeekThis");
+  const btnWeekNext = document.getElementById("btnWeekNext");
+
+  // 카카오톡 공지 작성기 요소
+  const kakaoDate = document.getElementById("kakaoDate");
+  const kakaoApplyUrl = document.getElementById("kakaoApplyUrl");
+  const kakaoContactUrl = document.getElementById("kakaoContactUrl");
+  const kakaoNoticeText = document.getElementById("kakaoNoticeText");
+  const ktBubbleText = document.getElementById("ktBubbleText");
+  const ktPinTitle = document.getElementById("ktPinTitle");
+  const ktPinnedNotice = document.getElementById("ktPinnedNotice");
+  const ktBtnPreviewApply = document.getElementById("ktBtnPreviewApply");
+  const ktBtnPreviewContact = document.getElementById("ktBtnPreviewContact");
+  const kakaoCharStats = document.getElementById("kakaoCharStats");
+  const ktMsgDateText = document.getElementById("ktMsgDateText");
+  const btnDateThisWeek = document.getElementById("btnDateThisWeek");
+  const btnDateNextWeek = document.getElementById("btnDateNextWeek");
+  const btnResetKakaoTpl = document.getElementById("btnResetKakaoTpl");
+  const btnCopyKakao = document.getElementById("btnCopyKakao");
+  const openKakaoUrl = document.getElementById("openKakaoUrl");
+  const btnOpenKakaoRoom = document.getElementById("btnOpenKakaoRoom");
+  const btnRoomPresets = document.querySelectorAll(".btn-room-preset");
+
+  // 네이버 카페 공지 작성기 요소
   const boardTitle = document.getElementById("boardTitle");
-  const boardBook = document.getElementById("boardBook");
-  const boardDateTime = document.getElementById("boardDateTime");
+  const boardRound = document.getElementById("boardRound");
   const boardPlace = document.getElementById("boardPlace");
-  const boardFee = document.getElementById("boardFee");
   const boardBody = document.getElementById("boardBody");
-
-  const optBoardMarkdown = document.getElementById("optBoardMarkdown");
-  const optBoardHashtags = document.getElementById("optBoardHashtags");
-  const optBoardSheetLink = document.getElementById("optBoardSheetLink");
+  const btnCopyBoardTitle = document.getElementById("btnCopyBoardTitle");
+  const btnNaverDaySat = document.getElementById("btnNaverDaySat");
+  const btnNaverDaySun = document.getElementById("btnNaverDaySun");
 
   const boardArticleContent = document.getElementById("boardArticleContent");
   const boardCharStats = document.getElementById("boardCharStats");
-  const boardSpecBadge = document.getElementById("boardSpecBadge");
-  const boardSubtabs = document.querySelectorAll("#boardSubtabGroup .board-subtab");
+  const btnResetNaverTpl = document.getElementById("btnResetNaverTpl");
+  const btnCopyNaverRich = document.getElementById("btnCopyNaverRich");
+  const btnOpenNaverWriteDirect = document.getElementById("btnOpenNaverWriteDirect");
 
-  const btnSampleBoard1 = document.getElementById("btnSampleBoard1");
-  const btnSendBoard = document.getElementById("btnSendBoard");
+  // =========================================================================
+  // 4. Kakao Notice Composer Logic (사용자 지정 서식)
+  // =========================================================================
 
-  const boardTerminalCard = document.getElementById("boardTerminalCard");
-  const boardTerminalLogBody = document.getElementById("boardTerminalLogBody");
-  const boardTermStatusTag = document.getElementById("boardTermStatusTag");
-  const btnClearBoardTerminal = document.getElementById("btnClearBoardTerminal");
+  function buildKakaoNoticeText(dateStr) {
+    const applyUrl = (kakaoApplyUrl && kakaoApplyUrl.value.trim()) || "https://bookclub-apply-demo.streamlit.app";
+    const contactUrl = (kakaoContactUrl && kakaoContactUrl.value.trim()) || "https://open.kakao.com/o/sample_contact";
 
-  let activeBoardTab = "somoim";
+    return `[${dateStr}] 모임신청 안내
+ 
+①가입한 플랫폼에서 <참석> 표시 
+ 
+②모임 신청 <독서모임 신청 페이지>
+${applyUrl}
+미 응답시 참석이 제한될 수 있습니다.
 
-  function appendBoardLog(msg, type = "info") {
-    if (!boardTerminalLogBody) return;
-    const line = document.createElement("div");
-    line.className = `term-line ${type}`;
-    line.textContent = msg;
-    boardTerminalLogBody.appendChild(line);
-    boardTerminalLogBody.scrollTop = boardTerminalLogBody.scrollHeight;
+* 미등록은 아래로 연락
+${contactUrl}
+
+💫신청 방식 변경으로 인해, 기존 회원분들도 새롭게 등록해야하니 꼭 확인해 주세요💫`;
   }
 
-  // Board Subtabs
-  boardSubtabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      boardSubtabs.forEach((t) => t.classList.remove("active"));
-      tab.classList.add("active");
-      activeBoardTab = tab.getAttribute("data-board");
-      updateBoardPreview();
-    });
-  });
+  function updateKakaoPreview() {
+    if (!ktBubbleText) return;
+    const text = kakaoNoticeText ? kakaoNoticeText.value.trim() : "";
+    
+    // 링크 클릭 가능 태그로 변환
+    const escaped = escapeHtml(text);
+    const htmlWithLinks = escaped.replace(
+      /(https?:\/\/[^\s]+)/g,
+      '<a href="$1" target="_blank" rel="noopener noreferrer" style="color:#2563eb; text-decoration:underline; font-weight:600; word-break:break-all;">$1</a>'
+    );
+    ktBubbleText.innerHTML = htmlWithLinks;
 
-  function formatBoardHtml(platform) {
-    if (!boardTitle) return "";
-    const title = boardTitle.value.trim();
-    const book = boardBook ? boardBook.value.trim() : "";
-    const dt = boardDateTime ? boardDateTime.value.trim() : "";
-    const place = boardPlace ? boardPlace.value.trim() : "";
-    const fee = boardFee ? boardFee.value.trim() : "";
+    const firstLine = text.split("\n")[0] || "[10/03, 04] 모임신청 안내";
+    if (ktPinTitle) {
+      ktPinTitle.textContent = firstLine;
+    }
+    if (kakaoCharStats) {
+      kakaoCharStats.textContent = `글자 수: ${text.length}자`;
+    }
+    if (ktMsgDateText) {
+      const now = new Date();
+      const days = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+      ktMsgDateText.textContent = `${now.getFullYear()}년 ${now.getMonth() + 1}월 ${now.getDate()}일 ${days[now.getDay()]}`;
+    }
+
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const ampms = hours >= 12 ? "오후" : "오전";
+    const displayHour = hours % 12 || 12;
+    const ktLiveTime = document.getElementById("ktLiveTime");
+    const ktTimeStamp = document.getElementById("ktTimeStamp");
+    if (ktLiveTime) ktLiveTime.textContent = `${String(hours).padStart(2, "0")}:${minutes}`;
+    if (ktTimeStamp) ktTimeStamp.textContent = `${ampms} ${displayHour}:${minutes}`;
+
+    // 미리보기 버튼 링크 연동
+    const applyUrl = (kakaoApplyUrl && kakaoApplyUrl.value.trim()) || "https://bookclub-apply-demo.streamlit.app";
+    const contactUrl = (kakaoContactUrl && kakaoContactUrl.value.trim()) || "https://open.kakao.com/o/sample_contact";
+    if (ktBtnPreviewApply) ktBtnPreviewApply.href = applyUrl;
+    if (ktBtnPreviewContact) ktBtnPreviewContact.href = contactUrl;
+  }
+
+  // =========================================================================
+  // 5. Naver Cafe SmartEditor Composer & Bridge Logic (강남 독서모임 사용자 서식)
+  // =========================================================================
+
+  let currentNaverDay = "sat"; // "sat" or "sun"
+
+  // 토요일(강남) / 일요일(종각)별 기본 모임 설정
+  const naverSettings = {
+    sat: {
+      locationName: "강남",
+      place: "강남역 인근 카페",
+      round: "436회"
+    },
+    sun: {
+      locationName: "종각",
+      place: "종각역 인근 카페",
+      round: "437회"
+    }
+  };
+
+  function getNaverCurrentShortDate(dayType = currentNaverDay) {
+    const raw = masterDateRange ? masterDateRange.value.trim() : "10/03, 04";
+    const parts = raw.split(",");
+    const satPart = parts[0] ? parts[0].trim() : "10/03";
+    const sunPart = parts[1] ? parts[1].trim() : "04";
+    if (dayType === "sat") {
+      return satPart;
+    }
+    if (sunPart.includes("/")) {
+      return sunPart;
+    }
+    const month = satPart.split("/")[0] || "10";
+    return `${month}/${sunPart}`;
+  }
+
+  function buildNaverNoticeTitle(dayType = currentNaverDay) {
+    const isSat = dayType === "sat";
+    const dayTag = isSat ? "토" : "일";
+    const dateStr = getNaverCurrentShortDate(dayType);
+    const cfg = naverSettings[dayType];
+    const loc = cfg.locationName;
+    const round = cfg.round;
+    return `[${dateStr}/${dayTag}]${loc} 독서모임 ${round} 공지`;
+  }
+
+  function buildNaverNoticeText(dayType = currentNaverDay) {
+    const isSat = dayType === "sat";
+    const dayName = isSat ? "토요일" : "일요일";
+    const cfg = naverSettings[dayType];
+    const place = cfg.place;
+    const applyUrl = (kakaoApplyUrl && kakaoApplyUrl.value.trim()) || "https://bookclub-apply-demo.streamlit.app";
+    const contactUrl = (kakaoContactUrl && kakaoContactUrl.value.trim()) || "https://open.kakao.com/o/sample_contact";
+
+    return `${dayName} 독서모임
+
+
+일시 : ${dayName} 오후 2:00~4:30
+준비 : 책소개, 자기소개
+장소 : ${place}
+
+
+강남 독서모임은 자유책으로 진행합니다.
+자유책은 각자 선택한 책을 "미리" 읽어온 뒤,
+모임에서 그 책을 소개하는 방식입니다.
+
+
+${applyUrl}
+
+신청 방법 : 상단 링크 클릭->모임 일정&신청->자유책 신청
+신청기간 : 모임날 10분 전까지 언제든 :)
+
+* 미등록은 아래 프로필로 연락 부탁드립니다.
+${contactUrl}`;
+  }
+
+  function getNaverNoticeData() {
+    const title = boardTitle ? boardTitle.value.trim() : "";
     const body = boardBody ? boardBody.value.trim() : "";
 
-    const sheetLink = optBoardSheetLink && optBoardSheetLink.checked
-      ? `<div style="background:#eff6ff; border:1px solid #bfdbfe; padding:10px 14px; border-radius:6px; margin-top:14px; font-size:0.8rem; color:#1e40af;">
-          🔗 <strong>투명한 운영 공개</strong>: <a href="#section-sheet" style="text-decoration:underline;">[구글 시트 실시간 출석부 및 회비 장부 열람하기]</a>
-         </div>`
-      : "";
+    const escapedBody = escapeHtml(body);
+    const htmlWithLinks = escapedBody.replace(
+      /(https?:\/\/[^\s]+)/g,
+      '<a href="$1" target="_blank" rel="noopener noreferrer" style="color:#2563eb; text-decoration:underline; font-weight:bold; word-break:break-all;">$1</a>'
+    );
 
-    const hashtagText = optBoardHashtags && optBoardHashtags.checked
-      ? `<div style="margin-top:14px; color:#2563eb; font-size:0.8rem; font-weight:600;">
-          #독서모임 #북클럽 #${book.replace(/[\s\(\)]+/g, "")} #독서토론 #강남독서모임 #책추천 #투명한소통
-         </div>`
-      : "";
+    const richHtml = `
+      <div style="font-family:'Apple SD Gothic Neo','Malgun Gothic','Pretendard',sans-serif; color:#1e293b; line-height:1.8; font-size:15px; max-width:720px;">
+        <h2 style="font-size:20px; font-weight:800; color:#0f172a; border-bottom:2px solid #03c75a; padding-bottom:12px; margin:0 0 20px 0;">
+          ${escapeHtml(title)}
+        </h2>
+        <div style="white-space:pre-wrap; font-size:15px; color:#1e293b;">
+${htmlWithLinks}
+        </div>
+      </div>
+    `;
 
-    switch (platform) {
-      case "somoim":
-        return `
-          <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-              <span style="background:#fee2e2; color:#991b1b; font-weight:700; font-size:0.75rem; padding:2px 8px; border-radius:4px;">👥 소모임 정기정모 공지</span>
-              <span style="font-size:0.75rem; color:#64748b;">모임장 호스트 작성</span>
-            </div>
-            <h3 style="font-size:1.15rem; color:#0f172a; margin-bottom:12px;">[정모] ${escapeHtml(title)}</h3>
-            <div style="background:#f8fafc; border-left:4px solid #ff4757; padding:12px; font-size:0.85rem; margin-bottom:14px;">
-              <p>• <strong>선정 도서</strong>: ${escapeHtml(book)}</p>
-              <p>• <strong>정모 일시</strong>: ${escapeHtml(dt)}</p>
-              <p>• <strong>모임 장소</strong>: ${escapeHtml(place)}</p>
-              <p>• <strong>회비 실비</strong>: ${escapeHtml(fee)}</p>
-            </div>
-            <div style="font-size:0.88rem; line-height:1.6; color:#334155; white-space:pre-wrap;">${escapeHtml(body)}</div>
-            ${sheetLink}
-            ${hashtagText}
-          </div>
-        `;
-
-      case "naver":
-        return `
-          <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:18px;">
-            <div style="border-bottom:1px solid #e2e8f0; padding-bottom:12px; margin-bottom:14px;">
-              <span style="color:#03c75a; font-weight:700; font-size:0.8rem;">[정기모임 공지]</span>
-              <h3 style="font-size:1.2rem; margin:4px 0 8px; color:#0f172a;">${escapeHtml(title)}</h3>
-              <div style="font-size:0.75rem; color:#64748b; display:flex; gap:12px;">
-                <span>작성자: 북클럽 매니저</span>
-                <span>조회: 1</span>
-                <span>댓글: 0</span>
-              </div>
-            </div>
-            <div style="font-size:0.88rem; line-height:1.7; color:#1e293b; white-space:pre-wrap;">
-안녕하세요, 네이버 카페 회원 여러분!
-이번 주 정기 독서모임을 안내해 드립니다.
-
-■ 함께 나눌 책: <strong>${escapeHtml(book)}</strong>
-■ 모임 시간: ${escapeHtml(dt)}
-■ 모임 장소: ${escapeHtml(place)}
-■ 참가비 안내: ${escapeHtml(fee)}
-
-${escapeHtml(body)}
-            </div>
-            ${sheetLink}
-            ${hashtagText}
-          </div>
-        `;
-
-      case "daangn":
-        return `
-          <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
-            <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-              <span style="background:#ff6f0f; color:#ffffff; font-weight:700; font-size:0.75rem; padding:2px 8px; border-radius:4px;">🥕 당근 동네생활</span>
-              <span style="font-size:0.8rem; color:#64748b;">역삼1동 인근 북클럽</span>
-            </div>
-            <h3 style="font-size:1.1rem; color:#0f172a; margin-bottom:10px;">${escapeHtml(title)}</h3>
-            <div style="font-size:0.88rem; line-height:1.6; color:#334155; white-space:pre-wrap;">
-동네 이웃들과 편안하게 책 이야기를 나누는 따뜻한 모임입니다 :)
-
-• 도서: ${escapeHtml(book)}
-• 일시: ${escapeHtml(dt)}
-• 장소: ${escapeHtml(place)}
-• 회비: ${escapeHtml(fee)}
-
-${escapeHtml(body)}
-            </div>
-            ${sheetLink}
-            ${hashtagText}
-          </div>
-        `;
-
-      case "everytime":
-        return `
-          <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
-            <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-              <span style="background:#c62917; color:#ffffff; font-weight:700; font-size:0.75rem; padding:2px 8px; border-radius:4px;">🔴 에브리타임</span>
-              <span style="font-size:0.8rem; color:#64748b;">동아리/학술 소모임 게시판</span>
-            </div>
-            <h3 style="font-size:1.05rem; color:#0f172a; margin-bottom:8px;">${escapeHtml(title)}</h3>
-            <div style="font-size:0.85rem; line-height:1.6; color:#334155; white-space:pre-wrap;">
-대학생 & 청년 대상 열린 독서모임입니다! 이번 주 모임 함께해요.
-
-- 책 제목: ${escapeHtml(book)}
-- 언제: ${escapeHtml(dt)}
-- 어디서: ${escapeHtml(place)}
-- 비용: ${escapeHtml(fee)}
-
-${escapeHtml(body)}
-            </div>
-            ${sheetLink}
-            ${hashtagText}
-          </div>
-        `;
-
-      case "instagram":
-        return `
-          <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
-              <div style="width:34px; height:34px; border-radius:50%; background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.75rem;">📷</div>
-              <div>
-                <strong style="font-size:0.85rem; color:#0f172a;">bookclub_official</strong>
-                <div style="font-size:0.72rem; color:#64748b;">스폰서 및 공식 피드 포스팅</div>
-              </div>
-            </div>
-            <div style="background:#f1f5f9; height:180px; border-radius:6px; display:flex; flex-direction:column; align-items:center; justify-content:center; margin-bottom:12px; color:#475569; text-align:center; padding:12px;">
-              <span style="font-size:2rem; margin-bottom:6px;">📖</span>
-              <strong style="font-size:0.95rem; color:#1e293b;">${escapeHtml(book)}</strong>
-              <span style="font-size:0.75rem; color:#64748b; margin-top:4px;">카드뉴스 표지 썸네일 자동 생성</span>
-            </div>
-            <div style="font-size:0.83rem; line-height:1.6; color:#1e293b; white-space:pre-wrap;">
-✨ ${escapeHtml(title)} ✨
-
-📖 이주의 도서: ${escapeHtml(book)}
-🗓 일시: ${escapeHtml(dt)}
-📍 장소: ${escapeHtml(place)}
-
-${escapeHtml(body)}
-            </div>
-            ${hashtagText}
-          </div>
-        `;
-
-      default:
-        return `<p>${escapeHtml(body)}</p>`;
-    }
+    return { title, richHtml, plainText: body };
   }
 
   function updateBoardPreview() {
     if (!boardArticleContent) return;
-    const html = formatBoardHtml(activeBoardTab);
-    boardArticleContent.innerHTML = html;
+    const data = getNaverNoticeData();
+    boardArticleContent.innerHTML = data.richHtml;
 
-    const pureText = boardArticleContent.textContent || "";
     if (boardCharStats) {
-      boardCharStats.textContent = `글자 수: ${pureText.trim().length}자`;
-    }
-    if (boardSpecBadge) {
-      const specNames = {
-        somoim: "소모임 정모 규격 준수",
-        naver: "네이버 카페 에디터 호환",
-        daangn: "당근 동네생활 피드 규격",
-        everytime: "에타 게시글 서식 최적화",
-        instagram: "인스타그램 피드 캡션 최적화"
-      };
-      boardSpecBadge.textContent = specNames[activeBoardTab] || "서식 최적화";
+      boardCharStats.textContent = `글자 수: ${data.plainText.length}자`;
     }
   }
 
-  [boardTitle, boardBook, boardDateTime, boardPlace, boardFee, boardBody].forEach((input) => {
-    if (input) {
-      input.addEventListener("input", updateBoardPreview);
+  // 네이버 스마트에디터 서식 클립보드 복사 함수 (HTML + PlainText)
+  async function copyRichContentToClipboard(plainText, htmlText, alertMsg) {
+    try {
+      if (window.ClipboardItem) {
+        const textBlob = new Blob([plainText], { type: "text/plain" });
+        const htmlBlob = new Blob([htmlText], { type: "text/html" });
+        const clipboardItem = new ClipboardItem({
+          "text/plain": textBlob,
+          "text/html": htmlBlob
+        });
+        await navigator.clipboard.write([clipboardItem]);
+        if (alertMsg) alert(alertMsg);
+        return true;
+      } else {
+        copyTextToClipboard(plainText, alertMsg || "공지문 텍스트가 복사되었습니다.");
+        return true;
+      }
+    } catch (err) {
+      copyTextToClipboard(plainText, alertMsg || "공지문 텍스트가 복사되었습니다.");
+      return true;
     }
-  });
-  [optBoardMarkdown, optBoardHashtags, optBoardSheetLink].forEach((chk) => {
-    if (chk) {
-      chk.addEventListener("change", updateBoardPreview);
+  }
+
+  function getNaverCafeWriteUrl() {
+    return "https://cafe.naver.com";
+  }
+
+  // =========================================================================
+  // 6. Master Controller Sync Engine (자유책 양일 모임 전용)
+  // =========================================================================
+
+  function applyDateRange(dateRange) {
+    if (masterDateRange) masterDateRange.value = dateRange;
+    if (kakaoDate) kakaoDate.value = dateRange;
+
+    // 1. 카카오톡 양식 동기화
+    if (kakaoNoticeText) {
+      kakaoNoticeText.value = buildKakaoNoticeText(dateRange);
+    }
+    updateKakaoPreview();
+
+    // 2. 네이버 카페 양식 동기화
+    if (boardRound) {
+      boardRound.value = naverSettings[currentNaverDay].round;
+    }
+    if (boardPlace) {
+      boardPlace.value = naverSettings[currentNaverDay].place;
+    }
+    if (boardTitle) {
+      boardTitle.value = buildNaverNoticeTitle(currentNaverDay);
+    }
+    if (boardBody) {
+      boardBody.value = buildNaverNoticeText(currentNaverDay);
+    }
+    updateBoardPreview();
+  }
+
+  function setWeekOffset(offset) {
+    const dates = getWeekendDates(offset);
+    applyDateRange(dates.shortRange);
+
+    // 퀵 버튼 active 상태 표시
+    [btnWeekThis, btnWeekNext].forEach((btn) => {
+      if (btn) btn.classList.remove("active");
+    });
+    if (offset === 0 && btnWeekThis) btnWeekThis.classList.add("active");
+    if (offset === 1 && btnWeekNext) btnWeekNext.classList.add("active");
+  }
+
+  // 퀵 주차 버튼 이벤트
+  if (btnWeekThis) btnWeekThis.addEventListener("click", () => setWeekOffset(0));
+  if (btnWeekNext) btnWeekNext.addEventListener("click", () => setWeekOffset(1));
+
+  // 카카오 내부 날짜 버튼
+  if (btnDateThisWeek) btnDateThisWeek.addEventListener("click", () => setWeekOffset(0));
+  if (btnDateNextWeek) btnDateNextWeek.addEventListener("click", () => setWeekOffset(1));
+
+  // 마스터 날짜 직접 입력 이벤트
+  if (masterDateRange) {
+    masterDateRange.addEventListener("input", () => {
+      applyDateRange(masterDateRange.value);
+    });
+  }
+
+  if (btnApplyAllNotices) {
+    btnApplyAllNotices.addEventListener("click", () => {
+      const curDate = masterDateRange ? masterDateRange.value.trim() : "10/03, 04";
+      applyDateRange(curDate);
+      alert("✅ 상단 주말 일정에 맞춰 카카오톡과 네이버 카페 공지가 동시에 최신 내용으로 갱신되었습니다!");
+    });
+  }
+
+  // 카카오 날짜 직접 입력 이벤트
+  if (kakaoDate) {
+    kakaoDate.addEventListener("input", () => {
+      const rawDate = kakaoDate.value.trim() || "10/03, 04";
+      if (masterDateRange) masterDateRange.value = rawDate;
+      if (kakaoNoticeText) {
+        const lines = kakaoNoticeText.value.split("\n");
+        lines[0] = `[${rawDate}] 모임신청 안내`;
+        kakaoNoticeText.value = lines.join("\n");
+      }
+      updateKakaoPreview();
+    });
+  }
+
+  // 카카오 신청 및 문의 URL 변경 이벤트
+  [kakaoApplyUrl, kakaoContactUrl].forEach((inp) => {
+    if (inp) {
+      inp.addEventListener("input", () => {
+        const curDate = kakaoDate ? kakaoDate.value.trim() : "10/03, 04";
+        if (kakaoNoticeText) {
+          kakaoNoticeText.value = buildKakaoNoticeText(curDate);
+        }
+        updateKakaoPreview();
+      });
     }
   });
 
-  if (btnSampleBoard1 && boardTitle) {
-    btnSampleBoard1.addEventListener("click", () => {
-      boardTitle.value = "[제14회 북클럽] '도둑맞은 집중력' 함께 읽고 대화하기";
-      if (boardBook) boardBook.value = "도둑맞은 집중력 (요한 하리)";
-      if (boardDateTime) boardDateTime.value = "2026년 9월 19일 (토) 오후 2:00 ~ 4:30";
-      if (boardPlace) boardPlace.value = "강남역 북카페 '생각의 숲' 3번 룸 (스터디룸 B)";
-      if (boardFee) boardFee.value = "10,000원 (대관료 및 음료 1잔 포함, 영수증 100% 공개)";
-      if (boardBody) boardBody.value = `스마트폰과 알고리즘의 유혹 속에서 우리의 집중력은 왜 흐려졌을까요?\n가장 인상 깊었던 챕터 1곳과 함께 나누고 싶은 질문 1개를 준비해 와주세요!\n\n모임 진행 순서:\n1. 아이스브레이킹 및 도서 한줄평 (20분)\n2. 발제 질문 중심 자유 토론 (80분)\n3. 다음 모임 도서 추천 및 마무리 (20분)\n\n* 모임 후 출석 및 회계 내역은 구글 시트를 통해 회원 전원에게 투명하게 공개됩니다.`;
+  if (kakaoNoticeText) {
+    kakaoNoticeText.addEventListener("input", updateKakaoPreview);
+  }
+
+  if (btnResetKakaoTpl) {
+    btnResetKakaoTpl.addEventListener("click", () => {
+      const curDate = kakaoDate ? kakaoDate.value.trim() : "10/03, 04";
+      applyDateRange(curDate);
+    });
+  }
+
+  // 카카오 액션
+  if (btnCopyKakao) {
+    btnCopyKakao.addEventListener("click", () => {
+      const text = kakaoNoticeText ? kakaoNoticeText.value.trim() : "";
+      copyTextToClipboard(text, "📋 카카오톡 공지 전문이 복사되었습니다!\n클립보드에 저장된 공지를 바로 붙여넣기(Ctrl+V)하세요.");
+    });
+  }
+
+  // 오픈 카톡방 샘플 프리셋 선택 이벤트
+  btnRoomPresets.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const url = btn.getAttribute("data-url");
+      if (openKakaoUrl && url) {
+        openKakaoUrl.value = url;
+      }
+    });
+  });
+
+  // 오픈 카톡방 열기 (공지 복사 + 채팅방 새 탭 열기)
+  if (btnOpenKakaoRoom) {
+    btnOpenKakaoRoom.addEventListener("click", () => {
+      const targetUrl = openKakaoUrl ? openKakaoUrl.value.trim() : "";
+      if (!targetUrl) {
+        alert("⚠️ 오픈 카톡방 주소를 입력해주세요.");
+        return;
+      }
+      const text = kakaoNoticeText ? kakaoNoticeText.value.trim() : "";
+      copyTextToClipboard(text, "📋 공지 전문이 복사되었습니다!\n열린 오픈 카톡방에 바로 붙여넣기(Ctrl+V)하세요.");
+      window.open(targetUrl, "_blank");
+    });
+  }
+
+  // 네이버 카페 입력 변경 이벤트
+  if (boardTitle) {
+    boardTitle.addEventListener("input", updateBoardPreview);
+  }
+  if (boardBody) {
+    boardBody.addEventListener("input", updateBoardPreview);
+  }
+
+  if (boardRound) {
+    boardRound.addEventListener("input", () => {
+      naverSettings[currentNaverDay].round = boardRound.value.trim() || "";
+      if (boardTitle) boardTitle.value = buildNaverNoticeTitle(currentNaverDay);
       updateBoardPreview();
     });
   }
 
-  if (btnClearBoardTerminal && boardTerminalLogBody) {
-    btnClearBoardTerminal.addEventListener("click", () => {
-      boardTerminalLogBody.innerHTML = `<div class="term-line info">[SYSTEM] 커뮤니티 터미널 콘솔이 초기화되었습니다.</div>`;
+  if (boardPlace) {
+    boardPlace.addEventListener("input", () => {
+      naverSettings[currentNaverDay].place = boardPlace.value.trim() || "";
+      if (boardBody) boardBody.value = buildNaverNoticeText(currentNaverDay);
+      updateBoardPreview();
     });
   }
 
-  if (btnSendBoard) {
-    btnSendBoard.addEventListener("click", async () => {
-      const selectedChannels = Array.from(
-        document.querySelectorAll("input[name='sendBoardChannels']:checked")
-      ).map((el) => el.value);
+  if (btnCopyBoardTitle) {
+    btnCopyBoardTitle.addEventListener("click", () => {
+      const title = boardTitle ? boardTitle.value.trim() : "";
+      copyTextToClipboard(title, "📋 게시글 제목이 복사되었습니다!\n네이버 카페 글쓰기 창 제목 칸에 바로 붙여넣기(Ctrl+V)하세요.");
+    });
+  }
 
-      if (selectedChannels.length === 0) {
-        alert("최소 1개 이상의 커뮤니티 채널을 선택해주세요.");
-        return;
-      }
+  if (btnNaverDaySat) {
+    btnNaverDaySat.addEventListener("click", () => {
+      currentNaverDay = "sat";
+      btnNaverDaySat.classList.add("active");
+      if (btnNaverDaySun) btnNaverDaySun.classList.remove("active");
+      if (boardRound) boardRound.value = naverSettings.sat.round;
+      if (boardPlace) boardPlace.value = naverSettings.sat.place;
+      if (boardTitle) boardTitle.value = buildNaverNoticeTitle("sat");
+      if (boardBody) boardBody.value = buildNaverNoticeText("sat");
+      updateBoardPreview();
+    });
+  }
 
-      if (boardTerminalCard) {
-        boardTerminalCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      }
+  if (btnNaverDaySun) {
+    btnNaverDaySun.addEventListener("click", () => {
+      currentNaverDay = "sun";
+      btnNaverDaySun.classList.add("active");
+      if (btnNaverDaySat) btnNaverDaySat.classList.remove("active");
+      if (boardRound) boardRound.value = naverSettings.sun.round;
+      if (boardPlace) boardPlace.value = naverSettings.sun.place;
+      if (boardTitle) boardTitle.value = buildNaverNoticeTitle("sun");
+      if (boardBody) boardBody.value = buildNaverNoticeText("sun");
+      updateBoardPreview();
+    });
+  }
 
-      if (boardTermStatusTag) {
-        boardTermStatusTag.textContent = "작업 실행 중 (RUNNING...)";
-        boardTermStatusTag.style.color = "#facc15";
-      }
+  if (btnResetNaverTpl) {
+    btnResetNaverTpl.addEventListener("click", () => {
+      if (boardTitle) boardTitle.value = buildNaverNoticeTitle(currentNaverDay);
+      if (boardBody) boardBody.value = buildNaverNoticeText(currentNaverDay);
+      updateBoardPreview();
+    });
+  }
 
-      appendBoardLog(`\n>>> [START] 커뮤니티 게시판 일괄 등록 태스크 시작 (${new Date().toLocaleTimeString()})`, "warn");
-      await sleep(300);
-      appendBoardLog("[AUTH] 커뮤니티 로그인 계정 및 API 키 세션 검증...", "info");
-      await sleep(250);
-      appendBoardLog("  ✔ 5개 커뮤니티 플랫폼 인증 세션 100% 유효함 (200 OK)", "success");
+  // 네이버 카페 스마트에디터 원클릭 브리지
+  if (btnCopyNaverRich) {
+    btnCopyNaverRich.addEventListener("click", async () => {
+      const data = getNaverNoticeData();
+      await copyRichContentToClipboard(
+        data.plainText,
+        data.richHtml,
+        "📋 네이버 카페용 공지문 본문이 클립보드에 복사되었습니다!\n\n네이버 카페 글쓰기 창에서 본문에 바로 'Ctrl + V'를 누르시면 서식이 그대로 붙여넣어집니다."
+      );
+    });
+  }
 
-      const boardChannelMap = {
-        somoim: "소모임 앱 정기정모 (Club ID: CLUB_92819)",
-        naver: "네이버 카페 [모임공지] (Doc #9412)",
-        daangn: "당근마켓 동네생활 모임 (지역: 역삼1동)",
-        everytime: "에브리타임 대학생 북클럽 (동아리 게시판)",
-        instagram: "인스타그램 피드 캡션 (@bookclub_transparent)"
-      };
+  if (btnOpenNaverWriteDirect) {
+    btnOpenNaverWriteDirect.addEventListener("click", async () => {
+      const data = getNaverNoticeData();
+      await copyRichContentToClipboard(data.plainText, data.richHtml, "");
+      const writeUrl = getNaverCafeWriteUrl();
 
-      for (const ch of selectedChannels) {
-        await sleep(300);
-        appendBoardLog(`[BOARD] 📝 ${boardChannelMap[ch]} 글쓰기 API 요청 중...`, "info");
-        await sleep(250);
-        appendBoardLog(`  ✔ ${boardChannelMap[ch]} 포스팅 등록 성공 (HTTP 200 OK)`, "success");
-      }
+      window.open(writeUrl, "_blank");
 
-      await sleep(250);
-      appendBoardLog(`[COMPLETE] 🎉 선택된 ${selectedChannels.length}개 커뮤니티에 자동 포스팅이 100% 완료되었습니다!\n`, "success");
-
-      if (boardTermStatusTag) {
-        boardTermStatusTag.textContent = "배포 완료 (COMPLETED)";
-        boardTermStatusTag.style.color = "#4ade80";
-      }
-      alert(`선택하신 ${selectedChannels.length}개 커뮤니티 플랫폼에 게시글 등록이 성공적으로 완료되었습니다!`);
+      alert(`✅ 네이버 카페용 공지 본문이 클립보드에 복사되었습니다!\n\n새로 열린 네이버 카페 글쓰기 창에서:\n1. 제목 입력창에 상단 '📋 제목 복사' 버튼으로 복사한 제목 붙여넣기\n2. 본문 에디터에 'Ctrl + V (붙여넣기)'를 누르시면 됩니다.`);
     });
   }
 
   // =========================================================================
-  // 5. Nav Tabs Smooth Scroll & Active Handling
+  // 7. Nav Tabs Smooth Scroll & Active Handling
   // =========================================================================
   const navTabs = document.querySelectorAll(".console-nav .nav-tab");
   navTabs.forEach((tab) => {
@@ -4472,11 +4011,12 @@ ${escapeHtml(body)}
     });
   });
 
-  // Initial Load
-  renderMemberTable();
-  updateKakaoPreview();
-  updateBoardPreview();
+  // =========================================================================
+  // 8. Initial Load & Startup Execution
+  // =========================================================================
+  setWeekOffset(0); // 현재 시점 기준 이번 주 토·일 계산 및 자유 도서 공지 적용
 });
+
 
 </script>
 </body>
