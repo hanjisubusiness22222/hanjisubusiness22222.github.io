@@ -40,6 +40,9 @@
       <a href="#section-sheet" class="nav-tab" data-tab="sheet">
         <span class="tab-icon">📊</span> 3. 회원 목록 관리
       </a>
+      <a href="#section-accounting" class="nav-tab" data-tab="accounting">
+        <span class="tab-icon">💰</span> 4. 회계 장부 대시보드
+      </a>
     </nav>
 
     <div class="header-right">
@@ -429,6 +432,214 @@
         <div style="padding:12px 20px; background:#f8fafc; border-top:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; font-size:0.82rem; color:#64748b; flex-wrap:wrap; gap:8px;">
           <span>💡 <strong>실시간 편집 안내:</strong> 본 화면에서 시트가 바로 조회되며, 내용 수정 및 신규 등록은 상단의 <code>[구글 시트 원본 새 창에서 열기 / 편집]</code>을 눌러 직접 작업하실 수 있습니다.</span>
           <span style="font-weight:700; color:#0f9d58;">Google Sheets v4 Cloud Sync</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         STEP 4) 💰 독서모임 회계 장부 & 재정 투명성 대시보드 (Google Sheets)
+         =================================================================== -->
+    <section id="section-accounting" class="console-section">
+      <div class="section-title-bar">
+        <span class="badge-role sheet-badge" style="background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd; display:inline-block; align-self:flex-start;">STEP 4 · FINANCIAL DASHBOARD</span>
+        <h2>💰 독서모임 회계 장부 &amp; 재정 투명성 대시보드 (Google Sheets 연동)</h2>
+        <p>독서모임의 회비 입출금 내역, 누적 수입/지출 및 현재 운영 잔고를 한눈에 확인하고 투명하게 관리하는 실시간 대시보드입니다.</p>
+      </div>
+
+      <!-- 상단 컨트롤 및 구글 시트 바로가기 헤더 바 -->
+      <div class="accounting-action-bar" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:16px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; box-shadow:0 4px 16px rgba(0,0,0,0.04); margin-top:16px;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="display:flex; align-items:center; justify-content:center; width:42px; height:42px; background:#eff6ff; border-radius:10px; border:1px solid #bfdbfe;">
+            <span style="font-size:1.4rem;">💰</span>
+          </div>
+          <div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <strong style="font-size:1.05rem; color:#0f172a;">독서모임 공식 회계 장부</strong>
+              <span class="status-pill status-online" style="font-size:0.75rem; padding:3px 10px;">
+                <span class="status-dot"></span> 실시간 시트 연동됨
+              </span>
+            </div>
+            <span style="font-size:0.8rem; color:#64748b;">Google Sheets 공식 스프레드시트 데이터베이스 기반</span>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <button type="button" id="btnCopyAccountingSheetLink" class="btn-sheet-tool" style="padding:10px 14px; font-size:0.85rem; font-weight:700; background:#ffffff; color:#334155; border:1px solid #cbd5e1; border-radius:6px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+            <span>📋</span> <span>장부 링크 복사</span>
+          </button>
+          <button type="button" id="btnRefreshAccountingSheet" class="btn-sheet-tool" style="padding:10px 14px; font-size:0.85rem; font-weight:700; background:#ffffff; color:#0284c7; border:1px solid #7dd3fc; border-radius:6px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+            <span>🔄</span> <span>장부 새로고침</span>
+          </button>
+          <a href="https://docs.google.com/spreadsheets/d/1QjELjB_rJuvDJGJ7XpjH3Tt3YKNsEbHh4AwiR6rH0Yc/edit?gid=0#gid=0" target="_blank" rel="noopener noreferrer" id="btnGoToAccountingSheet" style="text-decoration:none; padding:11px 20px; font-size:0.95rem; font-weight:800; background:linear-gradient(135deg, #0ea5e9, #0284c7); color:#ffffff; border-radius:8px; display:flex; align-items:center; gap:8px; box-shadow:0 4px 14px rgba(2,132,199,0.35); transition:transform 0.15s ease, box-shadow 0.15s ease;">
+            <span>📊</span> <span>회계 장부 구글 시트 원본 새 창에서 열기 / 편집 ↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 핵심 KPI 요약 카드 4종 -->
+      <div class="accounting-kpi-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-top:16px;">
+        <!-- 카드 1: 현재 운영 잔고 -->
+        <div class="kpi-card kpi-balance" style="background:linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color:#ffffff; padding:20px; border-radius:12px; box-shadow:0 6px 18px rgba(15,23,42,0.15); border:1px solid rgba(255,255,255,0.08); position:relative; overflow:hidden;">
+          <div style="font-size:0.82rem; font-weight:600; color:#94a3b8; display:flex; justify-content:space-between; align-items:center;">
+            <span>현재 운영 잔고</span>
+            <span style="background:rgba(34,197,94,0.2); color:#4ade80; border:1px solid rgba(34,197,94,0.3); font-size:0.72rem; padding:2px 8px; border-radius:10px; font-weight:700;">운영 흑자</span>
+          </div>
+          <div style="font-size:2rem; font-weight:900; margin:10px 0 6px 0; color:#38bdf8; font-family:'Pretendard', sans-serif;" id="kpiCurrentBalance">
+            ₩100,000
+          </div>
+          <div style="font-size:0.78rem; color:#cbd5e1; display:flex; justify-content:space-between;">
+            <span>총 입금액 대비 잔여율</span>
+            <strong style="color:#f8fafc;" id="kpiBalanceRatio">62.5%</strong>
+          </div>
+        </div>
+
+        <!-- 카드 2: 누적 총 입금액 -->
+        <div class="kpi-card" style="background:#ffffff; padding:20px; border-radius:12px; box-shadow:0 4px 14px rgba(0,0,0,0.04); border:1px solid #e2e8f0; border-top:4px solid #10b981;">
+          <div style="font-size:0.82rem; font-weight:600; color:#64748b; display:flex; justify-content:space-between; align-items:center;">
+            <span>누적 총 입금액 (회비)</span>
+            <span style="font-size:1.1rem;">📥</span>
+          </div>
+          <div style="font-size:1.75rem; font-weight:800; margin:10px 0 6px 0; color:#059669; font-family:'Pretendard', sans-serif;" id="kpiTotalIncome">
+            ₩160,000
+          </div>
+          <div style="font-size:0.78rem; color:#64748b; display:flex; justify-content:space-between;">
+            <span>등록 인원</span>
+            <strong style="color:#0f172a;" id="kpiIncomeCount">총 8명 완납</strong>
+          </div>
+        </div>
+
+        <!-- 카드 3: 누적 총 출금액 -->
+        <div class="kpi-card" style="background:#ffffff; padding:20px; border-radius:12px; box-shadow:0 4px 14px rgba(0,0,0,0.04); border:1px solid #e2e8f0; border-top:4px solid #ef4444;">
+          <div style="font-size:0.82rem; font-weight:600; color:#64748b; display:flex; justify-content:space-between; align-items:center;">
+            <span>누적 총 출금/지출액</span>
+            <span style="font-size:1.1rem;">📤</span>
+          </div>
+          <div style="font-size:1.75rem; font-weight:800; margin:10px 0 6px 0; color:#dc2626; font-family:'Pretendard', sans-serif;" id="kpiTotalExpense">
+            -₩60,000
+          </div>
+          <div style="font-size:0.78rem; color:#64748b; display:flex; justify-content:space-between;">
+            <span>처리 건수</span>
+            <strong style="color:#0f172a;" id="kpiExpenseCount">3건 지출</strong>
+          </div>
+        </div>
+
+        <!-- 카드 4: 재정 집행률 & 회원 현황 -->
+        <div class="kpi-card" style="background:#ffffff; padding:20px; border-radius:12px; box-shadow:0 4px 14px rgba(0,0,0,0.04); border:1px solid #e2e8f0; border-top:4px solid #6366f1;">
+          <div style="font-size:0.82rem; font-weight:600; color:#64748b; display:flex; justify-content:space-between; align-items:center;">
+            <span>회비 집행률</span>
+            <span style="font-size:1.1rem;">📊</span>
+          </div>
+          <div style="font-size:1.75rem; font-weight:800; margin:10px 0 6px 0; color:#4f46e5; font-family:'Pretendard', sans-serif;" id="kpiExpenseRate">
+            37.5%
+          </div>
+          <div style="font-size:0.78rem; color:#64748b; display:flex; justify-content:space-between;">
+            <span>탈퇴 회원</span>
+            <strong style="color:#0f172a;">0명</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- 재정 비율 게이지 바 -->
+      <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:18px 20px; margin-top:16px; box-shadow:0 2px 10px rgba(0,0,0,0.03);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; font-size:0.88rem;">
+          <span style="font-weight:700; color:#1e293b;">⚖️ 예산 운용 밸런스</span>
+          <div style="display:flex; gap:16px; font-size:0.82rem;">
+            <span style="color:#0284c7; font-weight:600;">● 현재 잔고: ₩100,000 (62.5%)</span>
+            <span style="color:#dc2626; font-weight:600;">● 지출 총액: ₩60,000 (37.5%)</span>
+          </div>
+        </div>
+        <div style="width:100%; height:12px; background:#fee2e2; border-radius:8px; overflow:hidden; display:flex;">
+          <div style="width:62.5%; background:linear-gradient(90deg, #38bdf8, #0284c7); height:100%;" title="잔고 비율: 62.5%"></div>
+          <div style="width:37.5%; background:linear-gradient(90deg, #f87171, #ef4444); height:100%;" title="지출 비율: 37.5%"></div>
+        </div>
+      </div>
+
+      <!-- 최근 입출금 내역 2열 그리드 요약 -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;">
+        <!-- 좌측: 최근 입금 내역 (등록인원 8명) -->
+        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:18px; box-shadow:0 2px 10px rgba(0,0,0,0.03);">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:12px; border-bottom:1px solid #f1f5f9; margin-bottom:12px;">
+            <strong style="color:#0f172a; font-size:0.95rem; display:flex; align-items:center; gap:6px;">
+              <span style="color:#10b981;">📥</span> 입금 내역 (총 8건)
+            </strong>
+            <span style="background:#ecfdf5; color:#059669; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:6px; border:1px solid #a7f3d0;">
+              합계 ₩160,000
+            </span>
+          </div>
+          <div style="max-height:220px; overflow-y:auto; padding-right:4px;">
+            <table style="width:100%; font-size:0.85rem; border-collapse:collapse; text-align:left;">
+              <thead>
+                <tr style="color:#64748b; border-bottom:1px solid #f1f5f9; font-size:0.78rem;">
+                  <th style="padding:6px 8px;">일자</th>
+                  <th style="padding:6px 8px;">이름</th>
+                  <th style="padding:6px 8px; text-align:right;">입금액</th>
+                </tr>
+              </thead>
+              <tbody id="accountingIncomeTbody">
+                <tr style="border-bottom:1px solid #f8fafc;"><td style="padding:8px; color:#475569;">2026.10.01</td><td style="padding:8px; font-weight:600; color:#0f172a;">aaa</td><td style="padding:8px; text-align:right; font-weight:700; color:#059669;">+₩20,000</td></tr>
+                <tr style="border-bottom:1px solid #f8fafc;"><td style="padding:8px; color:#475569;">2026.10.02</td><td style="padding:8px; font-weight:600; color:#0f172a;">bbb</td><td style="padding:8px; text-align:right; font-weight:700; color:#059669;">+₩20,000</td></tr>
+                <tr style="border-bottom:1px solid #f8fafc;"><td style="padding:8px; color:#475569;">2026.10.03</td><td style="padding:8px; font-weight:600; color:#0f172a;">ccc</td><td style="padding:8px; text-align:right; font-weight:700; color:#059669;">+₩20,000</td></tr>
+                <tr style="border-bottom:1px solid #f8fafc;"><td style="padding:8px; color:#475569;">2026.10.04</td><td style="padding:8px; font-weight:600; color:#0f172a;">ddd</td><td style="padding:8px; text-align:right; font-weight:700; color:#059669;">+₩20,000</td></tr>
+                <tr style="border-bottom:1px solid #f8fafc;"><td style="padding:8px; color:#475569;">2026.10.05</td><td style="padding:8px; font-weight:600; color:#0f172a;">eee</td><td style="padding:8px; text-align:right; font-weight:700; color:#059669;">+₩20,000</td></tr>
+                <tr style="border-bottom:1px solid #f8fafc;"><td style="padding:8px; color:#475569;">2026.10.06</td><td style="padding:8px; font-weight:600; color:#0f172a;">fff</td><td style="padding:8px; text-align:right; font-weight:700; color:#059669;">+₩20,000</td></tr>
+                <tr style="border-bottom:1px solid #f8fafc;"><td style="padding:8px; color:#475569;">2026.10.07</td><td style="padding:8px; font-weight:600; color:#0f172a;">ggg</td><td style="padding:8px; text-align:right; font-weight:700; color:#059669;">+₩20,000</td></tr>
+                <tr><td style="padding:8px; color:#475569;">2026.10.08</td><td style="padding:8px; font-weight:600; color:#0f172a;">hhh</td><td style="padding:8px; text-align:right; font-weight:700; color:#059669;">+₩20,000</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 우측: 최근 출금 내역 (3건) -->
+        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:18px; box-shadow:0 2px 10px rgba(0,0,0,0.03);">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:12px; border-bottom:1px solid #f1f5f9; margin-bottom:12px;">
+            <strong style="color:#0f172a; font-size:0.95rem; display:flex; align-items:center; gap:6px;">
+              <span style="color:#ef4444;">📤</span> 출금/환불 내역 (총 3건)
+            </strong>
+            <span style="background:#fef2f2; color:#dc2626; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:6px; border:1px solid #fecaca;">
+              총계 -₩60,000
+            </span>
+          </div>
+          <div style="max-height:220px; overflow-y:auto; padding-right:4px;">
+            <table style="width:100%; font-size:0.85rem; border-collapse:collapse; text-align:left;">
+              <thead>
+                <tr style="color:#64748b; border-bottom:1px solid #f1f5f9; font-size:0.78rem;">
+                  <th style="padding:6px 8px;">일자</th>
+                  <th style="padding:6px 8px;">이름/항목</th>
+                  <th style="padding:6px 8px; text-align:right;">출금액</th>
+                </tr>
+              </thead>
+              <tbody id="accountingExpenseTbody">
+                <tr style="border-bottom:1px solid #f8fafc;"><td style="padding:8px; color:#475569;">2026.10.02</td><td style="padding:8px; font-weight:600; color:#0f172a;">xxx</td><td style="padding:8px; text-align:right; font-weight:700; color:#dc2626;">-₩20,000</td></tr>
+                <tr style="border-bottom:1px solid #f8fafc;"><td style="padding:8px; color:#475569;">2026.10.03</td><td style="padding:8px; font-weight:600; color:#0f172a;">yyy</td><td style="padding:8px; text-align:right; font-weight:700; color:#dc2626;">-₩20,000</td></tr>
+                <tr><td style="padding:8px; color:#475569;">2026.10.04</td><td style="padding:8px; font-weight:600; color:#0f172a;">zzz</td><td style="padding:8px; text-align:right; font-weight:700; color:#dc2626;">-₩20,000</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 실제 구글 스프레드시트 공식 뷰어 (Iframe Embed) -->
+      <div class="sheet-real-container" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,0.06); margin-top:20px;">
+        <div style="background:#f8fafc; border-bottom:1px solid #e2e8f0; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:1.1rem;">📑</span>
+            <div>
+              <strong style="font-size:0.95rem; color:#0f172a;">구글 스프레드시트 원본 실시간 뷰어</strong>
+              <div style="font-size:0.75rem; color:#64748b;">수정 및 추가 입력은 상단의 [구글 시트 원본 새 창에서 열기] 버튼을 이용하세요.</div>
+            </div>
+          </div>
+          <a href="https://docs.google.com/spreadsheets/d/1QjELjB_rJuvDJGJ7XpjH3Tt3YKNsEbHh4AwiR6rH0Yc/edit?gid=0#gid=0" target="_blank" rel="noopener noreferrer" style="text-decoration:none; padding:8px 16px; font-size:0.85rem; font-weight:700; background:#0ea5e9; color:#ffffff; border-radius:6px; display:flex; align-items:center; gap:6px;">
+            <span>↗</span> <span>구글 시트 바로가기</span>
+          </a>
+        </div>
+
+        <div style="width:100%; height:540px; background:#ffffff; position:relative; overflow:hidden;">
+          <iframe id="accountingSheetIframe" src="https://docs.google.com/spreadsheets/d/1QjELjB_rJuvDJGJ7XpjH3Tt3YKNsEbHh4AwiR6rH0Yc/htmlembed?gid=0&amp;widget=true" style="width:100%; height:100%; border:none; display:block;" title="독서모임 회계 장부 (구글 스프레드시트)"></iframe>
+        </div>
+
+        <div style="padding:12px 20px; background:#f8fafc; border-top:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; font-size:0.82rem; color:#64748b; flex-wrap:wrap; gap:8px;">
+          <span>💡 <strong>투명 회계 운영:</strong> 모든 입출금 내역은 구글 스프레드시트에 영구 기록되며, 실시간으로 반영됩니다.</span>
+          <span style="font-weight:700; color:#0284c7;">Google Sheets v4 Engine</span>
         </div>
       </div>
     </section>

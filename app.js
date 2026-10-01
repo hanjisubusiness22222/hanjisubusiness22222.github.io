@@ -717,7 +717,259 @@ ${htmlWithLinks}
   });
 
   // =========================================================================
-  // 8. Initial Load & Startup Execution
+  // 8. Financial Accounting Dashboard (Google Sheets Integration)
+  // =========================================================================
+  const ACCOUNTING_SHEET_URL = "https://docs.google.com/spreadsheets/d/1QjELjB_rJuvDJGJ7XpjH3Tt3YKNsEbHh4AwiR6rH0Yc/edit?gid=0#gid=0";
+  const ACCOUNTING_SHEET_EMBED_URL = "https://docs.google.com/spreadsheets/d/1QjELjB_rJuvDJGJ7XpjH3Tt3YKNsEbHh4AwiR6rH0Yc/htmlembed?gid=0&widget=true";
+  const ACCOUNTING_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1QjELjB_rJuvDJGJ7XpjH3Tt3YKNsEbHh4AwiR6rH0Yc/gviz/tq?tqx=out:csv&gid=0";
+
+  const accountingSheetIframe = document.getElementById("accountingSheetIframe");
+  const btnCopyAccountingSheetLink = document.getElementById("btnCopyAccountingSheetLink");
+  const btnRefreshAccountingSheet = document.getElementById("btnRefreshAccountingSheet");
+
+  // 회계 장부 주소 복사
+  if (btnCopyAccountingSheetLink) {
+    btnCopyAccountingSheetLink.addEventListener("click", () => {
+      copyTextToClipboard(ACCOUNTING_SHEET_URL, "📋 독서모임 회계 장부 링크가 클립보드에 복사되었습니다!\n" + ACCOUNTING_SHEET_URL);
+    });
+  }
+
+  // 회계 장부 새로고침 함수
+  function reloadAccountingIframe() {
+    if (accountingSheetIframe) {
+      accountingSheetIframe.src = ACCOUNTING_SHEET_EMBED_URL + "&t=" + Date.now();
+    }
+    fetchLiveAccountingData();
+  }
+
+  if (btnRefreshAccountingSheet) {
+    btnRefreshAccountingSheet.addEventListener("click", () => {
+      reloadAccountingIframe();
+      btnRefreshAccountingSheet.textContent = "✔ 갱신 완료!";
+      setTimeout(() => {
+        btnRefreshAccountingSheet.innerHTML = "<span>🔄</span> <span>장부 새로고침</span>";
+      }, 1200);
+    });
+  }
+
+  // GitHub Actions 데이터 또는 실시간 구글 시트 데이터 로드
+  const ACCOUNTING_JSON_URL = "data/accounting_latest.json";
+
+  async function initAccountingData() {
+    try {
+      const res = await fetch(ACCOUNTING_JSON_URL + "?v=" + Date.now());
+      if (res.ok) {
+        const jsonData = await res.json();
+        if (jsonData && jsonData.summary) {
+          renderAccountingFromJson(jsonData);
+          return;
+        }
+      }
+    } catch (e) {
+      console.log("정적 JSON 미발견 또는 로컬 환경, 실시간 API로 전환합니다.");
+    }
+    fetchLiveAccountingData();
+  }
+
+  function renderAccountingFromJson(data) {
+    const s = data.summary;
+    const kpiBalance = document.getElementById("kpiCurrentBalance");
+    const kpiIncome = document.getElementById("kpiTotalIncome");
+    const kpiExpense = document.getElementById("kpiTotalExpense");
+    const kpiBalanceRatio = document.getElementById("kpiBalanceRatio");
+    const kpiExpenseRate = document.getElementById("kpiExpenseRate");
+    const kpiIncomeCount = document.getElementById("kpiIncomeCount");
+    const kpiExpenseCount = document.getElementById("kpiExpenseCount");
+
+    if (kpiBalance) kpiBalance.textContent = s.currentBalanceFormatted;
+    if (kpiIncome) kpiIncome.textContent = s.totalIncomeFormatted;
+    if (kpiExpense) kpiExpense.textContent = s.totalExpenseFormatted;
+    if (kpiBalanceRatio) kpiBalanceRatio.textContent = s.balanceRatio;
+    if (kpiExpenseRate) kpiExpenseRate.textContent = s.expenseRatio;
+    if (kpiIncomeCount) kpiIncomeCount.textContent = `총 ${s.registeredMembers}명 완납`;
+    if (kpiExpenseCount) kpiExpenseCount.textContent = `${s.expenseCount}건 지출`;
+
+    // 밸런스 게이지 바 업데이트
+    const balanceGauge = document.querySelector("#section-accounting div[title*='잔고 비율']");
+    const expenseGauge = document.querySelector("#section-accounting div[title*='지출 비율']");
+    if (balanceGauge && expenseGauge) {
+      balanceGauge.style.width = s.balanceRatio;
+      balanceGauge.title = `잔고 비율: ${s.balanceRatio}`;
+      expenseGauge.style.width = s.expenseRatio;
+      expenseGauge.title = `지출 비율: ${s.expenseRatio}`;
+    }
+
+    // 입금 테이블
+    const incomeTbody = document.getElementById("accountingIncomeTbody");
+    if (incomeTbody && data.incomeList && data.incomeList.length > 0) {
+      incomeTbody.innerHTML = data.incomeList.map((item, idx) => `
+        <tr style="${idx < data.incomeList.length - 1 ? 'border-bottom:1px solid #f8fafc;' : ''}">
+          <td style="padding:8px; color:#475569;">${escapeHtml(item.date)}</td>
+          <td style="padding:8px; font-weight:600; color:#0f172a;">${escapeHtml(item.name)}</td>
+          <td style="padding:8px; text-align:right; font-weight:700; color:#059669;">+${escapeHtml(item.amount)}</td>
+        </tr>
+      `).join("");
+    }
+
+    // 출금 테이블
+    const expenseTbody = document.getElementById("accountingExpenseTbody");
+    if (expenseTbody && data.expenseList && data.expenseList.length > 0) {
+      expenseTbody.innerHTML = data.expenseList.map((item, idx) => `
+        <tr style="${idx < data.expenseList.length - 1 ? 'border-bottom:1px solid #f8fafc;' : ''}">
+          <td style="padding:8px; color:#475569;">${escapeHtml(item.date)}</td>
+          <td style="padding:8px; font-weight:600; color:#0f172a;">${escapeHtml(item.name)}</td>
+          <td style="padding:8px; text-align:right; font-weight:700; color:#dc2626;">${escapeHtml(item.amount)}</td>
+        </tr>
+      `).join("");
+    }
+  }
+
+  // 실시간 구글 시트 CSV 데이터 fetch & 파싱
+  async function fetchLiveAccountingData() {
+    try {
+      const res = await fetch(ACCOUNTING_SHEET_CSV_URL + "&cachebuster=" + Date.now());
+      if (!res.ok) return;
+      const csvText = await res.text();
+      parseAndRenderAccounting(csvText);
+    } catch (e) {
+      console.log("실시간 회계 시트 비동기 동기화 알림: 시트 뷰어 기본 모드로 안전하게 작동 중입니다.", e);
+    }
+  }
+
+  function parseAndRenderAccounting(csvText) {
+    const lines = csvText.split(/\r?\n/).filter(line => line.trim().length > 0);
+    if (lines.length < 3) return;
+
+    let incomeList = [];
+    let expenseList = [];
+    let registeredCount = "";
+    let totalIncomeStr = "";
+    let totalExpenseStr = "";
+
+    // CSV 행 파싱 유틸
+    function parseCSVLine(text) {
+      const result = [];
+      let cur = "";
+      let inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        if (c === '"') {
+          inQuotes = !inQuotes;
+        } else if (c === ',' && !inQuotes) {
+          result.push(cur.trim());
+          cur = "";
+        } else {
+          cur += c;
+        }
+      }
+      result.push(cur.trim());
+      return result;
+    }
+
+    // 이름 마스킹 유틸 (개인정보 보호)
+    function maskName(name) {
+      if (!name || name === "-") return "-";
+      const clean = name.trim();
+      if (clean.length === 1) return clean;
+      if (clean.length === 2) return clean[0] + "*";
+      return clean[0] + "*".repeat(clean.length - 2) + clean[clean.length - 1];
+    }
+
+    lines.forEach((line) => {
+      const cols = parseCSVLine(line);
+      // 입금 요약 행
+      if (cols[0] && cols[0].includes("등록인원")) {
+        registeredCount = cols[1] || "";
+        totalIncomeStr = cols[3] || "";
+      }
+      if (cols.some(c => c.includes("총계"))) {
+        const idx = cols.findIndex(c => c.includes("총계"));
+        if (idx !== -1 && cols[idx + 1]) {
+          totalExpenseStr = cols[idx + 1];
+        }
+      }
+
+      // 일자 행 파싱 (예: 2026.10.01)
+      if (cols[0] && /^\d{4}\.\d{2}\.\d{2}$/.test(cols[0])) {
+        incomeList.push({
+          date: cols[0],
+          name: maskName(cols[1] || "-"),
+          amount: cols[2] || "₩20,000"
+        });
+      }
+      // 출금 행 (cols[6] 일자)
+      if (cols[6] && /^\d{4}\.\d{2}\.\d{2}$/.test(cols[6])) {
+        expenseList.push({
+          date: cols[6],
+          name: maskName(cols[7] || "-"),
+          amount: cols[9] || cols[8] || "₩20,000"
+        });
+      }
+    });
+
+    // 숫자 파싱 유틸
+    function parseWon(str) {
+      if (!str) return 0;
+      const num = parseInt(str.replace(/[^0-9-]/g, ""), 10);
+      return isNaN(num) ? 0 : Math.abs(num);
+    }
+
+    const incomeVal = parseWon(totalIncomeStr) || 160000;
+    const expenseVal = parseWon(totalExpenseStr) || 60000;
+    const balanceVal = incomeVal - expenseVal;
+
+    // DOM 업데이트
+    const kpiBalance = document.getElementById("kpiCurrentBalance");
+    const kpiIncome = document.getElementById("kpiTotalIncome");
+    const kpiExpense = document.getElementById("kpiTotalExpense");
+    const kpiBalanceRatio = document.getElementById("kpiBalanceRatio");
+    const kpiExpenseRate = document.getElementById("kpiExpenseRate");
+    const kpiIncomeCount = document.getElementById("kpiIncomeCount");
+    const kpiExpenseCount = document.getElementById("kpiExpenseCount");
+
+    if (kpiBalance) kpiBalance.textContent = "₩" + balanceVal.toLocaleString();
+    if (kpiIncome) kpiIncome.textContent = "₩" + incomeVal.toLocaleString();
+    if (kpiExpense) kpiExpense.textContent = "-₩" + expenseVal.toLocaleString();
+    if (kpiIncomeCount && registeredCount) kpiIncomeCount.textContent = `총 ${registeredCount} 완납`;
+    if (kpiExpenseCount && expenseList.length) kpiExpenseCount.textContent = `${expenseList.length}건 지출`;
+
+    if (incomeVal > 0) {
+      const balanceRate = ((balanceVal / incomeVal) * 100).toFixed(1);
+      const expenseRate = ((expenseVal / incomeVal) * 100).toFixed(1);
+      if (kpiBalanceRatio) kpiBalanceRatio.textContent = `${balanceRate}%`;
+      if (kpiExpenseRate) kpiExpenseRate.textContent = `${expenseRate}%`;
+    }
+
+    // 입금 테이블 렌더
+    const incomeTbody = document.getElementById("accountingIncomeTbody");
+    if (incomeTbody && incomeList.length > 0) {
+      incomeTbody.innerHTML = incomeList.map((item, idx) => `
+        <tr style="${idx < incomeList.length - 1 ? 'border-bottom:1px solid #f8fafc;' : ''}">
+          <td style="padding:8px; color:#475569;">${escapeHtml(item.date)}</td>
+          <td style="padding:8px; font-weight:600; color:#0f172a;">${escapeHtml(item.name)}</td>
+          <td style="padding:8px; text-align:right; font-weight:700; color:#059669;">+${escapeHtml(item.amount)}</td>
+        </tr>
+      `).join("");
+    }
+
+    // 출금 테이블 렌더
+    const expenseTbody = document.getElementById("accountingExpenseTbody");
+    if (expenseTbody && expenseList.length > 0) {
+      expenseTbody.innerHTML = expenseList.map((item, idx) => `
+        <tr style="${idx < expenseList.length - 1 ? 'border-bottom:1px solid #f8fafc;' : ''}">
+          <td style="padding:8px; color:#475569;">${escapeHtml(item.date)}</td>
+          <td style="padding:8px; font-weight:600; color:#0f172a;">${escapeHtml(item.name)}</td>
+          <td style="padding:8px; text-align:right; font-weight:700; color:#dc2626;">-${escapeHtml(item.amount)}</td>
+        </tr>
+      `).join("");
+    }
+  }
+
+  // 초기 회계 데이터 로드 (GitHub Actions 생성 JSON 우선 로드 -> 실시간 폴백)
+  initAccountingData();
+
+  // =========================================================================
+  // 9. Initial Load & Startup Execution
   // =========================================================================
   setWeekOffset(0); // 현재 시점 기준 이번 주 토·일 계산 및 자유 도서 공지 적용
 });
