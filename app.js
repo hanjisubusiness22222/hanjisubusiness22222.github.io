@@ -969,7 +969,50 @@ ${htmlWithLinks}
   initAccountingData();
 
   // =========================================================================
-  // 9. Initial Load & Startup Execution
+  // 9. Profile & Portfolio Modal Control
+  // =========================================================================
+  const profileModal = document.getElementById("profileModal");
+  const btnOpenProfileModal = document.getElementById("btnOpenProfileModal");
+  const btnCloseProfileModal = document.getElementById("btnCloseProfileModal");
+
+  function openProfileModal() {
+    if (profileModal) {
+      profileModal.style.display = "flex";
+      document.body.style.overflow = "hidden";
+    }
+  }
+
+  function closeProfileModal() {
+    if (profileModal) {
+      profileModal.style.display = "none";
+      document.body.style.overflow = "";
+    }
+  }
+
+  if (btnOpenProfileModal) {
+    btnOpenProfileModal.addEventListener("click", openProfileModal);
+  }
+
+  if (btnCloseProfileModal) {
+    btnCloseProfileModal.addEventListener("click", closeProfileModal);
+  }
+
+  if (profileModal) {
+    profileModal.addEventListener("click", (e) => {
+      if (e.target === profileModal) {
+        closeProfileModal();
+      }
+    });
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && profileModal && profileModal.style.display === "flex") {
+      closeProfileModal();
+    }
+  });
+
+  // =========================================================================
+  // 10. Initial Load & Startup Execution
   // =========================================================================
   setWeekOffset(0); // 현재 시점 기준 이번 주 토·일 계산 및 자유 도서 공지 적용
 });
