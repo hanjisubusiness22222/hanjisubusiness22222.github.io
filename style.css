@@ -2972,8 +2972,50 @@ button, input, select, textarea {
     justify-content: center;
     width: 100%;
   }
-  #section-accounting div[style*="grid-template-columns: 1fr 1fr"] {
+  .accounting-tables-grid {
     grid-template-columns: 1fr !important;
+  }
+}
+
+/* 스마트폰 전용 모바일 최적화 미디어 쿼리 (가로 넘침 Zero) */
+@media (max-width: 860px) {
+  .console-header {
+    height: auto !important;
+    padding: 10px 14px !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+  }
+  .header-left {
+    width: 100% !important;
+    justify-content: space-between !important;
+  }
+  .console-nav {
+    order: 3;
+    width: 100% !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    padding: 6px !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .console-nav .nav-tab {
+    flex-shrink: 0;
+    padding: 6px 12px !important;
+    font-size: 0.8rem !important;
+  }
+  .header-right {
+    order: 2;
+    width: 100% !important;
+    justify-content: flex-end !important;
+    gap: 6px !important;
+    margin-top: 2px;
+  }
+  .header-right .btn-header-action {
+    font-size: 0.76rem !important;
+    padding: 6px 10px !important;
+  }
+  .profile-modal-card {
+    max-height: 85vh !important;
+    border-radius: 12px !important;
   }
 }
 
@@ -3002,5 +3044,6 @@ select:focus-visible,
     transform: translateY(0) scale(1);
   }
 }
+
 
 

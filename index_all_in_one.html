@@ -2982,8 +2982,50 @@ button, input, select, textarea {
     justify-content: center;
     width: 100%;
   }
-  #section-accounting div[style*="grid-template-columns: 1fr 1fr"] {
+  .accounting-tables-grid {
     grid-template-columns: 1fr !important;
+  }
+}
+
+/* 스마트폰 전용 모바일 최적화 미디어 쿼리 (가로 넘침 Zero) */
+@media (max-width: 860px) {
+  .console-header {
+    height: auto !important;
+    padding: 10px 14px !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+  }
+  .header-left {
+    width: 100% !important;
+    justify-content: space-between !important;
+  }
+  .console-nav {
+    order: 3;
+    width: 100% !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    padding: 6px !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .console-nav .nav-tab {
+    flex-shrink: 0;
+    padding: 6px 12px !important;
+    font-size: 0.8rem !important;
+  }
+  .header-right {
+    order: 2;
+    width: 100% !important;
+    justify-content: flex-end !important;
+    gap: 6px !important;
+    margin-top: 2px;
+  }
+  .header-right .btn-header-action {
+    font-size: 0.76rem !important;
+    padding: 6px 10px !important;
+  }
+  .profile-modal-card {
+    max-height: 85vh !important;
+    border-radius: 12px !important;
   }
 }
 
@@ -3012,6 +3054,7 @@ select:focus-visible,
     transform: translateY(0) scale(1);
   }
 }
+
 
 
 
@@ -3561,8 +3604,8 @@ select:focus-visible,
         </div>
       </div>
 
-      <!-- 최근 입출금 내역 2열 그리드 요약 -->
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;">
+      <!-- 최근 입출금 내역 2열 그리드 요약 (모바일 1열 반응형) -->
+      <div class="accounting-tables-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;">
         <!-- 좌측: 최근 입금 내역 (등록인원 8명) -->
         <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:18px; box-shadow:0 2px 10px rgba(0,0,0,0.03);">
           <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:12px; border-bottom:1px solid #f1f5f9; margin-bottom:12px;">
